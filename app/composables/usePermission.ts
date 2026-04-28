@@ -94,8 +94,27 @@ export const usePermission = () => {
     }
   }
 
+  const getAllPermissions = async (): Promise<PermissionItem[]> => {
+    try {
+      const response = await api.get<PermissionListResponse>('/permissions', {
+        params: {
+          per_page: 1000,
+        },
+      })
+
+      return response.data.data.permissions
+    } catch (error: any) {
+      throw {
+        message: error.response?.data?.message || 'Failed to fetch all permissions',
+        errors: error.response?.data?.errors || {},
+        status: error.response?.status || 500,
+      }
+    }
+  }
+
   return {
     getPermissions,
+    getAllPermissions,
     createPermission,
     updatePermission,
     deletePermission,

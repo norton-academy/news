@@ -1,47 +1,47 @@
 <script setup lang="ts">
 definePageMeta({
-  layout: 'auth',
-  middleware: 'guest',
-})
+  layout: "auth",
+  middleware: "guest",
+});
 
-const auth = useAuth()
+const auth = useAuth();
 
 const form = reactive({
-  email: '',
-  password: '',
-})
+  email: "",
+  password: "",
+});
 
-const generalError = ref('')
+const generalError = ref("");
 const errors = reactive<Record<string, string>>({
-  email: '',
-  password: '',
-})
+  email: "",
+  password: "",
+});
 
 const clearErrors = () => {
-  generalError.value = ''
-  errors.email = ''
-  errors.password = ''
-}
+  generalError.value = "";
+  errors.email = "";
+  errors.password = "";
+};
 
 const handleLogin = async () => {
-  clearErrors()
+  clearErrors();
 
   try {
     await auth.login({
       email: form.email,
       password: form.password,
-    })
+    });
 
-    await navigateTo('/dashboard')
+    await navigateTo("/dashboard");
   } catch (error: any) {
-    generalError.value = error.message || 'Login failed'
+    generalError.value = error.message || "Login failed";
 
     if (error.errors) {
-      errors.email = error.errors.email?.[0] || ''
-      errors.password = error.errors.password?.[0] || ''
+      errors.email = error.errors.email?.[0] || "";
+      errors.password = error.errors.password?.[0] || "";
     }
   }
-}
+};
 </script>
 
 <template>
@@ -49,7 +49,10 @@ const handleLogin = async () => {
     title="Sign in to your account"
     subtitle="Enter your email and password to access your dashboard."
   >
-    <div v-if="generalError" class="mb-5 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
+    <div
+      v-if="generalError"
+      class="mb-5 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700"
+    >
       {{ generalError }}
     </div>
 
@@ -73,16 +76,15 @@ const handleLogin = async () => {
       />
 
       <div class="flex items-center justify-between text-sm">
-        <NuxtLink to="/forgot-password" class="font-medium text-blue-600 hover:text-blue-700">
+        <NuxtLink
+          to="/forgot-password"
+          class="font-medium text-blue-600 hover:text-blue-700"
+        >
           Forgot password?
         </NuxtLink>
       </div>
 
-      <AuthButton
-        label="Sign In"
-        :loading="auth.loading.value"
-        variant="primary"
-      />
+      <AuthButton label="Sign In" :loading="auth.loading.value" variant="primary" />
     </form>
 
     <div class="mt-6 text-center text-sm text-slate-600">

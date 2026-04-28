@@ -3,10 +3,12 @@ import type { UserItem, UserPagination, UserStats } from "~/composables/useUser"
 
 definePageMeta({
   layout: "dashboard",
-  middleware: "auth",
+  middleware: ["auth", "permission"],
+  permission: "user.view",
 });
 
 const { getUsers } = useUser();
+const toast = useToast();
 
 const search = ref("");
 const status = ref("");
@@ -50,6 +52,7 @@ const fetchUsers = async () => {
     stats.value = response.data.stats;
   } catch (error: any) {
     errorMessage.value = error.message || "Failed to load users";
+    toast.error("Failed to load users", errorMessage.value);
   } finally {
     loading.value = false;
   }
@@ -76,6 +79,7 @@ const closeCreateModal = () => {
 const handleCreated = async () => {
   createModalOpen.value = false;
   await fetchUsers();
+  toast.success("User created", "The new user account was created successfully.");
 };
 
 const openEditModal = (user: UserItem) => {
@@ -92,6 +96,7 @@ const handleUpdated = async () => {
   editModalOpen.value = false;
   selectedUser.value = null;
   await fetchUsers();
+  toast.success("User updated", "User information was updated successfully.");
 };
 
 const openDeleteModal = (user: UserItem) => {
@@ -108,9 +113,34 @@ const handleDeleted = async () => {
   deleteModalOpen.value = false;
   selectedDeleteUser.value = null;
   await fetchUsers();
+  toast.success("User deleted", "The user account was deleted successfully.");
 };
 
 let searchTimeout: ReturnType<typeof setTimeout> | null = null;
+
+const columns = [
+  {
+    key: "user",
+    label: "User",
+  },
+  {
+    key: "role",
+    label: "Role",
+  },
+  {
+    key: "status",
+    label: "Status",
+  },
+  {
+    key: "created_at",
+    label: "Created At",
+  },
+  {
+    key: "actions",
+    label: "Actions",
+    align: "right" as const,
+  },
+];
 
 watch(search, () => {
   page.value = 1;
@@ -130,101 +160,173 @@ watch(status, async () => {
 onMounted(async () => {
   await fetchUsers();
 });
+const authStore = useAuthStore();
 </script>
 
 <template>
   <div class="space-y-6">
     <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-      <div>
-        <h1 class="text-2xl font-bold tracking-tight text-slate-900">Users Management</h1>
-        <p class="mt-1 text-sm text-slate-500">
-          Manage all users, roles, status, and account actions from this page.
-        </p>
-      </div>
-
-      <button
-        class="inline-flex items-center justify-center rounded-xl bg-slate-900 px-5 py-3 text-sm font-medium text-white transition hover:bg-slate-800"
-        @click="openCreateModal"
+      <PageHeader
+        title="Users Management"
+        subtitle="Manage all users, roles, status, and account actions from this page."
       >
+        <template #actions> </template>
+      </PageHeader>
+      <AppButton v-if="authStore.hasPermission('user.create')" @click="openCreateModal">
         Add New User
-      </button>
+      </AppButton>
     </div>
 
     <div
       v-if="errorMessage"
       class="rounded-2xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700"
     >
-      {{ errorMessage }} 
+      {{ errorMessage }}
     </div>
 
     <div class="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
-      <UserStatsCard
+      <StatsCard
         title="Total Users"
         :value="stats.total_users"
         subtitle="All registered accounts"
+        tone="info"
       />
-      <UserStatsCard
+
+      <StatsCard
         title="Active Users"
         :value="stats.active_users"
         subtitle="Currently active users"
+        tone="success"
       />
-      <UserStatsCard
+
+      <StatsCard
         title="Pending Users"
         :value="stats.pending_users"
         subtitle="Waiting for approval"
+        tone="warning"
       />
-      <UserStatsCard
+
+      <StatsCard
         title="Inactive Users"
         :value="stats.inactive_users"
         subtitle="Disabled or inactive"
+        tone="default"
       />
     </div>
 
-    <UserFilterBar
-      v-model:search="search"
-      v-model:status="status"
-      @refresh="handleRefresh"
-    />
+    <FilterBar title="Filters" subtitle="Search and filter user accounts.">
+      <AppInput
+        v-model="search"
+        label="Search"
+        placeholder="Search by name or email..."
+      />
+
+      <AppSelect
+        v-model="status"
+        label="Status"
+        placeholder="All Status"
+        :options="[
+          { label: 'Active', value: 'active' },
+          { label: 'Inactive', value: 'inactive' },
+          { label: 'Pending', value: 'pending' },
+        ]"
+      />
+
+      <template #actions>
+        <AppButton variant="secondary" @click="handleRefresh"> Refresh </AppButton>
+      </template>
+    </FilterBar>
 
     <UserTable
       :users="users"
       :loading="loading"
+      :can-edit="authStore.hasPermission('user.update')"
+      :can-delete="authStore.hasPermission('user.delete')"
       @edit="openEditModal"
       @delete="openDeleteModal"
     />
 
-    <div
-      class="flex flex-col gap-3 rounded-2xl border border-slate-200 bg-white px-4 py-4 text-sm text-slate-600 shadow-sm sm:flex-row sm:items-center sm:justify-between"
+    <DataTable
+      :columns="columns"
+      :rows="users"
+      :loading="loading"
+      empty-title="No users found"
+      empty-message="Try changing your search or filter settings."
     >
-      <p>
-        Showing page {{ pagination.current_page }} of {{ pagination.last_page }} | Total
-        users: {{ pagination.total }}
-      </p>
+      <template #cell-user="{ row }">
+        <div class="flex items-center gap-3">
+          <div
+            class="flex h-10 w-10 items-center justify-center rounded-full bg-slate-900 text-sm font-bold text-white"
+          >
+            {{ row.name.charAt(0).toUpperCase() }}
+          </div>
 
-      <div class="flex items-center gap-2">
-        <button
-          class="rounded-lg border border-slate-200 px-3 py-2 hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-50"
-          :disabled="pagination.current_page <= 1 || loading"
-          @click="
-            page--;
-            fetchUsers();
+          <div>
+            <p class="text-sm font-semibold text-slate-900">
+              {{ row.name }}
+            </p>
+            <p class="text-sm text-slate-500">
+              {{ row.email }}
+            </p>
+          </div>
+        </div>
+      </template>
+
+      <template #cell-role="{ row }">
+        {{ row.role || "No Role" }}
+      </template>
+
+      <template #cell-status="{ row }">
+        <AppBadge
+          :variant="
+            row.status === 'active'
+              ? 'success'
+              : row.status === 'pending'
+              ? 'warning'
+              : 'default'
           "
         >
-          Previous
-        </button>
+          {{ row.status }}
+        </AppBadge>
+      </template>
 
-        <button
-          class="rounded-lg border border-slate-200 px-3 py-2 hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-50"
-          :disabled="pagination.current_page >= pagination.last_page || loading"
-          @click="
-            page++;
-            fetchUsers();
-          "
-        >
-          Next
-        </button>
-      </div>
-    </div>
+      <template #cell-actions="{ row }">
+        <div class="flex justify-end gap-2">
+          <AppButton
+            v-if="authStore.hasPermission('user.update')"
+            size="sm"
+            variant="secondary"
+            @click="openEditModal(row)"
+          >
+            Edit
+          </AppButton>
+
+          <AppButton
+            v-if="authStore.hasPermission('user.delete')"
+            size="sm"
+            variant="danger"
+            @click="openDeleteModal(row)"
+          >
+            Delete
+          </AppButton>
+        </div>
+      </template>
+    </DataTable>
+
+    <TablePagination
+      :current-page="pagination.current_page"
+      :last-page="pagination.last_page"
+      :total="pagination.total"
+      :loading="loading"
+      @previous="
+        page--;
+        fetchUsers();
+      "
+      @next="
+        page++;
+        fetchUsers();
+      "
+    />
 
     <CreateUserModal
       :open="createModalOpen"

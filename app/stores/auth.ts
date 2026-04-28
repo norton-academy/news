@@ -5,6 +5,12 @@ interface User {
   id: number
   name: string
   email: string
+  email_verified_at?: string | null
+  is_email_verified?: boolean
+  role?: string | null
+  roles?: string[]
+  permissions?: string[]
+  status?: string
   created_at?: string
   updated_at?: string
 }
@@ -33,6 +39,26 @@ export const useAuthStore = defineStore('auth', {
 
   getters: {
     isAuthenticated: (state) => !!state.token,
+
+    hasPermission: (state) => {
+      return (permission: string) => {
+        return state.user?.permissions?.includes(permission) || false
+      }
+    },
+
+    hasAnyPermission: (state) => {
+      return (permissions: string[]) => {
+        return permissions.some((permission) =>
+          state.user?.permissions?.includes(permission)
+        )
+      }
+    },
+
+    hasRole: (state) => {
+      return (role: string) => {
+        return state.user?.roles?.includes(role) || false
+      }
+    },
   },
 
   actions: {

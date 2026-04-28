@@ -29,6 +29,33 @@ export interface RolePayload {
   guard_name?: string
 }
 
+export interface RolePermissionItem {
+  id: number
+  name: string
+  guard_name: string
+}
+
+export interface RoleItem {
+  id: number
+  name: string
+  guard_name: string
+  permissions_count?: number | null
+  permissions?: RolePermissionItem[]
+  created_at?: string
+}
+
+export interface RoleShowResponse {
+  status: string
+  message: string
+  data: {
+    role: RoleItem
+  }
+}
+
+export interface SyncRolePermissionsPayload {
+  permissions: string[]
+}
+
 export const useRole = () => {
   const api = useApi()
 
@@ -56,10 +83,46 @@ export const useRole = () => {
     return response.data
   }
 
+  const getRole = async (id: number | string): Promise<RoleShowResponse> => {
+  try {
+    const response = await api.get<RoleShowResponse>(`/roles/${id}`)
+    return response.data
+  } catch (error: any) {
+    throw {
+      message: error.response?.data?.message || 'Failed to fetch role',
+      errors: error.response?.data?.errors || {},
+      status: error.response?.status || 500,
+    }
+  }
+}
+
+const syncRolePermissions = async (
+  id: number | string,
+  payload: SyncRolePermissionsPayload
+): Promise<RoleShowResponse> => {
+  try {
+    const response = await api.post<RoleShowResponse>(
+      `/roles/${id}/permissions`,
+      payload
+    )
+
+    return response.data
+  } catch (error: any) {
+    throw {
+      message: error.response?.data?.message || 'Failed to update role permissions',
+      errors: error.response?.data?.errors || {},
+      status: error.response?.status || 500,
+    }
+  }
+}
+
   return {
     getRoles,
+    getRole,
+    syncRolePermissions,
     createRole,
     updateRole,
     deleteRole,
+    
   }
 }

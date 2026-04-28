@@ -1,75 +1,308 @@
 <script setup lang="ts">
+import type {
+  DashboardStats,
+  DashboardRecentUser,
+  DashboardRecentAuditLog,
+  DashboardRoleDistribution,
+  DashboardSystem,
+} from '~/composables/useDashboard'
+
 definePageMeta({
   layout: 'dashboard',
-  middleware: 'auth',
+  middleware: ['auth', 'permission'],
+  permission: 'dashboard.view',
 })
 
-const auth = useAuth()
-const authStore = useAuthStore()
+const { getDashboardSummary } = useDashboard()
+const toast = useToast()
 
-onMounted(async () => {
-  if (!authStore.user && authStore.token) {
-    await auth.fetchUser()
+const loading = ref(false)
+const errorMessage = ref('')
+
+const stats = ref<DashboardStats>({
+  total_users: 0,
+  active_users: 0,
+  pending_users: 0,
+  inactive_users: 0,
+  total_roles: 0,
+  total_permissions: 0,
+  total_audit_logs: 0,
+})
+
+const recentUsers = ref<DashboardRecentUser[]>([])
+const recentAuditLogs = ref<DashboardRecentAuditLog[]>([])
+const roleDistribution = ref<DashboardRoleDistribution[]>([])
+
+const system = ref<DashboardSystem>({
+  status: 'Unknown',
+  environment: '-',
+  timezone: '-',
+})
+
+const fetchDashboard = async () => {
+  loading.value = true
+  errorMessage.value = ''
+
+  try {
+    const response = await getDashboardSummary()
+
+    stats.value = response.data.stats
+    recentUsers.value = response.data.recent_users
+    recentAuditLogs.value = response.data.recent_audit_logs
+    roleDistribution.value = response.data.role_distribution
+    system.value = response.data.system
+  } catch (error: any) {
+    errorMessage.value = error.message || 'Failed to load dashboard'
+    toast.error('Dashboard failed', errorMessage.value)
+  } finally {
+    loading.value = false
   }
-})
+}
+
+onMounted(fetchDashboard)
 </script>
 
 <template>
   <div class="space-y-6">
-    <!-- Stat cards -->
-    <div class="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
-      <div class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-        <p class="text-sm font-medium text-slate-500">Total Users</p>
-        <h3 class="mt-3 text-3xl font-bold text-slate-900">1,245</h3>
-      </div>
+    <PageHeader
+      title="Dashboard"
+      subtitle="Overview of users, roles, permissions, and system activity."
+    >
+      <template #actions>
+        <AppButton
+          variant="secondary"
+          :loading="loading"
+          @click="fetchDashboard"
+        >
+          Refresh
+        </AppButton>
+      </template>
+    </PageHeader>
 
-      <div class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-        <p class="text-sm font-medium text-slate-500">Active Roles</p>
-        <h3 class="mt-3 text-3xl font-bold text-slate-900">12</h3>
-      </div>
-
-      <div class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-        <p class="text-sm font-medium text-slate-500">Permissions</p>
-        <h3 class="mt-3 text-3xl font-bold text-slate-900">48</h3>
-      </div>
-
-      <div class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-        <p class="text-sm font-medium text-slate-500">System Status</p>
-        <h3 class="mt-3 text-3xl font-bold text-green-600">Healthy</h3>
-      </div>
+    <div
+      v-if="errorMessage"
+      class="rounded-2xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700"
+    >
+      {{ errorMessage }}
     </div>
 
-    <!-- Welcome card -->
-    <div class="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
-      <h3 class="text-xl font-bold text-slate-900">
-        Welcome, {{ authStore.user?.name || 'User' }}
-      </h3>
-      <p class="mt-2 text-sm leading-6 text-slate-600">
-        This is your professional dashboard layout. From here, you can manage
-        users, roles, permissions, settings, and all future modules in a clean way.
-      </p>
+    <div
+      v-if="loading"
+      class="rounded-2xl border border-slate-200 bg-white px-6 py-12 text-center text-sm text-slate-500 shadow-sm"
+    >
+      Loading dashboard...
     </div>
 
-    <!-- Recent activity -->
-    <div class="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
-      <h3 class="text-lg font-semibold text-slate-900">Recent Activity</h3>
+    <template v-else>
+      <!-- Stats -->
+      <div class="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+        <StatsCard
+          title="Total Users"
+          :value="stats.total_users"
+          :subtitle="`${stats.active_users} active users`"
+          tone="info"
+        />
 
-      <div class="mt-4 space-y-4">
-        <div class="rounded-xl bg-slate-50 p-4">
-          <p class="text-sm font-medium text-slate-900">New user registered</p>
-          <p class="mt-1 text-sm text-slate-500">A new account was created in the system.</p>
-        </div>
+        <StatsCard
+          title="Roles"
+          :value="stats.total_roles"
+          subtitle="System access groups"
+          tone="default"
+        />
 
-        <div class="rounded-xl bg-slate-50 p-4">
-          <p class="text-sm font-medium text-slate-900">Role updated</p>
-          <p class="mt-1 text-sm text-slate-500">Permissions were updated for manager role.</p>
-        </div>
+        <StatsCard
+          title="Permissions"
+          :value="stats.total_permissions"
+          subtitle="Fine-grained access rules"
+          tone="success"
+        />
 
-        <div class="rounded-xl bg-slate-50 p-4">
-          <p class="text-sm font-medium text-slate-900">System backup completed</p>
-          <p class="mt-1 text-sm text-slate-500">Nightly backup finished successfully.</p>
-        </div>
+        <StatsCard
+          title="Audit Logs"
+          :value="stats.total_audit_logs"
+          subtitle="Recorded system actions"
+          tone="warning"
+        />
       </div>
-    </div>
+
+      <!-- System status -->
+      <div class="grid gap-4 lg:grid-cols-3">
+        <AppCard
+          title="System Status"
+          subtitle="Current application health."
+        >
+          <div class="space-y-4">
+            <div class="flex items-center justify-between rounded-xl bg-slate-50 px-4 py-3">
+              <span class="text-sm font-medium text-slate-600">Status</span>
+              <AppBadge
+                :variant="system.status === 'Healthy' ? 'success' : 'warning'"
+              >
+                {{ system.status }}
+              </AppBadge>
+            </div>
+
+            <div class="flex items-center justify-between rounded-xl bg-slate-50 px-4 py-3">
+              <span class="text-sm font-medium text-slate-600">Environment</span>
+              <span class="text-sm font-bold text-slate-900">
+                {{ system.environment }}
+              </span>
+            </div>
+
+            <div class="flex items-center justify-between rounded-xl bg-slate-50 px-4 py-3">
+              <span class="text-sm font-medium text-slate-600">Timezone</span>
+              <span class="text-sm font-bold text-slate-900">
+                {{ system.timezone }}
+              </span>
+            </div>
+          </div>
+        </AppCard>
+
+        <AppCard
+          title="User Status"
+          subtitle="Account status summary."
+        >
+          <div class="space-y-4">
+            <div class="flex items-center justify-between rounded-xl bg-green-50 px-4 py-3">
+              <span class="text-sm font-medium text-green-700">Active</span>
+              <span class="text-sm font-bold text-green-700">
+                {{ stats.active_users }}
+              </span>
+            </div>
+
+            <div class="flex items-center justify-between rounded-xl bg-amber-50 px-4 py-3">
+              <span class="text-sm font-medium text-amber-700">Pending</span>
+              <span class="text-sm font-bold text-amber-700">
+                {{ stats.pending_users }}
+              </span>
+            </div>
+
+            <div class="flex items-center justify-between rounded-xl bg-slate-50 px-4 py-3">
+              <span class="text-sm font-medium text-slate-700">Inactive</span>
+              <span class="text-sm font-bold text-slate-700">
+                {{ stats.inactive_users }}
+              </span>
+            </div>
+          </div>
+        </AppCard>
+
+        <AppCard
+          title="Role Distribution"
+          subtitle="Users grouped by role."
+        >
+          <div class="space-y-4">
+            <div
+              v-for="role in roleDistribution"
+              :key="role.id"
+              class="rounded-xl border border-slate-200 px-4 py-3"
+            >
+              <div class="flex items-center justify-between">
+                <p class="text-sm font-semibold text-slate-900">
+                  {{ role.name }}
+                </p>
+
+                <span class="text-sm font-bold text-slate-700">
+                  {{ role.users_count }}
+                </span>
+              </div>
+
+              <div class="mt-3 h-2 overflow-hidden rounded-full bg-slate-100">
+                <div
+                  class="h-full rounded-full bg-slate-900"
+                  :style="{
+                    width: stats.total_users
+                      ? `${Math.min((role.users_count / stats.total_users) * 100, 100)}%`
+                      : '0%',
+                  }"
+                />
+              </div>
+            </div>
+
+            <EmptyState
+              v-if="roleDistribution.length === 0"
+              title="No role data"
+              message="Assign roles to users to see distribution."
+            />
+          </div>
+        </AppCard>
+      </div>
+
+      <!-- Recent sections -->
+      <div class="grid gap-4 lg:grid-cols-2">
+        <AppCard
+          title="Recent Users"
+          subtitle="Latest registered accounts."
+        >
+          <div class="space-y-3">
+            <div
+              v-for="user in recentUsers"
+              :key="user.id"
+              class="flex items-center justify-between rounded-xl border border-slate-200 px-4 py-3"
+            >
+              <div>
+                <p class="text-sm font-semibold text-slate-900">
+                  {{ user.name }}
+                </p>
+                <p class="text-xs text-slate-500">
+                  {{ user.email }}
+                </p>
+              </div>
+
+              <AppBadge
+                :variant="
+                  user.status === 'active'
+                    ? 'success'
+                    : user.status === 'pending'
+                      ? 'warning'
+                      : 'default'
+                "
+              >
+                {{ user.status }}
+              </AppBadge>
+            </div>
+
+            <EmptyState
+              v-if="recentUsers.length === 0"
+              title="No users yet"
+              message="New users will appear here."
+            />
+          </div>
+        </AppCard>
+
+        <AppCard
+          title="Recent Audit Logs"
+          subtitle="Latest recorded system actions."
+        >
+          <div class="space-y-3">
+            <div
+              v-for="log in recentAuditLogs"
+              :key="log.id"
+              class="rounded-xl border border-slate-200 px-4 py-3"
+            >
+              <div class="flex items-center justify-between gap-4">
+                <div>
+                  <AppBadge variant="default">
+                    {{ log.action }}
+                  </AppBadge>
+
+                  <p class="mt-2 text-xs text-slate-500">
+                    {{ log.user?.name || 'System' }} · {{ log.created_at }}
+                  </p>
+                </div>
+
+                <span class="text-xs font-medium text-slate-500">
+                  {{ log.module || '-' }}
+                </span>
+              </div>
+            </div>
+
+            <EmptyState
+              v-if="recentAuditLogs.length === 0"
+              title="No audit logs yet"
+              message="System actions will appear here."
+            />
+          </div>
+        </AppCard>
+      </div>
+    </template>
   </div>
 </template>

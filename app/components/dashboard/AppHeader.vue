@@ -1,23 +1,25 @@
 <script setup lang="ts">
 const emit = defineEmits<{
-  (e: 'toggle-sidebar'): void
-}>()
+  (e: "toggle-sidebar"): void;
+}>();
 
-const authStore = useAuthStore()
-const route = useRoute()
+const authStore = useAuthStore();
+const route = useRoute();
 
 const pageTitle = computed(() => {
   const map: Record<string, string> = {
-    '/dashboard': 'Dashboard',
-    '/users': 'Users',
-    '/roles': 'Roles',
-    '/permissions': 'Permissions',
-    '/profile': 'Profile',
-    '/settings': 'Settings',
-  }
+    "/dashboard": "Dashboard",
+    "/rbac": "RBAC Overview",
+    "/users": "Users",
+    "/roles": "Roles",
+    "/permissions": "Permissions",
+    "/audit-logs": "Audit Logs",
+    "/profile": "Profile",
+    "/settings": "Settings",
+  };
 
-  return map[route.path] || 'Dashboard'
-})
+  return map[route.path] || "Dashboard";
+});
 </script>
 
 <template>
@@ -35,9 +37,7 @@ const pageTitle = computed(() => {
           <h2 class="text-lg font-semibold text-slate-900">
             {{ pageTitle }}
           </h2>
-          <p class="text-sm text-slate-500">
-            Welcome back to your admin dashboard
-          </p>
+          <p class="text-sm text-slate-500">Welcome back to your admin dashboard</p>
         </div>
       </div>
 

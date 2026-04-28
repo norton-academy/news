@@ -11,6 +11,8 @@ interface UserItem {
 defineProps<{
   users: UserItem[];
   loading?: boolean;
+  canEdit?: boolean;
+  canDelete?: boolean;
 }>();
 
 const emit = defineEmits<{
@@ -117,6 +119,22 @@ const emit = defineEmits<{
                 >
                   Delete
                 </button>
+                <!--  Hide frontend buttons by permission -->
+                <!-- <button
+                  v-if="canEdit"
+                  class="rounded-lg border border-blue-200 px-3 py-2 text-sm font-medium text-blue-700 hover:bg-blue-50"
+                  @click="emit('edit', user)"
+                >
+                  Edit
+                </button>
+
+                <button
+                  v-if="canDelete"
+                  class="rounded-lg border border-red-200 px-3 py-2 text-sm font-medium text-red-600 hover:bg-red-50"
+                  @click="emit('delete', user)"
+                >
+                  Delete
+                </button> -->
               </div>
             </td>
           </tr>

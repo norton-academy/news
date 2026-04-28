@@ -21,5 +21,7 @@ const closeSidebar = () => {
         <slot />
       </main>
     </div>
+
+    <ToastContainer />
   </div>
 </template>

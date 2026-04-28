@@ -1,324 +1,324 @@
 <script setup lang="ts">
-import type { RoleItem, RolePagination } from '~/composables/useRole'
+import type { RoleItem, RolePagination } from "~/composables/useRole";
 
 definePageMeta({
-  layout: 'dashboard',
-  middleware: 'auth',
-})
+  layout: "dashboard",
+  middleware: ["auth", "permission"],
+  permission: "role.view",
+});
 
-const { getRoles, createRole, updateRole, deleteRole } = useRole()
+const { getRoles, createRole, updateRole, deleteRole } = useRole();
+const toast = useToast();
+const authStore = useAuthStore();
 
-const roles = ref<RoleItem[]>([])
-const search = ref('')
-const page = ref(1)
-const perPage = ref(10)
-const loading = ref(false)
-const errorMessage = ref('')
+const roles = ref<RoleItem[]>([]);
+const search = ref("");
+const page = ref(1);
+const perPage = ref(10);
+const loading = ref(false);
+const errorMessage = ref("");
 
-const modalOpen = ref(false)
-const deleteModalOpen = ref(false)
-const selectedRole = ref<RoleItem | null>(null)
+const modalOpen = ref(false);
+const deleteModalOpen = ref(false);
+const selectedRole = ref<RoleItem | null>(null);
+
+const permissionModalOpen = ref(false);
+const selectedPermissionRole = ref<RoleItem | null>(null);
 
 const form = reactive({
-  name: '',
-  guard_name: 'web',
-})
+  name: "",
+  guard_name: "web",
+});
 
 const pagination = ref<RolePagination>({
   current_page: 1,
   last_page: 1,
   per_page: 10,
   total: 0,
-})
+});
 
 const fetchRoles = async () => {
-  loading.value = true
-  errorMessage.value = ''
+  loading.value = true;
+  errorMessage.value = "";
 
   try {
     const response = await getRoles({
       search: search.value || undefined,
       page: page.value,
       per_page: perPage.value,
-    })
+    });
 
-    roles.value = response.data.roles
-    pagination.value = response.data.pagination
+    roles.value = response.data.roles;
+    pagination.value = response.data.pagination;
   } catch (error: any) {
-    errorMessage.value = error.response?.data?.message || 'Failed to load roles'
+    errorMessage.value = error.response?.data?.message || "Failed to load roles";
   } finally {
-    loading.value = false
+    loading.value = false;
   }
-}
+};
 
 const openCreate = () => {
-  selectedRole.value = null
-  form.name = ''
-  form.guard_name = 'web'
-  modalOpen.value = true
-}
+  selectedRole.value = null;
+  form.name = "";
+  form.guard_name = "web";
+  modalOpen.value = true;
+};
 
 const openEdit = (role: RoleItem) => {
-  selectedRole.value = role
-  form.name = role.name
-  form.guard_name = role.guard_name
-  modalOpen.value = true
-}
+  selectedRole.value = role;
+  form.name = role.name;
+  form.guard_name = role.guard_name;
+  modalOpen.value = true;
+};
 
 const saveRole = async () => {
   try {
     if (selectedRole.value) {
-      await updateRole(selectedRole.value.id, form)
+      await updateRole(selectedRole.value.id, form);
+      toast.success("Role updated", "Role information was updated successfully.");
     } else {
-      await createRole(form)
+      await createRole(form);
+      toast.success("Role created", "New role was created successfully.");
     }
 
-    modalOpen.value = false
-    await fetchRoles()
+    modalOpen.value = false;
+    await fetchRoles();
   } catch (error: any) {
-    errorMessage.value = error.response?.data?.message || 'Failed to save role'
+    errorMessage.value =
+      error.response?.data?.message || error.message || "Failed to save role";
+    toast.error("Save failed", errorMessage.value);
   }
-}
+};
 
 const openDelete = (role: RoleItem) => {
-  selectedRole.value = role
-  deleteModalOpen.value = true
-}
+  selectedRole.value = role;
+  deleteModalOpen.value = true;
+};
 
 const confirmDelete = async () => {
-  if (!selectedRole.value) return
+  if (!selectedRole.value) return;
 
   try {
-    await deleteRole(selectedRole.value.id)
-    deleteModalOpen.value = false
-    selectedRole.value = null
-    await fetchRoles()
+    await deleteRole(selectedRole.value.id);
+    toast.success("Role deleted", "Role was deleted successfully.");
+    deleteModalOpen.value = false;
+    selectedRole.value = null;
+    await fetchRoles();
   } catch (error: any) {
-    errorMessage.value = error.response?.data?.message || 'Failed to delete role'
+    errorMessage.value =
+      error.response?.data?.message || error.message || "Failed to delete role";
+    toast.error("Delete failed", errorMessage.value);
   }
-}
+};
 
-let searchTimeout: ReturnType<typeof setTimeout> | null = null
+const openPermissionModal = (role: RoleItem) => {
+  selectedPermissionRole.value = role;
+  permissionModalOpen.value = true;
+};
+
+const closePermissionModal = () => {
+  permissionModalOpen.value = false;
+  selectedPermissionRole.value = null;
+};
+
+const handlePermissionSaved = async () => {
+  permissionModalOpen.value = false;
+  selectedPermissionRole.value = null;
+  await fetchRoles();
+};
+
+const columns = [
+  {
+    key: "name",
+    label: "Role",
+  },
+  {
+    key: "guard_name",
+    label: "Guard",
+  },
+  {
+    key: "permissions_count",
+    label: "Permissions",
+  },
+  {
+    key: "created_at",
+    label: "Created",
+  },
+  {
+    key: "actions",
+    label: "Actions",
+    align: "right" as const,
+  },
+];
+
+let searchTimeout: ReturnType<typeof setTimeout> | null = null;
 
 watch(search, () => {
-  page.value = 1
+  page.value = 1;
 
-  if (searchTimeout) clearTimeout(searchTimeout)
+  if (searchTimeout) clearTimeout(searchTimeout);
 
   searchTimeout = setTimeout(async () => {
-    await fetchRoles()
-  }, 400)
-})
+    await fetchRoles();
+  }, 400);
+});
 
-onMounted(fetchRoles)
+onMounted(fetchRoles);
 </script>
 
 <template>
   <div class="space-y-6">
-    <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-      <div>
-        <h1 class="text-2xl font-bold tracking-tight text-slate-900">
-          Roles Management
-        </h1>
-        <p class="mt-1 text-sm text-slate-500">
-          Manage user roles for your RBAC system.
-        </p>
-      </div>
+    <PageHeader
+      title="Roles Management"
+      subtitle="Manage user roles for your RBAC system."
+    >
+      <template #actions>
+        <AppButton v-if="authStore.hasPermission('role.create')" @click="openCreate">
+          Add Role
+        </AppButton>
+      </template>
+    </PageHeader>
 
-      <button
-        class="rounded-xl bg-slate-900 px-5 py-3 text-sm font-medium text-white hover:bg-slate-800"
-        @click="openCreate"
-      >
-        Add Role
-      </button>
-    </div>
-
-    <div v-if="errorMessage" class="rounded-2xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
+    <div
+      v-if="errorMessage"
+      class="rounded-2xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700"
+    >
       {{ errorMessage }}
     </div>
 
-    <div class="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm">
-      <input
-        v-model="search"
-        type="text"
-        placeholder="Search role..."
-        class="w-full rounded-xl border border-slate-200 px-4 py-3 text-sm outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-100"
-      />
-    </div>
+    <FilterBar title="Filters" subtitle="Search roles by name.">
+      <AppInput v-model="search" label="Search" placeholder="Search role..." />
 
-    <div class="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
-      <table class="min-w-full divide-y divide-slate-200">
-        <thead class="bg-slate-50">
-          <tr>
-            <th class="px-6 py-4 text-left text-xs font-semibold uppercase text-slate-500">Role</th>
-            <th class="px-6 py-4 text-left text-xs font-semibold uppercase text-slate-500">Guard</th>
-            <th class="px-6 py-4 text-left text-xs font-semibold uppercase text-slate-500">Created</th>
-            <th class="px-6 py-4 text-right text-xs font-semibold uppercase text-slate-500">Actions</th>
-          </tr>
-        </thead>
+      <template #actions>
+        <AppButton variant="secondary" @click="fetchRoles"> Refresh </AppButton>
+      </template>
+    </FilterBar>
 
-        <tbody class="divide-y divide-slate-100">
-          <tr v-if="loading">
-            <td colspan="4" class="px-6 py-12 text-center text-sm text-slate-500">
-              Loading roles...
-            </td>
-          </tr>
+    <DataTable
+      :columns="columns"
+      :rows="roles"
+      :loading="loading"
+      empty-title="No roles found"
+      empty-message="Create your first role to start managing access."
+    >
+      <template #cell-name="{ row }">
+        <p class="text-sm font-semibold text-slate-900">
+          {{ row.name }}
+        </p>
+      </template>
 
-          <tr v-else-if="roles.length === 0">
-            <td colspan="4" class="px-6 py-12 text-center text-sm text-slate-500">
-              No roles found.
-            </td>
-          </tr>
+      <template #cell-guard_name="{ row }">
+        <AppBadge variant="default">
+          {{ row.guard_name }}
+        </AppBadge>
+      </template>
 
-          <tr v-for="role in roles" v-else :key="role.id" class="hover:bg-slate-50">
-            <td class="px-6 py-4">
-              <p class="text-sm font-semibold text-slate-900">{{ role.name }}</p>
-            </td>
-            <td class="px-6 py-4 text-sm text-slate-600">
-              {{ role.guard_name }}
-            </td>
-            <td class="px-6 py-4 text-sm text-slate-500">
-              {{ role.created_at }}
-            </td>
-            <td class="px-6 py-4">
-              <div class="flex justify-end gap-2">
-                <button
-                  class="rounded-lg border border-blue-200 px-3 py-2 text-sm text-blue-700 hover:bg-blue-50"
-                  @click="openEdit(role)"
-                >
-                  Edit
-                </button>
-                <button
-                  class="rounded-lg border border-red-200 px-3 py-2 text-sm text-red-600 hover:bg-red-50"
-                  @click="openDelete(role)"
-                >
-                  Delete
-                </button>
-              </div>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
+      <template #cell-permissions_count="{ row }">
+        {{ row.permissions_count ?? 0 }}
+      </template>
 
-    <div class="flex items-center justify-between rounded-2xl border border-slate-200 bg-white px-4 py-4 text-sm text-slate-600 shadow-sm">
-      <p>
-        Page {{ pagination.current_page }} of {{ pagination.last_page }} |
-        Total roles: {{ pagination.total }}
-      </p>
+      <template #cell-actions="{ row }">
+        <div class="flex justify-end gap-2">
+          <AppButton
+            v-if="authStore.hasPermission('role.update')"
+            size="sm"
+            variant="secondary"
+            @click="openPermissionModal(row)"
+          >
+            Permissions
+          </AppButton>
 
-      <div class="flex gap-2">
-        <button
-          class="rounded-lg border border-slate-200 px-3 py-2 disabled:opacity-50"
-          :disabled="pagination.current_page <= 1 || loading"
-          @click="page--; fetchRoles()"
-        >
-          Previous
-        </button>
+          <AppButton
+            v-if="authStore.hasPermission('role.update')"
+            size="sm"
+            variant="secondary"
+            @click="openEdit(row)"
+          >
+            Edit
+          </AppButton>
 
-        <button
-          class="rounded-lg border border-slate-200 px-3 py-2 disabled:opacity-50"
-          :disabled="pagination.current_page >= pagination.last_page || loading"
-          @click="page++; fetchRoles()"
-        >
-          Next
-        </button>
-      </div>
-    </div>
+          <AppButton
+            v-if="authStore.hasPermission('role.delete')"
+            size="sm"
+            variant="danger"
+            @click="openDelete(row)"
+          >
+            Delete
+          </AppButton>
+        </div>
+      </template>
+    </DataTable>
+
+    <TablePagination
+      :current-page="pagination.current_page"
+      :last-page="pagination.last_page"
+      :total="pagination.total"
+      :loading="loading"
+      @previous="
+        page--;
+        fetchRoles();
+      "
+      @next="
+        page++;
+        fetchRoles();
+      "
+    />
 
     <!-- Create/Edit Modal -->
-    <Teleport to="body">
-      <div v-if="modalOpen" class="fixed inset-0 z-50 flex items-center justify-center p-4">
-        <div class="absolute inset-0 bg-slate-900/50" @click="modalOpen = false" />
+    <AppModal
+      :open="modalOpen"
+      :title="selectedRole ? 'Edit Role' : 'Create Role'"
+      :subtitle="selectedRole ? 'Update role information.' : 'Create a new access role.'"
+      size="sm"
+      @close="modalOpen = false"
+    >
+      <form class="space-y-5" @submit.prevent="saveRole">
+        <AppInput v-model="form.name" label="Role Name" placeholder="Example: Admin" />
 
-        <div class="relative z-10 w-full max-w-md rounded-2xl bg-white shadow-2xl">
-          <div class="border-b border-slate-200 px-6 py-4">
-            <h2 class="text-xl font-bold text-slate-900">
-              {{ selectedRole ? 'Edit Role' : 'Create Role' }}
-            </h2>
-          </div>
+        <AppInput v-model="form.guard_name" label="Guard Name" placeholder="web" />
 
-          <form class="space-y-5 px-6 py-6" @submit.prevent="saveRole">
-            <div>
-              <label class="mb-2 block text-sm font-medium text-slate-700">
-                Role Name
-              </label>
-              <input
-                v-model="form.name"
-                type="text"
-                placeholder="Example: Admin"
-                class="w-full rounded-xl border border-slate-200 px-4 py-3 text-sm outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-100"
-              />
-            </div>
+        <div class="flex justify-end gap-3 border-t border-slate-200 pt-5">
+          <AppButton type="button" variant="secondary" @click="modalOpen = false">
+            Cancel
+          </AppButton>
 
-            <div>
-              <label class="mb-2 block text-sm font-medium text-slate-700">
-                Guard Name
-              </label>
-              <input
-                v-model="form.guard_name"
-                type="text"
-                placeholder="web"
-                class="w-full rounded-xl border border-slate-200 px-4 py-3 text-sm outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-100"
-              />
-            </div>
-
-            <div class="flex justify-end gap-3 border-t border-slate-200 pt-5">
-              <button
-                type="button"
-                class="rounded-xl border border-slate-200 px-4 py-3 text-sm text-slate-700 hover:bg-slate-50"
-                @click="modalOpen = false"
-              >
-                Cancel
-              </button>
-
-              <button
-                type="submit"
-                class="rounded-xl bg-slate-900 px-5 py-3 text-sm text-white hover:bg-slate-800"
-              >
-                {{ selectedRole ? 'Update Role' : 'Create Role' }}
-              </button>
-            </div>
-          </form>
+          <AppButton type="submit" variant="primary">
+            {{ selectedRole ? "Update Role" : "Create Role" }}
+          </AppButton>
         </div>
-      </div>
-    </Teleport>
+      </form>
+    </AppModal>
 
     <!-- Delete Modal -->
-    <Teleport to="body">
-      <div v-if="deleteModalOpen" class="fixed inset-0 z-50 flex items-center justify-center p-4">
-        <div class="absolute inset-0 bg-slate-900/50" @click="deleteModalOpen = false" />
+    <AppModal
+      :open="deleteModalOpen"
+      title="Delete Role"
+      subtitle="This action cannot be undone."
+      size="sm"
+      @close="deleteModalOpen = false"
+    >
+      <div class="space-y-5">
+        <p class="text-sm text-slate-700">
+          Are you sure you want to delete
+          <strong>{{ selectedRole?.name }}</strong
+          >?
+        </p>
 
-        <div class="relative z-10 w-full max-w-md rounded-2xl bg-white shadow-2xl">
-          <div class="border-b border-slate-200 px-6 py-4">
-            <h2 class="text-xl font-bold text-slate-900">Delete Role</h2>
-            <p class="mt-1 text-sm text-slate-500">This action cannot be undone.</p>
-          </div>
+        <div class="flex justify-end gap-3 border-t border-slate-200 pt-5">
+          <AppButton variant="secondary" @click="deleteModalOpen = false">
+            Cancel
+          </AppButton>
 
-          <div class="space-y-5 px-6 py-6">
-            <p class="text-sm text-slate-700">
-              Are you sure you want to delete
-              <strong>{{ selectedRole?.name }}</strong>?
-            </p>
-
-            <div class="flex justify-end gap-3 border-t border-slate-200 pt-5">
-              <button
-                class="rounded-xl border border-slate-200 px-4 py-3 text-sm text-slate-700 hover:bg-slate-50"
-                @click="deleteModalOpen = false"
-              >
-                Cancel
-              </button>
-
-              <button
-                class="rounded-xl bg-red-600 px-5 py-3 text-sm text-white hover:bg-red-700"
-                @click="confirmDelete"
-              >
-                Delete Role
-              </button>
-            </div>
-          </div>
+          <AppButton variant="danger" @click="confirmDelete"> Delete Role </AppButton>
         </div>
       </div>
-    </Teleport>
+    </AppModal>
   </div>
+
+  <AssignRolePermissionsModal
+    :open="permissionModalOpen"
+    :role="selectedPermissionRole"
+    @close="closePermissionModal"
+    @saved="handlePermissionSaved"
+  />
 </template>
