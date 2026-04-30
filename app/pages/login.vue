@@ -32,6 +32,11 @@ const handleLogin = async () => {
       password: form.password,
     });
 
+    if (!auth.user.value?.is_email_verified) {
+      await navigateTo("/email-verification");
+      return;
+    }
+
     await navigateTo("/dashboard");
   } catch (error: any) {
     generalError.value = error.message || "Login failed";
@@ -51,7 +56,7 @@ const handleLogin = async () => {
   >
     <div
       v-if="generalError"
-      class="mb-5 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700"
+      class="mb-5 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700 dark:border-red-900 dark:bg-red-950/50 dark:text-red-300"
     >
       {{ generalError }}
     </div>

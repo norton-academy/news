@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { AuditLogItem, AuditLogPagination } from "~/composables/useAuditLog";
-
+import { Eye, FileClock, RefreshCcw } from "lucide-vue-next";
 definePageMeta({
   layout: "dashboard",
   middleware: ["auth", "permission"],
@@ -126,13 +126,16 @@ onMounted(fetchLogs);
       subtitle="Track important RBAC and user management actions."
     >
       <template #actions>
-        <AppButton variant="secondary" @click="fetchLogs"> Refresh </AppButton>
+        <AppButton variant="secondary" :loading="loading" @click="fetchLogs">
+          <RefreshCcw class="mr-2 h-4 w-4" />
+          Refresh
+        </AppButton>
       </template>
     </PageHeader>
 
     <div
       v-if="errorMessage"
-      class="rounded-2xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700"
+      class="rounded-2xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700 dark:border-red-900 dark:bg-red-950/50 dark:text-red-300"
     >
       {{ errorMessage }}
     </div>
@@ -170,6 +173,7 @@ onMounted(fetchLogs);
           { label: 'Permission Created', value: 'permission.created' },
           { label: 'Permission Updated', value: 'permission.updated' },
           { label: 'Permission Deleted', value: 'permission.deleted' },
+          { label: 'User Verification Resent', value: 'user.verification_resent' },
         ]"
       />
 
@@ -197,7 +201,7 @@ onMounted(fetchLogs);
 
       <template #cell-user="{ row }">
         <div v-if="row.user">
-          <p class="text-sm font-semibold text-slate-900">
+          <p class="text-sm font-semibold text-slate-900 dark:text-white">
             {{ row.user.name }}
           </p>
           <p class="text-xs text-slate-500">
@@ -214,6 +218,7 @@ onMounted(fetchLogs);
 
       <template #cell-actions="{ row }">
         <AppButton size="sm" variant="secondary" @click="openDetails(row)">
+          <Eye class="mr-2 h-4 w-4" />
           View
         </AppButton>
       </template>
@@ -241,35 +246,44 @@ onMounted(fetchLogs);
       size="lg"
       @close="closeDetails"
     >
+      <template #icon>
+        <FileClock class="h-5 w-5" />
+      </template>
       <div class="space-y-5">
         <div class="grid gap-4 md:grid-cols-2">
-          <div class="rounded-xl bg-slate-50 p-4">
-            <p class="text-xs font-semibold uppercase text-slate-500">Module</p>
-            <p class="mt-1 text-sm font-medium text-slate-900">
+          <div class="rounded-xl bg-slate-50 p-4 dark:bg-slate-800/60">
+            <p class="text-xs font-semibold uppercase text-slate-500 dark:text-slate-400">
+              Module
+            </p>
+            <p class="mt-1 text-sm font-medium text-slate-900 dark:text-white">
               {{ selectedLog?.module || "-" }}
             </p>
           </div>
 
-          <div class="rounded-xl bg-slate-50 p-4">
-            <p class="text-xs font-semibold uppercase text-slate-500">IP Address</p>
-            <p class="mt-1 text-sm font-medium text-slate-900">
+          <div class="rounded-xl bg-slate-50 p-4 dark:bg-slate-800/60">
+            <p class="text-xs font-semibold uppercase text-slate-500 dark:text-slate-400">
+              IP Address
+            </p>
+            <p class="mt-1 text-sm font-medium text-slate-900 dark:text-white">
               {{ selectedLog?.ip_address || "-" }}
             </p>
           </div>
         </div>
 
-        <div class="rounded-xl border border-slate-200 p-4">
-          <p class="mb-3 text-sm font-bold text-slate-900">Old Values</p>
-          <pre class="overflow-x-auto rounded-xl bg-slate-900 p-4 text-xs text-white">{{
-            JSON.stringify(selectedLog?.old_values, null, 2)
-          }}</pre>
+        <div class="rounded-xl border border-slate-200 p-4 dark:border-slate-800">
+          <p class="mb-3 text-sm font-bold text-slate-900 dark:text-white">Old Values</p>
+          <pre
+            class="overflow-x-auto rounded-xl bg-slate-900 p-4 text-xs text-white dark:bg-slate-950"
+            >{{ JSON.stringify(selectedLog?.old_values, null, 2) }}</pre
+          >
         </div>
 
-        <div class="rounded-xl border border-slate-200 p-4">
-          <p class="mb-3 text-sm font-bold text-slate-900">New Values</p>
-          <pre class="overflow-x-auto rounded-xl bg-slate-900 p-4 text-xs text-white">{{
-            JSON.stringify(selectedLog?.new_values, null, 2)
-          }}</pre>
+        <div class="rounded-xl border border-slate-200 p-4 dark:border-slate-800">
+          <p class="mb-3 text-sm font-bold text-slate-900 dark:text-white">New Values</p>
+          <pre
+            class="overflow-x-auto rounded-xl bg-slate-900 p-4 text-xs text-white dark:bg-slate-950"
+            >{{ JSON.stringify(selectedLog?.new_values, null, 2) }}</pre
+          >
         </div>
       </div>
     </AppModal>

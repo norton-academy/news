@@ -40,7 +40,7 @@ const handleRegister = async () => {
       password_confirmation: form.password_confirmation,
     })
 
-    await navigateTo('/dashboard')
+    await navigateTo('/email-verification')
   } catch (error: any) {
     generalError.value = error.message || 'Registration failed'
 
@@ -59,7 +59,7 @@ const handleRegister = async () => {
     title="Create your account"
     subtitle="Set up your account to start using your admin dashboard."
   >
-    <div v-if="generalError" class="mb-5 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
+    <div v-if="generalError" class="mb-5 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700 dark:border-red-900 dark:bg-red-950/50 dark:text-red-300">
       {{ generalError }}
     </div>
 

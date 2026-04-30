@@ -112,6 +112,7 @@ declare global {
   const useCssModule: typeof import('vue').useCssModule
   const useCssVars: typeof import('vue').useCssVars
   const useDashboard: typeof import('../../app/composables/useDashboard').useDashboard
+  const useEmailOtp: typeof import('../../app/composables/useEmailOtp').useEmailOtp
   const useEmailVerification: typeof import('../../app/composables/useEmailVerification').useEmailVerification
   const useError: typeof import('../../node_modules/nuxt/dist/app/composables/error').useError
   const useFetch: typeof import('../../node_modules/nuxt/dist/app/composables/fetch').useFetch
@@ -127,6 +128,7 @@ declare global {
   const useNuxtApp: typeof import('../../node_modules/nuxt/dist/app/nuxt').useNuxtApp
   const useNuxtData: typeof import('../../node_modules/nuxt/dist/app/composables/asyncData').useNuxtData
   const useNuxtDevTools: typeof import('../../node_modules/@nuxt/devtools/dist/runtime/use-nuxt-devtools').useNuxtDevTools
+  const usePasswordOtp: typeof import('../../app/composables/usePasswordOtp').usePasswordOtp
   const usePasswordReset: typeof import('../../app/composables/usePasswordReset').usePasswordReset
   const usePermission: typeof import('../../app/composables/usePermission').usePermission
   const usePinia: typeof import('../../node_modules/@pinia/nuxt/dist/runtime/composables').usePinia
@@ -184,6 +186,7 @@ declare global {
   const useSlots: typeof import('vue').useSlots
   const useState: typeof import('../../node_modules/nuxt/dist/app/composables/state').useState
   const useTemplateRef: typeof import('vue').useTemplateRef
+  const useThemeStore: typeof import('../../app/stores/theme').useThemeStore
   const useToast: typeof import('../../app/composables/useToast').useToast
   const useToastStore: typeof import('../../app/stores/toast').useToastStore
   const useTransitionState: typeof import('vue').useTransitionState
@@ -214,8 +217,14 @@ declare global {
   export type { DashboardStats, DashboardRecentUser, DashboardAuditUser, DashboardRecentAuditLog, DashboardRoleDistribution, DashboardSystem, DashboardSummaryResponse } from '../../app/composables/useDashboard'
   import('../../app/composables/useDashboard')
   // @ts-ignore
+  export type { EmailOtpResponse } from '../../app/composables/useEmailOtp'
+  import('../../app/composables/useEmailOtp')
+  // @ts-ignore
   export type { VerifyEmailResponse } from '../../app/composables/useEmailVerification'
   import('../../app/composables/useEmailVerification')
+  // @ts-ignore
+  export type { SendPasswordOtpPayload, VerifyPasswordOtpPayload, ResetPasswordWithOtpPayload, PasswordOtpResponse } from '../../app/composables/usePasswordOtp'
+  import('../../app/composables/usePasswordOtp')
   // @ts-ignore
   export type { ForgotPasswordPayload, ResetPasswordPayload, PasswordResetResponse } from '../../app/composables/usePasswordReset'
   import('../../app/composables/usePasswordReset')
@@ -235,8 +244,11 @@ declare global {
   export type { SettingItem, SettingsResponse, UpdateSettingsPayload } from '../../app/composables/useSettings'
   import('../../app/composables/useSettings')
   // @ts-ignore
-  export type { UserItem, UserPagination, UserStats, UserListResponse, CreateUserPayload, CreateUserResponse, UpdateUserPayload } from '../../app/composables/useUser'
+  export type { UserStatus, UserItem, UserPagination, UserStats, UserListResponse, CreateUserPayload, UpdateUserPayload, CreateUserResponse } from '../../app/composables/useUser'
   import('../../app/composables/useUser')
+  // @ts-ignore
+  export type { ThemeMode } from '../../app/stores/theme'
+  import('../../app/stores/theme')
   // @ts-ignore
   export type { ToastType, ToastItem } from '../../app/stores/toast'
   import('../../app/stores/toast')
@@ -356,6 +368,7 @@ declare module 'vue' {
     readonly useCssModule: UnwrapRef<typeof import('vue')['useCssModule']>
     readonly useCssVars: UnwrapRef<typeof import('vue')['useCssVars']>
     readonly useDashboard: UnwrapRef<typeof import('../../app/composables/useDashboard')['useDashboard']>
+    readonly useEmailOtp: UnwrapRef<typeof import('../../app/composables/useEmailOtp')['useEmailOtp']>
     readonly useEmailVerification: UnwrapRef<typeof import('../../app/composables/useEmailVerification')['useEmailVerification']>
     readonly useError: UnwrapRef<typeof import('../../node_modules/nuxt/dist/app/composables/error')['useError']>
     readonly useFetch: UnwrapRef<typeof import('../../node_modules/nuxt/dist/app/composables/fetch')['useFetch']>
@@ -371,6 +384,7 @@ declare module 'vue' {
     readonly useNuxtApp: UnwrapRef<typeof import('../../node_modules/nuxt/dist/app/nuxt')['useNuxtApp']>
     readonly useNuxtData: UnwrapRef<typeof import('../../node_modules/nuxt/dist/app/composables/asyncData')['useNuxtData']>
     readonly useNuxtDevTools: UnwrapRef<typeof import('../../node_modules/@nuxt/devtools/dist/runtime/use-nuxt-devtools')['useNuxtDevTools']>
+    readonly usePasswordOtp: UnwrapRef<typeof import('../../app/composables/usePasswordOtp')['usePasswordOtp']>
     readonly usePasswordReset: UnwrapRef<typeof import('../../app/composables/usePasswordReset')['usePasswordReset']>
     readonly usePermission: UnwrapRef<typeof import('../../app/composables/usePermission')['usePermission']>
     readonly usePinia: UnwrapRef<typeof import('../../node_modules/@pinia/nuxt/dist/runtime/composables')['usePinia']>
@@ -428,6 +442,7 @@ declare module 'vue' {
     readonly useSlots: UnwrapRef<typeof import('vue')['useSlots']>
     readonly useState: UnwrapRef<typeof import('../../node_modules/nuxt/dist/app/composables/state')['useState']>
     readonly useTemplateRef: UnwrapRef<typeof import('vue')['useTemplateRef']>
+    readonly useThemeStore: UnwrapRef<typeof import('../../app/stores/theme')['useThemeStore']>
     readonly useToast: UnwrapRef<typeof import('../../app/composables/useToast')['useToast']>
     readonly useToastStore: UnwrapRef<typeof import('../../app/stores/toast')['useToastStore']>
     readonly useTransitionState: UnwrapRef<typeof import('vue')['useTransitionState']>

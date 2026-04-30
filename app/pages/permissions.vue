@@ -6,7 +6,7 @@ definePageMeta({
   middleware: ["auth", "permission"],
   permission: "permission.view",
 });
-
+import { KeyRound, Pencil, Plus, Shield, Trash2 } from "lucide-vue-next";
 const {
   getPermissions,
   createPermission,
@@ -165,6 +165,17 @@ const confirmDelete = async () => {
   }
 };
 
+const handlePermissionAction = (permission: PermissionItem, action: string) => {
+  if (action === "edit") {
+    openEdit(permission);
+    return;
+  }
+
+  if (action === "delete") {
+    openDelete(permission);
+  }
+};
+
 const columns = [
   {
     key: "name",
@@ -220,6 +231,7 @@ onMounted(fetchPermissions);
           v-if="authStore.hasPermission('permission.create')"
           @click="openCreate"
         >
+          <Plus class="mr-2 h-4 w-4" />
           Add Permission
         </AppButton>
       </template>
@@ -228,7 +240,7 @@ onMounted(fetchPermissions);
     <!-- Error -->
     <div
       v-if="errorMessage"
-      class="rounded-2xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700"
+      class="rounded-2xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700 dark:border-red-900 dark:bg-red-950/50 dark:text-red-300"
     >
       {{ errorMessage }}
     </div>
@@ -242,7 +254,7 @@ onMounted(fetchPermissions);
         tone="info"
       />
     </div>
-    
+
     <!-- Search -->
     <FilterBar title="Filters" subtitle="Search permissions by module or action.">
       <AppInput
@@ -264,9 +276,20 @@ onMounted(fetchPermissions);
       empty-message="Create permissions like user.create or role.view."
     >
       <template #cell-name="{ row }">
-        <p class="text-sm font-semibold text-slate-900">
-          {{ row.name }}
-        </p>
+        <div class="flex items-center gap-3">
+          <div
+            class="flex h-10 w-10 items-center justify-center rounded-2xl bg-purple-50 text-purple-700 dark:bg-purple-950/50 dark:text-purple-300"
+          >
+            <KeyRound class="h-5 w-5" />
+          </div>
+
+          <div>
+            <p class="text-sm font-semibold text-slate-900 dark:text-white">
+              {{ row.name }}
+            </p>
+            <p class="text-xs text-slate-500 dark:text-slate-400">Permission rule</p>
+          </div>
+        </div>
       </template>
 
       <template #cell-module="{ row }">
@@ -286,25 +309,24 @@ onMounted(fetchPermissions);
       </template>
 
       <template #cell-actions="{ row }">
-        <div class="flex justify-end gap-2">
-          <AppButton
-            v-if="authStore.hasPermission('permission.update')"
-            size="sm"
-            variant="secondary"
-            @click="openEdit(row)"
-          >
-            Edit
-          </AppButton>
-
-          <AppButton
-            v-if="authStore.hasPermission('permission.delete')"
-            size="sm"
-            variant="danger"
-            @click="openDelete(row)"
-          >
-            Delete
-          </AppButton>
-        </div>
+        <ActionDropdown
+          :items="[
+            {
+              label: 'Edit Permission',
+              action: 'edit',
+              icon: Pencil,
+              visible: authStore.hasPermission('permission.update'),
+            },
+            {
+              label: 'Delete Permission',
+              action: 'delete',
+              icon: Trash2,
+              variant: 'danger',
+              visible: authStore.hasPermission('permission.delete'),
+            },
+          ]"
+          @select="handlePermissionAction(row, $event)"
+        />
       </template>
     </DataTable>
 
@@ -349,13 +371,15 @@ onMounted(fetchPermissions);
         />
 
         <div
-          class="rounded-xl border border-blue-100 bg-blue-50 px-4 py-3 text-sm text-blue-700"
+          class="rounded-xl border border-blue-100 bg-blue-50 px-4 py-3 text-sm text-blue-700 dark:border-blue-900 dark:bg-blue-950/40 dark:text-blue-300"
         >
           Recommended format:
           <strong>module.action</strong>, for example <strong>user.create</strong>.
         </div>
 
-        <div class="flex justify-end gap-3 border-t border-slate-200 pt-5">
+        <div
+          class="flex justify-end gap-3 border-t border-slate-200 pt-5 dark:border-slate-800"
+        >
           <AppButton type="button" variant="secondary" @click="closeModal">
             Cancel
           </AppButton>
@@ -376,13 +400,15 @@ onMounted(fetchPermissions);
       @close="closeDelete"
     >
       <div class="space-y-5">
-        <p class="text-sm text-slate-700">
+        <p class="text-sm text-slate-700 dark:text-slate-300">
           Are you sure you want to delete
           <strong>{{ selectedPermission?.name }}</strong
           >?
         </p>
 
-        <div class="flex justify-end gap-3 border-t border-slate-200 pt-5">
+        <div
+          class="flex justify-end gap-3 border-t border-slate-200 pt-5 dark:border-slate-800"
+        >
           <AppButton variant="secondary" @click="closeDelete"> Cancel </AppButton>
 
           <AppButton variant="danger" :loading="deleting" @click="confirmDelete">

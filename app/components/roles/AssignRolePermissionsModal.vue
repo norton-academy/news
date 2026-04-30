@@ -164,7 +164,7 @@ const handleSave = async () => {
           </div>
 
           <div v-else class="space-y-5">
-            <div class="rounded-xl border border-blue-100 bg-blue-50 px-4 py-3 text-sm text-blue-700">
+            <div class="rounded-2xl border border-blue-100 bg-blue-50 px-4 py-4 text-sm text-blue-700 dark:border-blue-900 dark:bg-blue-950/40">
               Selected permissions:
               <strong>{{ selectedPermissions.length }}</strong>
             </div>

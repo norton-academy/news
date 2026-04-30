@@ -22,6 +22,7 @@ interface _GlobalComponents {
   AppSidebar: typeof import("../../app/components/dashboard/AppSidebar.vue")['default']
   UserDropdown: typeof import("../../app/components/dashboard/UserDropdown.vue")['default']
   AssignRolePermissionsModal: typeof import("../../app/components/roles/AssignRolePermissionsModal.vue")['default']
+  ActionDropdown: typeof import("../../app/components/ui/ActionDropdown.vue")['default']
   AppBadge: typeof import("../../app/components/ui/AppBadge.vue")['default']
   AppButton: typeof import("../../app/components/ui/AppButton.vue")['default']
   AppCard: typeof import("../../app/components/ui/AppCard.vue")['default']
@@ -35,12 +36,12 @@ interface _GlobalComponents {
   SectionHeader: typeof import("../../app/components/ui/SectionHeader.vue")['default']
   StatsCard: typeof import("../../app/components/ui/StatsCard.vue")['default']
   TablePagination: typeof import("../../app/components/ui/TablePagination.vue")['default']
+  ThemeToggle: typeof import("../../app/components/ui/ThemeToggle.vue")['default']
   ToastContainer: typeof import("../../app/components/ui/ToastContainer.vue")['default']
   CreateUserModal: typeof import("../../app/components/users/CreateUserModal.vue")['default']
   DeleteUserModal: typeof import("../../app/components/users/DeleteUserModal.vue")['default']
   EditUserModal: typeof import("../../app/components/users/EditUserModal.vue")['default']
   UserStatusBadge: typeof import("../../app/components/users/UserStatusBadge.vue")['default']
-  UserTable: typeof import("../../app/components/users/UserTable.vue")['default']
   NuxtWelcome: typeof import("../../node_modules/nuxt/dist/app/components/welcome.vue")['default']
   NuxtLayout: typeof import("../../node_modules/nuxt/dist/app/components/nuxt-layout")['default']
   NuxtErrorBoundary: typeof import("../../node_modules/nuxt/dist/app/components/nuxt-error-boundary.vue")['default']
@@ -73,6 +74,7 @@ interface _GlobalComponents {
   LazyAppSidebar: LazyComponent<typeof import("../../app/components/dashboard/AppSidebar.vue")['default']>
   LazyUserDropdown: LazyComponent<typeof import("../../app/components/dashboard/UserDropdown.vue")['default']>
   LazyAssignRolePermissionsModal: LazyComponent<typeof import("../../app/components/roles/AssignRolePermissionsModal.vue")['default']>
+  LazyActionDropdown: LazyComponent<typeof import("../../app/components/ui/ActionDropdown.vue")['default']>
   LazyAppBadge: LazyComponent<typeof import("../../app/components/ui/AppBadge.vue")['default']>
   LazyAppButton: LazyComponent<typeof import("../../app/components/ui/AppButton.vue")['default']>
   LazyAppCard: LazyComponent<typeof import("../../app/components/ui/AppCard.vue")['default']>
@@ -86,12 +88,12 @@ interface _GlobalComponents {
   LazySectionHeader: LazyComponent<typeof import("../../app/components/ui/SectionHeader.vue")['default']>
   LazyStatsCard: LazyComponent<typeof import("../../app/components/ui/StatsCard.vue")['default']>
   LazyTablePagination: LazyComponent<typeof import("../../app/components/ui/TablePagination.vue")['default']>
+  LazyThemeToggle: LazyComponent<typeof import("../../app/components/ui/ThemeToggle.vue")['default']>
   LazyToastContainer: LazyComponent<typeof import("../../app/components/ui/ToastContainer.vue")['default']>
   LazyCreateUserModal: LazyComponent<typeof import("../../app/components/users/CreateUserModal.vue")['default']>
   LazyDeleteUserModal: LazyComponent<typeof import("../../app/components/users/DeleteUserModal.vue")['default']>
   LazyEditUserModal: LazyComponent<typeof import("../../app/components/users/EditUserModal.vue")['default']>
   LazyUserStatusBadge: LazyComponent<typeof import("../../app/components/users/UserStatusBadge.vue")['default']>
-  LazyUserTable: LazyComponent<typeof import("../../app/components/users/UserTable.vue")['default']>
   LazyNuxtWelcome: LazyComponent<typeof import("../../node_modules/nuxt/dist/app/components/welcome.vue")['default']>
   LazyNuxtLayout: LazyComponent<typeof import("../../node_modules/nuxt/dist/app/components/nuxt-layout")['default']>
   LazyNuxtErrorBoundary: LazyComponent<typeof import("../../node_modules/nuxt/dist/app/components/nuxt-error-boundary.vue")['default']>

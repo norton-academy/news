@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import type { RoleItem, RolePagination } from "~/composables/useRole";
 
+import { KeyRound, Pencil, Plus, ShieldCheck, Trash2 } from "lucide-vue-next";
+
 definePageMeta({
   layout: "dashboard",
   middleware: ["auth", "permission"],
@@ -127,6 +129,22 @@ const handlePermissionSaved = async () => {
   await fetchRoles();
 };
 
+const handleRoleAction = (role: RoleItem, action: string) => {
+  if (action === "permissions") {
+    openPermissionModal(role);
+    return;
+  }
+
+  if (action === "edit") {
+    openEdit(role);
+    return;
+  }
+
+  if (action === "delete") {
+    openDelete(role);
+  }
+};
+
 const columns = [
   {
     key: "name",
@@ -174,6 +192,7 @@ onMounted(fetchRoles);
     >
       <template #actions>
         <AppButton v-if="authStore.hasPermission('role.create')" @click="openCreate">
+          <Plus class="mr-2 h-4 w-4" />
           Add Role
         </AppButton>
       </template>
@@ -181,7 +200,7 @@ onMounted(fetchRoles);
 
     <div
       v-if="errorMessage"
-      class="rounded-2xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700"
+      class="rounded-2xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700 dark:border-red-900 dark:bg-red-950/50 dark:text-red-300"
     >
       {{ errorMessage }}
     </div>
@@ -202,9 +221,20 @@ onMounted(fetchRoles);
       empty-message="Create your first role to start managing access."
     >
       <template #cell-name="{ row }">
-        <p class="text-sm font-semibold text-slate-900">
-          {{ row.name }}
-        </p>
+        <div class="flex items-center gap-3">
+          <div
+            class="flex h-10 w-10 items-center justify-center rounded-2xl bg-blue-50 text-blue-700 dark:bg-blue-950/50 dark:text-blue-300"
+          >
+            <ShieldCheck class="h-5 w-5" />
+          </div>
+
+          <div>
+            <p class="text-sm font-semibold text-slate-900 dark:text-white">
+              {{ row.name }}
+            </p>
+            <p class="text-xs text-slate-500 dark:text-slate-400">Role access group</p>
+          </div>
+        </div>
       </template>
 
       <template #cell-guard_name="{ row }">
@@ -218,36 +248,31 @@ onMounted(fetchRoles);
       </template>
 
       <template #cell-actions="{ row }">
-        <div class="flex justify-end gap-2">
-          <AppButton
-            v-if="authStore.hasPermission('role.update')"
-            size="sm"
-            variant="secondary"
-            @click="openPermissionModal(row)"
-          >
-            Permissions
-          </AppButton>
-
-          <AppButton
-            v-if="authStore.hasPermission('role.update')"
-            size="sm"
-            variant="secondary"
-            @click="openEdit(row)"
-          >
-            Edit
-          </AppButton>
-
-          <AppButton
-            v-if="authStore.hasPermission('role.delete')"
-            size="sm"
-            variant="danger"
-            @click="openDelete(row)"
-          >
-            Delete
-          </AppButton>
-        </div>
-      </template>
-    </DataTable>
+        <ActionDropdown
+          :items="[
+            {
+              label: 'Manage Permissions',
+              action: 'permissions',
+              icon: KeyRound,
+              visible: authStore.hasPermission('role.update'),
+            },
+            {
+              label: 'Edit Role',
+              action: 'edit',
+              icon: Pencil,
+              visible: authStore.hasPermission('role.update'),
+            },
+            {
+              label: 'Delete Role',
+              action: 'delete',
+              icon: Trash2,
+              variant: 'danger',
+              visible: authStore.hasPermission('role.delete'),
+            },
+          ]"
+          @select="handleRoleAction(row, $event)"
+        /> </template
+    ></DataTable>
 
     <TablePagination
       :current-page="pagination.current_page"
@@ -272,6 +297,10 @@ onMounted(fetchRoles);
       size="sm"
       @close="modalOpen = false"
     >
+      <template #icon>
+        <ShieldCheck class="h-5 w-5" />
+      </template>
+
       <form class="space-y-5" @submit.prevent="saveRole">
         <AppInput v-model="form.name" label="Role Name" placeholder="Example: Admin" />
 
@@ -297,14 +326,20 @@ onMounted(fetchRoles);
       size="sm"
       @close="deleteModalOpen = false"
     >
+      <template #icon>
+        <Trash2 class="h-5 w-5" />
+      </template>
+
       <div class="space-y-5">
-        <p class="text-sm text-slate-700">
+        <p class="text-sm text-slate-700 dark:text-slate-300">
           Are you sure you want to delete
-          <strong>{{ selectedRole?.name }}</strong
+          <strong class="text-slate-900 dark:text-white">{{ selectedRole?.name }}</strong
           >?
         </p>
 
-        <div class="flex justify-end gap-3 border-t border-slate-200 pt-5">
+        <div
+          class="flex justify-end gap-3 border-t border-slate-200 pt-5 dark:border-slate-800"
+        >
           <AppButton variant="secondary" @click="deleteModalOpen = false">
             Cancel
           </AppButton>

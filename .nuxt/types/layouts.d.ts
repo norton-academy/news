@@ -6,8 +6,6 @@ type ComponentProps<T> = T extends new(...args: any) => { $props: infer P } ? No
 
 declare module 'nuxt/app' {
   interface NuxtLayouts {
-    admin: ComponentProps<typeof import("D:/cobo-project/cobo-grop/frontend/app/layouts/admin.vue").default>
-    auth: ComponentProps<typeof import("D:/cobo-project/cobo-grop/frontend/app/layouts/auth.vue").default>
     dashboard: ComponentProps<typeof import("D:/cobo-project/cobo-grop/frontend/app/layouts/dashboard.vue").default>
     default: ComponentProps<typeof import("D:/cobo-project/cobo-grop/frontend/app/layouts/default.vue").default>
   }

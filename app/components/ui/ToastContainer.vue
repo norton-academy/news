@@ -1,29 +1,30 @@
 <script setup lang="ts">
-import type { ToastItem } from '~/stores/toast'
+import { AlertCircle, CheckCircle2, Info, TriangleAlert, X } from "lucide-vue-next";
+import type { ToastItem } from "~/stores/toast";
 
-const toast = useToast()
+const toast = useToast();
 
-const typeClass = (type: ToastItem['type']) => {
+const typeClass = (type: ToastItem["type"]) => {
   const classes = {
-    success: 'border-green-200 bg-green-50 text-green-800',
-    error: 'border-red-200 bg-red-50 text-red-800',
-    info: 'border-blue-200 bg-blue-50 text-blue-800',
-    warning: 'border-amber-200 bg-amber-50 text-amber-800',
-  }
+    success:
+      "border-green-200 bg-green-50 text-green-800 dark:border-green-900 dark:bg-green-950 dark:text-green-200",
+    error:
+      "border-red-200 bg-red-50 text-red-800 dark:border-red-900 dark:bg-red-950 dark:text-red-200",
+    info:
+      "border-blue-200 bg-blue-50 text-blue-800 dark:border-blue-900 dark:bg-blue-950 dark:text-blue-200",
+    warning:
+      "border-amber-200 bg-amber-50 text-amber-800 dark:border-amber-900 dark:bg-amber-950 dark:text-amber-200",
+  };
 
-  return classes[type]
-}
+  return classes[type];
+};
 
-const dotClass = (type: ToastItem['type']) => {
-  const classes = {
-    success: 'bg-green-500',
-    error: 'bg-red-500',
-    info: 'bg-blue-500',
-    warning: 'bg-amber-500',
-  }
-
-  return classes[type]
-}
+const iconMap = {
+  success: CheckCircle2,
+  error: AlertCircle,
+  info: Info,
+  warning: TriangleAlert,
+};
 </script>
 
 <template>
@@ -39,12 +40,7 @@ const dotClass = (type: ToastItem['type']) => {
           ]"
         >
           <div class="flex items-start gap-3">
-            <span
-              :class="[
-                'mt-1 h-2.5 w-2.5 rounded-full',
-                dotClass(item.type),
-              ]"
-            />
+            <component :is="iconMap[item.type]" class="mt-0.5 h-5 w-5 shrink-0" />
 
             <div class="flex-1">
               <p class="text-sm font-bold">
@@ -57,10 +53,10 @@ const dotClass = (type: ToastItem['type']) => {
             </div>
 
             <button
-              class="rounded-lg px-2 py-1 text-sm opacity-70 hover:opacity-100"
+              class="rounded-lg p-1 opacity-70 hover:opacity-100"
               @click="toast.remove(item.id)"
             >
-              ✕
+              <X class="h-4 w-4" />
             </button>
           </div>
         </div>

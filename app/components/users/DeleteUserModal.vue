@@ -54,7 +54,7 @@ const handleDelete = async () => {
     <div class="space-y-5">
       <div
         v-if="generalError"
-        class="rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700"
+        class="rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700 dark:border-red-900 dark:bg-red-950/50 dark:text-red-300"
       >
         {{ generalError }}
       </div>

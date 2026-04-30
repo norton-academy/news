@@ -42,8 +42,9 @@ const errors = reactive<Record<string, string>>({
 
 const statusOptions = [
   { label: 'Active', value: 'active' },
-  { label: 'Inactive', value: 'inactive' },
   { label: 'Pending', value: 'pending' },
+  { label: 'Suspended', value: 'suspended' },
+  { label: 'Blocked', value: 'blocked' },
 ]
 
 const roleOptions = computed(() => {
@@ -165,7 +166,7 @@ const handleSubmit = async () => {
     <form class="space-y-5" @submit.prevent="handleSubmit">
       <div
         v-if="generalError"
-        class="rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700"
+        class="rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700 dark:border-red-900 dark:bg-red-950/50 dark:text-red-300"
       >
         {{ generalError }}
       </div>

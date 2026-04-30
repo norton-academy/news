@@ -4,6 +4,7 @@ import type {
   RbacRoleOverview,
   PermissionModuleOverview,
 } from "~/composables/useRbac";
+import { KeyRound, ShieldCheck, Users, Workflow } from "lucide-vue-next";
 
 definePageMeta({
   layout: "dashboard",
@@ -91,7 +92,7 @@ onMounted(fetchDashboard);
     <!-- Error -->
     <div
       v-if="errorMessage"
-      class="rounded-2xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700"
+      class="rounded-2xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700 dark:border-red-900 dark:bg-red-950/50 dark:text-red-300"
     >
       {{ errorMessage }}
     </div>
@@ -112,62 +113,102 @@ onMounted(fetchDashboard);
           :value="stats.total_users"
           :subtitle="`${stats.active_users} active users`"
           tone="info"
-        />
+        >
+          <template #badge>
+            <div
+              class="rounded-xl bg-blue-100 p-2 text-blue-700 dark:bg-blue-950/50 dark:text-blue-300"
+            >
+              <Users class="h-5 w-5" />
+            </div>
+          </template>
+        </StatsCard>
 
         <StatsCard
           title="Roles"
           :value="stats.total_roles"
           subtitle="System access groups"
           tone="default"
-        />
+        >
+          <template #badge>
+            <div
+              class="rounded-xl bg-slate-100 p-2 text-slate-700 dark:bg-slate-800 dark:text-slate-300"
+            >
+              <ShieldCheck class="h-5 w-5" />
+            </div>
+          </template>
+        </StatsCard>
 
         <StatsCard
           title="Permissions"
           :value="stats.total_permissions"
           subtitle="Fine-grained controls"
           tone="success"
-        />
+        >
+          <template #badge>
+            <div
+              class="rounded-xl bg-green-100 p-2 text-green-700 dark:bg-green-950/50 dark:text-green-300"
+            >
+              <KeyRound class="h-5 w-5" />
+            </div>
+          </template>
+        </StatsCard>
 
         <StatsCard
           title="Assigned Permissions"
           :value="totalAssignedPermissions"
           subtitle="Across all roles"
           tone="warning"
-        />
+        >
+          <template #badge>
+            <div
+              class="rounded-xl bg-amber-100 p-2 text-amber-700 dark:bg-amber-950/50 dark:text-amber-300"
+            >
+              <Workflow class="h-5 w-5" />
+            </div>
+          </template>
+        </StatsCard>
       </div>
 
       <!-- User status -->
       <div class="grid gap-4 lg:grid-cols-3">
         <div
-          class="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm lg:col-span-1"
+          class="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm lg:col-span-1 dark:border-slate-800 dark:bg-slate-900"
         >
-          <h2 class="text-lg font-bold text-slate-900">User Status</h2>
-          <p class="mt-1 text-sm text-slate-500">Account status summary.</p>
+          <h2 class="text-lg font-bold text-slate-900 dark:text-white">User Status</h2>
+          <p class="mt-1 text-sm text-slate-500 dark:text-slate-400">
+            Account status summary.
+          </p>
 
           <div class="mt-5 space-y-4">
             <div
-              class="flex items-center justify-between rounded-xl bg-green-50 px-4 py-3"
+              class="flex items-center justify-between rounded-xl bg-green-50 px-4 py-3 dark:bg-green-950/30"
             >
-              <span class="text-sm font-medium text-green-700">Active</span>
-              <span class="text-sm font-bold text-green-700">
+              <span class="text-sm font-medium text-green-700 dark:text-green-400"
+                >Active</span
+              >
+              <span class="text-sm font-bold text-green-700 dark:text-green-400">
                 {{ stats.active_users }}
               </span>
             </div>
 
             <div
-              class="flex items-center justify-between rounded-xl bg-amber-50 px-4 py-3"
+              class="flex items-center justify-between rounded-xl bg-amber-50 px-4 py-3 dark:bg-amber-950/30"
             >
-              <span class="text-sm font-medium text-amber-700">Pending</span>
-              <span class="text-sm font-bold text-amber-700">
+              <span class="text-sm font-medium text-amber-700 dark:text-amber-400"
+                >Pending</span
+              >
+              <span class="text-sm font-bold text-amber-700 dark:text-amber-400">
                 {{ stats.pending_users }}
               </span>
             </div>
 
             <div
-              class="flex items-center justify-between rounded-xl bg-slate-50 px-4 py-3"
+              class="flex items-center justify-between rounded-xl bg-slate-50 px-4 py-3 dark:bg-slate-800/60"
             >
-              <span class="text-sm font-medium text-slate-700">Inactive</span>
-              <span class="text-sm font-bold text-slate-700">
+              <span class="text-sm font-medium text-slate-700 dark:text-slate-300"
+                >Inactive</span
+              >
+              <span class="text-sm font-bold text-slate-700 dark:text-slate-300">
                 {{ stats.inactive_users }}
               </span>
             </div>
@@ -176,12 +217,14 @@ onMounted(fetchDashboard);
 
         <!-- Top roles -->
         <div
-          class="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm lg:col-span-2"
+          class="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm lg:col-span-2 dark:border-slate-800 dark:bg-slate-900"
         >
           <div class="flex items-center justify-between">
             <div>
-              <h2 class="text-lg font-bold text-slate-900">Role Coverage</h2>
-              <p class="mt-1 text-sm text-slate-500">
+              <h2 class="text-lg font-bold text-slate-900 dark:text-white">
+                Role Coverage
+              </h2>
+              <p class="mt-1 text-sm text-slate-500 dark:text-slate-400">
                 Roles with the highest permission coverage.
               </p>
             </div>
@@ -198,28 +241,26 @@ onMounted(fetchDashboard);
             <div
               v-for="role in topRoles"
               :key="role.id"
-              class="rounded-xl border border-slate-200 p-4"
+              class="rounded-xl border border-slate-200 p-4 dark:border-slate-800"
             >
               <div class="flex items-center justify-between">
                 <div>
-                  <p class="text-sm font-bold text-slate-900">
+                  <p class="text-sm font-bold text-slate-900 dark:text-white">
                     {{ role.name }}
                   </p>
-                  <p class="mt-1 text-xs text-slate-500">
+                  <p class="mt-1 text-xs text-slate-500 dark:text-slate-400">
                     {{ role.users_count }} users · {{ role.guard_name }} guard
                   </p>
                 </div>
 
-                <span
-                  class="rounded-full bg-slate-100 px-3 py-1 text-xs font-semibold text-slate-700"
-                >
-                  {{ role.permissions_count }} permissions
-                </span>
+                <AppBadge> {{ role.permissions_count }} permissions </AppBadge>
               </div>
 
-              <div class="mt-4 h-2 overflow-hidden rounded-full bg-slate-100">
+              <div
+                class="mt-4 h-2 overflow-hidden rounded-full bg-slate-100 dark:bg-slate-800"
+              >
                 <div
-                  class="h-full rounded-full bg-slate-900"
+                  class="h-full rounded-full bg-slate-900 dark:bg-white"
                   :style="{
                     width: stats.total_permissions
                       ? `${Math.min(
@@ -234,7 +275,7 @@ onMounted(fetchDashboard);
 
             <div
               v-if="topRoles.length === 0"
-              class="rounded-xl bg-slate-50 px-4 py-8 text-center text-sm text-slate-500"
+              class="rounded-xl bg-slate-50 px-4 py-8 text-center text-sm text-slate-500 dark:bg-slate-800/60 dark:text-slate-400"
             >
               No roles found.
             </div>
@@ -243,63 +284,36 @@ onMounted(fetchDashboard);
       </div>
 
       <!-- Permission modules -->
-      <div class="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
+      <div
+        v-for="module in permissionModules"
+        :key="module.module"
+        class="rounded-2xl border border-slate-200 p-4 dark:border-slate-800"
+      >
         <div class="flex items-center justify-between">
-          <div>
-            <h2 class="text-lg font-bold text-slate-900">Permission Modules</h2>
-            <p class="mt-1 text-sm text-slate-500">Permissions grouped by module name.</p>
-          </div>
+          <h3 class="text-sm font-bold capitalize text-slate-900 dark:text-white">
+            {{ module.module }}
+          </h3>
 
-          <NuxtLink
-            to="/permissions"
-            class="text-sm font-medium text-blue-600 hover:text-blue-700"
-          >
-            Manage permissions
-          </NuxtLink>
+          <AppBadge variant="info">
+            {{ module.total }}
+          </AppBadge>
         </div>
 
-        <div class="mt-5 grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
-          <div
-            v-for="module in permissionModules"
-            :key="module.module"
-            class="rounded-2xl border border-slate-200 p-4"
+        <div class="mt-4 flex flex-wrap gap-2">
+          <AppBadge
+            v-for="permission in module.permissions.slice(0, 5)"
+            :key="permission"
+            variant="default"
           >
-            <div class="flex items-center justify-between">
-              <h3 class="text-sm font-bold capitalize text-slate-900">
-                {{ module.module }}
-              </h3>
+            {{ permission }}
+          </AppBadge>
 
-              <span
-                class="rounded-full bg-blue-50 px-3 py-1 text-xs font-semibold text-blue-700"
-              >
-                {{ module.total }}
-              </span>
-            </div>
-
-            <div class="mt-4 flex flex-wrap gap-2">
-              <span
-                v-for="permission in module.permissions.slice(0, 5)"
-                :key="permission"
-                class="rounded-full bg-slate-100 px-3 py-1 text-xs font-medium text-slate-700"
-              >
-                {{ permission }}
-              </span>
-
-              <span
-                v-if="module.permissions.length > 5"
-                class="rounded-full bg-slate-900 px-3 py-1 text-xs font-medium text-white"
-              >
-                +{{ module.permissions.length - 5 }} more
-              </span>
-            </div>
-          </div>
-
-          <div
-            v-if="permissionModules.length === 0"
-            class="rounded-xl bg-slate-50 px-4 py-8 text-center text-sm text-slate-500"
+          <span
+            v-if="module.permissions.length > 5"
+            class="rounded-full bg-slate-900 px-3 py-1 text-xs font-medium text-white dark:bg-white dark:text-slate-900"
           >
-            No permission modules found.
-          </div>
+            +{{ module.permissions.length - 5 }} more
+          </span>
         </div>
       </div>
 
@@ -308,10 +322,10 @@ onMounted(fetchDashboard);
         <NuxtLink
           v-if="authStore.hasPermission('user.create')"
           to="/users"
-          class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm hover:bg-slate-50"
+          class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm hover:bg-slate-50 dark:border-slate-800 dark:bg-slate-900 dark:hover:bg-slate-800"
         >
-          <p class="text-sm font-bold text-slate-900">Create User</p>
-          <p class="mt-2 text-sm text-slate-500">
+          <p class="text-sm font-bold text-slate-900 dark:text-white">Create User</p>
+          <p class="mt-2 text-sm text-slate-500 dark:text-slate-400">
             Add a new user and assign role access.
           </p>
         </NuxtLink>
@@ -319,19 +333,25 @@ onMounted(fetchDashboard);
         <NuxtLink
           v-if="authStore.hasPermission('role.create')"
           to="/roles"
-          class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm hover:bg-slate-50"
+          class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm hover:bg-slate-50 dark:border-slate-800 dark:bg-slate-900 dark:hover:bg-slate-800"
         >
-          <p class="text-sm font-bold text-slate-900">Create Role</p>
-          <p class="mt-2 text-sm text-slate-500">Create a new role for your system.</p>
+          <p class="text-sm font-bold text-slate-900 dark:text-white">Create Role</p>
+          <p class="mt-2 text-sm text-slate-500 dark:text-slate-400">
+            Create a new role for your system.
+          </p>
         </NuxtLink>
 
         <NuxtLink
           v-if="authStore.hasPermission('permission.create')"
           to="/permissions"
-          class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm hover:bg-slate-50"
+          class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm hover:bg-slate-50 dark:border-slate-800 dark:bg-slate-900 dark:hover:bg-slate-800"
         >
-          <p class="text-sm font-bold text-slate-900">Create Permission</p>
-          <p class="mt-2 text-sm text-slate-500">Add fine-grained permission rules.</p>
+          <p class="text-sm font-bold text-slate-900 dark:text-white">
+            Create Permission
+          </p>
+          <p class="mt-2 text-sm text-slate-500 dark:text-slate-400">
+            Add fine-grained permission rules.
+          </p>
         </NuxtLink>
       </div>
     </template>

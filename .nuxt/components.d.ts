@@ -22,6 +22,7 @@ export const AppShell: typeof import("../app/components/dashboard/AppShell.vue")
 export const AppSidebar: typeof import("../app/components/dashboard/AppSidebar.vue")['default']
 export const UserDropdown: typeof import("../app/components/dashboard/UserDropdown.vue")['default']
 export const AssignRolePermissionsModal: typeof import("../app/components/roles/AssignRolePermissionsModal.vue")['default']
+export const ActionDropdown: typeof import("../app/components/ui/ActionDropdown.vue")['default']
 export const AppBadge: typeof import("../app/components/ui/AppBadge.vue")['default']
 export const AppButton: typeof import("../app/components/ui/AppButton.vue")['default']
 export const AppCard: typeof import("../app/components/ui/AppCard.vue")['default']
@@ -35,12 +36,12 @@ export const PageHeader: typeof import("../app/components/ui/PageHeader.vue")['d
 export const SectionHeader: typeof import("../app/components/ui/SectionHeader.vue")['default']
 export const StatsCard: typeof import("../app/components/ui/StatsCard.vue")['default']
 export const TablePagination: typeof import("../app/components/ui/TablePagination.vue")['default']
+export const ThemeToggle: typeof import("../app/components/ui/ThemeToggle.vue")['default']
 export const ToastContainer: typeof import("../app/components/ui/ToastContainer.vue")['default']
 export const CreateUserModal: typeof import("../app/components/users/CreateUserModal.vue")['default']
 export const DeleteUserModal: typeof import("../app/components/users/DeleteUserModal.vue")['default']
 export const EditUserModal: typeof import("../app/components/users/EditUserModal.vue")['default']
 export const UserStatusBadge: typeof import("../app/components/users/UserStatusBadge.vue")['default']
-export const UserTable: typeof import("../app/components/users/UserTable.vue")['default']
 export const NuxtWelcome: typeof import("../node_modules/nuxt/dist/app/components/welcome.vue")['default']
 export const NuxtLayout: typeof import("../node_modules/nuxt/dist/app/components/nuxt-layout")['default']
 export const NuxtErrorBoundary: typeof import("../node_modules/nuxt/dist/app/components/nuxt-error-boundary.vue")['default']
@@ -73,6 +74,7 @@ export const LazyAppShell: LazyComponent<typeof import("../app/components/dashbo
 export const LazyAppSidebar: LazyComponent<typeof import("../app/components/dashboard/AppSidebar.vue")['default']>
 export const LazyUserDropdown: LazyComponent<typeof import("../app/components/dashboard/UserDropdown.vue")['default']>
 export const LazyAssignRolePermissionsModal: LazyComponent<typeof import("../app/components/roles/AssignRolePermissionsModal.vue")['default']>
+export const LazyActionDropdown: LazyComponent<typeof import("../app/components/ui/ActionDropdown.vue")['default']>
 export const LazyAppBadge: LazyComponent<typeof import("../app/components/ui/AppBadge.vue")['default']>
 export const LazyAppButton: LazyComponent<typeof import("../app/components/ui/AppButton.vue")['default']>
 export const LazyAppCard: LazyComponent<typeof import("../app/components/ui/AppCard.vue")['default']>
@@ -86,12 +88,12 @@ export const LazyPageHeader: LazyComponent<typeof import("../app/components/ui/P
 export const LazySectionHeader: LazyComponent<typeof import("../app/components/ui/SectionHeader.vue")['default']>
 export const LazyStatsCard: LazyComponent<typeof import("../app/components/ui/StatsCard.vue")['default']>
 export const LazyTablePagination: LazyComponent<typeof import("../app/components/ui/TablePagination.vue")['default']>
+export const LazyThemeToggle: LazyComponent<typeof import("../app/components/ui/ThemeToggle.vue")['default']>
 export const LazyToastContainer: LazyComponent<typeof import("../app/components/ui/ToastContainer.vue")['default']>
 export const LazyCreateUserModal: LazyComponent<typeof import("../app/components/users/CreateUserModal.vue")['default']>
 export const LazyDeleteUserModal: LazyComponent<typeof import("../app/components/users/DeleteUserModal.vue")['default']>
 export const LazyEditUserModal: LazyComponent<typeof import("../app/components/users/EditUserModal.vue")['default']>
 export const LazyUserStatusBadge: LazyComponent<typeof import("../app/components/users/UserStatusBadge.vue")['default']>
-export const LazyUserTable: LazyComponent<typeof import("../app/components/users/UserTable.vue")['default']>
 export const LazyNuxtWelcome: LazyComponent<typeof import("../node_modules/nuxt/dist/app/components/welcome.vue")['default']>
 export const LazyNuxtLayout: LazyComponent<typeof import("../node_modules/nuxt/dist/app/components/nuxt-layout")['default']>
 export const LazyNuxtErrorBoundary: LazyComponent<typeof import("../node_modules/nuxt/dist/app/components/nuxt-error-boundary.vue")['default']>

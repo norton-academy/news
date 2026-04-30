@@ -1,71 +1,79 @@
 <script setup lang="ts">
-const props = defineProps<{
-  user: {
-    id?: number
-    name?: string
-    email?: string
-  } | null
-}>()
+import { LogOut, Settings, User } from "lucide-vue-next";
 
-const auth = useAuth()
-const open = ref(false)
-
-const toggleDropdown = () => {
-  open.value = !open.value
-}
+const authStore = useAuthStore();
+const auth = useAuth();
+const open = ref(false);
 
 const handleLogout = async () => {
-  await auth.logout()
-  await navigateTo('/login')
-}
+  await auth.logout();
+  open.value = false;
+  await navigateTo("/login");
+};
 </script>
 
 <template>
   <div class="relative">
     <button
-      class="flex items-center gap-3 rounded-2xl border border-slate-200 bg-white px-3 py-2 shadow-sm transition hover:bg-slate-50"
-      @click="toggleDropdown"
+      class="flex items-center gap-3 rounded-2xl border border-slate-200 bg-white p-1.5 pr-3 shadow-sm transition hover:bg-slate-50 dark:border-slate-800 dark:bg-slate-900 dark:hover:bg-slate-800"
+      @click="open = !open"
     >
-      <div class="flex h-10 w-10 items-center justify-center rounded-full bg-slate-900 text-sm font-bold text-white">
-        {{ props.user?.name?.charAt(0)?.toUpperCase() || 'U' }}
+      <div
+        class="flex h-9 w-9 items-center justify-center rounded-xl bg-slate-900 text-sm font-bold text-white dark:bg-white dark:text-slate-900"
+      >
+        {{ authStore.user?.name?.charAt(0)?.toUpperCase() || "U" }}
       </div>
 
       <div class="hidden text-left sm:block">
-        <p class="text-sm font-semibold text-slate-900">
-          {{ props.user?.name || 'User' }}
+        <p class="max-w-28 truncate text-sm font-semibold text-slate-900 dark:text-white">
+          {{ authStore.user?.name || "User" }}
         </p>
-        <p class="text-xs text-slate-500">
-          {{ props.user?.email || 'user@example.com' }}
+        <p class="max-w-28 truncate text-xs text-slate-500 dark:text-slate-400">
+          {{ authStore.user?.role || "Account" }}
         </p>
       </div>
     </button>
 
     <div
       v-if="open"
-      class="absolute right-0 mt-3 w-56 rounded-2xl border border-slate-200 bg-white p-2 shadow-xl"
+      class="absolute right-0 z-50 mt-2 w-64 rounded-2xl border border-slate-200 bg-white p-2 shadow-xl dark:border-slate-800 dark:bg-slate-900"
     >
-      <NuxtLink
-        to="/profile"
-        class="block rounded-xl px-4 py-2 text-sm text-slate-700 hover:bg-slate-100"
-        @click="open = false"
-      >
-        Profile
-      </NuxtLink>
+      <div class="border-b border-slate-200 px-3 py-3 dark:border-slate-800">
+        <p class="text-sm font-bold text-slate-900 dark:text-white">
+          {{ authStore.user?.name || "User" }}
+        </p>
+        <p class="mt-1 truncate text-xs text-slate-500 dark:text-slate-400">
+          {{ authStore.user?.email }}
+        </p>
+      </div>
 
-      <NuxtLink
-        to="/settings"
-        class="block rounded-xl px-4 py-2 text-sm text-slate-700 hover:bg-slate-100"
-        @click="open = false"
-      >
-        Settings
-      </NuxtLink>
+      <div class="py-2">
+        <NuxtLink
+          to="/profile"
+          class="flex items-center gap-3 rounded-xl px-3 py-2 text-sm font-medium text-slate-700 hover:bg-slate-100 dark:text-slate-200 dark:hover:bg-slate-800"
+          @click="open = false"
+        >
+          <User class="h-4 w-4" />
+          Profile
+        </NuxtLink>
 
-      <button
-        class="block w-full rounded-xl px-4 py-2 text-left text-sm text-red-600 hover:bg-red-50"
-        @click="handleLogout"
-      >
-        Logout
-      </button>
+        <NuxtLink
+          to="/settings"
+          class="flex items-center gap-3 rounded-xl px-3 py-2 text-sm font-medium text-slate-700 hover:bg-slate-100 dark:text-slate-200 dark:hover:bg-slate-800"
+          @click="open = false"
+        >
+          <Settings class="h-4 w-4" />
+          Settings
+        </NuxtLink>
+
+        <button
+          class="flex w-full items-center gap-3 rounded-xl px-3 py-2 text-left text-sm font-medium text-red-600 hover:bg-red-50 dark:hover:bg-red-950/40"
+          @click="handleLogout"
+        >
+          <LogOut class="h-4 w-4" />
+          Logout
+        </button>
+      </div>
     </div>
   </div>
 </template>
