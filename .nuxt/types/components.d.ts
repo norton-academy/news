@@ -23,6 +23,7 @@ interface _GlobalComponents {
   UserDropdown: typeof import("../../app/components/dashboard/UserDropdown.vue")['default']
   AssignRolePermissionsModal: typeof import("../../app/components/roles/AssignRolePermissionsModal.vue")['default']
   ActionDropdown: typeof import("../../app/components/ui/ActionDropdown.vue")['default']
+  AlertMessage: typeof import("../../app/components/ui/AlertMessage.vue")['default']
   AppBadge: typeof import("../../app/components/ui/AppBadge.vue")['default']
   AppButton: typeof import("../../app/components/ui/AppButton.vue")['default']
   AppCard: typeof import("../../app/components/ui/AppCard.vue")['default']
@@ -32,6 +33,7 @@ interface _GlobalComponents {
   DataTable: typeof import("../../app/components/ui/DataTable.vue")['default']
   EmptyState: typeof import("../../app/components/ui/EmptyState.vue")['default']
   FilterBar: typeof import("../../app/components/ui/FilterBar.vue")['default']
+  OtpInput: typeof import("../../app/components/ui/OtpInput.vue")['default']
   PageHeader: typeof import("../../app/components/ui/PageHeader.vue")['default']
   SectionHeader: typeof import("../../app/components/ui/SectionHeader.vue")['default']
   StatsCard: typeof import("../../app/components/ui/StatsCard.vue")['default']
@@ -75,6 +77,7 @@ interface _GlobalComponents {
   LazyUserDropdown: LazyComponent<typeof import("../../app/components/dashboard/UserDropdown.vue")['default']>
   LazyAssignRolePermissionsModal: LazyComponent<typeof import("../../app/components/roles/AssignRolePermissionsModal.vue")['default']>
   LazyActionDropdown: LazyComponent<typeof import("../../app/components/ui/ActionDropdown.vue")['default']>
+  LazyAlertMessage: LazyComponent<typeof import("../../app/components/ui/AlertMessage.vue")['default']>
   LazyAppBadge: LazyComponent<typeof import("../../app/components/ui/AppBadge.vue")['default']>
   LazyAppButton: LazyComponent<typeof import("../../app/components/ui/AppButton.vue")['default']>
   LazyAppCard: LazyComponent<typeof import("../../app/components/ui/AppCard.vue")['default']>
@@ -84,6 +87,7 @@ interface _GlobalComponents {
   LazyDataTable: LazyComponent<typeof import("../../app/components/ui/DataTable.vue")['default']>
   LazyEmptyState: LazyComponent<typeof import("../../app/components/ui/EmptyState.vue")['default']>
   LazyFilterBar: LazyComponent<typeof import("../../app/components/ui/FilterBar.vue")['default']>
+  LazyOtpInput: LazyComponent<typeof import("../../app/components/ui/OtpInput.vue")['default']>
   LazyPageHeader: LazyComponent<typeof import("../../app/components/ui/PageHeader.vue")['default']>
   LazySectionHeader: LazyComponent<typeof import("../../app/components/ui/SectionHeader.vue")['default']>
   LazyStatsCard: LazyComponent<typeof import("../../app/components/ui/StatsCard.vue")['default']>

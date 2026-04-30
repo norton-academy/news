@@ -109,6 +109,7 @@ declare global {
   const useAuthStore: typeof import('../../app/stores/auth').useAuthStore
   const useCartStore: typeof import('../../app/stores/cart').useCartStore
   const useCookie: typeof import('../../node_modules/nuxt/dist/app/composables/cookie').useCookie
+  const useCooldown: typeof import('../../app/composables/useCooldown').useCooldown
   const useCssModule: typeof import('vue').useCssModule
   const useCssVars: typeof import('vue').useCssVars
   const useDashboard: typeof import('../../app/composables/useDashboard').useDashboard
@@ -365,6 +366,7 @@ declare module 'vue' {
     readonly useAuthStore: UnwrapRef<typeof import('../../app/stores/auth')['useAuthStore']>
     readonly useCartStore: UnwrapRef<typeof import('../../app/stores/cart')['useCartStore']>
     readonly useCookie: UnwrapRef<typeof import('../../node_modules/nuxt/dist/app/composables/cookie')['useCookie']>
+    readonly useCooldown: UnwrapRef<typeof import('../../app/composables/useCooldown')['useCooldown']>
     readonly useCssModule: UnwrapRef<typeof import('vue')['useCssModule']>
     readonly useCssVars: UnwrapRef<typeof import('vue')['useCssVars']>
     readonly useDashboard: UnwrapRef<typeof import('../../app/composables/useDashboard')['useDashboard']>

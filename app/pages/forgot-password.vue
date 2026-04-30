@@ -18,6 +18,7 @@ definePageMeta({
 const { sendPasswordOtp, verifyPasswordOtp, resetPasswordWithOtp } = usePasswordOtp();
 
 const toast = useToast();
+const resendCooldown = useCooldown(60);
 
 type Step = "email" | "otp" | "reset" | "done";
 
@@ -86,30 +87,6 @@ watch(
   }
 );
 
-const handleSendOtp = async () => {
-  loading.value = true;
-  resetErrors();
-
-  try {
-    const response = await sendPasswordOtp({
-      email: form.email,
-    });
-
-    message.value = response.message;
-    toast.success("OTP sent", response.message);
-    step.value = "otp";
-  } catch (error: any) {
-    generalError.value = error.message || "Failed to send OTP";
-    toast.error("Failed", generalError.value);
-
-    if (error.errors) {
-      errors.email = error.errors.email?.[0] || "";
-    }
-  } finally {
-    loading.value = false;
-  }
-};
-
 const handleVerifyOtp = async () => {
   loading.value = true;
   resetErrors();
@@ -164,7 +141,35 @@ const handleResetPassword = async () => {
   }
 };
 
+const handleSendOtp = async () => {
+  loading.value = true;
+  resetErrors();
+
+  try {
+    const response = await sendPasswordOtp({
+      email: form.email,
+    });
+
+    message.value = response.message;
+    toast.success("OTP sent", response.message);
+    step.value = "otp";
+
+    resendCooldown.start();
+  } catch (error: any) {
+    generalError.value = error.message || "Failed to send OTP";
+    toast.error("Failed", generalError.value);
+
+    if (error.errors) {
+      errors.email = error.errors.email?.[0] || "";
+    }
+  } finally {
+    loading.value = false;
+  }
+};
+
 const resendOtp = async () => {
+  if (resendCooldown.isCoolingDown.value) return;
+
   form.otp = "";
   await handleSendOtp();
 };
@@ -215,22 +220,9 @@ const goBack = () => {
     </div>
 
     <!-- Success Message -->
-    <div
-      v-if="message"
-      class="mb-5 flex gap-3 rounded-xl border border-green-200 bg-green-50 px-4 py-3 text-sm text-green-700 dark:border-green-900 dark:bg-green-950/50 dark:text-green-300"
-    >
-      <CheckCircle2 class="mt-0.5 h-5 w-5 shrink-0" />
-      <span>{{ message }}</span>
-    </div>
-
-    <!-- Error Message -->
-    <div
-      v-if="generalError"
-      class="mb-5 flex gap-3 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700 dark:border-red-900 dark:bg-red-950/50 dark:text-red-300"
-    >
-      <AlertCircle class="mt-0.5 h-5 w-5 shrink-0" />
-      <span>{{ generalError }}</span>
-    </div>
+    <AlertMessage v-if="message" class="mb-5" type="success" :message="message" />
+    <!-- General Error Message -->
+    <AlertMessage v-if="generalError" class="mb-5" type="error" :message="generalError" />
 
     <!-- Step 1: Email -->
     <form v-if="step === 'email'" class="space-y-5" @submit.prevent="handleSendOtp">
@@ -268,15 +260,18 @@ const goBack = () => {
 
     <!-- Step 2: OTP -->
     <form v-if="step === 'otp'" class="space-y-5" @submit.prevent="handleVerifyOtp">
-      <div class="rounded-2xl border border-blue-100 bg-blue-50 px-4 py-4 dark:border-blue-900 dark:bg-blue-950/40">
+      <div
+        class="rounded-2xl border border-blue-100 bg-blue-50 px-4 py-4 dark:border-blue-900 dark:bg-blue-950/40"
+      >
         <div class="flex gap-3">
           <Mail class="mt-0.5 h-5 w-5 text-blue-700" />
           <div>
             <p class="text-sm font-semibold text-blue-900">Check your email</p>
-            <p class="mt-1 text-sm text-blue-700">
+            <AlertMessage type="info" title="Check your email">
               We sent a 6-digit OTP code to
-              <strong>{{ form.email }}</strong>
-            </p>
+              <strong>{{ form.email }}</strong
+              >.
+            </AlertMessage>
           </div>
         </div>
       </div>
@@ -288,15 +283,7 @@ const goBack = () => {
           <KeyRound
             class="pointer-events-none absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-slate-400"
           />
-
-          <input
-            v-model="form.otp"
-            type="text"
-            inputmode="numeric"
-            maxlength="6"
-            placeholder="000000"
-            class="w-full rounded-xl border border-slate-200 py-4 pl-12 pr-4 text-center text-2xl font-bold tracking-[0.4em] text-slate-900 outline-none transition placeholder:text-slate-300 focus:border-blue-500 focus:ring-4 focus:ring-blue-100"
-          />
+          <OtpInput v-model="form.otp" :error="errors.otp" />
         </div>
 
         <p v-if="errors.otp" class="text-sm text-red-600">
@@ -314,27 +301,37 @@ const goBack = () => {
         {{ loading ? "Verifying..." : "Verify OTP" }}
       </button>
 
-      <button
+      <AppButton
         type="button"
-        class="inline-flex w-full items-center justify-center gap-2 rounded-xl border border-slate-200 px-4 py-3 text-sm font-semibold text-slate-700 transition hover:bg-slate-50 disabled:opacity-60"
-        :disabled="loading"
+        variant="secondary"
+        :disabled="loading || resendCooldown.isCoolingDown.value"
+        class="w-full"
         @click="resendOtp"
       >
-        <RefreshCcw class="h-5 w-5" />
-        Resend OTP
-      </button>
+        <RefreshCcw class="mr-2 h-5 w-5" :class="loading ? 'animate-spin' : ''" />
+
+        {{
+          resendCooldown.isCoolingDown.value
+            ? `Resend OTP in ${resendCooldown.secondsLeft.value}s`
+            : "Resend OTP"
+        }}
+      </AppButton>
     </form>
 
     <!-- Step 3: Reset password -->
     <form v-if="step === 'reset'" class="space-y-5" @submit.prevent="handleResetPassword">
-      <div class="rounded-2xl border border-green-100 bg-green-50 px-4 py-4">
+      <div
+        class="rounded-2xl border border-green-100 bg-green-50 px-4 py-4 dark:border-green-900 dark:bg-green-950/40"
+      >
         <div class="flex gap-3">
           <ShieldCheck class="mt-0.5 h-5 w-5 text-green-700" />
           <div>
             <p class="text-sm font-semibold text-green-900">OTP verified</p>
-            <p class="mt-1 text-sm text-green-700">
-              Now create a new password for your account.
-            </p>
+            <AlertMessage
+              type="success"
+              title="OTP verified"
+              message="Now create a new password for your account."
+            />
           </div>
         </div>
       </div>
@@ -370,16 +367,11 @@ const goBack = () => {
 
     <!-- Done -->
     <div v-if="step === 'done'" class="space-y-5">
-      <div class="rounded-2xl border border-green-200 bg-green-50 px-4 py-5 text-center">
-        <CheckCircle2 class="mx-auto h-10 w-10 text-green-700" />
-        <p class="mt-3 text-sm font-semibold text-green-900">
-          Your password has been reset successfully.
-        </p>
-        <p class="mt-1 text-sm text-green-700">
-          You can now login with your new password.
-        </p>
-      </div>
-
+      <AlertMessage
+        type="success"
+        title="Password reset successful"
+        message="Your password has been updated successfully. You can now log in with your new password."
+      />
       <NuxtLink
         to="/login"
         class="block w-full rounded-xl bg-slate-900 px-4 py-3 text-center text-sm font-semibold text-white hover:bg-slate-800"

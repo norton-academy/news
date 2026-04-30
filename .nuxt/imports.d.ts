@@ -34,6 +34,7 @@ export { defineLazyHydrationComponent } from '#app/composables/lazy-hydration';
 export { useApi } from '../app/composables/useApi';
 export { useAuditLog, AuditLogUser, AuditLogItem, AuditLogPagination, AuditLogListResponse, AuditLogShowResponse } from '../app/composables/useAuditLog';
 export { useAuth } from '../app/composables/useAuth';
+export { useCooldown } from '../app/composables/useCooldown';
 export { useDashboard, DashboardStats, DashboardRecentUser, DashboardAuditUser, DashboardRecentAuditLog, DashboardRoleDistribution, DashboardSystem, DashboardSummaryResponse } from '../app/composables/useDashboard';
 export { useEmailOtp, EmailOtpResponse } from '../app/composables/useEmailOtp';
 export { useEmailVerification, VerifyEmailResponse } from '../app/composables/useEmailVerification';

@@ -164,12 +164,11 @@ const handleSubmit = async () => {
     @close="handleClose"
   >
     <form class="space-y-5" @submit.prevent="handleSubmit">
-      <div
+      <AlertMessage
         v-if="generalError"
-        class="rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700 dark:border-red-900 dark:bg-red-950/50 dark:text-red-300"
-      >
-        {{ generalError }}
-      </div>
+        type="error"
+        :message="generalError"
+      />
 
       <div class="grid gap-5 md:grid-cols-2">
         <AppInput

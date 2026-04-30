@@ -149,12 +149,11 @@ const handleSave = async () => {
         </div>
 
         <div class="flex-1 overflow-y-auto px-6 py-6">
-          <div
+          <AlertMessage
             v-if="errorMessage"
-            class="mb-5 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700"
-          >
-            {{ errorMessage }}
-          </div>
+            type="error"
+            :message="errorMessage"
+          />
 
           <div
             v-if="loading"

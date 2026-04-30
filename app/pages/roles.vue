@@ -198,12 +198,7 @@ onMounted(fetchRoles);
       </template>
     </PageHeader>
 
-    <div
-      v-if="errorMessage"
-      class="rounded-2xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700 dark:border-red-900 dark:bg-red-950/50 dark:text-red-300"
-    >
-      {{ errorMessage }}
-    </div>
+    <AlertMessage v-if="errorMessage" type="error" :message="errorMessage" />
 
     <FilterBar title="Filters" subtitle="Search roles by name.">
       <AppInput v-model="search" label="Search" placeholder="Search role..." />
@@ -331,12 +326,11 @@ onMounted(fetchRoles);
       </template>
 
       <div class="space-y-5">
-        <p class="text-sm text-slate-700 dark:text-slate-300">
+        <AlertMessage type="warning" title="Confirm delete">
           Are you sure you want to delete
-          <strong class="text-slate-900 dark:text-white">{{ selectedRole?.name }}</strong
+          <strong>{{ selectedRole?.name }}</strong
           >?
-        </p>
-
+        </AlertMessage>
         <div
           class="flex justify-end gap-3 border-t border-slate-200 pt-5 dark:border-slate-800"
         >

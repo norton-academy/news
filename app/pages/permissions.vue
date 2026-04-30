@@ -238,12 +238,7 @@ onMounted(fetchPermissions);
     </PageHeader>
 
     <!-- Error -->
-    <div
-      v-if="errorMessage"
-      class="rounded-2xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700 dark:border-red-900 dark:bg-red-950/50 dark:text-red-300"
-    >
-      {{ errorMessage }}
-    </div>
+    <AlertMessage v-if="errorMessage" type="error" :message="errorMessage" />
 
     <!-- Stats card -->
     <div class="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
@@ -344,6 +339,7 @@ onMounted(fetchPermissions);
         fetchPermissions();
       "
     />
+
     <AppModal
       :open="modalOpen"
       :title="selectedPermission ? 'Edit Permission' : 'Create Permission'"
@@ -370,12 +366,9 @@ onMounted(fetchPermissions);
           :error="formErrors.guard_name"
         />
 
-        <div
-          class="rounded-xl border border-blue-100 bg-blue-50 px-4 py-3 text-sm text-blue-700 dark:border-blue-900 dark:bg-blue-950/40 dark:text-blue-300"
-        >
-          Recommended format:
-          <strong>module.action</strong>, for example <strong>user.create</strong>.
-        </div>
+        <AlertMessage type="info" title="Recommended format">
+          Use <strong>module.action</strong>, for example <strong>user.create</strong>.
+        </AlertMessage>
 
         <div
           class="flex justify-end gap-3 border-t border-slate-200 pt-5 dark:border-slate-800"
@@ -399,12 +392,15 @@ onMounted(fetchPermissions);
       size="sm"
       @close="closeDelete"
     >
+      <template #icon>
+        <Trash2 class="h-5 w-5" />
+      </template>
       <div class="space-y-5">
-        <p class="text-sm text-slate-700 dark:text-slate-300">
+        <AlertMessage type="warning" title="Confirm delete">
           Are you sure you want to delete
           <strong>{{ selectedPermission?.name }}</strong
           >?
-        </p>
+        </AlertMessage>
 
         <div
           class="flex justify-end gap-3 border-t border-slate-200 pt-5 dark:border-slate-800"

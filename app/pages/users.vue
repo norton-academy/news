@@ -251,12 +251,7 @@ const authStore = useAuthStore();
       </template>
     </PageHeader>
 
-    <div
-      v-if="errorMessage"
-      class="rounded-2xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700 dark:border-red-900 dark:bg-red-950/50 dark:text-red-300"
-    >
-      {{ errorMessage }}
-    </div>
+    <AlertMessage v-if="errorMessage" type="error" :message="errorMessage" />
 
     <div class="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
       <StatsCard
@@ -264,42 +259,90 @@ const authStore = useAuthStore();
         :value="stats.total_users"
         subtitle="All registered accounts"
         tone="info"
-      />
+      >
+        <template #badge>
+          <div
+            class="rounded-xl bg-blue-100 p-2 text-blue-700 dark:bg-blue-950/50 dark:text-blue-300"
+          >
+            <Users class="h-5 w-5" />
+          </div>
+        </template>
+      </StatsCard>
 
       <StatsCard
         title="Active Users"
         :value="stats.active_users"
         subtitle="Currently active users"
         tone="success"
-      />
+      >
+        <template #badge>
+          <div
+            class="rounded-xl bg-green-100 p-2 text-green-700 dark:bg-green-950/50 dark:text-green-300"
+          >
+            <CheckCircle2 class="h-5 w-5" />
+          </div>
+        </template>
+      </StatsCard>
 
       <StatsCard
         title="Pending Users"
         :value="stats.pending_users"
         subtitle="Waiting for approval"
         tone="warning"
-      />
+      >
+        <template #badge>
+          <div
+            class="rounded-xl bg-amber-100 p-2 text-amber-700 dark:bg-amber-950/50 dark:text-amber-300"
+          >
+            <Timer class="h-5 w-5" />
+          </div>
+        </template>
+      </StatsCard>
 
       <StatsCard
         title="Inactive Users"
         :value="stats.inactive_users"
         subtitle="Disabled or inactive"
         tone="default"
-      />
+      >
+        <template #badge>
+          <div
+            class="rounded-xl bg-slate-100 p-2 text-slate-700 dark:bg-slate-800 dark:text-slate-300"
+          >
+            <Ban class="h-5 w-5" />
+          </div>
+        </template>
+      </StatsCard>
 
       <StatsCard
         title="Verified Users"
         :value="stats.verified_users || 0"
         subtitle="Emails verified"
         tone="success"
-      />
+      >
+        <template #badge>
+          <div
+            class="rounded-xl bg-green-100 p-2 text-green-700 dark:bg-green-950/50 dark:text-green-300"
+          >
+            <Mail class="h-5 w-5" />
+          </div>
+        </template>
+      </StatsCard>
 
       <StatsCard
         title="Unverified Users"
         :value="stats.unverified_users || 0"
         subtitle="Need email verification"
         tone="warning"
-      />
+      >
+        <template #badge>
+          <div
+            class="rounded-xl bg-amber-100 p-2 text-amber-700 dark:bg-amber-950/50 dark:text-amber-300"
+          >
+            <ShieldAlert class="h-5 w-5" />
+          </div>
+        </template>
+      </StatsCard>
     </div>
 
     <FilterBar title="Filters" subtitle="Search and filter user accounts.">

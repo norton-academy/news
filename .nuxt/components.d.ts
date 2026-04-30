@@ -23,6 +23,7 @@ export const AppSidebar: typeof import("../app/components/dashboard/AppSidebar.v
 export const UserDropdown: typeof import("../app/components/dashboard/UserDropdown.vue")['default']
 export const AssignRolePermissionsModal: typeof import("../app/components/roles/AssignRolePermissionsModal.vue")['default']
 export const ActionDropdown: typeof import("../app/components/ui/ActionDropdown.vue")['default']
+export const AlertMessage: typeof import("../app/components/ui/AlertMessage.vue")['default']
 export const AppBadge: typeof import("../app/components/ui/AppBadge.vue")['default']
 export const AppButton: typeof import("../app/components/ui/AppButton.vue")['default']
 export const AppCard: typeof import("../app/components/ui/AppCard.vue")['default']
@@ -32,6 +33,7 @@ export const AppSelect: typeof import("../app/components/ui/AppSelect.vue")['def
 export const DataTable: typeof import("../app/components/ui/DataTable.vue")['default']
 export const EmptyState: typeof import("../app/components/ui/EmptyState.vue")['default']
 export const FilterBar: typeof import("../app/components/ui/FilterBar.vue")['default']
+export const OtpInput: typeof import("../app/components/ui/OtpInput.vue")['default']
 export const PageHeader: typeof import("../app/components/ui/PageHeader.vue")['default']
 export const SectionHeader: typeof import("../app/components/ui/SectionHeader.vue")['default']
 export const StatsCard: typeof import("../app/components/ui/StatsCard.vue")['default']
@@ -75,6 +77,7 @@ export const LazyAppSidebar: LazyComponent<typeof import("../app/components/dash
 export const LazyUserDropdown: LazyComponent<typeof import("../app/components/dashboard/UserDropdown.vue")['default']>
 export const LazyAssignRolePermissionsModal: LazyComponent<typeof import("../app/components/roles/AssignRolePermissionsModal.vue")['default']>
 export const LazyActionDropdown: LazyComponent<typeof import("../app/components/ui/ActionDropdown.vue")['default']>
+export const LazyAlertMessage: LazyComponent<typeof import("../app/components/ui/AlertMessage.vue")['default']>
 export const LazyAppBadge: LazyComponent<typeof import("../app/components/ui/AppBadge.vue")['default']>
 export const LazyAppButton: LazyComponent<typeof import("../app/components/ui/AppButton.vue")['default']>
 export const LazyAppCard: LazyComponent<typeof import("../app/components/ui/AppCard.vue")['default']>
@@ -84,6 +87,7 @@ export const LazyAppSelect: LazyComponent<typeof import("../app/components/ui/Ap
 export const LazyDataTable: LazyComponent<typeof import("../app/components/ui/DataTable.vue")['default']>
 export const LazyEmptyState: LazyComponent<typeof import("../app/components/ui/EmptyState.vue")['default']>
 export const LazyFilterBar: LazyComponent<typeof import("../app/components/ui/FilterBar.vue")['default']>
+export const LazyOtpInput: LazyComponent<typeof import("../app/components/ui/OtpInput.vue")['default']>
 export const LazyPageHeader: LazyComponent<typeof import("../app/components/ui/PageHeader.vue")['default']>
 export const LazySectionHeader: LazyComponent<typeof import("../app/components/ui/SectionHeader.vue")['default']>
 export const LazyStatsCard: LazyComponent<typeof import("../app/components/ui/StatsCard.vue")['default']>
