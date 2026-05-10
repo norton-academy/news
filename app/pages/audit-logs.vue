@@ -1,15 +1,17 @@
 <script setup lang="ts">
 import type { AuditLogItem, AuditLogPagination } from "~/composables/useAuditLog";
-import { Eye, FileClock, RefreshCcw } from "lucide-vue-next";
+import { Eye, FileClock, RefreshCcw, Download } from "lucide-vue-next";
 definePageMeta({
   layout: "dashboard",
   middleware: ["auth", "permission"],
   permission: "audit.view",
+  title: "Audit Logs",
 });
 
-const { getAuditLogs } = useAuditLog();
+const { getAuditLogs, exportAuditLogs } = useAuditLog();
 const toast = useToast();
 const authStore = useAuthStore();
+const exporting = ref(false);
 
 const logs = ref<AuditLogItem[]>([]);
 const search = ref("");
@@ -19,6 +21,11 @@ const page = ref(1);
 const perPage = ref(10);
 const loading = ref(false);
 const errorMessage = ref("");
+
+const moduleFilter = ref("");
+const actionFilter = ref("");
+const dateFrom = ref("");
+const dateTo = ref("");
 
 const selectedLog = ref<AuditLogItem | null>(null);
 const detailsOpen = ref(false);
@@ -37,8 +44,10 @@ const fetchLogs = async () => {
   try {
     const response = await getAuditLogs({
       search: search.value || undefined,
-      module: module.value || undefined,
-      action: action.value || undefined,
+      module: moduleFilter.value || undefined,
+      action: actionFilter.value || undefined,
+      date_from: dateFrom.value || undefined,
+      date_to: dateTo.value || undefined,
       page: page.value,
       per_page: perPage.value,
     });
@@ -53,6 +62,16 @@ const fetchLogs = async () => {
   }
 };
 
+const resetFilters = async () => {
+  search.value = "";
+  moduleFilter.value = "";
+  actionFilter.value = "";
+  dateFrom.value = "";
+  dateTo.value = "";
+  page.value = 1;
+  await fetchLogs();
+};
+
 const openDetails = (log: AuditLogItem) => {
   selectedLog.value = log;
   detailsOpen.value = true;
@@ -63,12 +82,24 @@ const closeDetails = () => {
   detailsOpen.value = false;
 };
 
-const resetFilters = async () => {
-  search.value = "";
-  module.value = "";
-  action.value = "";
-  page.value = 1;
-  await fetchLogs();
+const handleExport = async () => {
+  exporting.value = true;
+
+  try {
+    await exportAuditLogs({
+      search: search.value || undefined,
+      module: moduleFilter.value || undefined,
+      action: actionFilter.value || undefined,
+      date_from: dateFrom.value || undefined,
+      date_to: dateTo.value || undefined,
+    });
+
+    toast.success("Export started", "Audit logs CSV has been downloaded.");
+  } catch (error: any) {
+    toast.error("Export failed", error.message || "Failed to export audit logs");
+  } finally {
+    exporting.value = false;
+  }
 };
 
 const columns = [
@@ -99,19 +130,48 @@ const columns = [
   },
 ];
 
+const moduleOptions = [
+  { label: "Users", value: "users" },
+  { label: "Roles", value: "roles" },
+  { label: "Permissions", value: "permissions" },
+  { label: "Settings", value: "settings" },
+  { label: "Profile", value: "profile" },
+];
+
+const actionOptions = [
+  { label: "User Created", value: "user.created" },
+  { label: "User Updated", value: "user.updated" },
+  { label: "User Deleted", value: "user.deleted" },
+  { label: "User Status Updated", value: "user.status_updated" },
+  { label: "User Verification Resent", value: "user.verification_resent" },
+
+  { label: "Role Created", value: "role.created" },
+  { label: "Role Updated", value: "role.updated" },
+  { label: "Role Deleted", value: "role.deleted" },
+  { label: "Role Permissions Synced", value: "role.permissions.synced" },
+
+  { label: "Permission Created", value: "permission.created" },
+  { label: "Permission Updated", value: "permission.updated" },
+  { label: "Permission Deleted", value: "permission.deleted" },
+
+  { label: "Settings Updated", value: "settings.updated" },
+  { label: "Profile Updated", value: "profile.updated" },
+  { label: "Profile Password Updated", value: "profile.password_updated" },
+];
+
 let searchTimeout: ReturnType<typeof setTimeout> | null = null;
 
-watch(search, () => {
+watch(search, async () => {
   page.value = 1;
-
-  if (searchTimeout) clearTimeout(searchTimeout);
-
-  searchTimeout = setTimeout(async () => {
-    await fetchLogs();
-  }, 400);
+  await fetchLogs();
 });
 
 watch([module, action], async () => {
+  page.value = 1;
+  await fetchLogs();
+});
+
+watch([moduleFilter, actionFilter, dateFrom, dateTo], async () => {
   page.value = 1;
   await fetchLogs();
 });
@@ -126,6 +186,11 @@ onMounted(fetchLogs);
       subtitle="Track important RBAC and user management actions."
     >
       <template #actions>
+        <AppButton variant="secondary" :loading="exporting" @click="handleExport">
+          <Download class="mr-2 h-4 w-4" />
+          Export
+        </AppButton>
+
         <AppButton variant="secondary" :loading="loading" @click="fetchLogs">
           <RefreshCcw class="mr-2 h-4 w-4" />
           Refresh
@@ -133,51 +198,43 @@ onMounted(fetchLogs);
       </template>
     </PageHeader>
 
-    <AlertMessage
-      v-if="errorMessage"
-      type="error"
-      :message="errorMessage"
-    />
+    <AlertMessage v-if="errorMessage" type="error" :message="errorMessage" />
 
-    <FilterBar title="Filters" subtitle="Search and filter audit history.">
+    <FilterBar
+      title="Advanced Filters"
+      subtitle="Search by user, module, action, IP address, or date range."
+      columns="4"
+    >
       <AppInput
         v-model="search"
         label="Search"
-        placeholder="Search action, module, user..."
+        placeholder="Search action, module, user, IP..."
       />
 
       <AppSelect
-        v-model="module"
+        v-model="moduleFilter"
         label="Module"
         placeholder="All Modules"
-        :options="[
-          { label: 'Users', value: 'users' },
-          { label: 'Roles', value: 'roles' },
-          { label: 'Permissions', value: 'permissions' },
-        ]"
+        :options="moduleOptions"
       />
 
       <AppSelect
-        v-model="action"
+        v-model="actionFilter"
         label="Action"
         placeholder="All Actions"
-        :options="[
-          { label: 'User Created', value: 'user.created' },
-          { label: 'User Updated', value: 'user.updated' },
-          { label: 'User Deleted', value: 'user.deleted' },
-          { label: 'Role Created', value: 'role.created' },
-          { label: 'Role Updated', value: 'role.updated' },
-          { label: 'Role Deleted', value: 'role.deleted' },
-          { label: 'Role Permissions Synced', value: 'role.permissions.synced' },
-          { label: 'Permission Created', value: 'permission.created' },
-          { label: 'Permission Updated', value: 'permission.updated' },
-          { label: 'Permission Deleted', value: 'permission.deleted' },
-          { label: 'User Verification Resent', value: 'user.verification_resent' },
-        ]"
+        :options="actionOptions"
       />
+
+      <AppInput v-model="dateFrom" label="Date From" type="date" />
+
+      <AppInput v-model="dateTo" label="Date To" type="date" />
 
       <template #actions>
         <AppButton variant="secondary" @click="resetFilters"> Reset </AppButton>
+
+        <AppButton variant="secondary" :loading="loading" @click="fetchLogs">
+          Refresh
+        </AppButton>
       </template>
     </FilterBar>
 
@@ -200,7 +257,7 @@ onMounted(fetchLogs);
 
       <template #cell-user="{ row }">
         <div v-if="row.user">
-          <p class="text-sm font-semibold text-slate-900 dark:text-white">
+          <p class="text-sm font-semibold text-ui">
             {{ row.user.name }}
           </p>
           <p class="text-xs text-slate-500">
@@ -251,26 +308,26 @@ onMounted(fetchLogs);
       <div class="space-y-5">
         <div class="grid gap-4 md:grid-cols-2">
           <div class="rounded-xl bg-slate-50 p-4 dark:bg-slate-800/60">
-            <p class="text-xs font-semibold uppercase text-slate-500 dark:text-slate-400">
+            <p class="text-xs font-semibold uppercase text-muted">
               Module
             </p>
-            <p class="mt-1 text-sm font-medium text-slate-900 dark:text-white">
+            <p class="mt-1 text-sm font-medium text-ui">
               {{ selectedLog?.module || "-" }}
             </p>
           </div>
 
           <div class="rounded-xl bg-slate-50 p-4 dark:bg-slate-800/60">
-            <p class="text-xs font-semibold uppercase text-slate-500 dark:text-slate-400">
+            <p class="text-xs font-semibold uppercase text-muted">
               IP Address
             </p>
-            <p class="mt-1 text-sm font-medium text-slate-900 dark:text-white">
+            <p class="mt-1 text-sm font-medium text-ui">
               {{ selectedLog?.ip_address || "-" }}
             </p>
           </div>
         </div>
 
         <div class="rounded-xl border border-slate-200 p-4 dark:border-slate-800">
-          <p class="mb-3 text-sm font-bold text-slate-900 dark:text-white">Old Values</p>
+          <p class="mb-3 text-sm font-bold text-ui">Old Values</p>
           <pre
             class="overflow-x-auto rounded-xl bg-slate-900 p-4 text-xs text-white dark:bg-slate-950"
             >{{ JSON.stringify(selectedLog?.old_values, null, 2) }}</pre
@@ -278,7 +335,7 @@ onMounted(fetchLogs);
         </div>
 
         <div class="rounded-xl border border-slate-200 p-4 dark:border-slate-800">
-          <p class="mb-3 text-sm font-bold text-slate-900 dark:text-white">New Values</p>
+          <p class="mb-3 text-sm font-bold text-ui">New Values</p>
           <pre
             class="overflow-x-auto rounded-xl bg-slate-900 p-4 text-xs text-white dark:bg-slate-950"
             >{{ JSON.stringify(selectedLog?.new_values, null, 2) }}</pre

@@ -1,8 +1,16 @@
 <script setup lang="ts">
-import { Bell, Menu, Search } from "lucide-vue-next";
+import { Menu, PanelLeftClose, PanelLeftOpen, Search } from "lucide-vue-next";
+
+defineProps<{
+  sidebarCollapsed?: boolean;
+  title: string;
+  subtitle?: string;
+}>();
 
 const emit = defineEmits<{
   (e: "toggle-sidebar"): void;
+  (e: "toggle-sidebar-collapse"): void;
+  (e: "open-command-palette"): void;
 }>();
 
 const route = useRoute();
@@ -15,8 +23,10 @@ const pageTitle = computed(() => {
     "/roles": "Roles",
     "/permissions": "Permissions",
     "/audit-logs": "Audit Logs",
+    "/menus": "Menus",
     "/profile": "Profile",
     "/settings": "Settings",
+    "/notifications": "Notifications",
   };
 
   return map[route.path] || "Dashboard";
@@ -36,30 +46,50 @@ const pageTitle = computed(() => {
           <Menu class="h-5 w-5" />
         </button>
 
+        <button
+          class="hidden h-10 w-10 items-center justify-center rounded-xl border border-slate-200 bg-white text-slate-700 shadow-sm hover:bg-slate-50 dark:border-slate-800 dark:bg-slate-900 dark:text-slate-200 dark:hover:bg-slate-800 lg:inline-flex"
+          @click="emit('toggle-sidebar-collapse')"
+        >
+          <PanelLeftOpen v-if="sidebarCollapsed" class="h-5 w-5" />
+          <PanelLeftClose v-else class="h-5 w-5" />
+        </button>
+
         <div>
-          <h2 class="text-base font-bold text-slate-900 dark:text-white sm:text-lg">
+          <h2 class="text-base font-bold text-ui sm:text-lg">
             {{ pageTitle }}
           </h2>
-          <p class="hidden text-sm text-slate-500 dark:text-slate-400 sm:block">
-            Manage your system with secure access control
-          </p>
+
+          <div class="mt-1 hidden sm:block">
+            <AppBreadcrumbs />
+          </div>
         </div>
       </div>
 
-      <div class="flex items-center gap-2 sm:gap-3">
+      <div class="flex items-center gap-2 sm:gap-3 motion-fade-up">
         <button
-          class="hidden h-10 items-center gap-2 rounded-xl border border-slate-200 bg-white px-3 text-sm text-slate-500 shadow-sm hover:bg-slate-50 dark:border-slate-800 dark:bg-slate-900 dark:text-slate-400 dark:hover:bg-slate-800 md:inline-flex"
+          type="button"
+          class="hidden h-10 items-center gap-2 rounded-xl border border-slate-200 bg-white px-3 text-sm text-muted shadow-sm transition hover:bg-slate-50 dark:border-slate-800 dark:bg-slate-900 dark:hover:bg-slate-800 md:inline-flex"
+          @click="emit('open-command-palette')"
         >
           <Search class="h-4 w-4" />
           Search
+
+            <kbd
+              class="ml-2 rounded-md border border-slate-200 bg-slate-50 px-1.5 py-0.5 text-[10px] font-semibold text-muted dark:border-slate-700 dark:bg-slate-800"
+            >
+            Ctrl K
+          </kbd>
+        </button>
+        <!-- mobile search -->
+        <button
+          type="button"
+          class="inline-flex h-10 w-10 items-center justify-center rounded-xl border border-slate-200 bg-white text-slate-700 shadow-sm hover:bg-slate-50 dark:border-slate-800 dark:bg-slate-900 dark:text-slate-200 dark:hover:bg-slate-800 md:hidden"
+          @click="emit('open-command-palette')"
+        >
+          <Search class="h-5 w-5" />
         </button>
 
-        <button
-          class="relative inline-flex h-10 w-10 items-center justify-center rounded-xl border border-slate-200 bg-white text-slate-700 shadow-sm hover:bg-slate-50 dark:border-slate-800 dark:bg-slate-900 dark:text-slate-200 dark:hover:bg-slate-800"
-        >
-          <Bell class="h-5 w-5" />
-          <span class="absolute right-2 top-2 h-2 w-2 rounded-full bg-red-500" />
-        </button>
+        <NotificationDropdown />
 
         <ThemeToggle />
 

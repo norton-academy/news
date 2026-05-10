@@ -1,5 +1,5 @@
 <script setup lang="ts">
-const props = withDefaults(
+withDefaults(
   defineProps<{
     open: boolean;
     title?: string;
@@ -23,98 +23,62 @@ const sizeClass = computed(() => {
     md: "max-w-2xl",
     lg: "max-w-4xl",
     xl: "max-w-6xl",
-  }[props.size];
+  };
 });
 </script>
 
 <template>
   <Teleport to="body">
-    <Transition name="modal">
+    <Transition name="modal-overlay">
       <div v-if="open" class="fixed inset-0 z-50 flex items-center justify-center p-4">
         <div
           class="absolute inset-0 bg-slate-950/60 backdrop-blur-sm"
           @click="emit('close')"
         />
 
-        <div
-          :class="[
-            'relative z-10 max-h-[90vh] w-full overflow-y-auto rounded-3xl border border-slate-200 bg-white shadow-2xl dark:border-slate-800 dark:bg-slate-900',
-            sizeClass,
-          ]"
-        >
+        <Transition name="modal-panel" appear>
           <div
-            v-if="title || subtitle || $slots.header"
-            class="flex items-start justify-between gap-4 border-b border-slate-200 px-6 py-4 dark:border-slate-800"
+            :class="[
+              'relative z-10 max-h-[92vh] w-full overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-2xl dark:border-slate-800 dark:bg-slate-950',
+              sizeClass,
+            ]"
           >
-            <slot name="header">
-              <div class="flex items-start gap-3">
-                <div
-                  v-if="$slots.icon"
-                  class="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-slate-900 text-white dark:bg-white dark:text-slate-900"
-                >
-                  <slot name="icon" />
-                </div>
-
-                <div>
-                  <h2
-                    v-if="title"
-                    class="text-xl font-bold text-slate-900 dark:text-white"
-                  >
-                    {{ title }}
-                  </h2>
-                  <p
-                    v-if="subtitle"
-                    class="mt-1 text-sm text-slate-500 dark:text-slate-400"
-                  >
-                    {{ subtitle }}
-                  </p>
-                </div>
-              </div>
-            </slot>
-
-            <button
-              class="rounded-xl px-3 py-2 text-sm text-slate-600 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800"
-              @click="emit('close')"
+            <div
+              v-if="title || subtitle || $slots.icon"
+              class="flex items-start gap-4 border-b border-slate-200 px-6 py-5 dark:border-slate-800"
             >
-              Close
-            </button>
-          </div>
+              <div
+                v-if="$slots.icon"
+                class="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-slate-900 text-white dark:bg-white dark:text-slate-900"
+              >
+                <slot name="icon" />
+              </div>
 
-          <div class="px-6 py-6 text-slate-700 dark:text-slate-300">
-            <slot />
-          </div>
+              <div class="min-w-0 flex-1">
+                <h2 v-if="title" class="text-lg font-bold text-ui">
+                  {{ title }}
+                </h2>
 
-          <div
-            v-if="$slots.footer"
-            class="border-t border-slate-200 px-6 py-4 dark:border-slate-800"
-          >
-            <slot name="footer" />
+                <p v-if="subtitle" class="mt-1 text-sm text-muted">
+                  {{ subtitle }}
+                </p>
+              </div>
+
+              <button
+                type="button"
+                class="transition-smooth rounded-xl p-2 text-slate-400 hover:bg-slate-100 hover:text-slate-700 dark:hover:bg-slate-800 dark:hover:text-slate-200"
+                @click="emit('close')"
+              >
+                ✕
+              </button>
+            </div>
+
+            <div class="max-h-[calc(92vh-96px)] overflow-y-auto p-6">
+              <slot />
+            </div>
           </div>
-        </div>
+        </Transition>
       </div>
     </Transition>
   </Teleport>
 </template>
-
-<style scoped>
-.modal-enter-active,
-.modal-leave-active {
-  transition: opacity 0.2s ease;
-}
-
-.modal-enter-active .relative,
-.modal-leave-active .relative {
-  transition: transform 0.2s ease, opacity 0.2s ease;
-}
-
-.modal-enter-from,
-.modal-leave-to {
-  opacity: 0;
-}
-
-.modal-enter-from .relative,
-.modal-leave-to .relative {
-  opacity: 0;
-  transform: translateY(10px) scale(0.98);
-}
-</style>

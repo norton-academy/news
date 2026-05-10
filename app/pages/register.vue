@@ -2,6 +2,7 @@
 definePageMeta({
   layout: 'auth',
   middleware: 'guest',
+  title: 'Register',
 })
 
 const auth = useAuth()

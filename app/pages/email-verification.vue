@@ -2,6 +2,7 @@
 definePageMeta({
   layout: "auth",
   middleware: "auth",
+  title: "Email Verification",
 });
 
 const { verifyEmailOtp, resendEmailOtp } = useEmailOtp();

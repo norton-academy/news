@@ -14,13 +14,13 @@ defineProps<{
         <span class="text-lg font-black">A</span>
       </div>
 
-      <h1 class="text-2xl font-bold tracking-tight text-slate-900 dark:text-white">
+      <h1 class="text-2xl font-bold tracking-tight text-ui">
         {{ title }}
       </h1>
 
       <p
         v-if="subtitle"
-        class="mt-2 text-sm leading-6 text-slate-500 dark:text-slate-400"
+        class="mt-2 text-sm leading-6 text-muted"
       >
         {{ subtitle }}
       </p>

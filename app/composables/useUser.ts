@@ -1,3 +1,5 @@
+import { downloadBlobFile } from '~/utils/downloadFile'
+
 export type UserStatus = 'active' | 'pending' | 'suspended' | 'blocked'
 
 export interface UserItem {
@@ -177,6 +179,30 @@ export const useUser = () => {
     }
   }
 
+  const exportUsers = async (params?: {
+    search?: string
+    status?: string
+    email_verified?: string
+  }) => {
+    try {
+      const response = await api.get('/users/export', {
+        params,
+        responseType: 'blob',
+      })
+
+      downloadBlobFile(
+        response.data,
+        `users-export-${new Date().toISOString().slice(0, 10)}.csv`
+      )
+    } catch (error: any) {
+      throw {
+        message: error.response?.data?.message || 'Failed to export users',
+        errors: error.response?.data?.errors || {},
+        status: error.response?.status || 500,
+      }
+    }
+  }
+
   return {
     getUsers,
     getUser,
@@ -185,5 +211,6 @@ export const useUser = () => {
     deleteUser,
     resendUserVerification,
     updateUserStatus,
+    exportUsers,
   }
 }

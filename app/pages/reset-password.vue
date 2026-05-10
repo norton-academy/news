@@ -2,6 +2,7 @@
 definePageMeta({
   layout: 'auth',
   middleware: 'guest',
+  title: 'Reset Password',
 })
 
 const route = useRoute()

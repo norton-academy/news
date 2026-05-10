@@ -1,123 +1,123 @@
 <script setup lang="ts">
-import type { UpdateUserPayload, UserItem } from '~/composables/useUser'
-import type { RoleItem } from '~/composables/useRole'
+import type { UpdateUserPayload, UserItem } from "~/composables/useUser";
+import type { RoleItem } from "~/composables/useRole";
 
 const props = defineProps<{
-  open: boolean
-  user: UserItem | null
-}>()
+  open: boolean;
+  user: UserItem | null;
+}>();
 
 const emit = defineEmits<{
-  (e: 'close'): void
-  (e: 'updated'): void
-}>()
+  (e: "close"): void;
+  (e: "updated"): void;
+}>();
 
-const { updateUser } = useUser()
-const { getRoles } = useRole()
-const toast = useToast()
+const { updateUser } = useUser();
+const { getRoles } = useRole();
+const toast = useToast();
 
-const loading = ref(false)
-const generalError = ref('')
+const loading = ref(false);
+const generalError = ref("");
 
-const roles = ref<RoleItem[]>([])
-const rolesLoading = ref(false)
+const roles = ref<RoleItem[]>([]);
+const rolesLoading = ref(false);
 
 const form = reactive<UpdateUserPayload>({
-  name: '',
-  email: '',
-  password: '',
-  password_confirmation: '',
-  status: 'active',
-  role: '',
-})
+  name: "",
+  email: "",
+  password: "",
+  password_confirmation: "",
+  status: "active",
+  role: "",
+});
 
 const errors = reactive<Record<string, string>>({
-  name: '',
-  email: '',
-  password: '',
-  password_confirmation: '',
-  status: '',
-  role: '',
-})
+  name: "",
+  email: "",
+  password: "",
+  password_confirmation: "",
+  status: "",
+  role: "",
+});
 
 const statusOptions = [
-  { label: 'Active', value: 'active' },
-  { label: 'Pending', value: 'pending' },
-  { label: 'Suspended', value: 'suspended' },
-  { label: 'Blocked', value: 'blocked' },
-]
+  { label: "Active", value: "active" },
+  { label: "Pending", value: "pending" },
+  { label: "Suspended", value: "suspended" },
+  { label: "Blocked", value: "blocked" },
+];
 
 const roleOptions = computed(() => {
   return roles.value.map((role) => ({
     label: role.name,
     value: role.name,
-  }))
-})
+  }));
+});
 
 const resetErrors = () => {
-  generalError.value = ''
+  generalError.value = "";
 
   Object.keys(errors).forEach((key) => {
-    errors[key] = ''
-  })
-}
+    errors[key] = "";
+  });
+};
 
 const fillForm = () => {
-  form.name = props.user?.name || ''
-  form.email = props.user?.email || ''
-  form.password = ''
-  form.password_confirmation = ''
-  form.status = props.user?.status || 'active'
-  form.role = props.user?.role || ''
-}
+  form.name = props.user?.name || "";
+  form.email = props.user?.email || "";
+  form.password = "";
+  form.password_confirmation = "";
+  form.status = props.user?.status || "active";
+  form.role = props.user?.role || "";
+};
 
 const fetchRoles = async () => {
-  rolesLoading.value = true
+  rolesLoading.value = true;
 
   try {
     const response = await getRoles({
       per_page: 100,
-    })
+    });
 
-    roles.value = response.data.roles
+    roles.value = response.data.roles;
   } catch (error) {
-    console.error('Failed to load roles', error)
+    console.error("Failed to load roles", error);
   } finally {
-    rolesLoading.value = false
+    rolesLoading.value = false;
   }
-}
+};
 
 watch(
   () => props.open,
   async (value) => {
     if (value && props.user) {
-      fillForm()
-      resetErrors()
-      await fetchRoles()
+      fillForm();
+      resetErrors();
+      await fetchRoles();
     }
   }
-)
+);
 
 watch(
   () => props.user,
   () => {
     if (props.user) {
-      fillForm()
-      resetErrors()
+      fillForm();
+      resetErrors();
     }
   }
-)
+);
 
 const handleClose = () => {
-  resetErrors()
-  emit('close')
-}
+  resetErrors();
+  emit("close");
+};
 
 const handleSubmit = async () => {
-  if (!props.user) return
+  if (!props.user) return;
 
-  resetErrors()
-  loading.value = true
+  resetErrors();
+  loading.value = true;
 
   try {
     const payload: UpdateUserPayload = {
@@ -125,34 +125,34 @@ const handleSubmit = async () => {
       email: form.email,
       status: form.status,
       role: form.role || undefined,
-    }
+    };
 
     if (form.password) {
-      payload.password = form.password
-      payload.password_confirmation = form.password_confirmation
+      payload.password = form.password;
+      payload.password_confirmation = form.password_confirmation;
     }
 
-    await updateUser(props.user.id, payload)
+    await updateUser(props.user.id, payload);
 
-    toast.success('User updated', 'The user account was updated successfully.')
-    emit('updated')
-    handleClose()
+    toast.success("User updated", "The user account was updated successfully.");
+    emit("updated");
+    handleClose();
   } catch (error: any) {
-    generalError.value = error.message || 'Failed to update user'
-    toast.error('Update failed', generalError.value)
+    generalError.value = error.message || "Failed to update user";
+    toast.error("Update failed", generalError.value);
 
     if (error.errors) {
-      errors.name = error.errors.name?.[0] || ''
-      errors.email = error.errors.email?.[0] || ''
-      errors.password = error.errors.password?.[0] || ''
-      errors.password_confirmation = error.errors.password_confirmation?.[0] || ''
-      errors.status = error.errors.status?.[0] || ''
-      errors.role = error.errors.role?.[0] || ''
+      errors.name = error.errors.name?.[0] || "";
+      errors.email = error.errors.email?.[0] || "";
+      errors.password = error.errors.password?.[0] || "";
+      errors.password_confirmation = error.errors.password_confirmation?.[0] || "";
+      errors.status = error.errors.status?.[0] || "";
+      errors.role = error.errors.role?.[0] || "";
     }
   } finally {
-    loading.value = false
+    loading.value = false;
   }
-}
+};
 </script>
 
 <template>
@@ -164,11 +164,7 @@ const handleSubmit = async () => {
     @close="handleClose"
   >
     <form class="space-y-5" @submit.prevent="handleSubmit">
-      <AlertMessage
-        v-if="generalError"
-        type="error"
-        :message="generalError"
-      />
+      <AlertMessage v-if="generalError" type="error" :message="generalError" />
 
       <div class="grid gap-5 md:grid-cols-2">
         <AppInput
@@ -221,19 +217,11 @@ const handleSubmit = async () => {
       </div>
 
       <div class="flex items-center justify-end gap-3 border-t border-slate-200 pt-5">
-        <AppButton
-          type="button"
-          variant="secondary"
-          @click="handleClose"
-        >
+        <AppButton type="button" variant="secondary" @click="handleClose">
           Cancel
         </AppButton>
 
-        <AppButton
-          type="submit"
-          variant="primary"
-          :loading="loading"
-        >
+        <AppButton type="submit" variant="primary" :loading="loading">
           Update User
         </AppButton>
       </div>

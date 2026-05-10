@@ -2,7 +2,17 @@ export const useAuth = () => {
   const authStore = useAuthStore()
 
   const login = async (payload: { email: string; password: string }) => {
-    return await authStore.login(payload)
+    const res = await authStore.login(payload)
+    try {
+      if (authStore.isAuthenticated) {
+        const menuStore = useMenuStore()
+        await menuStore.fetchMenus()
+      }
+    } catch (e) {
+      // ignore menu load errors
+    }
+
+    return res
   }
 
   const register = async (payload: {
@@ -11,20 +21,51 @@ export const useAuth = () => {
     password: string
     password_confirmation: string
   }) => {
-    return await authStore.register(payload)
+    const res = await authStore.register(payload)
+    try {
+      if (authStore.isAuthenticated) {
+        const menuStore = useMenuStore()
+        await menuStore.fetchMenus()
+      }
+    } catch (e) {
+      // ignore menu load errors
+    }
+
+    return res
   }
 
   const logout = async () => {
-    return await authStore.logout()
+    const res = await authStore.logout()
+    try {
+      const menuStore = useMenuStore()
+      menuStore.clearMenus()
+    } catch (e) {
+      // ignore
+    }
+    return res
   }
 
   const logoutAll = async () => {
-    return await authStore.logoutAll()
+    const res = await authStore.logoutAll()
+    try {
+      const menuStore = useMenuStore()
+      menuStore.clearMenus()
+    } catch (e) {
+      // ignore
+    }
+    return res
   }
-
   const fetchUser = async () => {
-    return await authStore.fetchUser()
+    const res = await authStore.fetchUser()
+    try {
+      const menuStore = useMenuStore()
+      await menuStore.fetchMenus()
+    } catch (e) {
+      // ignore menu load errors
+    }
+    return res
   }
+  
 
   return {
     user: computed(() => authStore.user),

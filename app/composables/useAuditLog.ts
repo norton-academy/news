@@ -1,3 +1,5 @@
+import { downloadBlobFile } from '~/utils/downloadFile'
+
 export interface AuditLogUser {
   id: number
   name: string
@@ -41,16 +43,22 @@ export interface AuditLogShowResponse {
   }
 }
 
+export interface AuditLogQueryParams {
+  search?: string
+  module?: string
+  action?: string
+  date_from?: string
+  date_to?: string
+  page?: number
+  per_page?: number
+}
+
 export const useAuditLog = () => {
   const api = useApi()
 
-  const getAuditLogs = async (params?: {
-    search?: string
-    module?: string
-    action?: string
-    page?: number
-    per_page?: number
-  }): Promise<AuditLogListResponse> => {
+  const getAuditLogs = async (
+    params?: AuditLogQueryParams
+  ): Promise<AuditLogListResponse> => {
     try {
       const response = await api.get<AuditLogListResponse>('/audit-logs', {
         params,
@@ -79,8 +87,35 @@ export const useAuditLog = () => {
     }
   }
 
+  const exportAuditLogs = async (params?: {
+    search?: string
+    module?: string
+    action?: string
+    date_from?: string
+    date_to?: string
+  }) => {
+    try {
+      const response = await api.get('/audit-logs/export', {
+        params,
+        responseType: 'blob',
+      })
+
+      downloadBlobFile(
+        response.data,
+        `audit-logs-export-${new Date().toISOString().slice(0, 10)}.csv`
+      )
+    } catch (error: any) {
+      throw {
+        message: error.response?.data?.message || 'Failed to export audit logs',
+        errors: error.response?.data?.errors || {},
+        status: error.response?.status || 500,
+      }
+    }
+  }
+
   return {
     getAuditLogs,
     getAuditLog,
+    exportAuditLogs,
   }
 }

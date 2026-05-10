@@ -14,11 +14,11 @@ defineProps<{
       <slot name="icon" />
     </div>
 
-    <p class="text-base font-semibold text-slate-900 dark:text-white">
+    <p class="text-base font-semibold text-ui">
       {{ title }}
     </p>
 
-    <p v-if="message" class="mt-2 text-sm text-slate-500 dark:text-slate-400">
+    <p v-if="message" class="mt-2 text-sm text-muted">
       {{ message }}
     </p>
 

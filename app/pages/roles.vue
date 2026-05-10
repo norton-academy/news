@@ -1,15 +1,34 @@
 <script setup lang="ts">
 import type { RoleItem, RolePagination } from "~/composables/useRole";
 
-import { KeyRound, Pencil, Plus, ShieldCheck, Trash2 } from "lucide-vue-next";
+import {
+  KeyRound,
+  Pencil,
+  Plus,
+  ShieldCheck,
+  Trash2,
+  Download,
+  FileSpreadsheet,
+  Copy,
+} from "lucide-vue-next";
 
 definePageMeta({
   layout: "dashboard",
   middleware: ["auth", "permission"],
   permission: "role.view",
+  title: "Roles",
 });
 
-const { getRoles, createRole, updateRole, deleteRole } = useRole();
+const {
+  getRoles,
+  createRole,
+  updateRole,
+  deleteRole,
+  exportRoles,
+  importRoles,
+  cloneRole,
+} = useRole();
+
 const toast = useToast();
 const authStore = useAuthStore();
 
@@ -19,6 +38,10 @@ const page = ref(1);
 const perPage = ref(10);
 const loading = ref(false);
 const errorMessage = ref("");
+const guardName = ref("");
+const importModalOpen = ref(false);
+const cloneModalOpen = ref(false);
+const selectedCloneRole = ref<RoleItem | null>(null);
 
 const modalOpen = ref(false);
 const deleteModalOpen = ref(false);
@@ -46,6 +69,7 @@ const fetchRoles = async () => {
   try {
     const response = await getRoles({
       search: search.value || undefined,
+      guard_name: guardName.value || undefined,
       page: page.value,
       per_page: perPage.value,
     });
@@ -53,7 +77,8 @@ const fetchRoles = async () => {
     roles.value = response.data.roles;
     pagination.value = response.data.pagination;
   } catch (error: any) {
-    errorMessage.value = error.response?.data?.message || "Failed to load roles";
+    errorMessage.value = error.message || "Failed to load roles";
+    toast.error("Failed to load roles", errorMessage.value);
   } finally {
     loading.value = false;
   }
@@ -65,11 +90,13 @@ const openCreate = () => {
   form.guard_name = "web";
   modalOpen.value = true;
 };
-
 const openEdit = (role: RoleItem) => {
+  if (role.is_protected) {
+    toast.warning("Protected role", "This system role cannot be edited.");
+    return;
+  }
+
   selectedRole.value = role;
-  form.name = role.name;
-  form.guard_name = role.guard_name;
   modalOpen.value = true;
 };
 
@@ -114,6 +141,14 @@ const confirmDelete = async () => {
 };
 
 const openPermissionModal = (role: RoleItem) => {
+  if (role.is_protected) {
+    toast.warning(
+      "Protected role",
+      "This system role permissions cannot be changed manually."
+    );
+    return;
+  }
+
   selectedPermissionRole.value = role;
   permissionModalOpen.value = true;
 };
@@ -121,6 +156,14 @@ const openPermissionModal = (role: RoleItem) => {
 const closePermissionModal = () => {
   permissionModalOpen.value = false;
   selectedPermissionRole.value = null;
+};
+
+const openImportModal = () => {
+  importModalOpen.value = true;
+};
+
+const closeImportModal = () => {
+  importModalOpen.value = false;
 };
 
 const handlePermissionSaved = async () => {
@@ -135,6 +178,11 @@ const handleRoleAction = (role: RoleItem, action: string) => {
     return;
   }
 
+  if (action === "clone") {
+    openClone(role);
+    return;
+  }
+
   if (action === "edit") {
     openEdit(role);
     return;
@@ -142,6 +190,29 @@ const handleRoleAction = (role: RoleItem, action: string) => {
 
   if (action === "delete") {
     openDelete(role);
+  }
+};
+
+const handleImported = async () => {
+  await fetchRoles();
+};
+
+const exporting = ref(false);
+
+const handleExport = async () => {
+  exporting.value = true;
+
+  try {
+    await exportRoles({
+      search: search.value || undefined,
+      guard_name: guardName.value || undefined,
+    });
+
+    toast.success("Export started", "Roles CSV has been downloaded.");
+  } catch (error: any) {
+    toast.error("Export failed", error.message || "Failed to export roles");
+  } finally {
+    exporting.value = false;
   }
 };
 
@@ -169,6 +240,27 @@ const columns = [
   },
 ];
 
+const openClone = (role: RoleItem) => {
+  selectedCloneRole.value = role;
+  cloneModalOpen.value = true;
+};
+
+const closeClone = () => {
+  selectedCloneRole.value = null;
+  cloneModalOpen.value = false;
+};
+
+const handleCloned = async () => {
+  await fetchRoles();
+};
+
+const resetFilters = async () => {
+  search.value = "";
+  guardName.value = "";
+  page.value = 1;
+  await fetchRoles();
+};
+
 let searchTimeout: ReturnType<typeof setTimeout> | null = null;
 
 watch(search, () => {
@@ -181,16 +273,37 @@ watch(search, () => {
   }, 400);
 });
 
+watch([search, guardName], async () => {
+  page.value = 1;
+  await fetchRoles();
+});
+
 onMounted(fetchRoles);
 </script>
 
 <template>
+  <PageSkeleton v-if="loading" />
+
   <div class="space-y-6">
     <PageHeader
       title="Roles Management"
       subtitle="Manage user roles for your RBAC system."
     >
       <template #actions>
+        <AppButton variant="secondary" :loading="exporting" @click="handleExport">
+          <Download class="mr-2 h-4 w-4" />
+          Export
+        </AppButton>
+
+        <AppButton
+          v-if="authStore.hasPermission('role.create')"
+          variant="secondary"
+          @click="openImportModal"
+        >
+          <FileSpreadsheet class="mr-2 h-4 w-4" />
+          Import
+        </AppButton>
+
         <AppButton v-if="authStore.hasPermission('role.create')" @click="openCreate">
           <Plus class="mr-2 h-4 w-4" />
           Add Role
@@ -200,11 +313,21 @@ onMounted(fetchRoles);
 
     <AlertMessage v-if="errorMessage" type="error" :message="errorMessage" />
 
-    <FilterBar title="Filters" subtitle="Search roles by name.">
+    <FilterBar title="Filters" subtitle="Search and filter roles." columns="2">
       <AppInput v-model="search" label="Search" placeholder="Search role..." />
 
+      <AppSelect
+        v-model="guardName"
+        label="Guard"
+        placeholder="All Guards"
+        :options="[
+          { label: 'Web', value: 'web' },
+          { label: 'API', value: 'api' },
+        ]"
+      />
+
       <template #actions>
-        <AppButton variant="secondary" @click="fetchRoles"> Refresh </AppButton>
+        <AppButton variant="secondary" @click="resetFilters"> Reset </AppButton>
       </template>
     </FilterBar>
 
@@ -224,9 +347,14 @@ onMounted(fetchRoles);
           </div>
 
           <div>
-            <p class="text-sm font-semibold text-slate-900 dark:text-white">
-              {{ row.name }}
-            </p>
+            <div class="flex items-center gap-2">
+              <p class="text-sm font-semibold text-slate-900 dark:text-white">
+                {{ row.name }}
+              </p>
+
+              <AppBadge v-if="row.is_protected" variant="warning"> Protected </AppBadge>
+            </div>
+
             <p class="text-xs text-slate-500 dark:text-slate-400">Role access group</p>
           </div>
         </div>
@@ -249,25 +377,32 @@ onMounted(fetchRoles);
               label: 'Manage Permissions',
               action: 'permissions',
               icon: KeyRound,
-              visible: authStore.hasPermission('role.update'),
+              visible: authStore.hasPermission('role.update') && !row.is_protected,
+            },
+            {
+              label: 'Clone Role',
+              action: 'clone',
+              icon: Copy,
+              visible: authStore.hasPermission('role.create') && !row.is_protected,
             },
             {
               label: 'Edit Role',
               action: 'edit',
               icon: Pencil,
-              visible: authStore.hasPermission('role.update'),
+              visible: authStore.hasPermission('role.update') && !row.is_protected,
             },
             {
               label: 'Delete Role',
               action: 'delete',
               icon: Trash2,
               variant: 'danger',
-              visible: authStore.hasPermission('role.delete'),
+              visible: authStore.hasPermission('role.delete') && !row.is_protected,
             },
           ]"
           @select="handleRoleAction(row, $event)"
-        /> </template
-    ></DataTable>
+        />
+      </template>
+    </DataTable>
 
     <TablePagination
       :current-page="pagination.current_page"
@@ -349,5 +484,18 @@ onMounted(fetchRoles);
     :role="selectedPermissionRole"
     @close="closePermissionModal"
     @saved="handlePermissionSaved"
+  />
+
+  <ImportRoleModal
+    :open="importModalOpen"
+    @close="closeImportModal"
+    @imported="handleImported"
+  />
+
+  <CloneRoleModal
+    :open="cloneModalOpen"
+    :role="selectedCloneRole"
+    @close="closeClone"
+    @cloned="handleCloned"
   />
 </template>

@@ -6,11 +6,20 @@ import type {
   DashboardRoleDistribution,
   DashboardSystem,
 } from "~/composables/useDashboard";
-import { Activity, Clock, Database, ShieldCheck, Users } from "lucide-vue-next";
+import {
+  Activity,
+  Clock,
+  Database,
+  ShieldCheck,
+  Users,
+  KeyRound,
+  Workflow,
+} from "lucide-vue-next";
 definePageMeta({
   layout: "dashboard",
   middleware: ["auth", "permission"],
   permission: "dashboard.view",
+  title: "Dashboard",
 });
 
 const { getDashboardSummary } = useDashboard();
@@ -63,6 +72,8 @@ onMounted(fetchDashboard);
 </script>
 
 <template>
+  <PageSkeleton v-if="loading" />
+
   <div class="space-y-6">
     <PageHeader
       title="Dashboard"
@@ -75,18 +86,7 @@ onMounted(fetchDashboard);
       </template>
     </PageHeader>
 
-    <AlertMessage
-      v-if="errorMessage"
-      type="error"
-      :message="errorMessage"
-    />
-
-    <div
-      v-if="loading"
-      class="rounded-2xl border border-slate-200 bg-white px-6 py-12 text-center text-sm text-slate-500 shadow-sm"
-    >
-      Loading dashboard...
-    </div>
+    <AlertMessage v-if="errorMessage" type="error" :message="errorMessage" />
 
     <template v-else>
       <!-- Stats -->
@@ -138,7 +138,7 @@ onMounted(fetchDashboard);
 
         <StatsCard
           title="Assigned Permissions"
-          :value="totalAssignedPermissions"
+          :value="stats.total_audit_logs"
           subtitle="Across all roles"
           tone="warning"
         >
@@ -173,7 +173,7 @@ onMounted(fetchDashboard);
               <span class="text-sm font-medium text-slate-600 dark:text-slate-400"
                 >Environment</span
               >
-              <span class="text-sm font-bold text-slate-900 dark:text-white">
+              <span class="text-sm font-bold text-ui">
                 {{ system.environment }}
               </span>
             </div>
@@ -184,7 +184,7 @@ onMounted(fetchDashboard);
               <span class="text-sm font-medium text-slate-600 dark:text-slate-400"
                 >Timezone</span
               >
-              <span class="text-sm font-bold text-slate-900 dark:text-white">
+              <span class="text-sm font-bold text-ui">
                 {{ system.timezone }}
               </span>
             </div>
@@ -236,7 +236,7 @@ onMounted(fetchDashboard);
               class="rounded-xl border border-slate-200 px-4 py-3 dark:border-slate-800"
             >
               <div class="flex items-center justify-between">
-                <p class="text-sm font-semibold text-slate-900 dark:text-white">
+                <p class="text-sm font-semibold text-ui">
                   {{ role.name }}
                 </p>
 
@@ -278,10 +278,10 @@ onMounted(fetchDashboard);
               class="flex items-center justify-between rounded-xl border border-slate-200 px-4 py-3 dark:border-slate-800"
             >
               <div>
-                <p class="text-sm font-semibold text-slate-900 dark:text-white">
+                <p class="text-sm font-semibold text-ui">
                   {{ user.name }}
                 </p>
-                <p class="text-xs text-slate-500 dark:text-slate-400">
+                <p class="text-xs text-muted">
                   {{ user.email }}
                 </p>
               </div>
@@ -320,14 +320,10 @@ onMounted(fetchDashboard);
                     {{ log.action }}
                   </AppBadge>
 
-                  <p class="mt-2 text-xs text-slate-500 dark:text-slate-400">
-                    {{ log.user?.name || "System" }} · {{ log.created_at }}
-                  </p>
+                  <p class="mt-2 text-xs text-muted">{{ log.user?.name || "System" }} · {{ log.created_at }}</p>
                 </div>
 
-                <span class="text-xs font-medium text-slate-500 dark:text-slate-400">
-                  {{ log.module || "-" }}
-                </span>
+                <span class="text-xs font-medium text-muted">{{ log.module || "-" }}</span>
               </div>
             </div>
 

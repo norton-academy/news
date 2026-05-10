@@ -134,18 +134,7 @@ onMounted(fetchSettings);
       </template>
     </PageHeader>
 
-    <AlertMessage
-      v-if="errorMessage"
-      type="error"
-      :message="errorMessage"
-    />
-
-    <div
-      v-if="loading"
-      class="rounded-2xl border border-slate-200 bg-white px-6 py-12 text-center text-sm text-slate-500 shadow-sm"
-    >
-      Loading settings...
-    </div>
+    <AlertMessage v-if="errorMessage" type="error" :message="errorMessage" />
 
     <template v-else>
       <div class="grid gap-6 lg:grid-cols-3">
@@ -183,7 +172,7 @@ onMounted(fetchSettings);
               <span class="text-sm font-medium text-slate-600 dark:text-slate-400"
                 >Default Role</span
               >
-              <span class="text-sm font-bold text-slate-900 dark:text-white">
+              <span class="text-sm font-bold text-ui">
                 {{ form.default_user_role || "-" }}
               </span>
             </div>
@@ -227,10 +216,10 @@ onMounted(fetchSettings);
                 class="flex cursor-pointer items-center justify-between rounded-2xl border border-slate-200 p-4 transition hover:bg-slate-50 dark:border-slate-800 dark:hover:bg-slate-800/60"
               >
                 <div>
-                  <p class="text-sm font-bold text-slate-900 dark:text-white">
+                  <p class="text-sm font-bold text-ui">
                     Allow Registration
                   </p>
-                  <p class="mt-1 text-sm text-slate-500 dark:text-slate-400">
+                  <p class="mt-1 text-sm text-muted">
                     Allow new users to register accounts.
                   </p>
                 </div>
@@ -246,10 +235,10 @@ onMounted(fetchSettings);
                 class="flex cursor-pointer items-center justify-between rounded-2xl border border-slate-200 p-4 transition hover:bg-slate-50 dark:border-slate-800 dark:hover:bg-slate-800/60"
               >
                 <div>
-                  <p class="text-sm font-bold text-slate-900 dark:text-white">
+                  <p class="text-sm font-bold text-ui">
                     Maintenance Mode
                   </p>
-                  <p class="mt-1 text-sm text-slate-500 dark:text-slate-400">
+                  <p class="mt-1 text-sm text-muted">
                     Mark the system as under maintenance.
                   </p>
                 </div>

@@ -5,17 +5,36 @@ definePageMeta({
   layout: "dashboard",
   middleware: ["auth", "permission"],
   permission: "permission.view",
+  title: "Permissions",
 });
-import { KeyRound, Pencil, Plus, Shield, Trash2 } from "lucide-vue-next";
+
+import {
+  KeyRound,
+  Pencil,
+  Plus,
+  Shield,
+  Trash2,
+  Download,
+  FileSpreadsheet,
+  ShieldCheck,
+} from "lucide-vue-next";
+
 const {
   getPermissions,
   createPermission,
   updatePermission,
   deletePermission,
+  exportPermissions,
+  importPermissions,
 } = usePermission();
 
 const toast = useToast();
 const authStore = useAuthStore();
+
+const moduleFilter = ref("");
+const guardName = ref("");
+const exporting = ref(false);
+const importModalOpen = ref(false);
 
 const permissions = ref<PermissionItem[]>([]);
 const search = ref("");
@@ -63,6 +82,8 @@ const fetchPermissions = async () => {
   try {
     const response = await getPermissions({
       search: search.value || undefined,
+      module: moduleFilter.value || undefined,
+      guard_name: guardName.value || undefined,
       page: page.value,
       per_page: perPage.value,
     });
@@ -72,6 +93,7 @@ const fetchPermissions = async () => {
     stats.value = response.data.stats;
   } catch (error: any) {
     errorMessage.value = error.message || "Failed to load permissions";
+    toast.error("Failed to load permissions", errorMessage.value);
   } finally {
     loading.value = false;
   }
@@ -86,10 +108,12 @@ const openCreate = () => {
 };
 
 const openEdit = (permission: PermissionItem) => {
+  if (permission.is_protected) {
+    toast.warning("Protected permission", "This system permission cannot be edited.");
+    return;
+  }
+
   selectedPermission.value = permission;
-  form.name = permission.name;
-  form.guard_name = permission.guard_name;
-  resetFormErrors();
   modalOpen.value = true;
 };
 
@@ -136,7 +160,20 @@ const savePermission = async () => {
   }
 };
 
+const resetFilters = async () => {
+  search.value = "";
+  moduleFilter.value = "";
+  guardName.value = "";
+  page.value = 1;
+  await fetchPermissions();
+};
+
 const openDelete = (permission: PermissionItem) => {
+  if (permission.is_protected) {
+    toast.warning("Protected permission", "This system permission cannot be deleted.");
+    return;
+  }
+
   selectedPermission.value = permission;
   deleteModalOpen.value = true;
 };
@@ -165,6 +202,14 @@ const confirmDelete = async () => {
   }
 };
 
+const openImportModal = () => {
+  importModalOpen.value = true;
+};
+
+const closeImportModal = () => {
+  importModalOpen.value = false;
+};
+
 const handlePermissionAction = (permission: PermissionItem, action: string) => {
   if (action === "edit") {
     openEdit(permission);
@@ -174,6 +219,28 @@ const handlePermissionAction = (permission: PermissionItem, action: string) => {
   if (action === "delete") {
     openDelete(permission);
   }
+};
+
+const handleExport = async () => {
+  exporting.value = true;
+
+  try {
+    await exportPermissions({
+      search: search.value || undefined,
+      module: moduleFilter.value || undefined,
+      guard_name: guardName.value || undefined,
+    });
+
+    toast.success("Export started", "Permissions CSV has been downloaded.");
+  } catch (error: any) {
+    toast.error("Export failed", error.message || "Failed to export permissions");
+  } finally {
+    exporting.value = false;
+  }
+};
+
+const handleImported = async () => {
+  await fetchPermissions();
 };
 
 const columns = [
@@ -216,17 +283,38 @@ watch(search, () => {
   }, 400);
 });
 
+watch([search, moduleFilter, guardName], async () => {
+  page.value = 1;
+  await fetchPermissions();
+});
+
 onMounted(fetchPermissions);
 </script>
 
 <template>
   <div class="space-y-6">
+    <PageSkeleton v-if="loading" />
+
     <!-- Header -->
     <PageHeader
       title="Permissions Management"
       subtitle="Manage system permissions for your RBAC access control."
     >
       <template #actions>
+        <AppButton variant="secondary" :loading="exporting" @click="handleExport">
+          <Download class="mr-2 h-4 w-4" />
+          Export
+        </AppButton>
+
+        <AppButton
+          v-if="authStore.hasPermission('permission.create')"
+          variant="secondary"
+          @click="openImportModal"
+        >
+          <FileSpreadsheet class="mr-2 h-4 w-4" />
+          Import
+        </AppButton>
+
         <AppButton
           v-if="authStore.hasPermission('permission.create')"
           @click="openCreate"
@@ -248,18 +336,46 @@ onMounted(fetchPermissions);
         subtitle="All registered permissions"
         tone="info"
       />
+
+      <StatsCard
+        title="Protected Permissions"
+        :value="stats.protected_permissions || 0"
+        subtitle="System critical access rules"
+        tone="warning"
+      />
     </div>
 
     <!-- Search -->
-    <FilterBar title="Filters" subtitle="Search permissions by module or action.">
+    <FilterBar
+      title="Filters"
+      subtitle="Search permissions by module, action, or guard."
+      columns="3"
+    >
       <AppInput
         v-model="search"
         label="Search"
         placeholder="Search permission, example: user.create..."
       />
 
+      <AppSelect
+        v-model="moduleFilter"
+        label="Module"
+        placeholder="All Modules"
+        :options="moduleOptions"
+      />
+
+      <AppSelect
+        v-model="guardName"
+        label="Guard"
+        placeholder="All Guards"
+        :options="[
+          { label: 'Web', value: 'web' },
+          { label: 'API', value: 'api' },
+        ]"
+      />
+
       <template #actions>
-        <AppButton variant="secondary" @click="fetchPermissions"> Refresh </AppButton>
+        <AppButton variant="secondary" @click="resetFilters"> Reset </AppButton>
       </template>
     </FilterBar>
 
@@ -279,10 +395,17 @@ onMounted(fetchPermissions);
           </div>
 
           <div>
-            <p class="text-sm font-semibold text-slate-900 dark:text-white">
-              {{ row.name }}
+            <div class="flex items-center gap-2">
+              <p class="text-sm font-semibold text-ui">
+                {{ row.name }}
+              </p>
+
+              <AppBadge v-if="row.is_protected" variant="warning"> Protected </AppBadge>
+            </div>
+
+              <p class="text-xs text-muted">
+              {{ row.module || "general" }} module
             </p>
-            <p class="text-xs text-slate-500 dark:text-slate-400">Permission rule</p>
           </div>
         </div>
       </template>
@@ -310,14 +433,21 @@ onMounted(fetchPermissions);
               label: 'Edit Permission',
               action: 'edit',
               icon: Pencil,
-              visible: authStore.hasPermission('permission.update'),
+              visible: authStore.hasPermission('permission.update') && !row.is_protected,
             },
             {
               label: 'Delete Permission',
               action: 'delete',
               icon: Trash2,
               variant: 'danger',
-              visible: authStore.hasPermission('permission.delete'),
+              visible: authStore.hasPermission('permission.delete') && !row.is_protected,
+            },
+            {
+              label: 'System Protected',
+              action: 'protected',
+              icon: ShieldCheck,
+              disabled: true,
+              visible: row.is_protected,
             },
           ]"
           @select="handlePermissionAction(row, $event)"
@@ -414,4 +544,10 @@ onMounted(fetchPermissions);
       </div>
     </AppModal>
   </div>
+
+  <ImportPermissionModal
+    :open="importModalOpen"
+    @close="closeImportModal"
+    @imported="handleImported"
+  />
 </template>

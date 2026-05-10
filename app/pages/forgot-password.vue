@@ -13,6 +13,7 @@ import {
 definePageMeta({
   layout: "auth",
   middleware: "guest",
+  title: "Forgot Password",
 });
 
 const { sendPasswordOtp, verifyPasswordOtp, resetPasswordWithOtp } = usePasswordOtp();

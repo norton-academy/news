@@ -1,6 +1,7 @@
 <script setup lang="ts">
 definePageMeta({
   layout: 'auth',
+  title: 'Verify Email',
 })
 
 const route = useRoute()

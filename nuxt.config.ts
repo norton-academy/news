@@ -19,6 +19,4 @@ export default defineNuxtConfig({
   },
   ssr: false,
   components: [{ path: '~/components', pathPrefix: false }],
-
-  
 })

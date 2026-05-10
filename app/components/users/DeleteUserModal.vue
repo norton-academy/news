@@ -60,10 +60,10 @@ const handleDelete = async () => {
         <div
           class="mt-3 rounded-xl border border-slate-200 bg-white px-4 py-3 dark:border-slate-800 dark:bg-slate-900"
         >
-          <p class="text-sm font-semibold text-slate-900 dark:text-white">
+          <p class="text-sm font-semibold text-ui">
             {{ user?.name || "Unknown User" }}
           </p>
-          <p class="text-sm text-slate-500 dark:text-slate-400">
+          <p class="text-sm text-muted">
             {{ user?.email || "-" }}
           </p>
         </div>

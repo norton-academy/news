@@ -23,15 +23,13 @@ const gridClass = computed(() => {
 </script>
 
 <template>
-  <div
-    class="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm dark:border-slate-800 dark:bg-slate-900"
-  >
+  <div class="ui-card rounded-3xl p-4">
     <div v-if="title || subtitle || $slots.header" class="mb-4 flex flex-col gap-1">
       <slot name="header">
-        <h3 v-if="title" class="text-sm font-bold text-slate-900 dark:text-white">
+        <h3 v-if="title" class="text-sm font-bold text-ui">
           {{ title }}
         </h3>
-        <p v-if="subtitle" class="text-sm text-slate-500 dark:text-slate-400">
+        <p v-if="subtitle" class="text-sm text-muted">
           {{ subtitle }}
         </p>
       </slot>

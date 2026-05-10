@@ -17,16 +17,28 @@ interface _GlobalComponents {
   AuthButton: typeof import("../../app/components/auth/AuthButton.vue")['default']
   AuthCard: typeof import("../../app/components/auth/AuthCard.vue")['default']
   AuthInput: typeof import("../../app/components/auth/AuthInput.vue")['default']
+  AppBreadcrumbs: typeof import("../../app/components/dashboard/AppBreadcrumbs.vue")['default']
   AppHeader: typeof import("../../app/components/dashboard/AppHeader.vue")['default']
   AppShell: typeof import("../../app/components/dashboard/AppShell.vue")['default']
   AppSidebar: typeof import("../../app/components/dashboard/AppSidebar.vue")['default']
+  CommandPalette: typeof import("../../app/components/dashboard/CommandPalette.vue")['default']
+  NotificationDropdown: typeof import("../../app/components/dashboard/NotificationDropdown.vue")['default']
   UserDropdown: typeof import("../../app/components/dashboard/UserDropdown.vue")['default']
+  DeleteMenuModal: typeof import("../../app/components/menus/DeleteMenuModal.vue")['default']
+  MenuFormModal: typeof import("../../app/components/menus/MenuFormModal.vue")['default']
+  MenuIcon: typeof import("../../app/components/menus/MenuIcon.vue")['default']
+  ImportPermissionModal: typeof import("../../app/components/permissions/ImportPermissionModal.vue")['default']
   AssignRolePermissionsModal: typeof import("../../app/components/roles/AssignRolePermissionsModal.vue")['default']
+  CloneRoleModal: typeof import("../../app/components/roles/CloneRoleModal.vue")['default']
+  ImportRoleModal: typeof import("../../app/components/roles/ImportRoleModal.vue")['default']
+  DashboardPageMotion: typeof import("../../app/components/transition/DashboardPageMotion.vue")['default']
+  MotionCard: typeof import("../../app/components/transition/MotionCard.vue")['default']
   ActionDropdown: typeof import("../../app/components/ui/ActionDropdown.vue")['default']
   AlertMessage: typeof import("../../app/components/ui/AlertMessage.vue")['default']
   AppBadge: typeof import("../../app/components/ui/AppBadge.vue")['default']
   AppButton: typeof import("../../app/components/ui/AppButton.vue")['default']
   AppCard: typeof import("../../app/components/ui/AppCard.vue")['default']
+  AppDropdown: typeof import("../../app/components/ui/AppDropdown.vue")['default']
   AppInput: typeof import("../../app/components/ui/AppInput.vue")['default']
   AppModal: typeof import("../../app/components/ui/AppModal.vue")['default']
   AppSelect: typeof import("../../app/components/ui/AppSelect.vue")['default']
@@ -71,16 +83,28 @@ interface _GlobalComponents {
   LazyAuthButton: LazyComponent<typeof import("../../app/components/auth/AuthButton.vue")['default']>
   LazyAuthCard: LazyComponent<typeof import("../../app/components/auth/AuthCard.vue")['default']>
   LazyAuthInput: LazyComponent<typeof import("../../app/components/auth/AuthInput.vue")['default']>
+  LazyAppBreadcrumbs: LazyComponent<typeof import("../../app/components/dashboard/AppBreadcrumbs.vue")['default']>
   LazyAppHeader: LazyComponent<typeof import("../../app/components/dashboard/AppHeader.vue")['default']>
   LazyAppShell: LazyComponent<typeof import("../../app/components/dashboard/AppShell.vue")['default']>
   LazyAppSidebar: LazyComponent<typeof import("../../app/components/dashboard/AppSidebar.vue")['default']>
+  LazyCommandPalette: LazyComponent<typeof import("../../app/components/dashboard/CommandPalette.vue")['default']>
+  LazyNotificationDropdown: LazyComponent<typeof import("../../app/components/dashboard/NotificationDropdown.vue")['default']>
   LazyUserDropdown: LazyComponent<typeof import("../../app/components/dashboard/UserDropdown.vue")['default']>
+  LazyDeleteMenuModal: LazyComponent<typeof import("../../app/components/menus/DeleteMenuModal.vue")['default']>
+  LazyMenuFormModal: LazyComponent<typeof import("../../app/components/menus/MenuFormModal.vue")['default']>
+  LazyMenuIcon: LazyComponent<typeof import("../../app/components/menus/MenuIcon.vue")['default']>
+  LazyImportPermissionModal: LazyComponent<typeof import("../../app/components/permissions/ImportPermissionModal.vue")['default']>
   LazyAssignRolePermissionsModal: LazyComponent<typeof import("../../app/components/roles/AssignRolePermissionsModal.vue")['default']>
+  LazyCloneRoleModal: LazyComponent<typeof import("../../app/components/roles/CloneRoleModal.vue")['default']>
+  LazyImportRoleModal: LazyComponent<typeof import("../../app/components/roles/ImportRoleModal.vue")['default']>
+  LazyDashboardPageMotion: LazyComponent<typeof import("../../app/components/transition/DashboardPageMotion.vue")['default']>
+  LazyMotionCard: LazyComponent<typeof import("../../app/components/transition/MotionCard.vue")['default']>
   LazyActionDropdown: LazyComponent<typeof import("../../app/components/ui/ActionDropdown.vue")['default']>
   LazyAlertMessage: LazyComponent<typeof import("../../app/components/ui/AlertMessage.vue")['default']>
   LazyAppBadge: LazyComponent<typeof import("../../app/components/ui/AppBadge.vue")['default']>
   LazyAppButton: LazyComponent<typeof import("../../app/components/ui/AppButton.vue")['default']>
   LazyAppCard: LazyComponent<typeof import("../../app/components/ui/AppCard.vue")['default']>
+  LazyAppDropdown: LazyComponent<typeof import("../../app/components/ui/AppDropdown.vue")['default']>
   LazyAppInput: LazyComponent<typeof import("../../app/components/ui/AppInput.vue")['default']>
   LazyAppModal: LazyComponent<typeof import("../../app/components/ui/AppModal.vue")['default']>
   LazyAppSelect: LazyComponent<typeof import("../../app/components/ui/AppSelect.vue")['default']>

@@ -27,6 +27,7 @@ declare global {
   const definePayloadReducer: typeof import('../../node_modules/nuxt/dist/app/composables/payload').definePayloadReducer
   const definePayloadReviver: typeof import('../../node_modules/nuxt/dist/app/composables/payload').definePayloadReviver
   const defineStore: typeof import('../../node_modules/@pinia/nuxt/dist/runtime/composables').defineStore
+  const downloadBlobFile: typeof import('../../app/utils/downloadFile').downloadBlobFile
   const effect: typeof import('vue').effect
   const effectScope: typeof import('vue').effectScope
   const getAppManifest: typeof import('../../node_modules/nuxt/dist/app/composables/manifest').getAppManifest
@@ -125,7 +126,11 @@ declare global {
   const useLazyFetch: typeof import('../../node_modules/nuxt/dist/app/composables/fetch').useLazyFetch
   const useLink: typeof import('vue-router').useLink
   const useLoadingIndicator: typeof import('../../node_modules/nuxt/dist/app/composables/loading-indicator').useLoadingIndicator
+  const useMenu: typeof import('../../app/composables/useMenu').useMenu
+  const useMenuStore: typeof import('../../app/stores/menu').useMenuStore
   const useModel: typeof import('vue').useModel
+  const useNotification: typeof import('../../app/composables/useNotification').useNotification
+  const useNotificationStore: typeof import('../../app/stores/notification').useNotificationStore
   const useNuxtApp: typeof import('../../node_modules/nuxt/dist/app/nuxt').useNuxtApp
   const useNuxtData: typeof import('../../node_modules/nuxt/dist/app/composables/asyncData').useNuxtData
   const useNuxtDevTools: typeof import('../../node_modules/@nuxt/devtools/dist/runtime/use-nuxt-devtools').useNuxtDevTools
@@ -212,7 +217,7 @@ declare global {
   export type { PageMeta } from '../../node_modules/nuxt/dist/app/composables/pages'
   import('../../node_modules/nuxt/dist/app/composables/pages')
   // @ts-ignore
-  export type { AuditLogUser, AuditLogItem, AuditLogPagination, AuditLogListResponse, AuditLogShowResponse } from '../../app/composables/useAuditLog'
+  export type { AuditLogUser, AuditLogItem, AuditLogPagination, AuditLogListResponse, AuditLogShowResponse, AuditLogQueryParams } from '../../app/composables/useAuditLog'
   import('../../app/composables/useAuditLog')
   // @ts-ignore
   export type { DashboardStats, DashboardRecentUser, DashboardAuditUser, DashboardRecentAuditLog, DashboardRoleDistribution, DashboardSystem, DashboardSummaryResponse } from '../../app/composables/useDashboard'
@@ -224,13 +229,19 @@ declare global {
   export type { VerifyEmailResponse } from '../../app/composables/useEmailVerification'
   import('../../app/composables/useEmailVerification')
   // @ts-ignore
+  export type { MenuPayload, MenuResponse, ReorderMenuPayload, MenuItem } from '../../app/composables/useMenu'
+  import('../../app/composables/useMenu')
+  // @ts-ignore
+  export type { NotificationType, NotificationItem, NotificationPagination, NotificationApiResponse } from '../../app/composables/useNotification'
+  import('../../app/composables/useNotification')
+  // @ts-ignore
   export type { SendPasswordOtpPayload, VerifyPasswordOtpPayload, ResetPasswordWithOtpPayload, PasswordOtpResponse } from '../../app/composables/usePasswordOtp'
   import('../../app/composables/usePasswordOtp')
   // @ts-ignore
   export type { ForgotPasswordPayload, ResetPasswordPayload, PasswordResetResponse } from '../../app/composables/usePasswordReset'
   import('../../app/composables/usePasswordReset')
   // @ts-ignore
-  export type { PermissionItem, PermissionPagination, PermissionListResponse, PermissionPayload } from '../../app/composables/usePermission'
+  export type { PermissionItem, PermissionPagination, PermissionListResponse, PermissionPayload, PermissionQueryParams, PermissionStats } from '../../app/composables/usePermission'
   import('../../app/composables/usePermission')
   // @ts-ignore
   export type { ProfileUser, ProfileResponse, UpdateProfilePayload, UpdatePasswordPayload } from '../../app/composables/useProfile'
@@ -239,7 +250,7 @@ declare global {
   export type { RbacStats, RbacRoleOverview, PermissionModuleOverview, RbacDashboardResponse } from '../../app/composables/useRbac'
   import('../../app/composables/useRbac')
   // @ts-ignore
-  export type { RolePagination, RoleListResponse, RolePayload, RolePermissionItem, RoleItem, RoleShowResponse, SyncRolePermissionsPayload } from '../../app/composables/useRole'
+  export type { RolePagination, RoleListResponse, RolePayload, RolePermissionItem, RoleItem, RoleShowResponse, RoleQueryParams, SyncRolePermissionsPayload, CloneRolePayload } from '../../app/composables/useRole'
   import('../../app/composables/useRole')
   // @ts-ignore
   export type { SettingItem, SettingsResponse, UpdateSettingsPayload } from '../../app/composables/useSettings'
@@ -284,6 +295,7 @@ declare module 'vue' {
     readonly definePayloadReducer: UnwrapRef<typeof import('../../node_modules/nuxt/dist/app/composables/payload')['definePayloadReducer']>
     readonly definePayloadReviver: UnwrapRef<typeof import('../../node_modules/nuxt/dist/app/composables/payload')['definePayloadReviver']>
     readonly defineStore: UnwrapRef<typeof import('../../node_modules/@pinia/nuxt/dist/runtime/composables')['defineStore']>
+    readonly downloadBlobFile: UnwrapRef<typeof import('../../app/utils/downloadFile')['downloadBlobFile']>
     readonly effect: UnwrapRef<typeof import('vue')['effect']>
     readonly effectScope: UnwrapRef<typeof import('vue')['effectScope']>
     readonly getAppManifest: UnwrapRef<typeof import('../../node_modules/nuxt/dist/app/composables/manifest')['getAppManifest']>
@@ -382,7 +394,11 @@ declare module 'vue' {
     readonly useLazyFetch: UnwrapRef<typeof import('../../node_modules/nuxt/dist/app/composables/fetch')['useLazyFetch']>
     readonly useLink: UnwrapRef<typeof import('vue-router')['useLink']>
     readonly useLoadingIndicator: UnwrapRef<typeof import('../../node_modules/nuxt/dist/app/composables/loading-indicator')['useLoadingIndicator']>
+    readonly useMenu: UnwrapRef<typeof import('../../app/composables/useMenu')['useMenu']>
+    readonly useMenuStore: UnwrapRef<typeof import('../../app/stores/menu')['useMenuStore']>
     readonly useModel: UnwrapRef<typeof import('vue')['useModel']>
+    readonly useNotification: UnwrapRef<typeof import('../../app/composables/useNotification')['useNotification']>
+    readonly useNotificationStore: UnwrapRef<typeof import('../../app/stores/notification')['useNotificationStore']>
     readonly useNuxtApp: UnwrapRef<typeof import('../../node_modules/nuxt/dist/app/nuxt')['useNuxtApp']>
     readonly useNuxtData: UnwrapRef<typeof import('../../node_modules/nuxt/dist/app/composables/asyncData')['useNuxtData']>
     readonly useNuxtDevTools: UnwrapRef<typeof import('../../node_modules/@nuxt/devtools/dist/runtime/use-nuxt-devtools')['useNuxtDevTools']>

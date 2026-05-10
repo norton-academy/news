@@ -3,8 +3,10 @@ import type { UserItem, UserPagination, UserStats } from "~/composables/useUser"
 import {
   Ban,
   CheckCircle2,
+  Download,
   Mail,
   Pencil,
+  RefreshCcw,
   ShieldAlert,
   Timer,
   Trash2,
@@ -16,20 +18,31 @@ definePageMeta({
   layout: "dashboard",
   middleware: ["auth", "permission"],
   permission: "user.view",
+  title: "Users",
 });
 
-const { getUsers, resendUserVerification, updateUserStatus } = useUser();
+const { getUsers, resendUserVerification, updateUserStatus, exportUsers } = useUser();
+
 const toast = useToast();
+const authStore = useAuthStore();
+const notificationStore = useNotificationStore();
 
 const search = ref("");
 const status = ref("");
+const emailVerified = ref("");
 const page = ref(1);
 const perPage = ref(10);
-const emailVerified = ref("");
 
 const loading = ref(false);
+const exporting = ref(false);
 const errorMessage = ref("");
+
 const createModalOpen = ref(false);
+const editModalOpen = ref(false);
+const deleteModalOpen = ref(false);
+
+const selectedUser = ref<UserItem | null>(null);
+const selectedDeleteUser = ref<UserItem | null>(null);
 
 const users = ref<UserItem[]>([]);
 
@@ -48,6 +61,34 @@ const stats = ref<UserStats>({
   verified_users: 0,
   unverified_users: 0,
 });
+
+const columns = [
+  {
+    key: "user",
+    label: "User",
+  },
+  {
+    key: "role",
+    label: "Role",
+  },
+  {
+    key: "status",
+    label: "Status",
+  },
+  {
+    key: "email_verification",
+    label: "Email",
+  },
+  {
+    key: "created_at",
+    label: "Created At",
+  },
+  {
+    key: "actions",
+    label: "Actions",
+    align: "right" as const,
+  },
+];
 
 const fetchUsers = async () => {
   loading.value = true;
@@ -73,13 +114,12 @@ const fetchUsers = async () => {
   }
 };
 
-const editModalOpen = ref(false);
-const selectedUser = ref<UserItem | null>(null);
-
-const deleteModalOpen = ref(false);
-const selectedDeleteUser = ref<UserItem | null>(null);
+const refreshNotifications = async () => {
+  await notificationStore.refreshNotifications();
+};
 
 const handleRefresh = async () => {
+  page.value = 1;
   await fetchUsers();
 };
 
@@ -93,7 +133,10 @@ const closeCreateModal = () => {
 
 const handleCreated = async () => {
   createModalOpen.value = false;
+
   await fetchUsers();
+  await refreshNotifications();
+
   toast.success("User created", "The new user account was created successfully.");
 };
 
@@ -110,7 +153,10 @@ const closeEditModal = () => {
 const handleUpdated = async () => {
   editModalOpen.value = false;
   selectedUser.value = null;
+
   await fetchUsers();
+  await refreshNotifications();
+
   toast.success("User updated", "User information was updated successfully.");
 };
 
@@ -127,13 +173,18 @@ const closeDeleteModal = () => {
 const handleDeleted = async () => {
   deleteModalOpen.value = false;
   selectedDeleteUser.value = null;
+
   await fetchUsers();
+  await refreshNotifications();
+
   toast.success("User deleted", "The user account was deleted successfully.");
 };
 
 const handleResendVerification = async (user: UserItem) => {
   try {
     await resendUserVerification(user.id);
+    await refreshNotifications();
+
     toast.success("Verification sent", `Verification email was sent to ${user.email}.`);
   } catch (error: any) {
     toast.error("Resend failed", error.message || "Failed to resend verification email");
@@ -142,12 +193,15 @@ const handleResendVerification = async (user: UserItem) => {
 
 const handleStatusChange = async (
   user: UserItem,
-  status: "active" | "pending" | "suspended" | "blocked"
+  newStatus: "active" | "pending" | "suspended" | "blocked"
 ) => {
   try {
-    await updateUserStatus(user.id, status);
-    toast.success("Status updated", `${user.name} is now ${status}.`);
+    await updateUserStatus(user.id, newStatus);
+
+    toast.success("Status updated", `${user.name} is now ${newStatus}.`);
+
     await fetchUsers();
+    await refreshNotifications();
   } catch (error: any) {
     toast.error("Status update failed", error.message || "Failed to update status");
   }
@@ -189,37 +243,46 @@ const handleUserAction = async (user: UserItem, action: string) => {
   }
 };
 
-let searchTimeout: ReturnType<typeof setTimeout> | null = null;
+const handleExport = async () => {
+  exporting.value = true;
 
-const columns = [
-  {
-    key: "user",
-    label: "User",
-  },
-  {
-    key: "role",
-    label: "Role",
-  },
-  {
-    key: "status",
-    label: "Status",
-  },
-  { key: "email_verification", label: "Email" },
-  {
-    key: "created_at",
-    label: "Created At",
-  },
-  {
-    key: "actions",
-    label: "Actions",
-    align: "right" as const,
-  },
-];
+  try {
+    await exportUsers({
+      search: search.value || undefined,
+      status: status.value || undefined,
+      email_verified: emailVerified.value || undefined,
+    });
+
+    toast.success("Export started", "Users CSV has been downloaded.");
+  } catch (error: any) {
+    toast.error("Export failed", error.message || "Failed to export users");
+  } finally {
+    exporting.value = false;
+  }
+};
+
+const goPrevious = async () => {
+  if (page.value <= 1) return;
+
+  page.value--;
+  await fetchUsers();
+};
+
+const goNext = async () => {
+  if (page.value >= pagination.value.last_page) return;
+
+  page.value++;
+  await fetchUsers();
+};
+
+let searchTimeout: ReturnType<typeof setTimeout> | null = null;
 
 watch(search, () => {
   page.value = 1;
 
-  if (searchTimeout) clearTimeout(searchTimeout);
+  if (searchTimeout) {
+    clearTimeout(searchTimeout);
+  }
 
   searchTimeout = setTimeout(async () => {
     await fetchUsers();
@@ -234,27 +297,38 @@ watch([status, emailVerified], async () => {
 onMounted(async () => {
   await fetchUsers();
 });
-const authStore = useAuthStore();
 </script>
 
 <template>
   <div class="space-y-6">
     <PageHeader
       title="Users Management"
-      subtitle="Manage all users, roles, status, and account actions from this page."
+      subtitle="Manage users, roles, status, verification, and account actions."
     >
       <template #actions>
+        <AppButton variant="secondary" :loading="exporting" @click="handleExport">
+          <Download class="h-4 w-4" />
+          Export
+        </AppButton>
+
         <AppButton v-if="authStore.hasPermission('user.create')" @click="openCreateModal">
-          <UserPlus class="mr-2 h-4 w-4" />
-          Add New User
+          <UserPlus class="h-4 w-4" />
+          Add User
         </AppButton>
       </template>
     </PageHeader>
 
-    <AlertMessage v-if="errorMessage" type="error" :message="errorMessage" />
+    <AlertMessage
+      v-if="errorMessage"
+      type="error"
+      title="Unable to load users"
+      :message="errorMessage"
+    />
 
+    <!-- Stats -->
     <div class="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
       <StatsCard
+        class="motion-delay-50"
         title="Total Users"
         :value="stats.total_users"
         subtitle="All registered accounts"
@@ -270,6 +344,7 @@ const authStore = useAuthStore();
       </StatsCard>
 
       <StatsCard
+        class="motion-delay-100"
         title="Active Users"
         :value="stats.active_users"
         subtitle="Currently active users"
@@ -285,6 +360,7 @@ const authStore = useAuthStore();
       </StatsCard>
 
       <StatsCard
+        class="motion-delay-150"
         title="Pending Users"
         :value="stats.pending_users"
         subtitle="Waiting for approval"
@@ -300,52 +376,28 @@ const authStore = useAuthStore();
       </StatsCard>
 
       <StatsCard
-        title="Inactive Users"
-        :value="stats.inactive_users"
-        subtitle="Disabled or inactive"
-        tone="default"
-      >
-        <template #badge>
-          <div
-            class="rounded-xl bg-slate-100 p-2 text-slate-700 dark:bg-slate-800 dark:text-slate-300"
-          >
-            <Ban class="h-5 w-5" />
-          </div>
-        </template>
-      </StatsCard>
-
-      <StatsCard
-        title="Verified Users"
+        class="motion-delay-200"
+        title="Verified Emails"
         :value="stats.verified_users || 0"
-        subtitle="Emails verified"
+        subtitle="Users with verified emails"
         tone="success"
       >
         <template #badge>
           <div
-            class="rounded-xl bg-green-100 p-2 text-green-700 dark:bg-green-950/50 dark:text-green-300"
+            class="rounded-xl bg-emerald-100 p-2 text-emerald-700 dark:bg-emerald-950/50 dark:text-emerald-300"
           >
             <Mail class="h-5 w-5" />
           </div>
         </template>
       </StatsCard>
-
-      <StatsCard
-        title="Unverified Users"
-        :value="stats.unverified_users || 0"
-        subtitle="Need email verification"
-        tone="warning"
-      >
-        <template #badge>
-          <div
-            class="rounded-xl bg-amber-100 p-2 text-amber-700 dark:bg-amber-950/50 dark:text-amber-300"
-          >
-            <ShieldAlert class="h-5 w-5" />
-          </div>
-        </template>
-      </StatsCard>
     </div>
 
-    <FilterBar title="Filters" subtitle="Search and filter user accounts.">
+    <!-- Filters -->
+    <FilterBar
+      title="Filters"
+      subtitle="Search and filter user accounts."
+      class="motion-fade-up motion-delay-200"
+    >
       <AppInput
         v-model="search"
         label="Search"
@@ -375,39 +427,48 @@ const authStore = useAuthStore();
       />
 
       <template #actions>
-        <AppButton variant="secondary" @click="handleRefresh"> Refresh </AppButton>
+        <AppButton variant="secondary" :loading="loading" @click="handleRefresh">
+          <RefreshCcw class="h-4 w-4" />
+          Refresh
+        </AppButton>
       </template>
     </FilterBar>
 
+    <!-- Users table -->
     <DataTable
+      class="motion-fade-up motion-delay-300"
       :columns="columns"
       :rows="users"
       :loading="loading"
       empty-title="No users found"
-      empty-message="Try changing your search or filter settings."
+      empty-message="Try changing your filters or create a new user."
+      sticky-header
     >
       <template #cell-user="{ row }">
         <div class="flex items-center gap-3">
           <div
-            class="flex h-10 w-10 items-center justify-center rounded-2xl bg-slate-900 text-sm font-bold text-white shadow-sm dark:bg-white dark:text-slate-900"
+            class="flex h-11 w-11 items-center justify-center rounded-2xl bg-blue-100 text-sm font-bold text-blue-700 dark:bg-blue-950/50 dark:text-blue-300"
           >
-            {{ row.name.charAt(0).toUpperCase() }}
+            {{ row.name?.charAt(0)?.toUpperCase() || "U" }}
           </div>
 
-          <div>
-            <p class="text-sm font-semibold text-slate-900 dark:text-white">
+          <div class="min-w-0">
+            <p class="truncate text-sm font-bold text-ui">
               {{ row.name }}
             </p>
-            <p class="text-sm text-slate-500 dark:text-slate-400">
+            <p class="truncate text-sm text-muted">
               {{ row.email }}
             </p>
           </div>
         </div>
       </template>
+
       <template #cell-role="{ row }">
-        <span class="text-sm text-slate-700 dark:text-slate-300">
-          {{ row.role || "No Role" }}
-        </span>
+        <AppBadge v-if="row.role" variant="info">
+          {{ row.role }}
+        </AppBadge>
+
+        <span v-else class="text-sm text-muted"> No Role </span>
       </template>
 
       <template #cell-status="{ row }">
@@ -435,54 +496,62 @@ const authStore = useAuthStore();
       </template>
 
       <template #cell-actions="{ row }">
-        <ActionDropdown
+        <AppDropdown
+          width="w-72"
           :items="[
             {
               label: 'Resend Verification',
-              action: 'resend-verification',
+              value: 'resend-verification',
               icon: Mail,
+              description: 'Send verification email again',
               visible: authStore.hasPermission('user.update') && !row.is_email_verified,
             },
             {
               label: 'Activate User',
-              action: 'activate',
+              value: 'activate',
               icon: CheckCircle2,
               variant: 'success',
+              description: 'Allow user access',
               visible: authStore.hasPermission('user.update') && row.status !== 'active',
             },
             {
               label: 'Set Pending',
-              action: 'pending',
+              value: 'pending',
               icon: Timer,
               variant: 'warning',
+              description: 'Move user to pending status',
               visible: authStore.hasPermission('user.update') && row.status !== 'pending',
             },
             {
               label: 'Suspend User',
-              action: 'suspend',
+              value: 'suspend',
               icon: ShieldAlert,
               variant: 'warning',
+              description: 'Temporarily restrict account',
               visible:
                 authStore.hasPermission('user.update') && row.status !== 'suspended',
             },
             {
               label: 'Block User',
-              action: 'block',
+              value: 'block',
               icon: Ban,
               variant: 'danger',
+              description: 'Block this account',
               visible: authStore.hasPermission('user.update') && row.status !== 'blocked',
             },
             {
               label: 'Edit User',
-              action: 'edit',
+              value: 'edit',
               icon: Pencil,
+              description: 'Update user information',
               visible: authStore.hasPermission('user.update'),
             },
             {
               label: 'Delete User',
-              action: 'delete',
+              value: 'delete',
               icon: Trash2,
               variant: 'danger',
+              description: 'Remove this account',
               visible: authStore.hasPermission('user.delete'),
             },
           ]"
@@ -496,14 +565,8 @@ const authStore = useAuthStore();
       :last-page="pagination.last_page"
       :total="pagination.total"
       :loading="loading"
-      @previous="
-        page--;
-        fetchUsers();
-      "
-      @next="
-        page++;
-        fetchUsers();
-      "
+      @previous="goPrevious"
+      @next="goNext"
     />
 
     <CreateUserModal

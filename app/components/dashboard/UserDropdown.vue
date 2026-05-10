@@ -6,7 +6,12 @@ const auth = useAuth();
 const open = ref(false);
 
 const handleLogout = async () => {
+  const notificationStore = useNotificationStore();
+
   await auth.logout();
+
+  notificationStore.clearLocal();
+
   open.value = false;
   await navigateTo("/login");
 };
@@ -25,24 +30,22 @@ const handleLogout = async () => {
       </div>
 
       <div class="hidden text-left sm:block">
-        <p class="max-w-28 truncate text-sm font-semibold text-slate-900 dark:text-white">
+        <p class="max-w-28 truncate text-sm font-semibold text-ui">
           {{ authStore.user?.name || "User" }}
         </p>
-        <p class="max-w-28 truncate text-xs text-slate-500 dark:text-slate-400">
-          {{ authStore.user?.role || "Account" }}
-        </p>
+        <p class="max-w-28 truncate text-xs text-muted">{{ authStore.user?.role || "Account" }}</p>
       </div>
     </button>
 
     <div
       v-if="open"
-      class="absolute right-0 z-50 mt-2 w-64 rounded-2xl border border-slate-200 bg-white p-2 shadow-xl dark:border-slate-800 dark:bg-slate-900"
+      class="absolute right-0 z-50 mt-2 w-64 ui-card rounded-3xl p-2 shadow-xl"
     >
       <div class="border-b border-slate-200 px-3 py-3 dark:border-slate-800">
-        <p class="text-sm font-bold text-slate-900 dark:text-white">
+        <p class="text-sm font-bold text-ui">
           {{ authStore.user?.name || "User" }}
         </p>
-        <p class="mt-1 truncate text-xs text-slate-500 dark:text-slate-400">
+        <p class="mt-1 truncate text-xs text-muted">
           {{ authStore.user?.email }}
         </p>
       </div>

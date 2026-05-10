@@ -3,6 +3,7 @@ definePageMeta({
   layout: "dashboard",
   middleware: ["auth", "permission"],
   permission: "profile.view",
+  title: "Profile",
 });
 
 import { KeyRound, RefreshCcw, Save, User } from "lucide-vue-next";
@@ -132,6 +133,8 @@ onMounted(fetchProfile);
 </script>
 
 <template>
+  <PageSkeleton v-if="loading" />
+
   <div class="space-y-6">
     <PageHeader title="Profile" subtitle="Manage your account information and password.">
       <template #actions>
@@ -142,19 +145,7 @@ onMounted(fetchProfile);
       </template>
     </PageHeader>
 
-    <AlertMessage
-      v-if="errorMessage"
-      type="error"
-      :message="errorMessage"
-    />
-
-    <div
-      v-if="loading"
-      class="rounded-2xl border border-slate-200 bg-white px-6 py-12 text-center text-sm text-slate-500 shadow-sm"
-    >
-      Loading profile...
-    </div>
-
+    <AlertMessage v-if="errorMessage" type="error" :message="errorMessage" />
     <template v-else>
       <div class="grid gap-6 lg:grid-cols-3">
         <!-- Profile Summary -->
@@ -166,11 +157,11 @@ onMounted(fetchProfile);
               {{ profileForm.name.charAt(0).toUpperCase() || "U" }}
             </div>
 
-            <h2 class="mt-4 text-xl font-bold text-slate-900 dark:text-white">
+            <h2 class="mt-4 text-xl font-bold text-ui">
               {{ profileForm.name || "User" }}
             </h2>
 
-            <p class="mt-1 text-sm text-slate-500 dark:text-slate-400">
+            <p class="mt-1 text-sm text-muted">
               {{ profileForm.email }}
             </p>
 

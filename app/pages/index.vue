@@ -451,6 +451,7 @@ import { ref, onMounted } from 'vue'
 // Page meta for SEO
 definePageMeta({
   layout: "default",
+  title: "Home",
 });
 
 useHead({

@@ -144,7 +144,7 @@ const dishes = [
   { name: 'Truffle Mac & Cheese', price: '14.99', rating: '4.7', desc: 'Decadent truffle oil paired with four artisanal cheeses.', image: 'https://images.unsplash.com/photo-1546833999-b9f581a4f7b6?w=600&h=600&fit=crop' }
 ];
 
-definePageMeta({ layout: "default" });
+definePageMeta({ layout: "default", title: "Home" });
 </script>
 
 <style scoped>
