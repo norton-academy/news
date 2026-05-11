@@ -80,19 +80,21 @@ const handleRowClick = (row: Record<string, any>, event: MouseEvent) => {
 </script>
 
 <template>
-  <div class="motion-fade-up ui-card overflow-hidden rounded-3xl">
+  <div
+    class="local-motion-fade-up overflow-hidden rounded-3xl border border-border bg-card text-card-foreground shadow-sm"
+  >
     <!-- Loading shine bar -->
-    <div v-if="loading" class="h-1 w-full overflow-hidden bg-surface-soft">
+    <div v-if="loading" class="h-1 w-full overflow-hidden bg-muted">
       <div
         class="h-full w-1/3 animate-table-loading bg-blue-600/80 dark:bg-blue-400/80"
       />
     </div>
 
     <div class="overflow-x-auto">
-      <table class="min-w-full divide-y border-ui">
+      <table class="min-w-full">
         <thead
           :class="[
-            'bg-surface-soft/90 backdrop-blur',
+            'border-b border-border bg-muted/70 backdrop-blur',
             stickyHeader ? 'sticky top-0 z-10' : '',
           ]"
         >
@@ -101,7 +103,7 @@ const handleRowClick = (row: Record<string, any>, event: MouseEvent) => {
               v-for="column in columns"
               :key="column.key"
               :class="[
-                'whitespace-nowrap px-6 py-4 text-xs font-bold uppercase tracking-wider text-muted',
+                'whitespace-nowrap px-6 py-4 text-xs font-bold uppercase tracking-wider text-muted-foreground',
                 alignmentClass(column.align),
               ]"
               :style="{ width: column.width }"
@@ -113,13 +115,13 @@ const handleRowClick = (row: Record<string, any>, event: MouseEvent) => {
           </tr>
         </thead>
 
-        <tbody class="divide-y border-ui">
+        <tbody>
           <!-- Loading rows -->
           <template v-if="loading">
             <tr
               v-for="(_, rowIndex) in skeletonRows"
               :key="`loading-${rowIndex}`"
-              class="motion-row"
+              class="local-motion-row border-b border-border last:border-b-0"
               :style="{ animationDelay: `${rowIndex * 35}ms` }"
             >
               <td
@@ -129,7 +131,7 @@ const handleRowClick = (row: Record<string, any>, event: MouseEvent) => {
               >
                 <div
                   :class="[
-                    'h-4 animate-pulse rounded-full bg-surface-muted',
+                    'h-4 animate-pulse rounded-full bg-muted',
                     skeletonWidthClass(column.align),
                   ]"
                 />
@@ -152,8 +154,8 @@ const handleRowClick = (row: Record<string, any>, event: MouseEvent) => {
             :style="{ animationDelay: `${rowIndex * 25}ms` }"
             :draggable="isDraggable"
             :class="[
-              'motion-row transition-smooth group',
-              hoverable ? 'hover:bg-surface-soft' : '',
+              'local-motion-row group border-b border-border local-transition-smooth last:border-b-0',
+              hoverable ? 'hover:bg-muted/70' : '',
               clickable ? 'cursor-pointer' : '',
               isDraggable ? 'cursor-grab active:cursor-grabbing' : '',
             ]"
@@ -166,7 +168,7 @@ const handleRowClick = (row: Record<string, any>, event: MouseEvent) => {
               v-for="column in columns"
               :key="column.key"
               :class="[
-                'whitespace-nowrap px-6 py-4 text-sm text-muted',
+                'whitespace-nowrap px-6 py-4 text-sm text-muted-foreground',
                 alignmentClass(column.align),
               ]"
             >
@@ -182,12 +184,12 @@ const handleRowClick = (row: Record<string, any>, event: MouseEvent) => {
                     row[column.key] !== undefined &&
                     row[column.key] !== ''
                   "
-                  class="font-semibold text-ui"
+                  class="font-semibold text-card-foreground"
                 >
                   {{ row[column.key] }}
                 </span>
 
-                <span v-else class="text-soft"> — </span>
+                <span v-else class="text-muted-foreground/60"> — </span>
               </slot>
             </td>
           </tr>
@@ -196,7 +198,7 @@ const handleRowClick = (row: Record<string, any>, event: MouseEvent) => {
     </div>
 
     <!-- Footer -->
-    <div v-if="$slots.footer" class="border-t border-ui bg-surface-soft px-6 py-4">
+    <div v-if="$slots.footer" class="border-t border-border bg-muted/60 px-6 py-4">
       <slot name="footer" />
     </div>
   </div>
@@ -215,5 +217,31 @@ const handleRowClick = (row: Record<string, any>, event: MouseEvent) => {
 
 .animate-table-loading {
   animation: table-loading 1.1s ease-in-out infinite;
+}
+
+/* Local motion utilities (replaces global motion helpers) */
+.local-transition-smooth {
+  transition: transform 180ms cubic-bezier(.2,.8,.2,1),
+    background-color 180ms cubic-bezier(.2,.8,.2,1),
+    color 180ms cubic-bezier(.2,.8,.2,1),
+    box-shadow 180ms cubic-bezier(.2,.8,.2,1);
+}
+
+.local-motion-fade-up {
+  animation: local-motion-fade-up 260ms cubic-bezier(.2,.8,.2,1) both;
+}
+
+@keyframes local-motion-fade-up {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.local-motion-row {
+  animation: local-motion-row-in 220ms cubic-bezier(.2,.8,.2,1) both;
+}
+
+@keyframes local-motion-row-in {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 </style>

@@ -81,7 +81,7 @@ onMounted(async () => {
       </span>
     </button>
 
-    <Transition name="dropdown">
+    <Transition name="notification-dropdown">
       <div
         v-if="open"
         class="absolute right-0 z-50 mt-2 w-[360px] overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-2xl dark:border-slate-800 dark:bg-slate-900 sm:w-96"
@@ -91,10 +91,10 @@ onMounted(async () => {
           class="flex items-center justify-between border-b border-slate-200 px-5 py-4 dark:border-slate-800"
         >
           <div>
-            <h3 class="text-sm font-bold text-ui">
+            <h3 class="text-sm font-bold text-slate-900 dark:text-white">
               Notifications
             </h3>
-            <p class="mt-1 text-xs text-muted">
+            <p class="mt-1 text-xs text-slate-500 dark:text-slate-400">
               {{ notificationStore.unreadCount }} unread notification(s)
             </p>
           </div>
@@ -180,7 +180,7 @@ onMounted(async () => {
 
             <div class="min-w-0 flex-1">
               <div class="flex items-start justify-between gap-3">
-                <p class="text-sm font-bold text-ui">
+                <p class="text-sm font-bold text-slate-900 dark:text-white">
                   {{ notification.title }}
                 </p>
 
@@ -190,7 +190,9 @@ onMounted(async () => {
                 />
               </div>
 
-              <p class="mt-1 line-clamp-2 text-sm leading-5 text-muted">
+              <p
+                class="mt-1 line-clamp-2 text-sm leading-5 text-slate-500 dark:text-slate-400"
+              >
                 {{ notification.message }}
               </p>
 
@@ -213,10 +215,10 @@ onMounted(async () => {
         <!-- Empty -->
         <div v-else class="px-6 py-12 text-center">
           <Bell class="mx-auto h-10 w-10 text-slate-300 dark:text-slate-700" />
-          <p class="mt-4 text-sm font-semibold text-ui">
+          <p class="mt-4 text-sm font-semibold text-slate-900 dark:text-white">
             No notifications
           </p>
-          <p class="mt-1 text-sm text-muted">
+          <p class="mt-1 text-sm text-slate-500 dark:text-slate-400">
             You are all caught up.
           </p>
         </div>

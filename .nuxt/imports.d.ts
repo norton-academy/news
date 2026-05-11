@@ -43,6 +43,7 @@ export { useNotification, NotificationType, NotificationItem, NotificationPagina
 export { usePasswordOtp, SendPasswordOtpPayload, VerifyPasswordOtpPayload, ResetPasswordWithOtpPayload, PasswordOtpResponse } from '../app/composables/usePasswordOtp';
 export { usePasswordReset, ForgotPasswordPayload, ResetPasswordPayload, PasswordResetResponse } from '../app/composables/usePasswordReset';
 export { usePermission, PermissionItem, PermissionPagination, PermissionListResponse, PermissionPayload, PermissionQueryParams, PermissionStats } from '../app/composables/usePermission';
+export { useProduct, ProductItem, ProductPagination, ProductStats, ProductFilters, ProductPayload } from '../app/composables/useProduct';
 export { useProfile, ProfileUser, ProfileResponse, UpdateProfilePayload, UpdatePasswordPayload } from '../app/composables/useProfile';
 export { useRbac, RbacStats, RbacRoleOverview, PermissionModuleOverview, RbacDashboardResponse } from '../app/composables/useRbac';
 export { useRole, RolePagination, RoleListResponse, RolePayload, RolePermissionItem, RoleItem, RoleShowResponse, RoleQueryParams, SyncRolePermissionsPayload, CloneRolePayload } from '../app/composables/useRole';
@@ -52,6 +53,8 @@ export { useUser, UserStatus, UserItem, UserPagination, UserStats, UserListRespo
 export { downloadBlobFile } from '../app/utils/downloadFile';
 export { useAuthStore } from '../app/stores/auth';
 export { useCartStore } from '../app/stores/cart';
+export { useLayoutStore } from '../app/stores/layout';
+export { useLoadingStore } from '../app/stores/loading';
 export { useMenuStore } from '../app/stores/menu';
 export { useNotificationStore } from '../app/stores/notification';
 export { useThemeStore, ThemeMode } from '../app/stores/theme';

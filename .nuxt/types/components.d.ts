@@ -42,11 +42,15 @@ interface _GlobalComponents {
   AppInput: typeof import("../../app/components/ui/AppInput.vue")['default']
   AppModal: typeof import("../../app/components/ui/AppModal.vue")['default']
   AppSelect: typeof import("../../app/components/ui/AppSelect.vue")['default']
+  AppTextarea: typeof import("../../app/components/ui/AppTextarea.vue")['default']
+  ConfirmDialog: typeof import("../../app/components/ui/ConfirmDialog.vue")['default']
   DataTable: typeof import("../../app/components/ui/DataTable.vue")['default']
   EmptyState: typeof import("../../app/components/ui/EmptyState.vue")['default']
   FilterBar: typeof import("../../app/components/ui/FilterBar.vue")['default']
   OtpInput: typeof import("../../app/components/ui/OtpInput.vue")['default']
   PageHeader: typeof import("../../app/components/ui/PageHeader.vue")['default']
+  PageLoadingBar: typeof import("../../app/components/ui/PageLoadingBar.vue")['default']
+  PageSkeleton: typeof import("../../app/components/ui/PageSkeleton.vue")['default']
   SectionHeader: typeof import("../../app/components/ui/SectionHeader.vue")['default']
   StatsCard: typeof import("../../app/components/ui/StatsCard.vue")['default']
   TablePagination: typeof import("../../app/components/ui/TablePagination.vue")['default']
@@ -108,11 +112,15 @@ interface _GlobalComponents {
   LazyAppInput: LazyComponent<typeof import("../../app/components/ui/AppInput.vue")['default']>
   LazyAppModal: LazyComponent<typeof import("../../app/components/ui/AppModal.vue")['default']>
   LazyAppSelect: LazyComponent<typeof import("../../app/components/ui/AppSelect.vue")['default']>
+  LazyAppTextarea: LazyComponent<typeof import("../../app/components/ui/AppTextarea.vue")['default']>
+  LazyConfirmDialog: LazyComponent<typeof import("../../app/components/ui/ConfirmDialog.vue")['default']>
   LazyDataTable: LazyComponent<typeof import("../../app/components/ui/DataTable.vue")['default']>
   LazyEmptyState: LazyComponent<typeof import("../../app/components/ui/EmptyState.vue")['default']>
   LazyFilterBar: LazyComponent<typeof import("../../app/components/ui/FilterBar.vue")['default']>
   LazyOtpInput: LazyComponent<typeof import("../../app/components/ui/OtpInput.vue")['default']>
   LazyPageHeader: LazyComponent<typeof import("../../app/components/ui/PageHeader.vue")['default']>
+  LazyPageLoadingBar: LazyComponent<typeof import("../../app/components/ui/PageLoadingBar.vue")['default']>
+  LazyPageSkeleton: LazyComponent<typeof import("../../app/components/ui/PageSkeleton.vue")['default']>
   LazySectionHeader: LazyComponent<typeof import("../../app/components/ui/SectionHeader.vue")['default']>
   LazyStatsCard: LazyComponent<typeof import("../../app/components/ui/StatsCard.vue")['default']>
   LazyTablePagination: LazyComponent<typeof import("../../app/components/ui/TablePagination.vue")['default']>

@@ -61,7 +61,9 @@ let notificationTimer: ReturnType<typeof setInterval> | null = null;
 </script>
 
 <template>
-  <div class="min-h-screen bg-app text-ui transition-smooth">
+  <div
+    class="min-h-screen bg-slate-50 text-slate-900 dark:bg-slate-950 dark:text-slate-100"
+  >
     <div class="pointer-events-none fixed inset-0 overflow-hidden">
       <div
         class="absolute -left-40 top-0 h-96 w-96 rounded-full bg-blue-500/10 blur-3xl dark:bg-blue-500/5"
@@ -88,7 +90,6 @@ let notificationTimer: ReturnType<typeof setInterval> | null = null;
         @toggle-sidebar-collapse="toggleSidebarCollapsed"
         @open-command-palette="openCommandPalette"
       />
-
       <main class="px-4 py-6 sm:px-6 lg:px-8">
         <div class="mx-auto max-w-7xl">
           <slot />

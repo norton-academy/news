@@ -122,10 +122,12 @@ declare global {
   const useHeadSafe: typeof import('../../node_modules/nuxt/dist/app/composables/head').useHeadSafe
   const useHydration: typeof import('../../node_modules/nuxt/dist/app/composables/hydrate').useHydration
   const useId: typeof import('vue').useId
+  const useLayoutStore: typeof import('../../app/stores/layout').useLayoutStore
   const useLazyAsyncData: typeof import('../../node_modules/nuxt/dist/app/composables/asyncData').useLazyAsyncData
   const useLazyFetch: typeof import('../../node_modules/nuxt/dist/app/composables/fetch').useLazyFetch
   const useLink: typeof import('vue-router').useLink
   const useLoadingIndicator: typeof import('../../node_modules/nuxt/dist/app/composables/loading-indicator').useLoadingIndicator
+  const useLoadingStore: typeof import('../../app/stores/loading').useLoadingStore
   const useMenu: typeof import('../../app/composables/useMenu').useMenu
   const useMenuStore: typeof import('../../app/stores/menu').useMenuStore
   const useModel: typeof import('vue').useModel
@@ -139,6 +141,7 @@ declare global {
   const usePermission: typeof import('../../app/composables/usePermission').usePermission
   const usePinia: typeof import('../../node_modules/@pinia/nuxt/dist/runtime/composables').usePinia
   const usePreviewMode: typeof import('../../node_modules/nuxt/dist/app/composables/preview').usePreviewMode
+  const useProduct: typeof import('../../app/composables/useProduct').useProduct
   const useProfile: typeof import('../../app/composables/useProfile').useProfile
   const useRbac: typeof import('../../app/composables/useRbac').useRbac
   const useRequestEvent: typeof import('../../node_modules/nuxt/dist/app/composables/ssr').useRequestEvent
@@ -243,6 +246,9 @@ declare global {
   // @ts-ignore
   export type { PermissionItem, PermissionPagination, PermissionListResponse, PermissionPayload, PermissionQueryParams, PermissionStats } from '../../app/composables/usePermission'
   import('../../app/composables/usePermission')
+  // @ts-ignore
+  export type { ProductItem, ProductPagination, ProductStats, ProductFilters, ProductPayload } from '../../app/composables/useProduct'
+  import('../../app/composables/useProduct')
   // @ts-ignore
   export type { ProfileUser, ProfileResponse, UpdateProfilePayload, UpdatePasswordPayload } from '../../app/composables/useProfile'
   import('../../app/composables/useProfile')
@@ -390,10 +396,12 @@ declare module 'vue' {
     readonly useHeadSafe: UnwrapRef<typeof import('../../node_modules/nuxt/dist/app/composables/head')['useHeadSafe']>
     readonly useHydration: UnwrapRef<typeof import('../../node_modules/nuxt/dist/app/composables/hydrate')['useHydration']>
     readonly useId: UnwrapRef<typeof import('vue')['useId']>
+    readonly useLayoutStore: UnwrapRef<typeof import('../../app/stores/layout')['useLayoutStore']>
     readonly useLazyAsyncData: UnwrapRef<typeof import('../../node_modules/nuxt/dist/app/composables/asyncData')['useLazyAsyncData']>
     readonly useLazyFetch: UnwrapRef<typeof import('../../node_modules/nuxt/dist/app/composables/fetch')['useLazyFetch']>
     readonly useLink: UnwrapRef<typeof import('vue-router')['useLink']>
     readonly useLoadingIndicator: UnwrapRef<typeof import('../../node_modules/nuxt/dist/app/composables/loading-indicator')['useLoadingIndicator']>
+    readonly useLoadingStore: UnwrapRef<typeof import('../../app/stores/loading')['useLoadingStore']>
     readonly useMenu: UnwrapRef<typeof import('../../app/composables/useMenu')['useMenu']>
     readonly useMenuStore: UnwrapRef<typeof import('../../app/stores/menu')['useMenuStore']>
     readonly useModel: UnwrapRef<typeof import('vue')['useModel']>
@@ -407,6 +415,7 @@ declare module 'vue' {
     readonly usePermission: UnwrapRef<typeof import('../../app/composables/usePermission')['usePermission']>
     readonly usePinia: UnwrapRef<typeof import('../../node_modules/@pinia/nuxt/dist/runtime/composables')['usePinia']>
     readonly usePreviewMode: UnwrapRef<typeof import('../../node_modules/nuxt/dist/app/composables/preview')['usePreviewMode']>
+    readonly useProduct: UnwrapRef<typeof import('../../app/composables/useProduct')['useProduct']>
     readonly useProfile: UnwrapRef<typeof import('../../app/composables/useProfile')['useProfile']>
     readonly useRbac: UnwrapRef<typeof import('../../app/composables/useRbac')['useRbac']>
     readonly useRequestEvent: UnwrapRef<typeof import('../../node_modules/nuxt/dist/app/composables/ssr')['useRequestEvent']>

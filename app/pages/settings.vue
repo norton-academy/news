@@ -1,16 +1,28 @@
 <script setup lang="ts">
 import type { RoleItem } from "~/composables/useRole";
-import { RefreshCcw, Save, Settings } from "lucide-vue-next";
+import {
+  Mail,
+  RefreshCcw,
+  Save,
+  Settings,
+  ShieldCheck,
+  UserPlus,
+  Wrench,
+} from "lucide-vue-next";
+
 definePageMeta({
   layout: "dashboard",
   middleware: ["auth", "permission"],
   permission: "setting.view",
+  title: "Settings",
 });
 
 const { getSettings, updateSettings } = useSettings();
 const { getRoles } = useRole();
+
 const authStore = useAuthStore();
 const toast = useToast();
+const notificationStore = useNotificationStore();
 
 const loading = ref(false);
 const saving = ref(false);
@@ -42,6 +54,18 @@ const roleOptions = computed(() => {
   }));
 });
 
+const parseBoolean = (value: unknown, fallback = false) => {
+  if (value === true || value === "true" || value === 1 || value === "1") {
+    return true;
+  }
+
+  if (value === false || value === "false" || value === 0 || value === "0") {
+    return false;
+  }
+
+  return fallback;
+};
+
 const resetErrors = () => {
   Object.keys(errors).forEach((key) => {
     errors[key] = "";
@@ -53,8 +77,8 @@ const applySettingsToForm = (settings: any[]) => {
 
   form.app_name = String(map.app_name || "");
   form.support_email = String(map.support_email || "");
-  form.allow_registration = Boolean(map.allow_registration);
-  form.maintenance_mode = Boolean(map.maintenance_mode);
+  form.allow_registration = parseBoolean(map.allow_registration, true);
+  form.maintenance_mode = parseBoolean(map.maintenance_mode, false);
   form.default_user_role = String(map.default_user_role || "");
 };
 
@@ -92,6 +116,7 @@ const fetchSettings = async () => {
 
 const handleSubmit = async () => {
   saving.value = true;
+  errorMessage.value = "";
   resetErrors();
 
   try {
@@ -104,37 +129,145 @@ const handleSubmit = async () => {
     });
 
     applySettingsToForm(response.data.settings);
+
+    await notificationStore.refreshNotifications();
+
     toast.success("Settings updated", "System settings were updated successfully.");
   } catch (error: any) {
-    toast.error("Update failed", error.message || "Failed to update settings");
+    errorMessage.value =
+      error.response?.data?.message || error.message || "Failed to update settings";
 
-    if (error.errors) {
-      errors.app_name = error.errors.app_name?.[0] || "";
-      errors.support_email = error.errors.support_email?.[0] || "";
-      errors.allow_registration = error.errors.allow_registration?.[0] || "";
-      errors.maintenance_mode = error.errors.maintenance_mode?.[0] || "";
-      errors.default_user_role = error.errors.default_user_role?.[0] || "";
+    toast.error("Update failed", errorMessage.value);
+
+    const validationErrors = error.response?.data?.errors || error.errors;
+
+    if (validationErrors) {
+      errors.app_name = validationErrors.app_name?.[0] || "";
+      errors.support_email = validationErrors.support_email?.[0] || "";
+      errors.allow_registration = validationErrors.allow_registration?.[0] || "";
+      errors.maintenance_mode = validationErrors.maintenance_mode?.[0] || "";
+      errors.default_user_role = validationErrors.default_user_role?.[0] || "";
     }
   } finally {
     saving.value = false;
   }
 };
 
-onMounted(fetchSettings);
+onMounted(async () => {
+  await fetchSettings();
+});
 </script>
 
 <template>
   <div class="space-y-6">
-    <PageHeader title="Settings" subtitle="Manage global system configuration.">
+    <PageHeader
+      title="Settings"
+      subtitle="Manage global application, authentication, registration, and maintenance configuration."
+    >
       <template #actions>
         <AppButton variant="secondary" :loading="loading" @click="fetchSettings">
-          <RefreshCcw class="mr-2 h-4 w-4" />
+          <RefreshCcw class="h-4 w-4" />
           Refresh
         </AppButton>
       </template>
     </PageHeader>
 
-    <AlertMessage v-if="errorMessage" type="error" :message="errorMessage" />
+    <AlertMessage
+      v-if="errorMessage"
+      type="error"
+      title="Settings error"
+      :message="errorMessage"
+    />
+
+    <div class="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+      <StatsCard
+        title="Application"
+        :value="form.app_name || '-'"
+        subtitle="Current app name"
+        tone="info"
+      >
+        <template #badge>
+          <AppBadge variant="info" shape="square" size="md">
+            <Settings class="h-5 w-5" />
+          </AppBadge>
+        </template>
+      </StatsCard>
+
+      <StatsCard
+        title="Registration"
+        :value="form.allow_registration ? 'Enabled' : 'Disabled'"
+        subtitle="New account creation"
+        :tone="form.allow_registration ? 'success' : 'warning'"
+      >
+        <template #badge>
+          <AppBadge
+            :variant="form.allow_registration ? 'success' : 'warning'"
+            shape="square"
+            size="md"
+          >
+            <UserPlus class="h-5 w-5" />
+          </AppBadge>
+        </template>
+      </StatsCard>
+
+      <StatsCard
+        title="Maintenance"
+        :value="form.maintenance_mode ? 'On' : 'Off'"
+        subtitle="System availability"
+        :tone="form.maintenance_mode ? 'warning' : 'success'"
+      >
+        <template #badge>
+          <AppBadge
+            :variant="form.maintenance_mode ? 'warning' : 'success'"
+            shape="square"
+            size="md"
+          >
+            <Wrench class="h-5 w-5" />
+          </AppBadge>
+        </template>
+      </StatsCard>
+
+      <StatsCard
+        title="Default Role"
+        :value="form.default_user_role || '-'"
+        subtitle="Assigned to new users"
+        tone="default"
+      >
+        <template #badge>
+          <AppBadge variant="default" shape="square" size="md">
+            <ShieldCheck class="h-5 w-5" />
+          </AppBadge>
+        </template>
+      </StatsCard>
+    </div>
+
+    <template v-if="loading">
+      <div class="grid gap-6 lg:grid-cols-3">
+        <div class="rounded-3xl border border-border bg-card p-6 shadow-sm lg:col-span-1">
+          <div class="h-5 w-36 animate-pulse rounded-full bg-muted" />
+
+          <div class="mt-5 space-y-3">
+            <div
+              v-for="i in 3"
+              :key="i"
+              class="h-14 animate-pulse rounded-2xl bg-muted"
+            />
+          </div>
+        </div>
+
+        <div class="rounded-3xl border border-border bg-card p-6 shadow-sm lg:col-span-2">
+          <div class="h-5 w-44 animate-pulse rounded-full bg-muted" />
+
+          <div class="mt-5 grid gap-5 md:grid-cols-2">
+            <div
+              v-for="i in 4"
+              :key="i"
+              class="h-12 animate-pulse rounded-2xl bg-muted"
+            />
+          </div>
+        </div>
+      </div>
+    </template>
 
     <template v-else>
       <div class="grid gap-6 lg:grid-cols-3">
@@ -143,37 +276,86 @@ onMounted(fetchSettings);
           subtitle="Quick configuration status."
           class="lg:col-span-1"
         >
-          <div class="space-y-4">
+          <div class="space-y-3">
             <div
-              class="flex items-center justify-between rounded-xl bg-slate-50 px-4 py-3 dark:bg-slate-800/60"
+              class="flex items-center justify-between rounded-2xl bg-muted/60 px-4 py-3"
             >
-              <span class="text-sm font-medium text-slate-600 dark:text-slate-400">
-                Registration
-              </span>
-              <AppBadge :variant="form.allow_registration ? 'success' : 'default'">
+              <div class="flex items-center gap-3">
+                <AppBadge
+                  :variant="form.allow_registration ? 'success' : 'warning'"
+                  shape="square"
+                  size="sm"
+                >
+                  <UserPlus class="h-4 w-4" />
+                </AppBadge>
+
+                <span class="text-sm font-semibold text-muted-foreground">
+                  Registration
+                </span>
+              </div>
+
+              <AppBadge :variant="form.allow_registration ? 'success' : 'warning'">
                 {{ form.allow_registration ? "Enabled" : "Disabled" }}
               </AppBadge>
             </div>
 
             <div
-              class="flex items-center justify-between rounded-xl bg-slate-50 px-4 py-3 dark:bg-slate-800/60"
+              class="flex items-center justify-between rounded-2xl bg-muted/60 px-4 py-3"
             >
-              <span class="text-sm font-medium text-slate-600 dark:text-slate-400"
-                >Maintenance</span
-              >
+              <div class="flex items-center gap-3">
+                <AppBadge
+                  :variant="form.maintenance_mode ? 'warning' : 'success'"
+                  shape="square"
+                  size="sm"
+                >
+                  <Wrench class="h-4 w-4" />
+                </AppBadge>
+
+                <span class="text-sm font-semibold text-muted-foreground">
+                  Maintenance
+                </span>
+              </div>
+
               <AppBadge :variant="form.maintenance_mode ? 'warning' : 'success'">
                 {{ form.maintenance_mode ? "On" : "Off" }}
               </AppBadge>
             </div>
 
             <div
-              class="flex items-center justify-between rounded-xl bg-slate-50 px-4 py-3 dark:bg-slate-800/60"
+              class="flex items-center justify-between rounded-2xl bg-muted/60 px-4 py-3"
             >
-              <span class="text-sm font-medium text-slate-600 dark:text-slate-400"
-                >Default Role</span
-              >
-              <span class="text-sm font-bold text-ui">
+              <div class="flex items-center gap-3">
+                <AppBadge variant="default" shape="square" size="sm">
+                  <ShieldCheck class="h-4 w-4" />
+                </AppBadge>
+
+                <span class="text-sm font-semibold text-muted-foreground">
+                  Default Role
+                </span>
+              </div>
+
+              <span class="text-sm font-bold text-card-foreground">
                 {{ form.default_user_role || "-" }}
+              </span>
+            </div>
+
+            <div
+              class="flex items-center justify-between rounded-2xl bg-muted/60 px-4 py-3"
+            >
+              <div class="flex items-center gap-3">
+                <AppBadge variant="info" shape="square" size="sm">
+                  <Mail class="h-4 w-4" />
+                </AppBadge>
+
+                <span class="text-sm font-semibold text-muted-foreground">
+                  Support Email
+                </span>
+              </div>
+
+              <span
+                class="max-w-[150px] truncate text-right text-sm font-bold text-card-foreground"
+              >
+                {{ form.support_email || "-" }}
               </span>
             </div>
           </div>
@@ -213,52 +395,103 @@ onMounted(fetchSettings);
 
             <div class="grid gap-4 md:grid-cols-2">
               <label
-                class="flex cursor-pointer items-center justify-between rounded-2xl border border-slate-200 p-4 transition hover:bg-slate-50 dark:border-slate-800 dark:hover:bg-slate-800/60"
+                class="cursor-pointer rounded-3xl border border-border bg-muted/40 p-5 hover:bg-muted/70"
               >
-                <div>
-                  <p class="text-sm font-bold text-ui">
-                    Allow Registration
-                  </p>
-                  <p class="mt-1 text-sm text-muted">
-                    Allow new users to register accounts.
-                  </p>
+                <div class="flex items-start justify-between gap-4">
+                  <div>
+                    <div class="flex items-center gap-2">
+                      <AppBadge variant="success" shape="square" size="sm">
+                        <UserPlus class="h-4 w-4" />
+                      </AppBadge>
+
+                      <p class="text-sm font-bold text-card-foreground">
+                        Allow Registration
+                      </p>
+                    </div>
+
+                    <p class="mt-3 text-sm leading-6 text-muted-foreground">
+                      Allow new users to register accounts from the authentication page.
+                    </p>
+                  </div>
+
+                  <input
+                    v-model="form.allow_registration"
+                    type="checkbox"
+                    class="peer sr-only"
+                  />
+
+                  <span
+                    class="relative mt-1 inline-flex h-6 w-11 shrink-0 rounded-full border border-border bg-background"
+                    :class="form.allow_registration ? 'bg-emerald-600' : ''"
+                  >
+                    <span
+                      class="absolute left-0.5 top-0.5 h-5 w-5 rounded-full bg-card shadow-sm"
+                      :class="form.allow_registration ? 'translate-x-5' : ''"
+                    />
+                  </span>
                 </div>
 
-                <input
-                  v-model="form.allow_registration"
-                  type="checkbox"
-                  class="h-5 w-5 rounded border-slate-300 dark:border-slate-700"
-                />
+                <p
+                  v-if="errors.allow_registration"
+                  class="mt-3 text-sm font-medium text-rose-600 dark:text-rose-400"
+                >
+                  {{ errors.allow_registration }}
+                </p>
               </label>
 
               <label
-                class="flex cursor-pointer items-center justify-between rounded-2xl border border-slate-200 p-4 transition hover:bg-slate-50 dark:border-slate-800 dark:hover:bg-slate-800/60"
+                class="cursor-pointer rounded-3xl border border-border bg-muted/40 p-5 hover:bg-muted/70"
               >
-                <div>
-                  <p class="text-sm font-bold text-ui">
-                    Maintenance Mode
-                  </p>
-                  <p class="mt-1 text-sm text-muted">
-                    Mark the system as under maintenance.
-                  </p>
+                <div class="flex items-start justify-between gap-4">
+                  <div>
+                    <div class="flex items-center gap-2">
+                      <AppBadge variant="warning" shape="square" size="sm">
+                        <Wrench class="h-4 w-4" />
+                      </AppBadge>
+
+                      <p class="text-sm font-bold text-card-foreground">
+                        Maintenance Mode
+                      </p>
+                    </div>
+
+                    <p class="mt-3 text-sm leading-6 text-muted-foreground">
+                      Mark the system as under maintenance for users and admins.
+                    </p>
+                  </div>
+
+                  <input
+                    v-model="form.maintenance_mode"
+                    type="checkbox"
+                    class="peer sr-only"
+                  />
+
+                  <span
+                    class="relative mt-1 inline-flex h-6 w-11 shrink-0 rounded-full border border-border bg-background"
+                    :class="form.maintenance_mode ? 'bg-orange-500' : ''"
+                  >
+                    <span
+                      class="absolute left-0.5 top-0.5 h-5 w-5 rounded-full bg-card shadow-sm"
+                      :class="form.maintenance_mode ? 'translate-x-5' : ''"
+                    />
+                  </span>
                 </div>
 
-                <input
-                  v-model="form.maintenance_mode"
-                  type="checkbox"
-                  class="h-5 w-5 rounded border-slate-300 dark:border-slate-700"
-                />
+                <p
+                  v-if="errors.maintenance_mode"
+                  class="mt-3 text-sm font-medium text-rose-600 dark:text-rose-400"
+                >
+                  {{ errors.maintenance_mode }}
+                </p>
               </label>
             </div>
 
-            <div
-              class="flex justify-end border-t border-slate-200 dark:border-slate-800/60 pt-5"
-            >
+            <div class="flex justify-end border-t border-border pt-5">
               <AppButton
                 type="submit"
                 :loading="saving"
                 :disabled="!authStore.hasPermission('setting.update')"
               >
+                <Save class="h-4 w-4" />
                 Save Settings
               </AppButton>
             </div>

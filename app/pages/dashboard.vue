@@ -10,11 +10,13 @@ import {
   Activity,
   Clock,
   Database,
+  KeyRound,
+  RefreshCcw,
   ShieldCheck,
   Users,
-  KeyRound,
   Workflow,
 } from "lucide-vue-next";
+
 definePageMeta({
   layout: "dashboard",
   middleware: ["auth", "permission"],
@@ -68,123 +70,156 @@ const fetchDashboard = async () => {
   }
 };
 
+const rolePercent = (count: number) => {
+  if (!stats.value.total_users) return 0;
+
+  return Math.min(Math.round((count / stats.value.total_users) * 100), 100);
+};
+
 onMounted(fetchDashboard);
 </script>
 
 <template>
-  <PageSkeleton v-if="loading" />
-
   <div class="space-y-6">
     <PageHeader
       title="Dashboard"
-      subtitle="Overview of users, roles, permissions, and system activity."
+      subtitle="Overview of users, roles, permissions, and recent system activity."
     >
       <template #actions>
         <AppButton variant="secondary" :loading="loading" @click="fetchDashboard">
+          <RefreshCcw class="h-4 w-4" />
           Refresh
         </AppButton>
       </template>
     </PageHeader>
 
-    <AlertMessage v-if="errorMessage" type="error" :message="errorMessage" />
+    <AlertMessage
+      v-if="errorMessage"
+      type="error"
+      title="Dashboard error"
+      :message="errorMessage"
+    />
+
+    <div class="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+      <StatsCard
+        title="Total Users"
+        :value="stats.total_users"
+        :subtitle="`${stats.active_users} active users`"
+        tone="info"
+      >
+        <template #badge>
+          <AppBadge variant="info" shape="square" size="md">
+            <Users class="h-5 w-5" />
+          </AppBadge>
+        </template>
+      </StatsCard>
+
+      <StatsCard
+        title="Roles"
+        :value="stats.total_roles"
+        subtitle="System access groups"
+        tone="default"
+      >
+        <template #badge>
+          <AppBadge variant="default" shape="square" size="md">
+            <ShieldCheck class="h-5 w-5" />
+          </AppBadge>
+        </template>
+      </StatsCard>
+
+      <StatsCard
+        title="Permissions"
+        :value="stats.total_permissions"
+        subtitle="Fine-grained controls"
+        tone="success"
+      >
+        <template #badge>
+          <AppBadge variant="success" shape="square" size="md">
+            <KeyRound class="h-5 w-5" />
+          </AppBadge>
+        </template>
+      </StatsCard>
+
+      <StatsCard
+        title="Audit Logs"
+        :value="stats.total_audit_logs"
+        subtitle="Recorded system actions"
+        tone="warning"
+      >
+        <template #badge>
+          <AppBadge variant="warning" shape="square" size="md">
+            <Workflow class="h-5 w-5" />
+          </AppBadge>
+        </template>
+      </StatsCard>
+    </div>
+
+    <div v-if="loading" class="grid gap-4 lg:grid-cols-3">
+      <div
+        v-for="i in 3"
+        :key="i"
+        class="rounded-3xl border border-border bg-card p-6 shadow-sm"
+      >
+        <div class="h-5 w-40 animate-pulse rounded-full bg-muted" />
+
+        <div class="mt-5 space-y-3">
+          <div v-for="j in 3" :key="j" class="h-14 animate-pulse rounded-2xl bg-muted" />
+        </div>
+      </div>
+    </div>
 
     <template v-else>
-      <!-- Stats -->
-      <div class="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
-        <StatsCard
-          title="Total Users"
-          :value="stats.total_users"
-          :subtitle="`${stats.active_users} active users`"
-          tone="info"
-        >
-          <template #badge>
-            <div
-              class="rounded-xl bg-blue-100 p-2 text-blue-700 dark:bg-blue-950/50 dark:text-blue-300"
-            >
-              <Users class="h-5 w-5" />
-            </div>
-          </template>
-        </StatsCard>
-
-        <StatsCard
-          title="Roles"
-          :value="stats.total_roles"
-          subtitle="System access groups"
-          tone="default"
-        >
-          <template #badge>
-            <div
-              class="rounded-xl bg-slate-100 p-2 text-slate-700 dark:bg-slate-800 dark:text-slate-300"
-            >
-              <ShieldCheck class="h-5 w-5" />
-            </div>
-          </template>
-        </StatsCard>
-
-        <StatsCard
-          title="Permissions"
-          :value="stats.total_permissions"
-          subtitle="Fine-grained controls"
-          tone="success"
-        >
-          <template #badge>
-            <div
-              class="rounded-xl bg-green-100 p-2 text-green-700 dark:bg-green-950/50 dark:text-green-300"
-            >
-              <KeyRound class="h-5 w-5" />
-            </div>
-          </template>
-        </StatsCard>
-
-        <StatsCard
-          title="Assigned Permissions"
-          :value="stats.total_audit_logs"
-          subtitle="Across all roles"
-          tone="warning"
-        >
-          <template #badge>
-            <div
-              class="rounded-xl bg-amber-100 p-2 text-amber-700 dark:bg-amber-950/50 dark:text-amber-300"
-            >
-              <Workflow class="h-5 w-5" />
-            </div>
-          </template>
-        </StatsCard>
-      </div>
-
-      <!-- System status -->
       <div class="grid gap-4 lg:grid-cols-3">
         <AppCard title="System Status" subtitle="Current application health.">
-          <div class="space-y-4">
+          <div class="space-y-3">
             <div
-              class="flex items-center justify-between rounded-xl bg-slate-50 px-4 py-3 dark:bg-slate-800/60"
+              class="flex items-center justify-between rounded-2xl bg-muted/60 px-4 py-3"
             >
-              <span class="text-sm font-medium text-slate-600 dark:text-slate-400"
-                >Status</span
-              >
+              <div class="flex items-center gap-3">
+                <AppBadge variant="success" shape="square" size="sm">
+                  <Activity class="h-4 w-4" />
+                </AppBadge>
+
+                <span class="text-sm font-semibold text-muted-foreground"> Status </span>
+              </div>
+
               <AppBadge :variant="system.status === 'Healthy' ? 'success' : 'warning'">
                 {{ system.status }}
               </AppBadge>
             </div>
 
             <div
-              class="flex items-center justify-between rounded-xl bg-slate-50 px-4 py-3 dark:bg-slate-800/60"
+              class="flex items-center justify-between rounded-2xl bg-muted/60 px-4 py-3"
             >
-              <span class="text-sm font-medium text-slate-600 dark:text-slate-400"
-                >Environment</span
-              >
-              <span class="text-sm font-bold text-ui">
+              <div class="flex items-center gap-3">
+                <AppBadge variant="info" shape="square" size="sm">
+                  <Database class="h-4 w-4" />
+                </AppBadge>
+
+                <span class="text-sm font-semibold text-muted-foreground">
+                  Environment
+                </span>
+              </div>
+
+              <span class="text-sm font-bold text-card-foreground">
                 {{ system.environment }}
               </span>
             </div>
 
             <div
-              class="flex items-center justify-between rounded-xl bg-slate-50 px-4 py-3 dark:bg-slate-800/60"
+              class="flex items-center justify-between rounded-2xl bg-muted/60 px-4 py-3"
             >
-              <span class="text-sm font-medium text-slate-600 dark:text-slate-400"
-                >Timezone</span
-              >
-              <span class="text-sm font-bold text-ui">
+              <div class="flex items-center gap-3">
+                <AppBadge variant="warning" shape="square" size="sm">
+                  <Clock class="h-4 w-4" />
+                </AppBadge>
+
+                <span class="text-sm font-semibold text-muted-foreground">
+                  Timezone
+                </span>
+              </div>
+
+              <span class="text-sm font-bold text-card-foreground">
                 {{ system.timezone }}
               </span>
             </div>
@@ -192,98 +227,105 @@ onMounted(fetchDashboard);
         </AppCard>
 
         <AppCard title="User Status" subtitle="Account status summary.">
-          <div class="space-y-4">
+          <div class="space-y-3">
             <div
-              class="flex items-center justify-between rounded-xl bg-green-50 px-4 py-3 dark:bg-green-950/30"
+              class="flex items-center justify-between rounded-2xl bg-emerald-50 px-4 py-3 dark:bg-emerald-950/30"
             >
-              <span class="text-sm font-medium text-green-700 dark:text-green-400"
-                >Active</span
-              >
-              <span class="text-sm font-bold text-green-700 dark:text-green-400">
+              <span class="text-sm font-semibold text-emerald-700 dark:text-emerald-300">
+                Active
+              </span>
+
+              <AppBadge variant="success">
                 {{ stats.active_users }}
-              </span>
+              </AppBadge>
             </div>
 
             <div
-              class="flex items-center justify-between rounded-xl bg-amber-50 px-4 py-3 dark:bg-amber-950/30"
+              class="flex items-center justify-between rounded-2xl bg-orange-50 px-4 py-3 dark:bg-orange-950/30"
             >
-              <span class="text-sm font-medium text-amber-700 dark:text-amber-400"
-                >Pending</span
-              >
-              <span class="text-sm font-bold text-amber-700 dark:text-amber-400">
+              <span class="text-sm font-semibold text-orange-700 dark:text-orange-300">
+                Pending
+              </span>
+
+              <AppBadge variant="warning">
                 {{ stats.pending_users }}
-              </span>
+              </AppBadge>
             </div>
 
             <div
-              class="flex items-center justify-between rounded-xl bg-slate-50 px-4 py-3 dark:bg-slate-800/60"
+              class="flex items-center justify-between rounded-2xl bg-muted/60 px-4 py-3"
             >
-              <span class="text-sm font-medium text-slate-700 dark:text-slate-300"
-                >Inactive</span
-              >
-              <span class="text-sm font-bold text-slate-700 dark:text-slate-300">
+              <span class="text-sm font-semibold text-muted-foreground"> Inactive </span>
+
+              <AppBadge variant="default">
                 {{ stats.inactive_users }}
-              </span>
+              </AppBadge>
             </div>
           </div>
         </AppCard>
 
         <AppCard title="Role Distribution" subtitle="Users grouped by role.">
-          <div class="space-y-4">
+          <div v-if="roleDistribution.length" class="space-y-4">
             <div
               v-for="role in roleDistribution"
               :key="role.id"
-              class="rounded-xl border border-slate-200 px-4 py-3 dark:border-slate-800"
+              class="rounded-2xl border border-border bg-muted/40 px-4 py-3"
             >
               <div class="flex items-center justify-between">
-                <p class="text-sm font-semibold text-ui">
-                  {{ role.name }}
-                </p>
+                <div>
+                  <p class="text-sm font-bold text-card-foreground">
+                    {{ role.name }}
+                  </p>
 
-                <span class="text-sm font-bold text-slate-700 dark:text-slate-300">
-                  {{ role.users_count }}
-                </span>
+                  <p class="mt-0.5 text-xs text-muted-foreground">
+                    {{ role.users_count }} users
+                  </p>
+                </div>
+
+                <AppBadge variant="info"> {{ rolePercent(role.users_count) }}% </AppBadge>
               </div>
 
-              <div
-                class="mt-3 h-2 overflow-hidden rounded-full bg-slate-100 dark:bg-slate-800"
-              >
+              <div class="mt-3 h-2 overflow-hidden rounded-full bg-background">
                 <div
-                  class="h-full rounded-full bg-slate-900 dark:bg-white"
-                  :style="{
-                    width: stats.total_users
-                      ? `${Math.min((role.users_count / stats.total_users) * 100, 100)}%`
-                      : '0%',
-                  }"
+                  class="h-full rounded-full bg-sky-600 dark:bg-sky-400"
+                  :style="{ width: `${rolePercent(role.users_count)}%` }"
                 />
               </div>
             </div>
-
-            <EmptyState
-              v-if="roleDistribution.length === 0"
-              title="No role data"
-              message="Assign roles to users to see distribution."
-            />
           </div>
+
+          <EmptyState
+            v-else
+            title="No role data"
+            message="Assign roles to users to see distribution."
+          />
         </AppCard>
       </div>
 
-      <!-- Recent sections -->
       <div class="grid gap-4 lg:grid-cols-2">
         <AppCard title="Recent Users" subtitle="Latest registered accounts.">
-          <div class="space-y-3">
+          <div v-if="recentUsers.length" class="space-y-3">
             <div
               v-for="user in recentUsers"
               :key="user.id"
-              class="flex items-center justify-between rounded-xl border border-slate-200 px-4 py-3 dark:border-slate-800"
+              class="flex items-center justify-between gap-4 rounded-2xl border border-border bg-muted/40 px-4 py-3 hover:bg-muted"
             >
-              <div>
-                <p class="text-sm font-semibold text-ui">
-                  {{ user.name }}
-                </p>
-                <p class="text-xs text-muted">
-                  {{ user.email }}
-                </p>
+              <div class="flex min-w-0 items-center gap-3">
+                <div
+                  class="flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl bg-background text-sm font-bold text-card-foreground"
+                >
+                  {{ user.name?.charAt(0)?.toUpperCase() || "U" }}
+                </div>
+
+                <div class="min-w-0">
+                  <p class="truncate text-sm font-bold text-card-foreground">
+                    {{ user.name }}
+                  </p>
+
+                  <p class="truncate text-xs text-muted-foreground">
+                    {{ user.email }}
+                  </p>
+                </div>
               </div>
 
               <AppBadge
@@ -298,41 +340,41 @@ onMounted(fetchDashboard);
                 {{ user.status }}
               </AppBadge>
             </div>
-
-            <EmptyState
-              v-if="recentUsers.length === 0"
-              title="No users yet"
-              message="New users will appear here."
-            />
           </div>
+
+          <EmptyState v-else title="No users yet" message="New users will appear here." />
         </AppCard>
 
         <AppCard title="Recent Audit Logs" subtitle="Latest recorded system actions.">
-          <div class="space-y-3">
+          <div v-if="recentAuditLogs.length" class="space-y-3">
             <div
               v-for="log in recentAuditLogs"
               :key="log.id"
-              class="rounded-xl border border-slate-200 px-4 py-3 dark:border-slate-800"
+              class="rounded-2xl border border-border bg-muted/40 px-4 py-3 hover:bg-muted"
             >
-              <div class="flex items-center justify-between gap-4">
-                <div>
+              <div class="flex items-start justify-between gap-4">
+                <div class="min-w-0">
                   <AppBadge variant="default">
                     {{ log.action }}
                   </AppBadge>
 
-                  <p class="mt-2 text-xs text-muted">{{ log.user?.name || "System" }} · {{ log.created_at }}</p>
+                  <p class="mt-2 truncate text-xs text-muted-foreground">
+                    {{ log.user?.name || "System" }} · {{ log.created_at }}
+                  </p>
                 </div>
 
-                <span class="text-xs font-medium text-muted">{{ log.module || "-" }}</span>
+                <span class="shrink-0 text-xs font-semibold text-muted-foreground">
+                  {{ log.module || "-" }}
+                </span>
               </div>
             </div>
-
-            <EmptyState
-              v-if="recentAuditLogs.length === 0"
-              title="No audit logs yet"
-              message="System actions will appear here."
-            />
           </div>
+
+          <EmptyState
+            v-else
+            title="No audit logs yet"
+            message="System actions will appear here."
+          />
         </AppCard>
       </div>
     </template>

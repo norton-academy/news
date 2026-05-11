@@ -27,6 +27,7 @@ const pageTitle = computed(() => {
     "/profile": "Profile",
     "/settings": "Settings",
     "/notifications": "Notifications",
+    "/ui-components": "UI Components",
   };
 
   return map[route.path] || "Dashboard";
@@ -55,7 +56,7 @@ const pageTitle = computed(() => {
         </button>
 
         <div>
-          <h2 class="text-base font-bold text-ui sm:text-lg">
+          <h2 class="text-base font-bold text-slate-900 dark:text-white sm:text-lg">
             {{ pageTitle }}
           </h2>
 
@@ -65,18 +66,18 @@ const pageTitle = computed(() => {
         </div>
       </div>
 
-      <div class="flex items-center gap-2 sm:gap-3 motion-fade-up">
+      <div class="flex items-center gap-2 sm:gap-3">
         <button
           type="button"
-          class="hidden h-10 items-center gap-2 rounded-xl border border-slate-200 bg-white px-3 text-sm text-muted shadow-sm transition hover:bg-slate-50 dark:border-slate-800 dark:bg-slate-900 dark:hover:bg-slate-800 md:inline-flex"
+          class="hidden h-10 items-center gap-2 rounded-xl border border-slate-200 bg-white px-3 text-sm text-slate-500 shadow-sm transition hover:bg-slate-50 dark:border-slate-800 dark:bg-slate-900 dark:text-slate-400 dark:hover:bg-slate-800 md:inline-flex"
           @click="emit('open-command-palette')"
         >
           <Search class="h-4 w-4" />
           Search
 
-            <kbd
-              class="ml-2 rounded-md border border-slate-200 bg-slate-50 px-1.5 py-0.5 text-[10px] font-semibold text-muted dark:border-slate-700 dark:bg-slate-800"
-            >
+          <kbd
+            class="ml-2 rounded-md border border-slate-200 bg-slate-50 px-1.5 py-0.5 text-[10px] font-semibold text-slate-500 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-400"
+          >
             Ctrl K
           </kbd>
         </button>

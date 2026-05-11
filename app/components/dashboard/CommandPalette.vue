@@ -222,27 +222,35 @@ watch(
                 </div>
 
                 <div class="min-w-0 flex-1">
-                  <p class="text-sm font-bold text-ui">
+                  <p class="text-sm font-bold text-slate-900 dark:text-white">
                     {{ item.label }}
                   </p>
-                  <p class="mt-1 truncate text-xs text-muted">{{ item.description }}</p>
+                  <p class="mt-1 truncate text-xs text-slate-500 dark:text-slate-400">
+                    {{ item.description }}
+                  </p>
                 </div>
 
-                <kbd class="hidden rounded-lg border border-slate-200 bg-slate-50 px-2 py-1 text-xs text-muted dark:border-slate-700 dark:bg-slate-800 sm:inline-flex">
+                <kbd
+                  class="hidden rounded-lg border border-slate-200 bg-slate-50 px-2 py-1 text-xs text-slate-500 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-400 sm:inline-flex"
+                >
                   Enter
                 </kbd>
               </button>
 
               <div v-if="filteredCommands.length === 0" class="px-6 py-12 text-center">
                 <Search class="mx-auto h-10 w-10 text-slate-300 dark:text-slate-700" />
-                <p class="mt-4 text-sm font-semibold text-ui">
+                <p class="mt-4 text-sm font-semibold text-slate-900 dark:text-white">
                   No results found
                 </p>
-                <p class="mt-1 text-sm text-muted">Try searching for users, roles, permissions, menus, or settings.</p>
+                <p class="mt-1 text-sm text-slate-500 dark:text-slate-400">
+                  Try searching for users, roles, permissions, menus, or settings.
+                </p>
               </div>
             </div>
 
-            <div class="flex items-center justify-between border-t border-slate-200 px-5 py-3 text-xs text-muted dark:border-slate-800">
+            <div
+              class="flex items-center justify-between border-t border-slate-200 px-5 py-3 text-xs text-slate-500 dark:border-slate-800 dark:text-slate-400"
+            >
               <span>Use search to quickly navigate</span>
               <span>Esc to close</span>
             </div>

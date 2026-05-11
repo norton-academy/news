@@ -7,7 +7,6 @@ export const useApi = () => {
     baseURL: config.public.apiBase,
     headers: {
       Accept: 'application/json',
-      'Content-Type': 'application/json',
     },
   })
 

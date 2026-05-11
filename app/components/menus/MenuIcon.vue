@@ -3,6 +3,7 @@ import {
   Activity,
   BarChart3,
   Bell,
+  Component,
   Database,
   FileText,
   Gauge,
@@ -17,6 +18,7 @@ import {
   User,
   UserCog,
   Users,
+  Package,
 } from "lucide-vue-next";
 
 const props = withDefaults(
@@ -34,6 +36,7 @@ const iconMap: Record<string, any> = {
   Activity,
   BarChart3,
   Bell,
+  Component,
   Database,
   FileText,
   Gauge,
@@ -48,6 +51,7 @@ const iconMap: Record<string, any> = {
   User,
   UserCog,
   Users,
+  Package,
 };
 
 const iconComponent = computed(() => {

@@ -36,6 +36,7 @@ const actionLoading = ref(false);
 const errorMessage = ref("");
 
 const notifications = ref<NotificationItem[]>([]);
+
 const pagination = ref<NotificationPagination>({
   current_page: 1,
   last_page: 1,
@@ -47,6 +48,8 @@ const page = ref(1);
 const perPage = ref(10);
 const readFilter = ref<"all" | "read" | "unread">("all");
 
+const clearConfirmOpen = ref(false);
+
 const iconMap = {
   info: Info,
   success: CheckCircle2,
@@ -54,13 +57,15 @@ const iconMap = {
   error: AlertCircle,
 };
 
-const toneClass = (type: NotificationType) => {
-  return {
-    info: "bg-blue-100 text-blue-700 dark:bg-blue-950/50 dark:text-blue-300",
-    success: "bg-green-100 text-green-700 dark:bg-green-950/50 dark:text-green-300",
-    warning: "bg-amber-100 text-amber-700 dark:bg-amber-950/50 dark:text-amber-300",
-    error: "bg-red-100 text-red-700 dark:bg-red-950/50 dark:text-red-300",
-  }[type];
+const typeVariant = (type: NotificationType) => {
+  const variants = {
+    info: "info",
+    success: "success",
+    warning: "warning",
+    error: "danger",
+  } as const;
+
+  return variants[type];
 };
 
 const stats = computed(() => {
@@ -95,15 +100,21 @@ const fetchNotifications = async () => {
 };
 
 const handleOpenNotification = async (notification: NotificationItem) => {
-  if (!notification.read) {
-    await markNotificationAsRead(notification.id);
+  try {
+    if (!notification.read) {
+      await markNotificationAsRead(notification.id);
 
-    notification.read = true;
-    await notificationStore.refreshNotifications();
-  }
+      notification.read = true;
+      notification.read_at = notification.read_at || new Date().toISOString();
 
-  if (notification.action_url) {
-    await navigateTo(notification.action_url);
+      await notificationStore.refreshNotifications();
+    }
+
+    if (notification.action_url) {
+      await navigateTo(notification.action_url);
+    }
+  } catch (error: any) {
+    toast.error("Action failed", error.message || "Failed to open notification");
   }
 };
 
@@ -130,6 +141,16 @@ const handleMarkAllAsRead = async () => {
   }
 };
 
+const openClearConfirm = () => {
+  clearConfirmOpen.value = true;
+};
+
+const closeClearConfirm = () => {
+  if (actionLoading.value) return;
+
+  clearConfirmOpen.value = false;
+};
+
 const handleClearAll = async () => {
   actionLoading.value = true;
 
@@ -138,10 +159,16 @@ const handleClearAll = async () => {
 
     notifications.value = [];
     pagination.value.total = 0;
+    pagination.value.current_page = 1;
+    pagination.value.last_page = 1;
+    page.value = 1;
+
     notificationStore.unreadCount = response.data.unread_count || 0;
     await notificationStore.refreshNotifications();
 
     toast.success("Notifications cleared", "All notifications were removed.");
+
+    closeClearConfirm();
   } catch (error: any) {
     toast.error("Action failed", error.message || "Failed to clear notifications");
   } finally {
@@ -168,18 +195,20 @@ watch(readFilter, async () => {
   await fetchNotifications();
 });
 
-onMounted(fetchNotifications);
+onMounted(async () => {
+  await fetchNotifications();
+});
 </script>
 
 <template>
   <div class="space-y-6">
     <PageHeader
       title="Notifications"
-      subtitle="View system updates, admin actions, and security messages."
+      subtitle="View system updates, admin actions, account events, and security messages."
     >
       <template #actions>
         <AppButton variant="secondary" :loading="loading" @click="fetchNotifications">
-          <RefreshCcw class="mr-2 h-4 w-4" />
+          <RefreshCcw class="h-4 w-4" />
           Refresh
         </AppButton>
 
@@ -189,7 +218,7 @@ onMounted(fetchNotifications);
           :disabled="notificationStore.unreadCount === 0"
           @click="handleMarkAllAsRead"
         >
-          <Eye class="mr-2 h-4 w-4" />
+          <Eye class="h-4 w-4" />
           Mark All Read
         </AppButton>
 
@@ -197,15 +226,20 @@ onMounted(fetchNotifications);
           variant="danger"
           :loading="actionLoading"
           :disabled="notifications.length === 0"
-          @click="handleClearAll"
+          @click="openClearConfirm"
         >
-          <Trash2 class="mr-2 h-4 w-4" />
+          <Trash2 class="h-4 w-4" />
           Clear
         </AppButton>
       </template>
     </PageHeader>
 
-    <AlertMessage v-if="errorMessage" type="error" :message="errorMessage" />
+    <AlertMessage
+      v-if="errorMessage"
+      type="error"
+      title="Unable to load notifications"
+      :message="errorMessage"
+    />
 
     <div class="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
       <StatsCard
@@ -215,11 +249,9 @@ onMounted(fetchNotifications);
         tone="info"
       >
         <template #badge>
-          <div
-            class="rounded-xl bg-blue-100 p-2 text-blue-700 dark:bg-blue-950/50 dark:text-blue-300"
-          >
+          <AppBadge variant="info" shape="square" size="md">
             <Bell class="h-5 w-5" />
-          </div>
+          </AppBadge>
         </template>
       </StatsCard>
 
@@ -230,11 +262,9 @@ onMounted(fetchNotifications);
         tone="warning"
       >
         <template #badge>
-          <div
-            class="rounded-xl bg-amber-100 p-2 text-amber-700 dark:bg-amber-950/50 dark:text-amber-300"
-          >
+          <AppBadge variant="warning" shape="square" size="md">
             <TriangleAlert class="h-5 w-5" />
-          </div>
+          </AppBadge>
         </template>
       </StatsCard>
 
@@ -245,11 +275,9 @@ onMounted(fetchNotifications);
         tone="success"
       >
         <template #badge>
-          <div
-            class="rounded-xl bg-green-100 p-2 text-green-700 dark:bg-green-950/50 dark:text-green-300"
-          >
+          <AppBadge variant="success" shape="square" size="md">
             <CheckCircle2 class="h-5 w-5" />
-          </div>
+          </AppBadge>
         </template>
       </StatsCard>
     </div>
@@ -271,73 +299,65 @@ onMounted(fetchNotifications);
       />
     </FilterBar>
 
+    <!-- Loading -->
     <div v-if="loading" class="space-y-3">
       <div
         v-for="i in 5"
         :key="i"
-        class="ui-card rounded-3xl p-5 shadow-sm"
+        class="rounded-3xl border border-border bg-card p-5 shadow-sm"
       >
         <div class="flex gap-4">
-          <div
-            class="h-12 w-12 animate-pulse rounded-2xl bg-slate-200 dark:bg-slate-800"
-          />
+          <div class="h-12 w-12 animate-pulse rounded-2xl bg-muted" />
+
           <div class="flex-1 space-y-3">
-            <div class="h-4 w-48 animate-pulse rounded bg-slate-200 dark:bg-slate-800" />
-            <div
-              class="h-3 w-full animate-pulse rounded bg-slate-100 dark:bg-slate-800/70"
-            />
-            <div
-              class="h-3 w-28 animate-pulse rounded bg-slate-100 dark:bg-slate-800/70"
-            />
+            <div class="h-4 w-48 animate-pulse rounded bg-muted" />
+            <div class="h-3 w-full animate-pulse rounded bg-muted" />
+            <div class="h-3 w-28 animate-pulse rounded bg-muted" />
           </div>
         </div>
       </div>
     </div>
 
+    <!-- Notification list -->
     <div v-else-if="notifications.length" class="space-y-3">
       <button
         v-for="notification in notifications"
         :key="notification.id"
         type="button"
-        class="w-full ui-card rounded-3xl p-5 text-left shadow-sm transition hover:bg-slate-50"
-        :class="!notification.read ? 'ring-2 ring-blue-100 dark:ring-blue-950/50' : ''"
+        class="w-full rounded-3xl border border-border bg-card p-5 text-left shadow-sm hover:bg-muted/50"
+        :class="!notification.read ? 'ring-2 ring-sky-100 dark:ring-sky-950/60' : ''"
         @click="handleOpenNotification(notification)"
       >
         <div class="flex gap-4">
-          <div
-            :class="[
-              'flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl',
-              toneClass(notification.type),
-            ]"
-          >
+          <AppBadge :variant="typeVariant(notification.type)" shape="square" size="lg">
             <component :is="iconMap[notification.type]" class="h-6 w-6" />
-          </div>
+          </AppBadge>
 
           <div class="min-w-0 flex-1">
             <div
               class="flex flex-col gap-2 sm:flex-row sm:items-start sm:justify-between"
             >
-              <div>
-                <div class="flex items-center gap-2">
-                  <h3 class="text-sm font-bold text-ui">
+              <div class="min-w-0">
+                <div class="flex flex-wrap items-center gap-2">
+                  <h3 class="text-sm font-bold text-card-foreground">
                     {{ notification.title }}
                   </h3>
 
                   <AppBadge v-if="!notification.read" variant="info"> New </AppBadge>
                 </div>
 
-                <p class="mt-1 text-sm leading-6 text-muted">
+                <p class="mt-1 text-sm leading-6 text-muted-foreground">
                   {{ notification.message }}
                 </p>
               </div>
 
-              <span class="shrink-0 text-xs text-slate-400 dark:text-slate-500">
+              <span class="shrink-0 text-xs font-medium text-muted-foreground">
                 {{ notification.created_at }}
               </span>
             </div>
 
             <div v-if="notification.action_url" class="mt-4">
-              <span class="text-sm font-semibold text-blue-600 dark:text-blue-400">
+              <span class="text-sm font-semibold text-sky-600 dark:text-sky-400">
                 Open related page →
               </span>
             </div>
@@ -346,6 +366,7 @@ onMounted(fetchNotifications);
       </button>
     </div>
 
+    <!-- Empty -->
     <EmptyState
       v-else
       title="No notifications found"
@@ -365,5 +386,17 @@ onMounted(fetchNotifications);
       @previous="goPrevious"
       @next="goNext"
     />
+
+    <ConfirmDialog
+      :open="clearConfirmOpen"
+      title="Clear Notifications"
+      message="Are you sure you want to clear all notifications? This action cannot be undone."
+      confirm-label="Clear All"
+      variant="danger"
+      :loading="actionLoading"
+      @close="closeClearConfirm"
+      @confirm="handleClearAll"
+    />
   </div>
 </template>
+w

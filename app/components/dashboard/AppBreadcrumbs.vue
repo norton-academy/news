@@ -17,61 +17,94 @@ const flattenMenus = (menus: MenuItem[]): MenuItem[] => {
   ]);
 };
 
+const normalizePath = (path?: string) => {
+  if (!path) return "";
+
+  return path.endsWith("/") && path !== "/" ? path.slice(0, -1) : path;
+};
+
+const pageTitleMap: Record<string, string> = {
+  "/dashboard": "Dashboard",
+  "/rbac": "RBAC Overview",
+  "/users": "Users",
+  "/roles": "Roles",
+  "/permissions": "Permissions",
+  "/audit-logs": "Audit Logs",
+  "/menus": "Menus",
+  "/profile": "Profile",
+  "/settings": "Settings",
+  "/notifications": "Notifications",
+  "/ui-components": "UI Components",
+};
+
 const breadcrumbs = computed<BreadcrumbItem[]>(() => {
+  const currentPath = normalizePath(route.path);
   const menus = flattenMenus(menuStore.menus);
-  const currentMenu = menus.find((menu) => menu.route === route.path);
+
+  const currentMenu = menus.find((menu) => {
+    return normalizePath(menu.route) === currentPath;
+  });
+
+  const items: BreadcrumbItem[] = [
+    {
+      label: "Dashboard",
+      to: "/dashboard",
+    },
+  ];
+
+  if (currentPath === "/dashboard") {
+    return items;
+  }
 
   if (currentMenu) {
-    const items: BreadcrumbItem[] = [{ label: "Dashboard", to: "/dashboard" }];
-
     if (currentMenu.group && currentMenu.group !== "Main") {
       items.push({
         label: currentMenu.group,
       });
     }
 
-    if (currentMenu.route !== "/dashboard") {
-      items.push({
-        label: currentMenu.label,
-      });
-    }
+    items.push({
+      label: currentMenu.label,
+    });
 
     return items;
   }
 
-  return [
-    { label: "Dashboard", to: "/dashboard" },
-    { label: (route.meta?.title as string) || "Page" },
-  ];
+  items.push({
+    label: (route.meta?.title as string) || pageTitleMap[currentPath] || "Page",
+  });
+
+  return items;
 });
 </script>
 
 <template>
-  <nav class="flex items-center gap-1 text-sm text-muted" aria-label="Breadcrumb">
+  <nav
+    class="flex min-w-0 items-center gap-1 overflow-hidden text-sm text-muted-foreground"
+    aria-label="Breadcrumb"
+  >
     <NuxtLink
       to="/dashboard"
-      class="inline-flex items-center rounded-lg p-1.5 transition hover:bg-slate-100 hover:text-slate-900 dark:hover:bg-slate-800 dark:hover:text-white"
+      class="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-xl border border-transparent text-muted-foreground hover:border-border hover:bg-muted hover:text-card-foreground"
+      aria-label="Go to dashboard"
     >
       <Home class="h-4 w-4" />
     </NuxtLink>
 
     <template v-for="(item, index) in breadcrumbs" :key="`${item.label}-${index}`">
-      <ChevronRight
-        v-if="index > 0 || item.label !== 'Dashboard'"
-        class="h-4 w-4 text-slate-300 dark:text-slate-700"
-      />
+      <ChevronRight v-if="index > 0" class="h-4 w-4 shrink-0 text-muted-foreground/50" />
 
       <NuxtLink
         v-if="item.to && index !== breadcrumbs.length - 1"
         :to="item.to"
-        class="rounded-lg px-2 py-1 font-medium transition hover:bg-slate-100 hover:text-slate-900 dark:hover:bg-slate-800 dark:hover:text-white"
+        class="max-w-[140px] truncate rounded-xl px-2 py-1 font-semibold text-muted-foreground hover:bg-muted hover:text-card-foreground sm:max-w-none"
       >
         {{ item.label }}
       </NuxtLink>
 
       <span
         v-else
-        class="rounded-lg px-2 py-1 font-semibold text-ui"
+        class="max-w-[180px] truncate rounded-xl px-2 py-1 font-bold text-card-foreground sm:max-w-none"
       >
         {{ item.label }}
       </span>

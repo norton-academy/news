@@ -625,6 +625,16 @@ const handleSave = async () => {
 </template>
 
 <style scoped>
+/* Scoped modal-panel transition to avoid global dependency */
+.modal-panel-enter-active,
+.modal-panel-leave-active {
+  transition: opacity 220ms cubic-bezier(.2,.8,.2,1), transform 220ms cubic-bezier(.2,.8,.2,1);
+}
+.modal-panel-enter-from,
+.modal-panel-leave-to { opacity: 0; transform: translateY(8px) scale(.995); }
+</style>
+
+<style scoped>
 .modal-fade-enter-active,
 .modal-fade-leave-active {
   transition: opacity 0.18s ease;

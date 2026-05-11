@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { KeyRound, Mail, RefreshCcw, Save, ShieldCheck, User } from "lucide-vue-next";
+
 definePageMeta({
   layout: "dashboard",
   middleware: ["auth", "permission"],
@@ -6,11 +8,10 @@ definePageMeta({
   title: "Profile",
 });
 
-import { KeyRound, RefreshCcw, Save, User } from "lucide-vue-next";
-
 const { getProfile, updateProfile, updatePassword } = useProfile();
 const authStore = useAuthStore();
 const toast = useToast();
+const notificationStore = useNotificationStore();
 
 const loading = ref(false);
 const profileSaving = ref(false);
@@ -39,6 +40,21 @@ const passwordErrors = reactive<Record<string, string>>({
   password_confirmation: "",
 });
 
+const initials = computed(() => {
+  const name = profileForm.name || authStore.user?.name || "User";
+
+  return name
+    .split(" ")
+    .map((part) => part.charAt(0))
+    .join("")
+    .slice(0, 2)
+    .toUpperCase();
+});
+
+const userRoles = computed(() => {
+  return authStore.user?.roles || [];
+});
+
 const resetProfileErrors = () => {
   profileErrors.name = "";
   profileErrors.email = "";
@@ -59,8 +75,16 @@ const fetchProfile = async () => {
 
     profileForm.name = response.data.user.name;
     profileForm.email = response.data.user.email;
+
+    authStore.user = response.data.user as any;
+
+    if (import.meta.client) {
+      localStorage.setItem("auth_user", JSON.stringify(response.data.user));
+    }
   } catch (error: any) {
-    errorMessage.value = error.message || "Failed to load profile";
+    errorMessage.value =
+      error.response?.data?.message || error.message || "Failed to load profile";
+
     toast.error("Profile failed", errorMessage.value);
   } finally {
     loading.value = false;
@@ -69,6 +93,7 @@ const fetchProfile = async () => {
 
 const handleUpdateProfile = async () => {
   profileSaving.value = true;
+  errorMessage.value = "";
   resetProfileErrors();
 
   try {
@@ -79,28 +104,42 @@ const handleUpdateProfile = async () => {
 
     authStore.user = response.data.user as any;
 
-    if (process.client) {
+    if (import.meta.client) {
       localStorage.setItem("auth_user", JSON.stringify(response.data.user));
     }
+
+    await notificationStore.refreshNotifications();
 
     toast.success(
       "Profile updated",
       "Your profile information was updated successfully."
     );
   } catch (error: any) {
-    toast.error("Update failed", error.message || "Failed to update profile");
+    errorMessage.value =
+      error.response?.data?.message || error.message || "Failed to update profile";
 
-    if (error.errors) {
-      profileErrors.name = error.errors.name?.[0] || "";
-      profileErrors.email = error.errors.email?.[0] || "";
+    toast.error("Update failed", errorMessage.value);
+
+    const validationErrors = error.response?.data?.errors || error.errors;
+
+    if (validationErrors) {
+      profileErrors.name = validationErrors.name?.[0] || "";
+      profileErrors.email = validationErrors.email?.[0] || "";
     }
   } finally {
     profileSaving.value = false;
   }
 };
 
+const resetPasswordForm = () => {
+  passwordForm.current_password = "";
+  passwordForm.password = "";
+  passwordForm.password_confirmation = "";
+};
+
 const handleUpdatePassword = async () => {
   passwordSaving.value = true;
+  errorMessage.value = "";
   resetPasswordErrors();
 
   try {
@@ -110,69 +149,126 @@ const handleUpdatePassword = async () => {
       password_confirmation: passwordForm.password_confirmation,
     });
 
-    passwordForm.current_password = "";
-    passwordForm.password = "";
-    passwordForm.password_confirmation = "";
+    resetPasswordForm();
+
+    await notificationStore.refreshNotifications();
 
     toast.success("Password updated", "Your password was updated successfully.");
   } catch (error: any) {
-    toast.error("Password update failed", error.message || "Failed to update password");
+    errorMessage.value =
+      error.response?.data?.message || error.message || "Failed to update password";
 
-    if (error.errors) {
-      passwordErrors.current_password = error.errors.current_password?.[0] || "";
-      passwordErrors.password = error.errors.password?.[0] || "";
+    toast.error("Password update failed", errorMessage.value);
+
+    const validationErrors = error.response?.data?.errors || error.errors;
+
+    if (validationErrors) {
+      passwordErrors.current_password = validationErrors.current_password?.[0] || "";
+      passwordErrors.password = validationErrors.password?.[0] || "";
       passwordErrors.password_confirmation =
-        error.errors.password_confirmation?.[0] || "";
+        validationErrors.password_confirmation?.[0] || "";
     }
   } finally {
     passwordSaving.value = false;
   }
 };
 
-onMounted(fetchProfile);
+onMounted(async () => {
+  await fetchProfile();
+});
 </script>
 
 <template>
-  <PageSkeleton v-if="loading" />
-
   <div class="space-y-6">
-    <PageHeader title="Profile" subtitle="Manage your account information and password.">
+    <PageHeader
+      title="Profile"
+      subtitle="Manage your account information, roles, and password security."
+    >
       <template #actions>
         <AppButton variant="secondary" :loading="loading" @click="fetchProfile">
-          <RefreshCcw class="mr-2 h-4 w-4" />
+          <RefreshCcw class="h-4 w-4" />
           Refresh
         </AppButton>
       </template>
     </PageHeader>
 
-    <AlertMessage v-if="errorMessage" type="error" :message="errorMessage" />
+    <AlertMessage
+      v-if="errorMessage"
+      type="error"
+      title="Profile error"
+      :message="errorMessage"
+    />
+
+    <template v-if="loading">
+      <div class="grid gap-6 lg:grid-cols-3">
+        <div class="rounded-3xl border border-border bg-card p-6 shadow-sm lg:col-span-1">
+          <div class="mx-auto h-24 w-24 animate-pulse rounded-3xl bg-muted" />
+          <div class="mx-auto mt-5 h-5 w-36 animate-pulse rounded-full bg-muted" />
+          <div class="mx-auto mt-3 h-4 w-48 animate-pulse rounded-full bg-muted" />
+        </div>
+
+        <div class="rounded-3xl border border-border bg-card p-6 shadow-sm lg:col-span-2">
+          <div class="h-5 w-44 animate-pulse rounded-full bg-muted" />
+
+          <div class="mt-6 grid gap-5 md:grid-cols-2">
+            <div class="h-12 animate-pulse rounded-2xl bg-muted" />
+            <div class="h-12 animate-pulse rounded-2xl bg-muted" />
+          </div>
+
+          <div class="mt-6 flex justify-end border-t border-border pt-5">
+            <div class="h-10 w-32 animate-pulse rounded-2xl bg-muted" />
+          </div>
+        </div>
+      </div>
+    </template>
+
     <template v-else>
       <div class="grid gap-6 lg:grid-cols-3">
         <!-- Profile Summary -->
         <AppCard class="lg:col-span-1">
           <div class="flex flex-col items-center text-center">
             <div
-              class="flex h-24 w-24 items-center justify-center rounded-3xl bg-slate-900 text-3xl font-bold text-white shadow-lg dark:bg-white dark:text-slate-900"
+              class="flex h-24 w-24 items-center justify-center rounded-3xl bg-foreground text-3xl font-black text-background shadow-lg shadow-slate-900/10"
             >
-              {{ profileForm.name.charAt(0).toUpperCase() || "U" }}
+              {{ initials }}
             </div>
 
-            <h2 class="mt-4 text-xl font-bold text-ui">
+            <h2 class="mt-5 text-xl font-bold text-card-foreground">
               {{ profileForm.name || "User" }}
             </h2>
 
-            <p class="mt-1 text-sm text-muted">
-              {{ profileForm.email }}
-            </p>
+            <div class="mt-2 flex items-center gap-2 text-sm text-muted-foreground">
+              <Mail class="h-4 w-4" />
+              <span class="max-w-[220px] truncate">
+                {{ profileForm.email || "-" }}
+              </span>
+            </div>
 
-            <div class="mt-4 flex flex-wrap justify-center gap-2">
-              <AppBadge
-                v-for="role in authStore.user?.roles || []"
-                :key="role"
-                variant="info"
-              >
+            <div class="mt-5 flex flex-wrap justify-center gap-2">
+              <AppBadge v-for="role in userRoles" :key="role" variant="info">
                 {{ role }}
               </AppBadge>
+
+              <AppBadge v-if="userRoles.length === 0" variant="default">
+                No Role
+              </AppBadge>
+            </div>
+
+            <div
+              class="mt-6 w-full rounded-3xl border border-border bg-muted/50 p-4 text-left"
+            >
+              <div class="flex items-center gap-3">
+                <AppBadge variant="success" shape="square" size="sm">
+                  <ShieldCheck class="h-4 w-4" />
+                </AppBadge>
+
+                <div>
+                  <p class="text-sm font-bold text-card-foreground">Account Security</p>
+                  <p class="mt-1 text-xs text-muted-foreground">
+                    Keep your email and password updated.
+                  </p>
+                </div>
+              </div>
             </div>
           </div>
         </AppCard>
@@ -201,16 +297,14 @@ onMounted(fetchProfile);
               />
             </div>
 
-            <div
-              class="flex justify-end border-t border-slate-200 dark:border-slate-600 pt-5"
-            >
+            <div class="flex justify-end border-t border-border pt-5">
               <AppButton
                 type="submit"
                 variant="primary"
                 :loading="profileSaving"
                 :disabled="!authStore.hasPermission('profile.update')"
               >
-                <Save class="mr-2 h-4 w-4" />
+                <Save class="h-4 w-4" />
                 Save Changes
               </AppButton>
             </div>
@@ -219,7 +313,10 @@ onMounted(fetchProfile);
       </div>
 
       <!-- Update Password -->
-      <AppCard title="Change Password" subtitle="Update your password securely.">
+      <AppCard
+        title="Change Password"
+        subtitle="Update your password securely. Use a strong password to protect your account."
+      >
         <form class="space-y-5" @submit.prevent="handleUpdatePassword">
           <div class="grid gap-5 md:grid-cols-3">
             <AppInput
@@ -247,16 +344,14 @@ onMounted(fetchProfile);
             />
           </div>
 
-          <div
-            class="flex justify-end border-t border-slate-200 dark:border-slate-600 pt-5"
-          >
+          <div class="flex justify-end border-t border-border pt-5">
             <AppButton
               type="submit"
               variant="primary"
               :loading="passwordSaving"
               :disabled="!authStore.hasPermission('profile.update')"
             >
-              <KeyRound class="mr-2 h-4 w-4" />
+              <KeyRound class="h-4 w-4" />
               Update Password
             </AppButton>
           </div>

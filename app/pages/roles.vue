@@ -44,7 +44,6 @@ const cloneModalOpen = ref(false);
 const selectedCloneRole = ref<RoleItem | null>(null);
 
 const modalOpen = ref(false);
-const deleteModalOpen = ref(false);
 const selectedRole = ref<RoleItem | null>(null);
 
 const permissionModalOpen = ref(false);
@@ -61,6 +60,47 @@ const pagination = ref<RolePagination>({
   per_page: 10,
   total: 0,
 });
+
+type RoleConfirmAction = "delete" | null;
+
+const confirmOpen = ref(false);
+const confirmLoading = ref(false);
+const confirmAction = ref<RoleConfirmAction>(null);
+const confirmRole = ref<RoleItem | null>(null);
+
+const confirmConfig = computed(() => {
+  const roleName = confirmRole.value?.name || "this role";
+
+  if (confirmAction.value === "delete") {
+    return {
+      title: "Delete Role",
+      message: `Are you sure you want to delete ${roleName}? This action cannot be undone.`,
+      confirmLabel: "Delete Role",
+      variant: "danger" as const,
+    };
+  }
+
+  return {
+    title: "Confirm Action",
+    message: "Are you sure you want to continue?",
+    confirmLabel: "Confirm",
+    variant: "default" as const,
+  };
+});
+
+const openConfirmDialog = (role: RoleItem, action: RoleConfirmAction) => {
+  confirmRole.value = role;
+  confirmAction.value = action;
+  confirmOpen.value = true;
+};
+
+const closeConfirmDialog = () => {
+  if (confirmLoading.value) return;
+
+  confirmOpen.value = false;
+  confirmRole.value = null;
+  confirmAction.value = null;
+};
 
 const fetchRoles = async () => {
   loading.value = true;
@@ -118,28 +158,11 @@ const saveRole = async () => {
     toast.error("Save failed", errorMessage.value);
   }
 };
-
-const openDelete = (role: RoleItem) => {
-  selectedRole.value = role;
-  deleteModalOpen.value = true;
-};
-
-const confirmDelete = async () => {
+const confirmDelete = () => {
   if (!selectedRole.value) return;
 
-  try {
-    await deleteRole(selectedRole.value.id);
-    toast.success("Role deleted", "Role was deleted successfully.");
-    deleteModalOpen.value = false;
-    selectedRole.value = null;
-    await fetchRoles();
-  } catch (error: any) {
-    errorMessage.value =
-      error.response?.data?.message || error.message || "Failed to delete role";
-    toast.error("Delete failed", errorMessage.value);
-  }
+  openConfirmDialog(selectedRole.value, "delete");
 };
-
 const openPermissionModal = (role: RoleItem) => {
   if (role.is_protected) {
     toast.warning(
@@ -172,7 +195,12 @@ const handlePermissionSaved = async () => {
   await fetchRoles();
 };
 
-const handleRoleAction = (role: RoleItem, action: string) => {
+const handleRoleAction = async (role: RoleItem, action: string) => {
+  if (action === "edit") {
+    openEdit(role);
+    return;
+  }
+
   if (action === "permissions") {
     openPermissionModal(role);
     return;
@@ -183,18 +211,41 @@ const handleRoleAction = (role: RoleItem, action: string) => {
     return;
   }
 
-  if (action === "edit") {
-    openEdit(role);
-    return;
-  }
-
   if (action === "delete") {
-    openDelete(role);
+    openConfirmDialog(role, "delete");
   }
 };
 
 const handleImported = async () => {
   await fetchRoles();
+};
+
+const handleConfirmAction = async () => {
+  if (!confirmRole.value || !confirmAction.value) return;
+
+  confirmLoading.value = true;
+
+  try {
+    if (confirmAction.value === "delete") {
+      await deleteRole(confirmRole.value.id);
+
+      toast.success(
+        "Role deleted",
+        `${confirmRole.value.name} was deleted successfully.`
+      );
+
+      await fetchRoles();
+
+      const notificationStore = useNotificationStore();
+      await notificationStore.refreshNotifications();
+    }
+
+    closeConfirmDialog();
+  } catch (error: any) {
+    toast.error("Action failed", error.message || "Failed to complete action");
+  } finally {
+    confirmLoading.value = false;
+  }
 };
 
 const exporting = ref(false);
@@ -371,31 +422,37 @@ onMounted(fetchRoles);
       </template>
 
       <template #cell-actions="{ row }">
-        <ActionDropdown
+        <AppDropdown
+          width="w-72"
           :items="[
             {
-              label: 'Manage Permissions',
-              action: 'permissions',
-              icon: KeyRound,
+              label: 'Edit Role',
+              value: 'edit',
+              icon: Pencil,
+              description: 'Update role information',
               visible: authStore.hasPermission('role.update') && !row.is_protected,
+            },
+            {
+              label: 'Assign Permissions',
+              value: 'permissions',
+              icon: KeyRound,
+              description: 'Manage role permissions',
+              visible: authStore.hasPermission('role.update'),
             },
             {
               label: 'Clone Role',
-              action: 'clone',
+              value: 'clone',
               icon: Copy,
-              visible: authStore.hasPermission('role.create') && !row.is_protected,
-            },
-            {
-              label: 'Edit Role',
-              action: 'edit',
-              icon: Pencil,
-              visible: authStore.hasPermission('role.update') && !row.is_protected,
+              variant: 'success',
+              description: 'Duplicate this role',
+              visible: authStore.hasPermission('role.create'),
             },
             {
               label: 'Delete Role',
-              action: 'delete',
+              value: 'delete',
               icon: Trash2,
               variant: 'danger',
+              description: 'Remove this role',
               visible: authStore.hasPermission('role.delete') && !row.is_protected,
             },
           ]"
@@ -497,5 +554,16 @@ onMounted(fetchRoles);
     :role="selectedCloneRole"
     @close="closeClone"
     @cloned="handleCloned"
+  />
+
+  <ConfirmDialog
+    :open="confirmOpen"
+    :title="confirmConfig.title"
+    :message="confirmConfig.message"
+    :confirm-label="confirmConfig.confirmLabel"
+    :variant="confirmConfig.variant"
+    :loading="confirmLoading"
+    @close="closeConfirmDialog"
+    @confirm="handleConfirmAction"
   />
 </template>
