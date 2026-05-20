@@ -18,7 +18,8 @@ definePageMeta({
 });
 
 const { getSettings, updateSettings } = useSettings();
-const { getRoles } = useRole();
+import { useRoleManagementStore } from '~/stores/roleManagement'
+const roleStore = useRoleManagementStore()
 
 const authStore = useAuthStore();
 const toast = useToast();
@@ -86,11 +87,8 @@ const fetchRoles = async () => {
   rolesLoading.value = true;
 
   try {
-    const response = await getRoles({
-      per_page: 100,
-    });
-
-    roles.value = response.data.roles;
+    await roleStore.fetchRoles({ per_page: 100 }, { silent: true })
+    roles.value = roleStore.roles
   } catch (error: any) {
     toast.error("Failed to load roles", error.message || "Could not load roles");
   } finally {

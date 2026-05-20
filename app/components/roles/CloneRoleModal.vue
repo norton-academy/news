@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { Copy, ShieldCheck, X } from "lucide-vue-next";
+import { useRoleManagementStore } from '~/stores/roleManagement'
 import type { RoleItem } from "~/composables/useRole";
 
 const props = defineProps<{
@@ -13,6 +14,7 @@ const emit = defineEmits<{
 }>();
 
 const { cloneRole } = useRole();
+const roleStore = useRoleManagementStore()
 const toast = useToast();
 
 const loading = ref(false);
@@ -63,6 +65,7 @@ const handleSubmit = async () => {
     });
 
     toast.success("Role cloned", `${props.role.name} was duplicated successfully.`);
+    await roleStore.invalidateAndRefresh()
     emit("cloned");
     handleClose();
   } catch (error: any) {

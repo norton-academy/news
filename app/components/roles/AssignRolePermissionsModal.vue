@@ -11,6 +11,8 @@ import {
 } from "lucide-vue-next";
 import type { RoleItem } from "~/composables/useRole";
 import type { PermissionItem } from "~/composables/usePermission";
+import { useRoleManagementStore } from '~/stores/roleManagement'
+import { usePermissionManagementStore } from '~/stores/permissionManagement'
 
 const props = defineProps<{
   open: boolean;
@@ -23,6 +25,8 @@ const emit = defineEmits<{
 }>();
 
 const { getRole, syncRolePermissions } = useRole();
+const roleStore = useRoleManagementStore()
+const permissionStore = usePermissionManagementStore()
 const { getAllPermissions } = usePermission();
 const toast = useToast();
 
@@ -180,12 +184,11 @@ const fetchData = async () => {
   search.value = "";
 
   try {
-    const [permissionsData, roleData] = await Promise.all([
-      getAllPermissions(),
-      getRole(props.role.id),
-    ]);
+    // ensure permissions are cached and available
+    await permissionStore.fetchAllPermissions({ silent: true })
+    const roleData = await getRole(props.role.id)
 
-    permissions.value = permissionsData || [];
+    permissions.value = permissionStore.permissions || [];
 
     const rolePermissions = roleData.data.role.permissions || [];
 
@@ -242,6 +245,8 @@ const handleSave = async () => {
     const notificationStore = useNotificationStore();
     await notificationStore.refreshNotifications();
 
+    // update cache locally to reflect permission changes
+    await roleStore.updateRolePermissionsInCache(props.role.id, selectedPermissions.value)
     emit("saved");
     handleClose();
   } catch (error: any) {

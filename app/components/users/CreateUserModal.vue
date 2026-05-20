@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import type { CreateUserPayload } from '~/composables/useUser'
 import type { RoleItem } from '~/composables/useRole'
+import { useRoleManagementStore } from '~/stores/roleManagement'
+import { useUserManagementStore } from '~/stores/userManagement'
 
 const props = defineProps<{
   open: boolean
@@ -12,7 +14,8 @@ const emit = defineEmits<{
 }>()
 
 const { createUser } = useUser()
-const { getRoles } = useRole()
+const roleStore = useRoleManagementStore()
+const userStore = useUserManagementStore()
 const toast = useToast()
 
 const loading = ref(false)
@@ -74,11 +77,8 @@ const fetchRoles = async () => {
   rolesLoading.value = true
 
   try {
-    const response = await getRoles({
-      per_page: 100,
-    })
-
-    roles.value = response.data.roles
+    await roleStore.fetchRoles({ per_page: 100 }, { silent: true })
+    roles.value = roleStore.roles
   } catch (error) {
     console.error('Failed to load roles', error)
   } finally {
@@ -106,7 +106,7 @@ const handleSubmit = async () => {
   loading.value = true
 
   try {
-    await createUser({
+    const response = await createUser({
       name: form.name,
       email: form.email,
       password: form.password,
@@ -114,8 +114,14 @@ const handleSubmit = async () => {
       status: form.status,
       role: form.role || undefined,
     })
-
     toast.success('User created', 'The user account was created successfully.')
+    // optimistic: add created user to cache if returned
+    const createdUser = response?.data?.user || response?.user || response?.data || response
+    if (createdUser && createdUser.id) {
+      userStore.addUserToCache(createdUser as any)
+    } else {
+      await userStore.invalidateAndRefresh()
+    }
     emit('created')
     handleClose()
   } catch (error: any) {

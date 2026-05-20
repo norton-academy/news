@@ -221,27 +221,39 @@ const handleRowClick = (row: Record<string, any>, event: MouseEvent) => {
 
 /* Local motion utilities (replaces global motion helpers) */
 .local-transition-smooth {
-  transition: transform 180ms cubic-bezier(.2,.8,.2,1),
-    background-color 180ms cubic-bezier(.2,.8,.2,1),
-    color 180ms cubic-bezier(.2,.8,.2,1),
-    box-shadow 180ms cubic-bezier(.2,.8,.2,1);
+  transition: transform 180ms cubic-bezier(0.2, 0.8, 0.2, 1),
+    background-color 180ms cubic-bezier(0.2, 0.8, 0.2, 1),
+    color 180ms cubic-bezier(0.2, 0.8, 0.2, 1),
+    box-shadow 180ms cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 
 .local-motion-fade-up {
-  animation: local-motion-fade-up 260ms cubic-bezier(.2,.8,.2,1) both;
+  animation: local-motion-fade-up 260ms cubic-bezier(0.2, 0.8, 0.2, 1) both;
 }
 
 @keyframes local-motion-fade-up {
-  from { opacity: 0; transform: translateY(12px); }
-  to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .local-motion-row {
-  animation: local-motion-row-in 220ms cubic-bezier(.2,.8,.2,1) both;
+  animation: local-motion-row-in 220ms cubic-bezier(0.2, 0.8, 0.2, 1) both;
 }
 
 @keyframes local-motion-row-in {
-  from { opacity: 0; transform: translateY(6px); }
-  to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 </style>

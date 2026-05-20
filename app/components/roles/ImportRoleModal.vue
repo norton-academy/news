@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { FileSpreadsheet, Upload, X } from "lucide-vue-next";
+import { useRoleManagementStore } from '~/stores/roleManagement'
 
 defineProps<{
   open: boolean;
@@ -11,6 +12,7 @@ const emit = defineEmits<{
 }>();
 
 const { importRoles } = useRole();
+const roleStore = useRoleManagementStore()
 const toast = useToast();
 
 const loading = ref(false);
@@ -50,6 +52,7 @@ const handleImport = async () => {
 
     result.value = response.data.result;
     toast.success("Import completed", response.message || "Roles imported successfully.");
+    await roleStore.invalidateAndRefresh()
     emit("imported");
   } catch (error: any) {
     generalError.value = error.message || "Failed to import roles";

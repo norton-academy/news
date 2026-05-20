@@ -10,12 +10,21 @@ import {
   Activity,
   Clock,
   Database,
+  CheckCircle2,
+  Archive,
+  TriangleAlert,
+  Package,
   KeyRound,
   RefreshCcw,
   ShieldCheck,
   Users,
   Workflow,
 } from "lucide-vue-next";
+
+import { useUserManagementStore } from "~/stores/userManagement";
+import { useRoleManagementStore } from "~/stores/roleManagement";
+import { usePermissionManagementStore } from "~/stores/permissionManagement";
+import { useProductManagementStore } from "~/stores/productManagement";
 
 definePageMeta({
   layout: "dashboard",
@@ -25,6 +34,10 @@ definePageMeta({
 });
 
 const { getDashboardSummary } = useDashboard();
+const userStore = useUserManagementStore();
+const roleStore = useRoleManagementStore();
+const permissionStore = usePermissionManagementStore();
+const productStore = useProductManagementStore();
 const toast = useToast();
 
 const loading = ref(false);
@@ -55,13 +68,39 @@ const fetchDashboard = async () => {
   errorMessage.value = "";
 
   try {
-    const response = await getDashboardSummary();
+    // fetch underlying stores in parallel (silent to use cache when available)
+    await Promise.allSettled([
+      userStore.fetchUsers({ per_page: 5 }, { silent: true }),
+      roleStore.fetchRoles({ per_page: 100 }, { silent: true }),
+      permissionStore.fetchPermissions({ per_page: 1 }, { silent: true }),
+      productStore.fetchProducts({ per_page: 5 }, { silent: true }),
+    ]);
 
-    stats.value = response.data.stats;
-    recentUsers.value = response.data.recent_users;
+    // compose stats from stores when available
+    stats.value.total_users = userStore.stats.total_users || 0;
+    stats.value.active_users = userStore.stats.active_users || 0;
+    stats.value.pending_users = userStore.stats.pending_users || 0;
+    stats.value.inactive_users = userStore.stats.inactive_users || 0;
+    stats.value.total_roles = roleStore.stats.total_roles || 0;
+    stats.value.total_permissions = permissionStore.stats.total_permissions || 0;
+    (stats.value as any).total_products = productStore.stats.total_products || 0;
+
+    // recent users from user store
+    recentUsers.value = (userStore.users || []).slice(0, 5);
+
+    // role distribution from role store (if roles include users_count)
+    roleDistribution.value = (roleStore.roles || []).map((r: any) => ({
+      id: r.id,
+      name: r.name,
+      users_count: r.users_count || r.count || 0,
+    }));
+
+    // still fetch audit logs and system info from dashboard endpoint
+    const response = await getDashboardSummary();
     recentAuditLogs.value = response.data.recent_audit_logs;
-    roleDistribution.value = response.data.role_distribution;
     system.value = response.data.system;
+    stats.value.total_audit_logs =
+      response.data.stats?.total_audit_logs || stats.value.total_audit_logs || 0;
   } catch (error: any) {
     errorMessage.value = error.message || "Failed to load dashboard";
     toast.error("Dashboard failed", errorMessage.value);
@@ -149,6 +188,61 @@ onMounted(fetchDashboard);
         <template #badge>
           <AppBadge variant="warning" shape="square" size="md">
             <Workflow class="h-5 w-5" />
+          </AppBadge>
+        </template>
+      </StatsCard>
+    </div>
+
+    <!-- Product Stats -->
+    <div class="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+      <StatsCard
+        title="Total Products"
+        :value="productStore.stats.total_products"
+        subtitle="All inventory items"
+        tone="info"
+      >
+        <template #badge>
+          <AppBadge variant="info" shape="square" size="md">
+            <Database class="h-5 w-5" />
+          </AppBadge>
+        </template>
+      </StatsCard>
+
+      <StatsCard
+        title="Active Products"
+        :value="productStore.stats.active_products"
+        subtitle="Published products"
+        tone="success"
+      >
+        <template #badge>
+          <AppBadge variant="success" shape="square" size="md">
+            <CheckCircle2 class="h-5 w-5" />
+          </AppBadge>
+        </template>
+      </StatsCard>
+
+      <StatsCard
+        title="Draft Products"
+        :value="productStore.stats.draft_products"
+        subtitle="Not published yet"
+        tone="warning"
+      >
+        <template #badge>
+          <AppBadge variant="warning" shape="square" size="md">
+            <Archive class="h-5 w-5" />
+          </AppBadge>
+        </template>
+      </StatsCard>
+
+      <StatsCard
+        title="Low Stock"
+        :value="productStore.stats.low_stock_products"
+        subtitle="Stock ≤ 5"
+        tone="danger"
+      >
+        <template #badge>
+          <AppBadge variant="danger" shape="square" size="md">
+            <TriangleAlert class="h-5 w-5" />
           </AppBadge>
         </template>
       </StatsCard>
@@ -302,7 +396,7 @@ onMounted(fetchDashboard);
         </AppCard>
       </div>
 
-      <div class="grid gap-4 lg:grid-cols-2">
+      <div class="grid gap-4 lg:grid-cols-3">
         <AppCard title="Recent Users" subtitle="Latest registered accounts.">
           <div v-if="recentUsers.length" class="space-y-3">
             <div
@@ -374,6 +468,57 @@ onMounted(fetchDashboard);
             v-else
             title="No audit logs yet"
             message="System actions will appear here."
+          />
+        </AppCard>
+
+        <AppCard title="Recent Products" subtitle="Latest added or updated products.">
+          <div v-if="productStore.products.length" class="space-y-3">
+            <div
+              v-for="product in productStore.products.slice(0, 5)"
+              :key="product.id"
+              class="flex items-center justify-between gap-4 rounded-2xl border border-border bg-muted/40 px-4 py-3 hover:bg-muted"
+            >
+              <div class="flex min-w-0 items-center gap-3">
+                <div
+                  class="flex h-10 w-10 shrink-0 items-center justify-center overflow-hidden rounded-2xl border border-border bg-background text-sm font-bold text-card-foreground"
+                >
+                  <img
+                    v-if="product.image_url"
+                    :src="product.image_url"
+                    :alt="product.name"
+                    class="h-full w-full object-cover"
+                  />
+                  <Package v-else class="h-5 w-5 text-muted-foreground" />
+                </div>
+
+                <div class="min-w-0">
+                  <p class="truncate text-sm font-bold text-card-foreground">
+                    {{ product.name }}
+                  </p>
+                  <p class="truncate text-xs text-muted-foreground">
+                    ${{ Number(product.price).toFixed(2) }}
+                  </p>
+                </div>
+              </div>
+
+              <AppBadge
+                :variant="
+                  product.status === 'active'
+                    ? 'success'
+                    : product.status === 'draft'
+                    ? 'warning'
+                    : 'default'
+                "
+              >
+                {{ product.status }}
+              </AppBadge>
+            </div>
+          </div>
+
+          <EmptyState
+            v-else
+            title="No products yet"
+            message="Products will appear here."
           />
         </AppCard>
       </div>

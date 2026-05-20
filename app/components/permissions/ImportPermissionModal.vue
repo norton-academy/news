@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { FileSpreadsheet, Upload, X } from "lucide-vue-next";
+import { usePermissionManagementStore } from '~/stores/permissionManagement'
 
 const props = defineProps<{
   open: boolean;
@@ -11,6 +12,7 @@ const emit = defineEmits<{
 }>();
 
 const { importPermissions } = usePermission();
+const permissionStore = usePermissionManagementStore()
 const toast = useToast();
 
 const loading = ref(false);
@@ -53,6 +55,7 @@ const handleImport = async () => {
       "Import completed",
       response.message || "Permissions imported successfully."
     );
+    await permissionStore.invalidateAndRefresh()
     emit("imported");
   } catch (error: any) {
     generalError.value = error.message || "Failed to import permissions";

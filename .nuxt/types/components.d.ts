@@ -14,6 +14,7 @@ type HydrationStrategies = {
 type LazyComponent<T> = DefineComponent<HydrationStrategies, {}, {}, {}, {}, {}, {}, { hydrated: () => void }> & T
 
 interface _GlobalComponents {
+  AppRefreshingIndicator: typeof import("../../app/components/AppRefreshingIndicator.vue")['default']
   AuthButton: typeof import("../../app/components/auth/AuthButton.vue")['default']
   AuthCard: typeof import("../../app/components/auth/AuthCard.vue")['default']
   AuthInput: typeof import("../../app/components/auth/AuthInput.vue")['default']
@@ -84,6 +85,7 @@ interface _GlobalComponents {
   Html: typeof import("../../node_modules/nuxt/dist/head/runtime/components")['Html']
   Body: typeof import("../../node_modules/nuxt/dist/head/runtime/components")['Body']
   NuxtIsland: typeof import("../../node_modules/nuxt/dist/app/components/nuxt-island")['default']
+  LazyAppRefreshingIndicator: LazyComponent<typeof import("../../app/components/AppRefreshingIndicator.vue")['default']>
   LazyAuthButton: LazyComponent<typeof import("../../app/components/auth/AuthButton.vue")['default']>
   LazyAuthCard: LazyComponent<typeof import("../../app/components/auth/AuthCard.vue")['default']>
   LazyAuthInput: LazyComponent<typeof import("../../app/components/auth/AuthInput.vue")['default']>

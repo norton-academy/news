@@ -66,11 +66,19 @@ const resetPasswordErrors = () => {
   passwordErrors.password_confirmation = "";
 };
 
-const fetchProfile = async () => {
+const fetchProfile = async (options: { force?: boolean } = {}) => {
   loading.value = true;
   errorMessage.value = "";
 
   try {
+    // Use cached auth user when available unless force-refresh requested
+    if (authStore.user && !options.force) {
+      profileForm.name = authStore.user.name || "";
+      profileForm.email = authStore.user.email || "";
+      loading.value = false;
+      return;
+    }
+
     const response = await getProfile();
 
     profileForm.name = response.data.user.name;
@@ -185,7 +193,7 @@ onMounted(async () => {
       subtitle="Manage your account information, roles, and password security."
     >
       <template #actions>
-        <AppButton variant="secondary" :loading="loading" @click="fetchProfile">
+        <AppButton variant="secondary" :loading="loading" @click="() => fetchProfile({ force: true })">
           <RefreshCcw class="h-4 w-4" />
           Refresh
         </AppButton>

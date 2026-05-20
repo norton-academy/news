@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { RoleItem, RolePagination } from "~/composables/useRole";
+import { useRoleManagementStore } from '~/stores/roleManagement'
 
 import {
   KeyRound,
@@ -20,7 +21,6 @@ definePageMeta({
 });
 
 const {
-  getRoles,
   createRole,
   updateRole,
   deleteRole,
@@ -28,6 +28,7 @@ const {
   importRoles,
   cloneRole,
 } = useRole();
+const roleStore = useRoleManagementStore();
 
 const toast = useToast();
 const authStore = useAuthStore();
@@ -107,17 +108,20 @@ const fetchRoles = async () => {
   errorMessage.value = "";
 
   try {
-    const response = await getRoles({
-      search: search.value || undefined,
-      guard_name: guardName.value || undefined,
-      page: page.value,
-      per_page: perPage.value,
-    });
+    await roleStore.fetchRoles(
+      {
+        search: search.value || undefined,
+        guard_name: guardName.value || undefined,
+        page: page.value,
+        per_page: perPage.value,
+      },
+      { silent: true }
+    );
 
-    roles.value = response.data.roles;
-    pagination.value = response.data.pagination;
+    roles.value = roleStore.roles;
+    pagination.value = roleStore.pagination;
   } catch (error: any) {
-    errorMessage.value = error.message || "Failed to load roles";
+    errorMessage.value = roleStore.errorMessage || error.message || "Failed to load roles";
     toast.error("Failed to load roles", errorMessage.value);
   } finally {
     loading.value = false;
@@ -144,14 +148,29 @@ const saveRole = async () => {
   try {
     if (selectedRole.value) {
       await updateRole(selectedRole.value.id, form);
+      // update cached role entry
+      roleStore.updateRoleInCache(selectedRole.value.id, {
+        name: form.name,
+        guard_name: form.guard_name,
+      });
       toast.success("Role updated", "Role information was updated successfully.");
     } else {
-      await createRole(form);
+      const response = await createRole(form);
+      // try to add created role to cache if returned
+      const createdRole = response?.data?.role || response?.role || response?.data || response
+      if (createdRole && createdRole.id) {
+        roleStore.addRoleToCache(createdRole as any)
+      } else {
+        // fallback to refresh
+        await roleStore.invalidateAndRefresh()
+      }
+
       toast.success("Role created", "New role was created successfully.");
     }
 
     modalOpen.value = false;
-    await fetchRoles();
+    // update local listing from store
+    roles.value = roleStore.roles;
   } catch (error: any) {
     errorMessage.value =
       error.response?.data?.message || error.message || "Failed to save role";
@@ -192,7 +211,8 @@ const closeImportModal = () => {
 const handlePermissionSaved = async () => {
   permissionModalOpen.value = false;
   selectedPermissionRole.value = null;
-  await fetchRoles();
+  // permission modal updates cache in-place; reflect store state locally
+  roles.value = roleStore.roles;
 };
 
 const handleRoleAction = async (role: RoleItem, action: string) => {
@@ -217,7 +237,7 @@ const handleRoleAction = async (role: RoleItem, action: string) => {
 };
 
 const handleImported = async () => {
-  await fetchRoles();
+  await roleStore.invalidateAndRefresh()
 };
 
 const handleConfirmAction = async () => {
@@ -234,7 +254,7 @@ const handleConfirmAction = async () => {
         `${confirmRole.value.name} was deleted successfully.`
       );
 
-      await fetchRoles();
+      roleStore.removeRoleFromCache(confirmRole.value.id)
 
       const notificationStore = useNotificationStore();
       await notificationStore.refreshNotifications();
@@ -302,7 +322,7 @@ const closeClone = () => {
 };
 
 const handleCloned = async () => {
-  await fetchRoles();
+  await roleStore.invalidateAndRefresh()
 };
 
 const resetFilters = async () => {

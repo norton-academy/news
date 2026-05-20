@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { UserItem } from "~/composables/useUser";
+import { useUserManagementStore } from '~/stores/userManagement'
 
 const props = defineProps<{
   open: boolean;
@@ -12,6 +13,7 @@ const emit = defineEmits<{
 }>();
 
 const { deleteUser } = useUser();
+const userStore = useUserManagementStore()
 const toast = useToast();
 
 const loading = ref(false);
@@ -30,8 +32,8 @@ const handleDelete = async () => {
 
   try {
     await deleteUser(props.user.id);
-
     toast.success("User deleted", "The user account was deleted successfully.");
+    userStore.removeUserFromCache(props.user.id)
     emit("deleted");
     handleClose();
   } catch (error: any) {

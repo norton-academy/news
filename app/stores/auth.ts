@@ -1,5 +1,6 @@
 import { defineStore } from 'pinia'
 import { useApi } from '~/composables/useApi'
+import { useAppCacheStore } from '~/stores/appCache'
 
 interface User {
   id: number
@@ -171,15 +172,23 @@ export const useAuthStore = defineStore('auth', {
     },
 
     async logout() {
-      if (!this.token) return
-
-      const api = useApi()
-      api.defaults.headers.common['Authorization'] = `Bearer ${this.token}`
-
       try {
         await api.post('/logout')
+      } catch (error) {
+        // optional
       } finally {
-        this.clearAuth()
+        this.user = null
+        this.token = null
+
+        const appCache = useAppCacheStore()
+        appCache.clearAll()
+
+        if (import.meta.client) {
+          localStorage.removeItem('auth_token')
+          localStorage.removeItem('auth_user')
+        }
+
+        await navigateTo('/login')
       }
     },
 

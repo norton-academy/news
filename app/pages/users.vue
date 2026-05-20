@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { UserItem, UserPagination, UserStats } from "~/composables/useUser";
+import { useUserManagementStore } from "~/stores/userManagement";
 import {
   Ban,
   CheckCircle2,
@@ -20,7 +21,8 @@ definePageMeta({
   title: "Users",
 });
 
-const { getUsers, resendUserVerification, updateUserStatus, exportUsers } = useUser();
+const { resendUserVerification, updateUserStatus, exportUsers } = useUser();
+const userStore = useUserManagementStore();
 const toast = useToast();
 
 const search = ref("");
@@ -30,49 +32,22 @@ const perPage = ref(10);
 const emailVerified = ref("");
 const exporting = ref(false);
 
-const loading = ref(false);
-const errorMessage = ref("");
 const createModalOpen = ref(false);
 
-const users = ref<UserItem[]>([]);
-
-const pagination = ref<UserPagination>({
-  current_page: 1,
-  last_page: 1,
-  per_page: 10,
-  total: 0,
-});
-
-const stats = ref<UserStats>({
-  total_users: 0,
-  active_users: 0,
-  pending_users: 0,
-  inactive_users: 0,
-  verified_users: 0,
-  unverified_users: 0,
-});
-
-const fetchUsers = async () => {
-  loading.value = true;
-  errorMessage.value = "";
-
-  try {
-    const response = await getUsers({
+const fetchUsers = async (opts: { force?: boolean; silent?: boolean } = {}) => {
+  await userStore.fetchUsers(
+    {
       search: search.value || undefined,
       status: status.value || undefined,
       email_verified: emailVerified.value || undefined,
       page: page.value,
       per_page: perPage.value,
-    });
+    },
+    { force: opts.force, silent: opts.silent }
+  );
 
-    users.value = response.data.users;
-    pagination.value = response.data.pagination;
-    stats.value = response.data.stats;
-  } catch (error: any) {
-    errorMessage.value = error.message || "Failed to load users";
-    toast.error("Failed to load users", errorMessage.value);
-  } finally {
-    loading.value = false;
+  if (userStore.errorMessage) {
+    toast.error("Failed to load users", userStore.errorMessage);
   }
 };
 
@@ -83,7 +58,7 @@ const deleteModalOpen = ref(false);
 const selectedDeleteUser = ref<UserItem | null>(null);
 
 const handleRefresh = async () => {
-  await fetchUsers();
+  await fetchUsers({ force: true, silent: true });
 };
 
 const openCreateModal = () => {
@@ -96,7 +71,7 @@ const closeCreateModal = () => {
 
 const handleCreated = async () => {
   createModalOpen.value = false;
-  await fetchUsers();
+  // store was updated by modal; reflect state
   toast.success("User created", "The new user account was created successfully.");
 };
 
@@ -113,7 +88,7 @@ const closeEditModal = () => {
 const handleUpdated = async () => {
   editModalOpen.value = false;
   selectedUser.value = null;
-  await fetchUsers();
+  // store updated in-place by modal
   toast.success("User updated", "User information was updated successfully.");
 };
 
@@ -130,7 +105,7 @@ const closeDeleteModal = () => {
 const handleDeleted = async () => {
   deleteModalOpen.value = false;
   selectedDeleteUser.value = null;
-  await fetchUsers();
+  // user removed from cache by modal
   toast.success("User deleted", "The user account was deleted successfully.");
 };
 
@@ -379,13 +354,17 @@ const authStore = useAuthStore();
       </template>
     </PageHeader>
 
-    <AlertMessage v-if="errorMessage" type="error" :message="errorMessage" />
+    <AlertMessage
+      v-if="userStore.errorMessage"
+      type="error"
+      :message="userStore.errorMessage"
+    />
 
     <div class="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
       <StatsCard
         title="Total Users"
         :delay="50"
-        :value="stats.total_users"
+        :value="userStore.stats.total_users"
         subtitle="All registered accounts"
         tone="info"
       >
@@ -399,13 +378,13 @@ const authStore = useAuthStore();
       </StatsCard>
       <StatsCard
         title="Total Users"
-        :value="stats.total_users"
+        :value="userStore.stats.total_users"
         subtitle="Registered users"
       />
 
       <StatsCard
         title="Active Users"
-        :value="stats.active_users"
+        :value="userStore.stats.active_users"
         subtitle="Currently active users"
         tone="success"
       >
@@ -420,7 +399,7 @@ const authStore = useAuthStore();
 
       <StatsCard
         title="Pending Users"
-        :value="stats.pending_users"
+        :value="userStore.stats.pending_users"
         subtitle="Waiting for approval"
         tone="warning"
       >
@@ -435,7 +414,7 @@ const authStore = useAuthStore();
 
       <StatsCard
         title="Inactive Users"
-        :value="stats.inactive_users"
+        :value="userStore.stats.inactive_users"
         subtitle="Disabled or inactive"
         tone="default"
       >
@@ -450,7 +429,7 @@ const authStore = useAuthStore();
 
       <StatsCard
         title="Verified Users"
-        :value="stats.verified_users || 0"
+        :value="userStore.stats.verified_users || 0"
         subtitle="Emails verified"
         tone="success"
       >
@@ -466,7 +445,7 @@ const authStore = useAuthStore();
       <StatsCard
         title="Unverified Users"
         class=""
-        :value="stats.unverified_users || 0"
+        :value="userStore.stats.unverified_users || 0"
         subtitle="Need email verification"
         tone="warning"
       >
@@ -516,8 +495,8 @@ const authStore = useAuthStore();
 
     <DataTable
       :columns="columns"
-      :rows="users"
-      :loading="loading"
+      :rows="userStore.users"
+      :loading="userStore.loading"
       empty-title="No users found"
       empty-message="Try changing your search or filter settings."
     >
@@ -635,10 +614,10 @@ const authStore = useAuthStore();
     </DataTable>
 
     <TablePagination
-      :current-page="pagination.current_page"
-      :last-page="pagination.last_page"
-      :total="pagination.total"
-      :loading="loading"
+      :current-page="userStore.pagination.current_page"
+      :last-page="userStore.pagination.last_page"
+      :total="userStore.pagination.total"
+      :loading="userStore.loading"
       @previous="
         page--;
         fetchUsers();

@@ -1,16 +1,10 @@
 <script setup lang="ts">
-import type {
-  ProductItem,
-  ProductPagination,
-  ProductStats,
-  ProductPayload,
-} from "~/composables/useProduct";
+import type { ProductItem, ProductPayload } from "~/composables/useProduct";
 import {
   Archive,
   Boxes,
   CheckCircle2,
   Edit,
-  Eye,
   Package,
   Plus,
   RefreshCcw,
@@ -25,22 +19,24 @@ definePageMeta({
   title: "Products",
 });
 
-const { getProducts, createProduct, updateProduct, deleteProduct } = useProduct();
+const { createProduct, updateProduct, deleteProduct } = useProduct();
 
+const productStore = useProductManagementStore();
 const toast = useToast();
 const authStore = useAuthStore();
 const notificationStore = useNotificationStore();
 
-const products = ref<ProductItem[]>([]);
+const products = computed(() => productStore.products);
+const pagination = computed(() => productStore.pagination);
+const stats = computed(() => productStore.stats);
+const loading = computed(() => productStore.loading);
+const refreshing = computed(() => productStore.refreshing);
+const errorMessage = computed(() => productStore.errorMessage);
 
 const search = ref("");
 const status = ref("");
 const page = ref(1);
 const perPage = ref(10);
-
-const loading = ref(false);
-const saving = ref(false);
-const errorMessage = ref("");
 
 const modalOpen = ref(false);
 const selectedProduct = ref<ProductItem | null>(null);
@@ -48,6 +44,8 @@ const selectedProduct = ref<ProductItem | null>(null);
 const confirmOpen = ref(false);
 const confirmLoading = ref(false);
 const confirmProduct = ref<ProductItem | null>(null);
+
+const saving = ref(false);
 
 const form = reactive<ProductPayload>({
   name: "",
@@ -59,24 +57,6 @@ const form = reactive<ProductPayload>({
   image: null,
 });
 
-const imagePreview = ref<string | null>(null);
-
-const handleImageChange = (event: Event) => {
-  const input = event.target as HTMLInputElement;
-  const file = input.files?.[0];
-
-  if (!file) {
-    form.image = null;
-    imagePreview.value = null;
-    return;
-  }
-
-  form.image = file;
-  imagePreview.value = URL.createObjectURL(file);
-
-  console.log("Selected image:", file);
-};
-
 const formErrors = reactive<Record<string, string>>({
   name: "",
   sku: "",
@@ -87,52 +67,41 @@ const formErrors = reactive<Record<string, string>>({
   image: "",
 });
 
-const stats = ref<ProductStats>({
-  total_products: 0,
-  active_products: 0,
-  inactive_products: 0,
-  draft_products: 0,
-  low_stock_products: 0,
-});
-
-const pagination = ref<ProductPagination>({
-  current_page: 1,
-  last_page: 1,
-  per_page: 10,
-  total: 0,
-});
+const imagePreview = ref<string | null>(null);
 
 const columns = [
-  {
-    key: "product",
-    label: "Product",
-  },
-  {
-    key: "sku",
-    label: "SKU",
-  },
-  {
-    key: "price",
-    label: "Price",
-  },
-  {
-    key: "stock",
-    label: "Stock",
-  },
-  {
-    key: "status",
-    label: "Status",
-  },
-  {
-    key: "created_at",
-    label: "Created",
-  },
-  {
-    key: "actions",
-    label: "Actions",
-    align: "right" as const,
-  },
+  { key: "product", label: "Product" },
+  { key: "sku", label: "SKU" },
+  { key: "price", label: "Price" },
+  { key: "stock", label: "Stock" },
+  { key: "status", label: "Status" },
+  { key: "created_at", label: "Created" },
+  { key: "actions", label: "Actions", align: "right" as const },
 ];
+
+const fetchProducts = async (
+  options: {
+    force?: boolean;
+    silent?: boolean;
+  } = {}
+) => {
+  await productStore.fetchProducts(
+    {
+      search: search.value,
+      status: status.value,
+      page: page.value,
+      per_page: perPage.value,
+    },
+    options
+  );
+};
+
+const handleRefresh = async () => {
+  await fetchProducts({
+    force: true,
+    silent: true,
+  });
+};
 
 const resetFormErrors = () => {
   Object.keys(formErrors).forEach((key) => {
@@ -153,29 +122,18 @@ const resetForm = () => {
   resetFormErrors();
 };
 
-const fetchProducts = async () => {
-  loading.value = true;
-  errorMessage.value = "";
+const handleImageChange = (event: Event) => {
+  const input = event.target as HTMLInputElement;
+  const file = input.files?.[0];
 
-  try {
-    const response = await getProducts({
-      search: search.value || undefined,
-      status: status.value || undefined,
-      page: page.value,
-      per_page: perPage.value,
-    });
-
-    products.value = response.data.products;
-    pagination.value = response.data.pagination;
-    stats.value = response.data.stats;
-  } catch (error: any) {
-    errorMessage.value =
-      error.response?.data?.message || error.message || "Failed to load products";
-
-    toast.error("Failed to load products", errorMessage.value);
-  } finally {
-    loading.value = false;
+  if (!file) {
+    form.image = null;
+    imagePreview.value = null;
+    return;
   }
+
+  form.image = file;
+  imagePreview.value = URL.createObjectURL(file);
 };
 
 const openCreate = () => {
@@ -193,8 +151,6 @@ const openEdit = (product: ProductItem) => {
   form.price = Number(product.price);
   form.stock = Number(product.stock);
   form.status = product.status;
-
-  // Important
   form.image = null;
   imagePreview.value = product.image_url || null;
 
@@ -212,43 +168,60 @@ const closeModal = () => {
 
 const saveProduct = async () => {
   saving.value = true;
-  errorMessage.value = "";
   resetFormErrors();
 
   try {
+    const payload = {
+      name: form.name,
+      sku: form.sku,
+      description: form.description,
+      price: Number(form.price),
+      stock: Number(form.stock),
+      status: form.status,
+      image: form.image,
+    };
+
     if (selectedProduct.value) {
-      await updateProduct(selectedProduct.value.id, {
-        name: form.name,
-        sku: form.sku,
-        description: form.description,
-        price: Number(form.price),
-        stock: Number(form.stock),
-        status: form.status,
-        image: form.image,
-      });
+      const response = await updateProduct(selectedProduct.value.id, payload);
+
+      const updated =
+        response?.data?.product || response?.product || response?.data || response;
+
+      if (updated && updated.id) {
+        productStore.updateProductInCache(selectedProduct.value.id, updated as any);
+      } else {
+        productStore.updateProductInCache(selectedProduct.value.id, {
+          name: payload.name,
+          sku: payload.sku,
+          description: payload.description,
+          price: payload.price,
+          stock: payload.stock,
+          status: payload.status,
+        } as any);
+      }
+
       toast.success("Product updated", "Product information was updated successfully.");
     } else {
-      await createProduct({
-        name: form.name,
-        sku: form.sku,
-        description: form.description,
-        price: Number(form.price),
-        stock: Number(form.stock),
-        status: form.status,
-        image: form.image,
-      });
+      const response = await createProduct(payload);
+
+      const created =
+        response?.data?.product || response?.product || response?.data || response;
+      if (created && created.id) {
+        productStore.addProductToCache(created as any);
+      } else {
+        await productStore.invalidateAndRefresh();
+      }
 
       toast.success("Product created", "New product was created successfully.");
     }
 
     closeModal();
-    await fetchProducts();
     await notificationStore.refreshNotifications();
   } catch (error: any) {
-    errorMessage.value =
+    const message =
       error.response?.data?.message || error.message || "Failed to save product";
 
-    toast.error("Save failed", errorMessage.value);
+    toast.error("Save failed", message);
 
     const errors = error.response?.data?.errors || error.errors;
 
@@ -292,7 +265,8 @@ const handleDelete = async () => {
     );
 
     closeDeleteConfirm();
-    await fetchProducts();
+
+    productStore.removeProductFromCache(confirmProduct.value.id);
     await notificationStore.refreshNotifications();
   } catch (error: any) {
     toast.error(
@@ -365,7 +339,9 @@ watch(status, async () => {
 });
 
 onMounted(async () => {
-  await fetchProducts();
+  await fetchProducts({
+    silent: productStore.hasCachedData,
+  });
 });
 </script>
 
@@ -376,7 +352,7 @@ onMounted(async () => {
       subtitle="Manage product inventory, pricing, stock, and publishing status."
     >
       <template #actions>
-        <AppButton variant="secondary" :loading="loading" @click="fetchProducts">
+        <AppButton variant="secondary" :loading="refreshing" @click="handleRefresh">
           <RefreshCcw class="h-4 w-4" />
           Refresh
         </AppButton>
@@ -479,7 +455,7 @@ onMounted(async () => {
     <DataTable
       :columns="columns"
       :rows="products"
-      :loading="loading"
+      :loading="loading && products.length === 0"
       empty-title="No products found"
       empty-message="Create your first product to start managing inventory."
     >
@@ -571,7 +547,7 @@ onMounted(async () => {
       :current-page="pagination.current_page"
       :last-page="pagination.last_page"
       :total="pagination.total"
-      :loading="loading"
+      :loading="loading && products.length === 0"
       @previous="goPrevious"
       @next="goNext"
     />
@@ -713,5 +689,7 @@ onMounted(async () => {
       @close="closeDeleteConfirm"
       @confirm="handleDelete"
     />
+
+    <AppRefreshingIndicator :show="refreshing" />
   </div>
 </template>

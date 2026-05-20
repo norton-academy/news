@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import type { UpdateUserPayload, UserItem } from "~/composables/useUser";
 import type { RoleItem } from "~/composables/useRole";
+import { useRoleManagementStore } from '~/stores/roleManagement'
+import { useUserManagementStore } from '~/stores/userManagement'
 
 const props = defineProps<{
   open: boolean;
@@ -13,7 +15,8 @@ const emit = defineEmits<{
 }>();
 
 const { updateUser } = useUser();
-const { getRoles } = useRole();
+const roleStore = useRoleManagementStore()
+const userStore = useUserManagementStore()
 const toast = useToast();
 
 const loading = ref(false);
@@ -75,11 +78,8 @@ const fetchRoles = async () => {
   rolesLoading.value = true;
 
   try {
-    const response = await getRoles({
-      per_page: 100,
-    });
-
-    roles.value = response.data.roles;
+    await roleStore.fetchRoles({ per_page: 100 }, { silent: true })
+    roles.value = roleStore.roles
   } catch (error) {
     console.error("Failed to load roles", error);
   } finally {
@@ -133,8 +133,14 @@ const handleSubmit = async () => {
     }
 
     await updateUser(props.user.id, payload);
-
     toast.success("User updated", "The user account was updated successfully.");
+    // update cache in-place for immediate UI feedback
+    userStore.updateUserInCache(props.user.id, {
+      name: payload.name,
+      email: payload.email,
+      status: payload.status,
+      role: payload.role || null,
+    } as any)
     emit("updated");
     handleClose();
   } catch (error: any) {
