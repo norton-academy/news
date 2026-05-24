@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { FileSpreadsheet, Upload, X } from "lucide-vue-next";
-import { useRoleManagementStore } from '~/stores/roleManagement'
+import { useRoleManagementStore } from "~/stores/management/roleStore";
 
 defineProps<{
   open: boolean;
@@ -12,7 +12,7 @@ const emit = defineEmits<{
 }>();
 
 const { importRoles } = useRole();
-const roleStore = useRoleManagementStore()
+const roleStore = useRoleManagementStore();
 const toast = useToast();
 
 const loading = ref(false);
@@ -52,10 +52,11 @@ const handleImport = async () => {
 
     result.value = response.data.result;
     toast.success("Import completed", response.message || "Roles imported successfully.");
-    await roleStore.invalidateAndRefresh()
+    await roleStore.invalidateAndRefresh();
     emit("imported");
   } catch (error: any) {
-    generalError.value = error.message || "Failed to import roles";
+    generalError.value =
+      error.response?.data?.message || error.message || "Failed to import roles";
     toast.error("Import failed", generalError.value);
   } finally {
     loading.value = false;
@@ -99,7 +100,9 @@ const downloadRoleSample = () => {
         comma-separated.
       </AlertMessage>
 
-      <div class="rounded-2xl border border-slate-200 bg-slate-50 p-4 dark:border-slate-800 dark:bg-slate-800/60">
+      <div
+        class="rounded-2xl border border-slate-200 bg-slate-50 p-4 dark:border-slate-800 dark:bg-slate-800/60"
+      >
         <p class="mb-2 text-sm font-bold text-ui">Example CSV</p>
 
         <pre
@@ -121,9 +124,7 @@ Viewer,web,"dashboard.view,user.view"</pre
           {{ selectedFile ? selectedFile.name : "Click to upload CSV file" }}
         </p>
 
-        <p class="mt-1 text-xs text-muted">
-          CSV or TXT file, max 2MB
-        </p>
+        <p class="mt-1 text-xs text-muted">CSV or TXT file, max 2MB</p>
 
         <input type="file" accept=".csv,.txt" class="hidden" @change="handleFileChange" />
       </label>

@@ -9,46 +9,62 @@ import {
   Trash2,
   TriangleAlert,
 } from "lucide-vue-next";
-import type {
-  NotificationItem,
-  NotificationType,
-  NotificationPagination,
-} from "~/composables/useNotification";
+import type { NotificationItem, NotificationType } from "~/composables/useNotification";
+import { useNotificationPageStore } from "~/stores/system/notificationPageStore";
 
 definePageMeta({
-  layout: "dashboard",
+  layout: "admin",
   middleware: ["auth"],
   title: "Notifications",
 });
 
 const {
-  getNotifications,
   markNotificationAsRead,
   markAllNotificationsAsRead,
   clearNotifications,
 } = useNotification();
 
-const notificationStore = useNotificationStore();
+const notificationPageStore = useNotificationPageStore();
+const headerNotificationStore = useNotificationStore();
 const toast = useToast();
-
-const loading = ref(false);
-const actionLoading = ref(false);
-const errorMessage = ref("");
-
-const notifications = ref<NotificationItem[]>([]);
-
-const pagination = ref<NotificationPagination>({
-  current_page: 1,
-  last_page: 1,
-  per_page: 10,
-  total: 0,
-});
 
 const page = ref(1);
 const perPage = ref(10);
 const readFilter = ref<"all" | "read" | "unread">("all");
 
+const actionLoading = ref(false);
 const clearConfirmOpen = ref(false);
+const pageErrorMessage = ref("");
+
+const notifications = computed(() => {
+  return Array.isArray(notificationPageStore.notifications)
+    ? notificationPageStore.notifications
+    : [];
+});
+
+const notificationCount = computed(() => notifications.value.length);
+
+const currentPage = computed(() => notificationPageStore.currentPage);
+const lastPage = computed(() => notificationPageStore.lastPage);
+const totalItems = computed(() => notificationPageStore.totalItems);
+
+const loading = computed(() => notificationPageStore.loading);
+const refreshing = computed(() => notificationPageStore.refreshing);
+const errorMessage = computed(
+  () => notificationPageStore.errorMessage || pageErrorMessage.value
+);
+
+const unreadCount = computed(() => {
+  return headerNotificationStore.unreadCount ?? notificationPageStore.unreadCount ?? 0;
+});
+
+const stats = computed(() => {
+  return {
+    total: totalItems.value,
+    unread: unreadCount.value,
+    shown: notificationCount.value,
+  };
+});
 
 const iconMap = {
   info: Info,
@@ -68,35 +84,37 @@ const typeVariant = (type: NotificationType) => {
   return variants[type];
 };
 
-const stats = computed(() => {
-  return {
-    total: pagination.value.total,
-    unread: notificationStore.unreadCount,
-    shown: notifications.value.length,
-  };
-});
+const fetchNotifications = async (
+  options: {
+    force?: boolean;
+    silent?: boolean;
+  } = {}
+) => {
+  pageErrorMessage.value = "";
 
-const fetchNotifications = async () => {
-  loading.value = true;
-  errorMessage.value = "";
-
-  try {
-    const response = await getNotifications({
+  await notificationPageStore.fetchNotifications(
+    {
       page: page.value,
       per_page: perPage.value,
       read: readFilter.value,
-    });
+    },
+    options
+  );
 
-    notifications.value = response.data.notifications || [];
-    pagination.value = response.data.pagination || pagination.value;
+  headerNotificationStore.unreadCount = notificationPageStore.unreadCount;
 
-    notificationStore.unreadCount = response.data.unread_count || 0;
-  } catch (error: any) {
-    errorMessage.value = error.message || "Failed to load notifications";
-    toast.error("Failed to load notifications", errorMessage.value);
-  } finally {
-    loading.value = false;
+  if (notificationPageStore.errorMessage) {
+    toast.error("Failed to load notifications", notificationPageStore.errorMessage);
   }
+};
+
+const handleRefresh = async () => {
+  await fetchNotifications({
+    force: true,
+    silent: true,
+  });
+
+  await headerNotificationStore.refreshNotifications();
 };
 
 const handleOpenNotification = async (notification: NotificationItem) => {
@@ -104,17 +122,20 @@ const handleOpenNotification = async (notification: NotificationItem) => {
     if (!notification.read) {
       await markNotificationAsRead(notification.id);
 
-      notification.read = true;
-      notification.read_at = notification.read_at || new Date().toISOString();
+      notificationPageStore.markLocalAsRead(notification.id);
+      notificationPageStore.clearCache();
 
-      await notificationStore.refreshNotifications();
+      await headerNotificationStore.refreshNotifications();
     }
 
     if (notification.action_url) {
       await navigateTo(notification.action_url);
     }
   } catch (error: any) {
-    toast.error("Action failed", error.message || "Failed to open notification");
+    toast.error(
+      "Action failed",
+      error.response?.data?.message || error.message || "Failed to open notification"
+    );
   }
 };
 
@@ -124,18 +145,18 @@ const handleMarkAllAsRead = async () => {
   try {
     const response = await markAllNotificationsAsRead();
 
-    notifications.value = notifications.value.map((item) => ({
-      ...item,
-      read: true,
-      read_at: item.read_at || new Date().toISOString(),
-    }));
+    notificationPageStore.markAllLocalAsRead();
+    notificationPageStore.clearCache();
 
-    notificationStore.unreadCount = response.data.unread_count || 0;
-    await notificationStore.refreshNotifications();
+    headerNotificationStore.unreadCount = response.data?.unread_count || 0;
+    await headerNotificationStore.refreshNotifications();
 
     toast.success("Notifications updated", "All notifications were marked as read.");
   } catch (error: any) {
-    toast.error("Action failed", error.message || "Failed to mark all as read");
+    toast.error(
+      "Action failed",
+      error.response?.data?.message || error.message || "Failed to mark all as read"
+    );
   } finally {
     actionLoading.value = false;
   }
@@ -157,20 +178,22 @@ const handleClearAll = async () => {
   try {
     const response = await clearNotifications();
 
-    notifications.value = [];
-    pagination.value.total = 0;
-    pagination.value.current_page = 1;
-    pagination.value.last_page = 1;
     page.value = 1;
 
-    notificationStore.unreadCount = response.data.unread_count || 0;
-    await notificationStore.refreshNotifications();
+    notificationPageStore.clearLocalNotifications();
+    notificationPageStore.clearCache();
+
+    headerNotificationStore.unreadCount = response.data?.unread_count || 0;
+    await headerNotificationStore.refreshNotifications();
 
     toast.success("Notifications cleared", "All notifications were removed.");
 
     closeClearConfirm();
   } catch (error: any) {
-    toast.error("Action failed", error.message || "Failed to clear notifications");
+    toast.error(
+      "Action failed",
+      error.response?.data?.message || error.message || "Failed to clear notifications"
+    );
   } finally {
     actionLoading.value = false;
   }
@@ -184,9 +207,17 @@ const goPrevious = async () => {
 };
 
 const goNext = async () => {
-  if (page.value >= pagination.value.last_page) return;
+  if (page.value >= lastPage.value) return;
 
   page.value++;
+  await fetchNotifications();
+};
+
+const goToPage = async (targetPage: number) => {
+  if (targetPage < 1) return;
+  if (targetPage > lastPage.value) return;
+
+  page.value = targetPage;
   await fetchNotifications();
 };
 
@@ -196,7 +227,9 @@ watch(readFilter, async () => {
 });
 
 onMounted(async () => {
-  await fetchNotifications();
+  await fetchNotifications({
+    silent: notificationPageStore.hasData,
+  });
 });
 </script>
 
@@ -207,7 +240,7 @@ onMounted(async () => {
       subtitle="View system updates, admin actions, account events, and security messages."
     >
       <template #actions>
-        <AppButton variant="secondary" :loading="loading" @click="fetchNotifications">
+        <AppButton variant="secondary" :loading="refreshing" @click="handleRefresh">
           <RefreshCcw class="h-4 w-4" />
           Refresh
         </AppButton>
@@ -215,7 +248,7 @@ onMounted(async () => {
         <AppButton
           variant="secondary"
           :loading="actionLoading"
-          :disabled="notificationStore.unreadCount === 0"
+          :disabled="unreadCount === 0"
           @click="handleMarkAllAsRead"
         >
           <Eye class="h-4 w-4" />
@@ -225,7 +258,7 @@ onMounted(async () => {
         <AppButton
           variant="danger"
           :loading="actionLoading"
-          :disabled="notifications.length === 0"
+          :disabled="notificationCount === 0"
           @click="openClearConfirm"
         >
           <Trash2 class="h-4 w-4" />
@@ -299,8 +332,7 @@ onMounted(async () => {
       />
     </FilterBar>
 
-    <!-- Loading -->
-    <div v-if="loading" class="space-y-3">
+    <div v-if="loading && notificationCount === 0" class="space-y-3">
       <div
         v-for="i in 5"
         :key="i"
@@ -318,55 +350,57 @@ onMounted(async () => {
       </div>
     </div>
 
-    <!-- Notification list -->
-    <div v-else-if="notifications.length" class="space-y-3">
+    <div v-else-if="notificationCount > 0" class="space-y-3">
       <button
         v-for="notification in notifications"
         :key="notification.id"
         type="button"
-        class="w-full rounded-3xl border border-border bg-card p-5 text-left shadow-sm hover:bg-muted/50"
-        :class="!notification.read ? 'ring-2 ring-sky-100 dark:ring-sky-950/60' : ''"
+        class="w-full rounded-xl border border-border bg-card p-4 text-left shadow-sm transition-colors duration-150 hover:bg-sky-600/20 focus:bg-sky-600/20 focus:outline-none focus:ring-2 focus:ring-sky-200"
+        :class="!notification.read ? 'border-l-4 border-sky-600' : ''"
         @click="handleOpenNotification(notification)"
       >
-        <div class="flex gap-4">
-          <AppBadge :variant="typeVariant(notification.type)" shape="square" size="lg">
-            <component :is="iconMap[notification.type]" class="h-6 w-6" />
+        <div class="flex gap-3">
+          <AppBadge :variant="typeVariant(notification.type)" shape="square" size="md">
+            <component :is="iconMap[notification.type]" class="h-5 w-5" />
           </AppBadge>
 
           <div class="min-w-0 flex-1">
-            <div
-              class="flex flex-col gap-2 sm:flex-row sm:items-start sm:justify-between"
-            >
+            <div class="flex items-start justify-between gap-3">
               <div class="min-w-0">
-                <div class="flex flex-wrap items-center gap-2">
-                  <h3 class="text-sm font-bold text-card-foreground">
+                <div class="flex items-center gap-2">
+                  <h3 class="truncate text-sm font-semibold text-card-foreground">
                     {{ notification.title }}
                   </h3>
 
-                  <AppBadge v-if="!notification.read" variant="info"> New </AppBadge>
+                  <AppBadge
+                    v-if="!notification.read"
+                    variant="info"
+                    class="px-2 py-0.5 text-xs"
+                    >New</AppBadge
+                  >
                 </div>
 
-                <p class="mt-1 text-sm leading-6 text-muted-foreground">
+                <p class="mt-1 text-sm text-muted-foreground truncate">
                   {{ notification.message }}
                 </p>
               </div>
 
-              <span class="shrink-0 text-xs font-medium text-muted-foreground">
-                {{ notification.created_at }}
-              </span>
-            </div>
-
-            <div v-if="notification.action_url" class="mt-4">
-              <span class="text-sm font-semibold text-sky-600 dark:text-sky-400">
-                Open related page →
-              </span>
+              <div class="shrink-0 text-right">
+                <div class="text-xs font-medium text-muted-foreground">
+                  {{ notification.created_at }}
+                </div>
+                <div v-if="notification.action_url" class="mt-2">
+                  <span class="text-sm font-semibold text-sky-600 dark:text-sky-400"
+                    >Open →</span
+                  >
+                </div>
+              </div>
             </div>
           </div>
         </div>
       </button>
     </div>
 
-    <!-- Empty -->
     <EmptyState
       v-else
       title="No notifications found"
@@ -375,16 +409,22 @@ onMounted(async () => {
       <template #icon>
         <Bell class="h-6 w-6" />
       </template>
+      <div class="mt-4">
+        <AppButton variant="secondary" @click="handleRefresh">Refresh</AppButton>
+      </div>
     </EmptyState>
 
     <TablePagination
-      v-if="pagination.total > 0"
-      :current-page="pagination.current_page"
-      :last-page="pagination.last_page"
-      :total="pagination.total"
-      :loading="loading"
+      v-if="totalItems > 0"
+      :current-page="currentPage"
+      :last-page="lastPage"
+      :total="totalItems"
+      :per-page="perPage"
+      :loading="loading && notificationCount === 0"
       @previous="goPrevious"
       @next="goNext"
+      @page="goToPage"
+      label="notifications"
     />
 
     <ConfirmDialog
@@ -397,6 +437,7 @@ onMounted(async () => {
       @close="closeClearConfirm"
       @confirm="handleClearAll"
     />
+
+    <AppRefreshingIndicator :show="refreshing" />
   </div>
 </template>
-w

@@ -7,6 +7,7 @@ import type {
   ProductStats,
 } from '~/composables/useProduct'
 
+
 const defaultPagination = (): ProductPagination => ({
   current_page: 1,
   last_page: 1,
@@ -23,11 +24,10 @@ const defaultStats = (): ProductStats => ({
 })
 
 export const useProductManagementStore = defineStore('inventory-product', {
-  state: () => ({
+    state: () => ({
     products: [] as ProductItem[],
 
     pagination: defaultPagination(),
-
     stats: defaultStats(),
 
     loading: false,
@@ -48,7 +48,7 @@ export const useProductManagementStore = defineStore('inventory-product', {
     currentPage: (state) => state.pagination?.current_page ?? 1,
     lastPage: (state) => state.pagination?.last_page ?? 1,
     totalItems: (state) => state.pagination?.total ?? 0,
-    perPage: (state) => state.pagination?.per_page ?? 10,
+    perPageValue: (state) => state.pagination?.per_page ?? 10,
 
     totalProducts: (state) => state.stats?.total_products ?? 0,
     activeProducts: (state) => state.stats?.active_products ?? 0,
@@ -138,7 +138,6 @@ export const useProductManagementStore = defineStore('inventory-product', {
 
     clearCache() {
       const appCache = useAppCacheStore()
-
       appCache.forgetByPrefix('products:')
     },
 
@@ -155,9 +154,11 @@ export const useProductManagementStore = defineStore('inventory-product', {
       this.products = []
       this.pagination = defaultPagination()
       this.stats = defaultStats()
+
       this.loading = false
       this.refreshing = false
       this.errorMessage = ''
+
       this.lastFilters = {
         search: '',
         status: '',

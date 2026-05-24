@@ -18,6 +18,7 @@ export const AppRefreshingIndicator: typeof import("../app/components/AppRefresh
 export const AuthButton: typeof import("../app/components/auth/AuthButton.vue")['default']
 export const AuthCard: typeof import("../app/components/auth/AuthCard.vue")['default']
 export const AuthInput: typeof import("../app/components/auth/AuthInput.vue")['default']
+export const AdminShell: typeof import("../app/components/dashboard/AdminShell.vue")['default']
 export const AppBreadcrumbs: typeof import("../app/components/dashboard/AppBreadcrumbs.vue")['default']
 export const AppHeader: typeof import("../app/components/dashboard/AppHeader.vue")['default']
 export const AppShell: typeof import("../app/components/dashboard/AppShell.vue")['default']
@@ -89,6 +90,7 @@ export const LazyAppRefreshingIndicator: LazyComponent<typeof import("../app/com
 export const LazyAuthButton: LazyComponent<typeof import("../app/components/auth/AuthButton.vue")['default']>
 export const LazyAuthCard: LazyComponent<typeof import("../app/components/auth/AuthCard.vue")['default']>
 export const LazyAuthInput: LazyComponent<typeof import("../app/components/auth/AuthInput.vue")['default']>
+export const LazyAdminShell: LazyComponent<typeof import("../app/components/dashboard/AdminShell.vue")['default']>
 export const LazyAppBreadcrumbs: LazyComponent<typeof import("../app/components/dashboard/AppBreadcrumbs.vue")['default']>
 export const LazyAppHeader: LazyComponent<typeof import("../app/components/dashboard/AppHeader.vue")['default']>
 export const LazyAppShell: LazyComponent<typeof import("../app/components/dashboard/AppShell.vue")['default']>

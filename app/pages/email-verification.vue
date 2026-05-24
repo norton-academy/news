@@ -52,7 +52,7 @@ const handleVerify = async () => {
 
     await authStore.fetchUser();
 
-    await navigateTo("/dashboard");
+    await navigateTo(authStore.redirectPath());
   } catch (error: any) {
     errorMessage.value = error.message || "Failed to verify OTP";
     toast.error("Verification failed", errorMessage.value);
@@ -139,10 +139,10 @@ const handleResend = async () => {
       <button
         class="font-semibold text-blue-600 hover:text-blue-700"
         @click="
-          authStore
+            authStore
             .fetchUser()
             .then(() =>
-              authStore.user?.is_email_verified ? navigateTo('/dashboard') : null
+              authStore.user?.is_email_verified ? navigateTo(authStore.redirectPath()) : null
             )
         "
       >

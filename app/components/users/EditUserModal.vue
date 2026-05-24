@@ -1,8 +1,7 @@
 <script setup lang="ts">
 import type { UpdateUserPayload, UserItem } from "~/composables/useUser";
 import type { RoleItem } from "~/composables/useRole";
-import { useRoleManagementStore } from '~/stores/roleManagement'
-import { useUserManagementStore } from '~/stores/userManagement'
+import { useRoleManagementStore } from "~/stores/management/roleStore";
 
 const props = defineProps<{
   open: boolean;
@@ -15,8 +14,7 @@ const emit = defineEmits<{
 }>();
 
 const { updateUser } = useUser();
-const roleStore = useRoleManagementStore()
-const userStore = useUserManagementStore()
+const roleStore = useRoleManagementStore();
 const toast = useToast();
 
 const loading = ref(false);
@@ -78,8 +76,8 @@ const fetchRoles = async () => {
   rolesLoading.value = true;
 
   try {
-    await roleStore.fetchRoles({ per_page: 100 }, { silent: true })
-    roles.value = roleStore.roles
+    await roleStore.fetchRoles({ per_page: 100 }, { silent: true });
+    roles.value = roleStore.roles;
   } catch (error) {
     console.error("Failed to load roles", error);
   } finally {
@@ -133,27 +131,23 @@ const handleSubmit = async () => {
     }
 
     await updateUser(props.user.id, payload);
-    toast.success("User updated", "The user account was updated successfully.");
-    // update cache in-place for immediate UI feedback
-    userStore.updateUserInCache(props.user.id, {
-      name: payload.name,
-      email: payload.email,
-      status: payload.status,
-      role: payload.role || null,
-    } as any)
+    toast.success("User updated", "User information was updated successfully.");
     emit("updated");
     handleClose();
   } catch (error: any) {
-    generalError.value = error.message || "Failed to update user";
+    generalError.value =
+      error.response?.data?.message || error.message || "Failed to update user";
     toast.error("Update failed", generalError.value);
 
-    if (error.errors) {
-      errors.name = error.errors.name?.[0] || "";
-      errors.email = error.errors.email?.[0] || "";
-      errors.password = error.errors.password?.[0] || "";
-      errors.password_confirmation = error.errors.password_confirmation?.[0] || "";
-      errors.status = error.errors.status?.[0] || "";
-      errors.role = error.errors.role?.[0] || "";
+    const validationErrors = error.response?.data?.errors || error.errors;
+
+    if (validationErrors) {
+      errors.name = validationErrors.name?.[0] || "";
+      errors.email = validationErrors.email?.[0] || "";
+      errors.password = validationErrors.password?.[0] || "";
+      errors.password_confirmation = validationErrors.password_confirmation?.[0] || "";
+      errors.status = validationErrors.status?.[0] || "";
+      errors.role = validationErrors.role?.[0] || "";
     }
   } finally {
     loading.value = false;

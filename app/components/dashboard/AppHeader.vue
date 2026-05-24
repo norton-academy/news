@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Menu, PanelLeftClose, PanelLeftOpen, Search } from "lucide-vue-next";
+import { Menu, Search } from "lucide-vue-next";
 
 defineProps<{
   sidebarCollapsed?: boolean;
@@ -17,17 +17,20 @@ const route = useRoute();
 
 const pageTitle = computed(() => {
   const map: Record<string, string> = {
-    "/dashboard": "Dashboard",
-    "/rbac": "RBAC Overview",
-    "/users": "Users",
-    "/roles": "Roles",
-    "/permissions": "Permissions",
-    "/audit-logs": "Audit Logs",
-    "/menus": "Menus",
-    "/profile": "Profile",
-    "/settings": "Settings",
+    "/admin/dashboard": "Dashboard",
+    "/admin/rbac": "RBAC Overview",
+    "/admin/users": "Users",
+    "/admin/roles": "Roles",
+    "/admin/permissions": "Permissions",
+    "/admin/audit-logs": "Audit Logs",
+    "/admin/menus": "Menus",
+    "/admin/settings": "Settings",
+    "/admin/products": "Products",
+    "/admin/countries": "Countries",
     "/notifications": "Notifications",
     "/ui-components": "UI Components",
+    "/app/profile": "Profile",
+    "/app/settings": "Settings",
   };
 
   return map[route.path] || "Dashboard";
@@ -45,14 +48,6 @@ const pageTitle = computed(() => {
           @click="emit('toggle-sidebar')"
         >
           <Menu class="h-5 w-5" />
-        </button>
-
-        <button
-          class="hidden h-10 w-10 items-center justify-center rounded-xl border border-slate-200 bg-white text-slate-700 shadow-sm hover:bg-slate-50 dark:border-slate-800 dark:bg-slate-900 dark:text-slate-200 dark:hover:bg-slate-800 lg:inline-flex"
-          @click="emit('toggle-sidebar-collapse')"
-        >
-          <PanelLeftOpen v-if="sidebarCollapsed" class="h-5 w-5" />
-          <PanelLeftClose v-else class="h-5 w-5" />
         </button>
 
         <div>

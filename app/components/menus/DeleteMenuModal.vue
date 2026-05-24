@@ -18,7 +18,17 @@ const toast = useToast();
 const loading = ref(false);
 const generalError = ref("");
 
+const menuTitle = computed(() => {
+  return props.menu?.label || props.menu?.name || "this menu";
+});
+
+const canDelete = computed(() => {
+  return Boolean(props.menu && !props.menu.is_system);
+});
+
 const handleClose = () => {
+  if (loading.value) return;
+
   generalError.value = "";
   emit("close");
 };
@@ -38,10 +48,13 @@ const handleDelete = async () => {
     await deleteMenu(props.menu.id);
 
     toast.success("Menu deleted", "Menu item was deleted successfully.");
+
     emit("deleted");
     handleClose();
   } catch (error: any) {
-    generalError.value = error.message || "Failed to delete menu";
+    generalError.value =
+      error.response?.data?.message || error.message || "Failed to delete menu";
+
     toast.error("Delete failed", generalError.value);
   } finally {
     loading.value = false;
@@ -62,7 +75,12 @@ const handleDelete = async () => {
     </template>
 
     <div class="space-y-5">
-      <AlertMessage v-if="generalError" type="error" :message="generalError" />
+      <AlertMessage
+        v-if="generalError"
+        type="error"
+        title="Delete failed"
+        :message="generalError"
+      />
 
       <AlertMessage
         v-if="menu?.is_system"
@@ -73,14 +91,35 @@ const handleDelete = async () => {
 
       <AlertMessage v-else type="warning" title="Confirm delete">
         Are you sure you want to delete
-        <strong>{{ menu?.label }}</strong
+        <strong>{{ menuTitle }}</strong
         >?
       </AlertMessage>
 
-      <div
-        class="flex justify-end gap-3 border-t border-slate-200 pt-5 dark:border-slate-800"
-      >
-        <AppButton type="button" variant="secondary" @click="handleClose">
+      <div v-if="menu" class="rounded-2xl border border-border bg-muted/50 p-4">
+        <div class="flex items-center gap-3">
+          <AppBadge variant="danger" shape="square" size="md">
+            <Trash2 class="h-5 w-5" />
+          </AppBadge>
+
+          <div class="min-w-0">
+            <p class="truncate text-sm font-bold text-card-foreground">
+              {{ menu.label }}
+            </p>
+
+            <p class="mt-1 truncate text-xs text-muted-foreground">
+              {{ menu.name }} · {{ menu.route || "No route" }}
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="flex justify-end gap-3 border-t border-border pt-5">
+        <AppButton
+          type="button"
+          variant="secondary"
+          :disabled="loading"
+          @click="handleClose"
+        >
           <X class="mr-2 h-4 w-4" />
           Cancel
         </AppButton>
@@ -89,7 +128,7 @@ const handleDelete = async () => {
           type="button"
           variant="danger"
           :loading="loading"
-          :disabled="menu?.is_system"
+          :disabled="!canDelete"
           @click="handleDelete"
         >
           <Trash2 class="mr-2 h-4 w-4" />

@@ -23,6 +23,7 @@ interface AuthPayloadResponse {
     user: User
     token: string
     token_type: string
+    redirect_to?: string
   }
 }
 
@@ -39,19 +40,36 @@ export const useAuthStore = defineStore('auth', {
   }),
 
   getters: {
-    isAuthenticated: (state) => !!state.token,
 
+    isAuthenticated: (state) => !!state.token,
+    
     hasPermission: (state) => {
       return (permission: string) => {
-        return state.user?.permissions?.includes(permission) || false
+        const permissions = state.user?.permissions || []
+
+        return permissions.some((item: any) => {
+          if (typeof item === 'string') {
+            return item === permission
+          }
+
+          return item?.name === permission
+        })
       }
     },
 
     hasAnyPermission: (state) => {
       return (permissions: string[]) => {
-        return permissions.some((permission) =>
-          state.user?.permissions?.includes(permission)
-        )
+        const userPermissions = state.user?.permissions || []
+
+        return permissions.some((permission) => {
+          return userPermissions.some((item: any) => {
+            if (typeof item === 'string') {
+              return item === permission
+            }
+
+            return item?.name === permission
+          })
+        })
       }
     },
 
@@ -63,6 +81,18 @@ export const useAuthStore = defineStore('auth', {
   },
 
   actions: {
+    redirectPath() {
+      if (this.hasPermission('dashboard.view')) {
+        return '/admin/dashboard'
+      }
+
+      if (this.hasPermission('account.view')) {
+        return '/app'
+      }
+
+      return '/'
+    },
+
     initAuth() {
       if (process.client) {
         const savedToken = localStorage.getItem('auth_token')
@@ -129,12 +159,16 @@ export const useAuthStore = defineStore('auth', {
 
       try {
         const response = await api.post<AuthPayloadResponse>('/login', payload)
+        const data = response.data.data
 
-        if (response.data.data) {
-          this.setAuth(response.data.data.user, response.data.data.token)
+        if (!data) {
+          return '/'
         }
 
-        return response.data
+        this.setAuth(data.user, data.token)
+        await this.fetchUser()
+
+        return data.redirect_to || this.redirectPath()
       } catch (error: any) {
         throw {
           message: error.response?.data?.message || 'Login failed',
@@ -172,6 +206,8 @@ export const useAuthStore = defineStore('auth', {
     },
 
     async logout() {
+      const api = useApi()
+
       try {
         await api.post('/logout')
       } catch (error) {

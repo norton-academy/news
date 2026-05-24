@@ -22,16 +22,25 @@ export const useCachedRequest = () => {
       options.onCached?.(cached.data)
 
       if (isCacheFresh(cached.savedAt, ttl)) {
-        return cached.data
+        return {
+          data: cached.data,
+          fromCache: true,
+          refreshed: false,
+        }
       }
     }
 
     const freshData = await options.request()
 
     appCache.set(key, freshData)
+
     options.onFresh?.(freshData)
 
-    return freshData
+    return {
+      data: freshData,
+      fromCache: false,
+      refreshed: true,
+    }
   }
 
   return {

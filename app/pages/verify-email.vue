@@ -39,7 +39,7 @@ const handleVerify = async () => {
     }
 
     setTimeout(async () => {
-      await navigateTo('/dashboard')
+      await navigateTo(authStore.redirectPath())
     }, 1200)
   } catch (error: any) {
     errorMessage.value = error.message || 'Failed to verify email'

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { FileSpreadsheet, Upload, X } from "lucide-vue-next";
-import { usePermissionManagementStore } from '~/stores/permissionManagement'
+import { usePermissionManagementStore } from "~/stores/management/permissionStore";
 
 const props = defineProps<{
   open: boolean;
@@ -12,7 +12,7 @@ const emit = defineEmits<{
 }>();
 
 const { importPermissions } = usePermission();
-const permissionStore = usePermissionManagementStore()
+const permissionStore = usePermissionManagementStore();
 const toast = useToast();
 
 const loading = ref(false);
@@ -55,10 +55,11 @@ const handleImport = async () => {
       "Import completed",
       response.message || "Permissions imported successfully."
     );
-    await permissionStore.invalidateAndRefresh()
+    await permissionStore.invalidateAndRefresh();
     emit("imported");
   } catch (error: any) {
-    generalError.value = error.message || "Failed to import permissions";
+    generalError.value =
+      error.response?.data?.message || error.message || "Failed to import permissions";
     toast.error("Import failed", generalError.value);
   } finally {
     loading.value = false;
@@ -113,7 +114,9 @@ const downloadPermissionSample = () => {
         <strong>web</strong>.
       </AlertMessage>
 
-      <div class="rounded-2xl border border-slate-200 bg-slate-50 p-4 dark:border-slate-800 dark:bg-slate-800/60">
+      <div
+        class="rounded-2xl border border-slate-200 bg-slate-50 p-4 dark:border-slate-800 dark:bg-slate-800/60"
+      >
         <p class="mb-2 text-sm font-bold text-ui">Example CSV</p>
 
         <pre
@@ -133,7 +136,9 @@ audit.view,web
       >
         <Upload class="h-8 w-8 text-slate-400" />
 
-        <p class="mt-3 text-sm font-semibold text-ui">{{ selectedFile ? selectedFile.name : "Click to upload CSV file" }}</p>
+        <p class="mt-3 text-sm font-semibold text-ui">
+          {{ selectedFile ? selectedFile.name : "Click to upload CSV file" }}
+        </p>
 
         <p class="mt-1 text-xs text-muted">CSV or TXT file, max 2MB</p>
 

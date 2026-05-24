@@ -24,17 +24,20 @@ const normalizePath = (path?: string) => {
 };
 
 const pageTitleMap: Record<string, string> = {
-  "/dashboard": "Dashboard",
-  "/rbac": "RBAC Overview",
-  "/users": "Users",
-  "/roles": "Roles",
-  "/permissions": "Permissions",
-  "/audit-logs": "Audit Logs",
-  "/menus": "Menus",
-  "/profile": "Profile",
-  "/settings": "Settings",
+  "/admin/dashboard": "Dashboard",
+  "/admin/rbac": "RBAC Overview",
+  "/admin/users": "Users",
+  "/admin/roles": "Roles",
+  "/admin/permissions": "Permissions",
+  "/admin/audit-logs": "Audit Logs",
+  "/admin/menus": "Menus",
+  "/admin/settings": "Settings",
+  "/admin/products": "Products",
+  "/admin/countries": "Countries",
   "/notifications": "Notifications",
   "/ui-components": "UI Components",
+  "/app/profile": "Profile",
+  "/app/settings": "Settings",
 };
 
 const breadcrumbs = computed<BreadcrumbItem[]>(() => {
@@ -48,11 +51,11 @@ const breadcrumbs = computed<BreadcrumbItem[]>(() => {
   const items: BreadcrumbItem[] = [
     {
       label: "Dashboard",
-      to: "/dashboard",
+      to: "/admin/dashboard",
     },
   ];
 
-  if (currentPath === "/dashboard") {
+  if (currentPath === "/admin/dashboard") {
     return items;
   }
 
@@ -84,7 +87,7 @@ const breadcrumbs = computed<BreadcrumbItem[]>(() => {
     aria-label="Breadcrumb"
   >
     <NuxtLink
-      to="/dashboard"
+      to="/admin/dashboard"
       class="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-xl border border-transparent text-muted-foreground hover:border-border hover:bg-muted hover:text-card-foreground"
       aria-label="Go to dashboard"
     >

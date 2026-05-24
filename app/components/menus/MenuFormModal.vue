@@ -1,7 +1,6 @@
 <script setup lang="ts">
-import { LayoutDashboard, Menu, PanelTop, Save, X } from "lucide-vue-next";
+import { PanelTop, Save, X } from "lucide-vue-next";
 import type { MenuItem, MenuPayload } from "~/composables/useMenu";
-import MenuIcon from "./MenuIcon.vue";
 
 const props = defineProps<{
   open: boolean;
@@ -24,7 +23,6 @@ const form = reactive<MenuPayload>({
   name: "",
   label: "",
   route: "",
-  icon: "LayoutDashboard",
   permission: "",
   group: "Main",
   parent_id: null,
@@ -36,36 +34,18 @@ const errors = reactive<Record<string, string>>({
   name: "",
   label: "",
   route: "",
-  icon: "",
   permission: "",
   group: "",
   parent_id: "",
   sort_order: "",
   is_active: "",
 });
-const iconOptions = [
-  { label: "Dashboard", value: "LayoutDashboard" },
-  { label: "Shield", value: "ShieldCheck" },
-  { label: "Users", value: "Users" },
-  { label: "User", value: "User" },
-  { label: "User Cog", value: "UserCog" },
-  { label: "Key", value: "KeyRound" },
-  { label: "Audit Logs", value: "ScrollText" },
-  { label: "Profile Lock", value: "LockKeyhole" },
-  { label: "Settings", value: "Settings" },
-  { label: "Menus", value: "PanelTop" },
-  { label: "Home", value: "Home" },
-  { label: "Activity", value: "Activity" },
-  { label: "Gauge", value: "Gauge" },
-  { label: "Database", value: "Database" },
-  { label: "Report / File", value: "FileText" },
-  { label: "Chart", value: "BarChart3" },
-  { label: "Notification", value: "Bell" },
-];
 
 const groupOptions = [
   { label: "Main", value: "Main" },
+  { label: "Management", value: "Management" },
   { label: "Administration", value: "Administration" },
+  { label: "Inventory", value: "Inventory" },
   { label: "System", value: "System" },
   { label: "Account", value: "Account" },
   { label: "Reports", value: "Reports" },
@@ -92,6 +72,18 @@ const permissionOptions = [
   { label: "Permission Update", value: "permission.update" },
   { label: "Permission Delete", value: "permission.delete" },
 
+  { label: "RBAC View", value: "rbac.view" },
+
+  { label: "Product View", value: "product.view" },
+  { label: "Product Create", value: "product.create" },
+  { label: "Product Update", value: "product.update" },
+  { label: "Product Delete", value: "product.delete" },
+
+  { label: "Country View", value: "country.view" },
+  { label: "Country Create", value: "country.create" },
+  { label: "Country Update", value: "country.update" },
+  { label: "Country Delete", value: "country.delete" },
+
   { label: "Audit View", value: "audit.view" },
 
   { label: "Menu View", value: "menu.view" },
@@ -107,7 +99,9 @@ const permissionOptions = [
 ];
 
 const parentOptions = computed(() => {
-  const options = props.menus
+  const safeMenus = Array.isArray(props.menus) ? props.menus : [];
+
+  const options = safeMenus
     .filter((item) => item.id !== props.menu?.id)
     .map((item) => ({
       label: item.label,
@@ -115,6 +109,15 @@ const parentOptions = computed(() => {
     }));
 
   return [{ label: "No Parent", value: "" }, ...options];
+});
+
+const previewIconData = computed(() => {
+  return {
+    name: form.name,
+    label: form.label,
+    route: form.route,
+    group: form.group,
+  };
 });
 
 const resetErrors = () => {
@@ -127,26 +130,24 @@ const resetErrors = () => {
 
 const fillForm = () => {
   if (props.menu) {
-    form.name = props.menu.name;
-    form.label = props.menu.label;
-    form.route = props.menu.route;
-    form.icon = props.menu.icon || "LayoutDashboard";
+    form.name = props.menu.name || "";
+    form.label = props.menu.label || "";
+    form.route = props.menu.route || "";
     form.permission = props.menu.permission || "";
     form.parent_id = props.menu.parent_id;
     form.group = props.menu.group || "Main";
-    form.sort_order = props.menu.sort_order;
-    form.is_active = props.menu.is_active;
+    form.sort_order = props.menu.sort_order || 0;
+    form.is_active = Boolean(props.menu.is_active);
     return;
   }
 
   form.name = "";
   form.label = "";
   form.route = "";
-  form.icon = "LayoutDashboard";
   form.permission = "";
   form.parent_id = null;
   form.group = "Main";
-  form.sort_order = props.menus.length + 1;
+  form.sort_order = Array.isArray(props.menus) ? props.menus.length + 1 : 1;
   form.is_active = true;
 };
 
@@ -162,10 +163,9 @@ watch(
 
 const normalizedPayload = (): MenuPayload => {
   return {
-    name: form.name,
-    label: form.label,
-    route: form.route,
-    icon: form.icon || null,
+    name: form.name.trim(),
+    label: form.label.trim(),
+    route: form.route?.trim() || null,
     permission: form.permission || null,
     group: form.group || "Main",
     parent_id: form.parent_id ? Number(form.parent_id) : null,
@@ -175,6 +175,8 @@ const normalizedPayload = (): MenuPayload => {
 };
 
 const handleClose = () => {
+  if (loading.value) return;
+
   resetErrors();
   emit("close");
 };
@@ -188,21 +190,27 @@ const handleSubmit = async () => {
 
     if (props.menu) {
       await updateMenu(props.menu.id, payload);
+
       toast.success("Menu updated", "Menu item was updated successfully.");
     } else {
       await createMenu(payload);
+
       toast.success("Menu created", "Menu item was created successfully.");
     }
 
     emit("saved");
     handleClose();
   } catch (error: any) {
-    generalError.value = error.message || "Failed to save menu";
+    generalError.value =
+      error.response?.data?.message || error.message || "Failed to save menu";
+
     toast.error("Save failed", generalError.value);
 
-    if (error.errors) {
+    const validationErrors = error.response?.data?.errors || error.errors;
+
+    if (validationErrors) {
       Object.keys(errors).forEach((key) => {
-        errors[key] = error.errors[key]?.[0] || "";
+        errors[key] = validationErrors[key]?.[0] || "";
       });
     }
   } finally {
@@ -224,13 +232,18 @@ const handleSubmit = async () => {
     </template>
 
     <form class="space-y-5" @submit.prevent="handleSubmit">
-      <AlertMessage v-if="generalError" type="error" :message="generalError" />
+      <AlertMessage
+        v-if="generalError"
+        type="error"
+        title="Unable to save menu"
+        :message="generalError"
+      />
 
       <div class="grid gap-4 sm:grid-cols-2">
         <AppInput
           v-model="form.name"
           label="Name"
-          placeholder="Example: reports"
+          placeholder="Example: countries"
           :error="errors.name"
         >
           <template #icon>
@@ -241,7 +254,7 @@ const handleSubmit = async () => {
         <AppInput
           v-model="form.label"
           label="Label"
-          placeholder="Example: Reports"
+          placeholder="Example: Countries"
           :error="errors.label"
         >
           <template #icon>
@@ -253,42 +266,42 @@ const handleSubmit = async () => {
       <AppInput
         v-model="form.route"
         label="Route"
-        placeholder="Example: /reports"
+        placeholder="Example: /countries"
         :error="errors.route"
       >
         <template #icon>
-          <MenuIcon :name="form.icon" />
+          <MenuIcon
+            :name="previewIconData.name"
+            :label="previewIconData.label"
+            :route="previewIconData.route"
+            :group="previewIconData.group"
+          />
         </template>
       </AppInput>
 
-      <div class="grid gap-4 sm:grid-cols-2">
-        <div class="space-y-2">
-          <AppSelect
-            v-model="form.icon"
-            label="Icon"
-            placeholder="Select icon"
-            :options="iconOptions"
-            :error="errors.icon"
+      <div
+        class="flex items-center gap-3 rounded-2xl border border-border bg-muted/50 px-4 py-3"
+      >
+        <div
+          class="flex h-10 w-10 items-center justify-center rounded-xl bg-background text-card-foreground"
+        >
+          <MenuIcon
+            :name="previewIconData.name"
+            :label="previewIconData.label"
+            :route="previewIconData.route"
+            :group="previewIconData.group"
           />
+        </div>
 
-          <div
-            class="flex items-center gap-3 rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 dark:border-slate-800 dark:bg-slate-800/60"
-          >
-            <div
-              class="flex h-10 w-10 items-center justify-center rounded-xl bg-white text-slate-700 dark:bg-slate-900 dark:text-slate-200"
-            >
-              <MenuIcon :name="form.icon" />
-            </div>
+        <div>
+          <p class="text-sm font-semibold text-card-foreground">Icon Preview</p>
 
-            <div>
-              <p class="text-sm font-semibold text-ui">
-                Icon Preview
-              </p>
-              <p class="text-xs text-muted">{{ form.icon || "LayoutDashboard" }}</p>
-            </div>
-          </div>
+          <p class="text-xs text-muted-foreground">
+            Icon is resolved by frontend from name, route, label, or group.
+          </p>
         </div>
       </div>
+
       <div class="grid gap-4 sm:grid-cols-2">
         <AppSelect
           v-model="form.group"
@@ -326,24 +339,29 @@ const handleSubmit = async () => {
       </div>
 
       <label
-        class="flex cursor-pointer items-center justify-between rounded-2xl border border-slate-200 p-4 transition hover:bg-slate-50 dark:border-slate-800 dark:hover:bg-slate-800/60"
+        class="flex cursor-pointer items-center justify-between rounded-2xl border border-border p-4 transition hover:bg-muted/60"
       >
         <div>
-          <p class="text-sm font-bold text-ui">Active Menu</p>
-          <p class="mt-1 text-sm text-muted">Show this menu item in the sidebar.</p>
+          <p class="text-sm font-bold text-card-foreground">Active Menu</p>
+          <p class="mt-1 text-sm text-muted-foreground">
+            Show this menu item in the sidebar.
+          </p>
         </div>
 
         <input
           v-model="form.is_active"
           type="checkbox"
-          class="h-5 w-5 rounded border-slate-300 dark:border-slate-700"
+          class="h-5 w-5 rounded border-border"
         />
       </label>
 
-      <div
-        class="flex justify-end gap-3 border-t border-slate-200 pt-5 dark:border-slate-800"
-      >
-        <AppButton type="button" variant="secondary" @click="handleClose">
+      <div class="flex justify-end gap-3 border-t border-border pt-5">
+        <AppButton
+          type="button"
+          variant="secondary"
+          :disabled="loading"
+          @click="handleClose"
+        >
           <X class="mr-2 h-4 w-4" />
           Cancel
         </AppButton>

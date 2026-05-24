@@ -1,16 +1,18 @@
 <script setup lang="ts">
-import type { PermissionItem, PermissionPagination } from "~/composables/usePermission";
+import type { PermissionItem } from "~/composables/usePermission";
 import {
   Download,
   FileSpreadsheet,
   KeyRound,
   Pencil,
   Plus,
+  RefreshCcw,
+  Shield,
   ShieldCheck,
   Trash2,
-  Shield,
 } from "lucide-vue-next";
-import { usePermissionManagementStore } from '~/stores/permissionManagement'
+
+import { usePermissionManagementStore } from "~/stores/management/permissionStore";
 
 definePageMeta({
   layout: "dashboard",
@@ -25,8 +27,8 @@ const {
   deletePermission,
   exportPermissions,
 } = usePermission();
-const permissionStore = usePermissionManagementStore()
 
+const permissionStore = usePermissionManagementStore();
 const toast = useToast();
 const authStore = useAuthStore();
 const notificationStore = useNotificationStore();
@@ -39,25 +41,7 @@ const perPage = ref(10);
 
 const saving = ref(false);
 const exporting = ref(false);
-const errorMessage = ref("");
-
-const fetchPermissions = async (opts: { force?: boolean; silent?: boolean } = {}) => {
-  await permissionStore.fetchPermissions(
-    {
-      search: search.value || undefined,
-      module: moduleFilter.value || undefined,
-      guard_name: guardName.value || undefined,
-      page: page.value,
-      per_page: perPage.value,
-    },
-    { force: opts.force, silent: opts.silent }
-  )
-
-  if (permissionStore.errorMessage) {
-    toast.error('Failed to load permissions', permissionStore.errorMessage)
-  }
-}
-
+const pageErrorMessage = ref("");
 
 const modalOpen = ref(false);
 const importModalOpen = ref(false);
@@ -73,7 +57,42 @@ const formErrors = reactive<Record<string, string>>({
   guard_name: "",
 });
 
-// stats and pagination are provided by permissionStore
+const permissionRows = computed(() => {
+  return Array.isArray(permissionStore.permissions) ? permissionStore.permissions : [];
+});
+
+const permissionCount = computed(() => permissionRows.value.length);
+
+const currentPage = computed(() => permissionStore.currentPage ?? 1);
+const lastPage = computed(() => permissionStore.lastPage ?? 1);
+const totalItems = computed(() => permissionStore.totalItems ?? 0);
+
+const totalPermissions = computed(() => permissionStore.totalPermissions ?? 0);
+const protectedPermissions = computed(() => permissionStore.protectedPermissions ?? 0);
+
+const loading = computed(() => permissionStore.loading);
+const refreshing = computed(() => permissionStore.refreshing);
+const errorMessage = computed(
+  () => permissionStore.errorMessage || pageErrorMessage.value
+);
+
+const canCreatePermission = computed(() => {
+  return typeof authStore.hasPermission === "function"
+    ? authStore.hasPermission("permission.create")
+    : false;
+});
+
+const canUpdatePermission = computed(() => {
+  return typeof authStore.hasPermission === "function"
+    ? authStore.hasPermission("permission.update")
+    : false;
+});
+
+const canDeletePermission = computed(() => {
+  return typeof authStore.hasPermission === "function"
+    ? authStore.hasPermission("permission.delete")
+    : false;
+});
 
 const columns = [
   {
@@ -104,7 +123,7 @@ const columns = [
 ];
 
 const moduleOptions = computed(() => {
-  const modules = permissionStore.permissions
+  const modules = permissionRows.value
     .map((permission) => {
       return permission.module || permission.name?.split(".")[0] || "";
     })
@@ -143,6 +162,37 @@ const confirmConfig = computed(() => {
   };
 });
 
+const fetchPermissions = async (
+  options: {
+    force?: boolean;
+    silent?: boolean;
+  } = {}
+) => {
+  pageErrorMessage.value = "";
+
+  await permissionStore.fetchPermissions(
+    {
+      search: search.value || undefined,
+      module: moduleFilter.value || undefined,
+      guard_name: guardName.value || undefined,
+      page: page.value,
+      per_page: perPage.value,
+    },
+    options
+  );
+
+  if (permissionStore.errorMessage) {
+    toast.error("Failed to load permissions", permissionStore.errorMessage);
+  }
+};
+
+const handleRefresh = async () => {
+  await fetchPermissions({
+    force: true,
+    silent: true,
+  });
+};
+
 const resetFormErrors = () => {
   formErrors.name = "";
   formErrors.guard_name = "";
@@ -161,8 +211,6 @@ const permissionModule = (permission: PermissionItem) => {
 const permissionAction = (permission: PermissionItem) => {
   return permission.action || permission.name?.split(".")[1] || "-";
 };
-
-// fetchPermissions is provided above via permissionStore wrapper
 
 const openCreate = () => {
   selectedPermission.value = null;
@@ -193,50 +241,35 @@ const closeModal = () => {
 
 const savePermission = async () => {
   saving.value = true;
-  errorMessage.value = "";
+  pageErrorMessage.value = "";
   resetFormErrors();
 
   try {
     if (selectedPermission.value) {
-      const response = await updatePermission(selectedPermission.value.id, {
+      await updatePermission(selectedPermission.value.id, {
         name: form.name,
         guard_name: form.guard_name,
       });
-
-      const updated = response?.data?.permission || response?.permission || response?.data || response
-      if (updated && updated.id) {
-        permissionStore.updatePermissionInCache(selectedPermission.value.id, updated as any)
-      } else {
-        permissionStore.updatePermissionInCache(selectedPermission.value.id, {
-          name: form.name,
-          guard_name: form.guard_name,
-        })
-      }
 
       toast.success("Permission updated", "Permission was updated successfully.");
     } else {
-      const response = await createPermission({
+      await createPermission({
         name: form.name,
         guard_name: form.guard_name,
       });
-
-      const created = response?.data?.permission || response?.permission || response?.data || response
-      if (created && created.id) {
-        permissionStore.addPermissionToCache(created as any)
-      } else {
-        await permissionStore.invalidateAndRefresh()
-      }
 
       toast.success("Permission created", "Permission was created successfully.");
     }
 
     closeModal();
+
+    await permissionStore.invalidateAndRefresh();
     await notificationStore.refreshNotifications();
   } catch (error: any) {
-    errorMessage.value =
+    pageErrorMessage.value =
       error.response?.data?.message || error.message || "Failed to save permission";
 
-    toast.error("Save failed", errorMessage.value);
+    toast.error("Save failed", pageErrorMessage.value);
 
     const errors = error.response?.data?.errors || error.errors;
 
@@ -275,7 +308,7 @@ const handleConfirmAction = async () => {
   if (!confirmPermission.value || !confirmAction.value) return;
 
   confirmLoading.value = true;
-  errorMessage.value = "";
+  pageErrorMessage.value = "";
 
   try {
     if (confirmAction.value === "delete") {
@@ -286,16 +319,16 @@ const handleConfirmAction = async () => {
         `${confirmPermission.value.name} was deleted successfully.`
       );
 
-      permissionStore.removePermissionFromCache(confirmPermission.value.id)
+      await permissionStore.invalidateAndRefresh();
       await notificationStore.refreshNotifications();
     }
 
     closeConfirmDialog();
   } catch (error: any) {
-    errorMessage.value =
+    pageErrorMessage.value =
       error.response?.data?.message || error.message || "Failed to complete action";
 
-    toast.error("Action failed", errorMessage.value);
+    toast.error("Action failed", pageErrorMessage.value);
   } finally {
     confirmLoading.value = false;
   }
@@ -322,7 +355,8 @@ const closeImportModal = () => {
 
 const handleImported = async () => {
   closeImportModal();
-  await permissionStore.invalidateAndRefresh()
+
+  await permissionStore.invalidateAndRefresh();
   await notificationStore.refreshNotifications();
 };
 
@@ -361,9 +395,17 @@ const goPrevious = async () => {
 };
 
 const goNext = async () => {
-  if (page.value >= permissionStore.pagination.last_page) return;
+  if (page.value >= lastPage.value) return;
 
   page.value++;
+  await fetchPermissions();
+};
+
+const goToPage = async (targetPage: number) => {
+  if (targetPage < 1) return;
+  if (targetPage > lastPage.value) return;
+
+  page.value = targetPage;
   await fetchPermissions();
 };
 
@@ -387,7 +429,15 @@ watch([moduleFilter, guardName], async () => {
 });
 
 onMounted(async () => {
-  await fetchPermissions();
+  await fetchPermissions({
+    silent: permissionStore.hasData,
+  });
+});
+
+onBeforeUnmount(() => {
+  if (searchTimeout) {
+    clearTimeout(searchTimeout);
+  }
 });
 </script>
 
@@ -398,13 +448,18 @@ onMounted(async () => {
       subtitle="Manage system permissions, modules, actions, guards, and protected access rules."
     >
       <template #actions>
+        <AppButton variant="secondary" :loading="refreshing" @click="handleRefresh">
+          <RefreshCcw class="h-4 w-4" />
+          Refresh
+        </AppButton>
+
         <AppButton variant="secondary" :loading="exporting" @click="handleExport">
           <Download class="h-4 w-4" />
           Export
         </AppButton>
 
         <AppButton
-          v-if="authStore.hasPermission('permission.create')"
+          v-if="canCreatePermission"
           variant="secondary"
           @click="openImportModal"
         >
@@ -412,27 +467,24 @@ onMounted(async () => {
           Import
         </AppButton>
 
-        <AppButton
-          v-if="authStore.hasPermission('permission.create')"
-          @click="openCreate"
-        >
+        <AppButton v-if="canCreatePermission" @click="openCreate">
           <Plus class="h-4 w-4" />
-          Add Permission
+          New
         </AppButton>
       </template>
     </PageHeader>
 
     <AlertMessage
-      v-if="permissionStore.errorMessage"
+      v-if="errorMessage"
       type="error"
       title="Unable to load permissions"
-      :message="permissionStore.errorMessage"
+      :message="errorMessage"
     />
 
     <div class="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
       <StatsCard
         title="Total Permissions"
-        :value="permissionStore.stats.total_permissions"
+        :value="totalPermissions"
         subtitle="All registered permissions"
         tone="info"
       >
@@ -445,7 +497,7 @@ onMounted(async () => {
 
       <StatsCard
         title="Protected"
-        :value="permissionStore.stats.protected_permissions || 0"
+        :value="protectedPermissions"
         subtitle="System critical access rules"
         tone="warning"
       >
@@ -492,8 +544,8 @@ onMounted(async () => {
 
     <DataTable
       :columns="columns"
-      :rows="permissionStore.permissions"
-      :loading="permissionStore.loading"
+      :rows="permissionRows"
+      :loading="loading && permissionCount === 0"
       empty-title="No permissions found"
       empty-message="Create permissions like user.create or role.view."
     >
@@ -555,7 +607,7 @@ onMounted(async () => {
                 ? 'Protected permissions cannot be edited'
                 : 'Update permission information',
               disabled: row.is_protected,
-              visible: authStore.hasPermission('permission.update'),
+              visible: canUpdatePermission,
             },
             {
               label: 'Delete Permission',
@@ -566,7 +618,7 @@ onMounted(async () => {
                 ? 'Protected permissions cannot be deleted'
                 : 'Remove this permission',
               disabled: row.is_protected,
-              visible: authStore.hasPermission('permission.delete'),
+              visible: canDeletePermission,
             },
             {
               label: 'System Protected',
@@ -583,12 +635,15 @@ onMounted(async () => {
     </DataTable>
 
     <TablePagination
-      :current-page="permissionStore.pagination.current_page"
-      :last-page="permissionStore.pagination.last_page"
-      :total="permissionStore.pagination.total"
-      :loading="permissionStore.loading"
+      :current-page="currentPage"
+      :last-page="lastPage"
+      :total="totalItems"
+      :per-page="perPage"
+      :loading="loading && permissionCount === 0"
       @previous="goPrevious"
       @next="goNext"
+      @page="goToPage"
+      label="permissions"
     />
 
     <AppModal
@@ -658,5 +713,7 @@ onMounted(async () => {
       @close="closeConfirmDialog"
       @confirm="handleConfirmAction"
     />
+
+    <AppRefreshingIndicator :show="refreshing" />
   </div>
 </template>

@@ -4,6 +4,37 @@ import { LogOut, Settings, User } from "lucide-vue-next";
 const authStore = useAuthStore();
 const auth = useAuth();
 const open = ref(false);
+const dropdownRef = ref<HTMLElement | null>(null);
+
+const close = () => {
+  open.value = false;
+};
+
+const toggleDropdown = () => {
+  open.value = !open.value;
+};
+
+const handleClickOutside = (event: MouseEvent) => {
+  if (!open.value) return;
+  const target = event.target as Node | null;
+  if (dropdownRef.value && target && !dropdownRef.value.contains(target)) {
+    close();
+  }
+};
+
+const handleEscape = (event: KeyboardEvent) => {
+  if (event.key === 'Escape') close();
+};
+
+onMounted(() => {
+  document.addEventListener('click', handleClickOutside);
+  document.addEventListener('keydown', handleEscape);
+});
+
+onBeforeUnmount(() => {
+  document.removeEventListener('click', handleClickOutside);
+  document.removeEventListener('keydown', handleEscape);
+});
 
 const handleLogout = async () => {
   const notificationStore = useNotificationStore();
@@ -18,10 +49,10 @@ const handleLogout = async () => {
 </script>
 
 <template>
-  <div class="relative">
+  <div ref="dropdownRef" class="relative">
     <button
       class="flex items-center gap-3 rounded-2xl border border-slate-200 bg-white p-1.5 pr-3 shadow-sm transition hover:bg-slate-50 dark:border-slate-800 dark:bg-slate-900 dark:hover:bg-slate-800"
-      @click="open = !open"
+      @click="toggleDropdown"
     >
       <div
         class="flex h-9 w-9 items-center justify-center rounded-xl bg-slate-900 text-sm font-bold text-white dark:bg-white dark:text-slate-900"
@@ -54,18 +85,18 @@ const handleLogout = async () => {
 
       <div class="py-2">
         <NuxtLink
-          to="/profile"
+          to="/app/profile"
           class="flex items-center gap-3 rounded-xl px-3 py-2 text-sm font-medium text-slate-700 hover:bg-slate-100 dark:text-slate-200 dark:hover:bg-slate-800"
-          @click="open = false"
+          @click="close"
         >
           <User class="h-4 w-4" />
           Profile
         </NuxtLink>
 
         <NuxtLink
-          to="/settings"
+          to="/admin/settings"
           class="flex items-center gap-3 rounded-xl px-3 py-2 text-sm font-medium text-slate-700 hover:bg-slate-100 dark:text-slate-200 dark:hover:bg-slate-800"
-          @click="open = false"
+          @click="close"
         >
           <Settings class="h-4 w-4" />
           Settings

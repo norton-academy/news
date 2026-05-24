@@ -10,6 +10,9 @@ import {
   Wrench,
 } from "lucide-vue-next";
 
+import { useRoleManagementStore } from "~/stores/management/roleStore";
+import { useSettingManagementStore } from "~/stores/system/settingStore";
+
 definePageMeta({
   layout: "dashboard",
   middleware: ["auth", "permission"],
@@ -17,20 +20,31 @@ definePageMeta({
   title: "Settings",
 });
 
-const { getSettings, updateSettings } = useSettings();
-import { useRoleManagementStore } from '~/stores/roleManagement'
-const roleStore = useRoleManagementStore()
+const { updateSettings } = useSettings();
 
+const settingStore = useSettingManagementStore();
+const roleStore = useRoleManagementStore();
 const authStore = useAuthStore();
 const toast = useToast();
 const notificationStore = useNotificationStore();
 
-const loading = ref(false);
 const saving = ref(false);
-const errorMessage = ref("");
-
-const roles = ref<RoleItem[]>([]);
 const rolesLoading = ref(false);
+const pageErrorMessage = ref("");
+
+const roles = computed<RoleItem[]>(() => {
+  return Array.isArray(roleStore.roles) ? roleStore.roles : [];
+});
+
+const loading = computed(() => settingStore.loading);
+const refreshing = computed(() => settingStore.refreshing || roleStore.refreshing);
+const errorMessage = computed(() => settingStore.errorMessage || pageErrorMessage.value);
+
+const canUpdateSettings = computed(() => {
+  return typeof authStore.hasPermission === "function"
+    ? authStore.hasPermission("setting.update")
+    : false;
+});
 
 const form = reactive({
   app_name: "",
@@ -74,7 +88,8 @@ const resetErrors = () => {
 };
 
 const applySettingsToForm = (settings: any[]) => {
-  const map = Object.fromEntries(settings.map((item) => [item.key, item.value]));
+  const safeSettings = Array.isArray(settings) ? settings : [];
+  const map = Object.fromEntries(safeSettings.map((item) => [item.key, item.value]));
 
   form.app_name = String(map.app_name || "");
   form.support_email = String(map.support_email || "");
@@ -83,38 +98,63 @@ const applySettingsToForm = (settings: any[]) => {
   form.default_user_role = String(map.default_user_role || "");
 };
 
-const fetchRoles = async () => {
+const fetchRoles = async (
+  options: {
+    force?: boolean;
+    silent?: boolean;
+  } = {}
+) => {
   rolesLoading.value = true;
 
   try {
-    await roleStore.fetchRoles({ per_page: 100 }, { silent: true })
-    roles.value = roleStore.roles
+    await roleStore.fetchRoles(
+      {
+        per_page: 100,
+      },
+      options
+    );
   } catch (error: any) {
-    toast.error("Failed to load roles", error.message || "Could not load roles");
+    toast.error(
+      "Failed to load roles",
+      error.response?.data?.message || error.message || "Could not load roles"
+    );
   } finally {
     rolesLoading.value = false;
   }
 };
 
-const fetchSettings = async () => {
-  loading.value = true;
-  errorMessage.value = "";
+const fetchSettings = async (
+  options: {
+    force?: boolean;
+    silent?: boolean;
+  } = {}
+) => {
+  pageErrorMessage.value = "";
 
-  try {
-    const [settingsResponse] = await Promise.all([getSettings(), fetchRoles()]);
+  await Promise.allSettled([
+    settingStore.fetchSettings(options),
+    fetchRoles({
+      silent: roleStore.hasData,
+    }),
+  ]);
 
-    applySettingsToForm(settingsResponse.data.settings);
-  } catch (error: any) {
-    errorMessage.value = error.message || "Failed to load settings";
-    toast.error("Settings failed", errorMessage.value);
-  } finally {
-    loading.value = false;
+  applySettingsToForm(settingStore.settings);
+
+  if (settingStore.errorMessage) {
+    toast.error("Settings failed", settingStore.errorMessage);
   }
+};
+
+const handleRefresh = async () => {
+  await fetchSettings({
+    force: true,
+    silent: true,
+  });
 };
 
 const handleSubmit = async () => {
   saving.value = true;
-  errorMessage.value = "";
+  pageErrorMessage.value = "";
   resetErrors();
 
   try {
@@ -128,14 +168,20 @@ const handleSubmit = async () => {
 
     applySettingsToForm(response.data.settings);
 
+    settingStore.clearCache();
+    await settingStore.fetchSettings({
+      force: true,
+      silent: true,
+    });
+
     await notificationStore.refreshNotifications();
 
     toast.success("Settings updated", "System settings were updated successfully.");
   } catch (error: any) {
-    errorMessage.value =
+    pageErrorMessage.value =
       error.response?.data?.message || error.message || "Failed to update settings";
 
-    toast.error("Update failed", errorMessage.value);
+    toast.error("Update failed", pageErrorMessage.value);
 
     const validationErrors = error.response?.data?.errors || error.errors;
 
@@ -152,7 +198,9 @@ const handleSubmit = async () => {
 };
 
 onMounted(async () => {
-  await fetchSettings();
+  await fetchSettings({
+    silent: settingStore.hasData,
+  });
 });
 </script>
 
@@ -163,7 +211,7 @@ onMounted(async () => {
       subtitle="Manage global application, authentication, registration, and maintenance configuration."
     >
       <template #actions>
-        <AppButton variant="secondary" :loading="loading" @click="fetchSettings">
+        <AppButton variant="secondary" :loading="refreshing" @click="handleRefresh">
           <RefreshCcw class="h-4 w-4" />
           Refresh
         </AppButton>
@@ -484,11 +532,7 @@ onMounted(async () => {
             </div>
 
             <div class="flex justify-end border-t border-border pt-5">
-              <AppButton
-                type="submit"
-                :loading="saving"
-                :disabled="!authStore.hasPermission('setting.update')"
-              >
+              <AppButton type="submit" :loading="saving" :disabled="!canUpdateSettings">
                 <Save class="h-4 w-4" />
                 Save Settings
               </AppButton>
@@ -497,5 +541,7 @@ onMounted(async () => {
         </AppCard>
       </div>
     </template>
+
+    <AppRefreshingIndicator :show="refreshing" />
   </div>
 </template>

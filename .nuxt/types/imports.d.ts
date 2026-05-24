@@ -115,6 +115,7 @@ declare global {
   const useCartStore: typeof import('../../app/stores/cart').useCartStore
   const useCookie: typeof import('../../node_modules/nuxt/dist/app/composables/cookie').useCookie
   const useCooldown: typeof import('../../app/composables/useCooldown').useCooldown
+  const useCountry: typeof import('../../app/composables/useCountry').useCountry
   const useCssModule: typeof import('vue').useCssModule
   const useCssVars: typeof import('vue').useCssVars
   const useDashboard: typeof import('../../app/composables/useDashboard').useDashboard
@@ -143,11 +144,9 @@ declare global {
   const usePasswordOtp: typeof import('../../app/composables/usePasswordOtp').usePasswordOtp
   const usePasswordReset: typeof import('../../app/composables/usePasswordReset').usePasswordReset
   const usePermission: typeof import('../../app/composables/usePermission').usePermission
-  const usePermissionManagementStore: typeof import('../../app/stores/permissionManagement').usePermissionManagementStore
   const usePinia: typeof import('../../node_modules/@pinia/nuxt/dist/runtime/composables').usePinia
   const usePreviewMode: typeof import('../../node_modules/nuxt/dist/app/composables/preview').usePreviewMode
   const useProduct: typeof import('../../app/composables/useProduct').useProduct
-  const useProductManagementStore: typeof import('../../app/stores/productManagement').useProductManagementStore
   const useProfile: typeof import('../../app/composables/useProfile').useProfile
   const useRbac: typeof import('../../app/composables/useRbac').useRbac
   const useRequestEvent: typeof import('../../node_modules/nuxt/dist/app/composables/ssr').useRequestEvent
@@ -157,7 +156,6 @@ declare global {
   const useRequestURL: typeof import('../../node_modules/nuxt/dist/app/composables/url').useRequestURL
   const useResponseHeader: typeof import('../../node_modules/nuxt/dist/app/composables/ssr').useResponseHeader
   const useRole: typeof import('../../app/composables/useRole').useRole
-  const useRoleManagementStore: typeof import('../../app/stores/roleManagement').useRoleManagementStore
   const useRoute: typeof import('../../node_modules/nuxt/dist/app/composables/router').useRoute
   const useRouteAnnouncer: typeof import('../../node_modules/nuxt/dist/app/composables/route-announcer').useRouteAnnouncer
   const useRouter: typeof import('../../node_modules/nuxt/dist/app/composables/router').useRouter
@@ -207,7 +205,6 @@ declare global {
   const useToastStore: typeof import('../../app/stores/toast').useToastStore
   const useTransitionState: typeof import('vue').useTransitionState
   const useUser: typeof import('../../app/composables/useUser').useUser
-  const useUserManagementStore: typeof import('../../app/stores/userManagement').useUserManagementStore
   const watch: typeof import('vue').watch
   const watchEffect: typeof import('vue').watchEffect
   const watchPostEffect: typeof import('vue').watchPostEffect
@@ -230,6 +227,9 @@ declare global {
   // @ts-ignore
   export type { AuditLogUser, AuditLogItem, AuditLogPagination, AuditLogListResponse, AuditLogShowResponse, AuditLogQueryParams } from '../../app/composables/useAuditLog'
   import('../../app/composables/useAuditLog')
+  // @ts-ignore
+  export type { CountryItem, CountryPagination, CountryStats, CountryFilters, CountryPayload, CountryListResponse } from '../../app/composables/useCountry'
+  import('../../app/composables/useCountry')
   // @ts-ignore
   export type { DashboardStats, DashboardRecentUser, DashboardAuditUser, DashboardRecentAuditLog, DashboardRoleDistribution, DashboardSystem, DashboardSummaryResponse } from '../../app/composables/useDashboard'
   import('../../app/composables/useDashboard')
@@ -255,7 +255,7 @@ declare global {
   export type { PermissionItem, PermissionPagination, PermissionListResponse, PermissionPayload, PermissionQueryParams, PermissionStats } from '../../app/composables/usePermission'
   import('../../app/composables/usePermission')
   // @ts-ignore
-  export type { ProductItem, ProductPagination, ProductStats, ProductPayload, ProductListResponse } from '../../app/composables/useProduct'
+  export type { ProductItem, ProductPagination, ProductStats, ProductFilters, ProductPayload, ProductListResponse } from '../../app/composables/useProduct'
   import('../../app/composables/useProduct')
   // @ts-ignore
   export type { ProfileUser, ProfileResponse, UpdateProfilePayload, UpdatePasswordPayload } from '../../app/composables/useProfile'
@@ -276,23 +276,11 @@ declare global {
   export type { CacheEntry } from '../../app/utils/cache'
   import('../../app/utils/cache')
   // @ts-ignore
-  export type { PermissionFilters } from '../../app/stores/permissionManagement'
-  import('../../app/stores/permissionManagement')
-  // @ts-ignore
-  export type { ProductFilters } from '../../app/stores/productManagement'
-  import('../../app/stores/productManagement')
-  // @ts-ignore
-  export type { RoleFilters } from '../../app/stores/roleManagement'
-  import('../../app/stores/roleManagement')
-  // @ts-ignore
   export type { ThemeMode } from '../../app/stores/theme'
   import('../../app/stores/theme')
   // @ts-ignore
   export type { ToastType, ToastItem } from '../../app/stores/toast'
   import('../../app/stores/toast')
-  // @ts-ignore
-  export type { UserFilters } from '../../app/stores/userManagement'
-  import('../../app/stores/userManagement')
 }
 // for vue template auto import
 import { UnwrapRef } from 'vue'
@@ -412,6 +400,7 @@ declare module 'vue' {
     readonly useCartStore: UnwrapRef<typeof import('../../app/stores/cart')['useCartStore']>
     readonly useCookie: UnwrapRef<typeof import('../../node_modules/nuxt/dist/app/composables/cookie')['useCookie']>
     readonly useCooldown: UnwrapRef<typeof import('../../app/composables/useCooldown')['useCooldown']>
+    readonly useCountry: UnwrapRef<typeof import('../../app/composables/useCountry')['useCountry']>
     readonly useCssModule: UnwrapRef<typeof import('vue')['useCssModule']>
     readonly useCssVars: UnwrapRef<typeof import('vue')['useCssVars']>
     readonly useDashboard: UnwrapRef<typeof import('../../app/composables/useDashboard')['useDashboard']>
@@ -440,11 +429,9 @@ declare module 'vue' {
     readonly usePasswordOtp: UnwrapRef<typeof import('../../app/composables/usePasswordOtp')['usePasswordOtp']>
     readonly usePasswordReset: UnwrapRef<typeof import('../../app/composables/usePasswordReset')['usePasswordReset']>
     readonly usePermission: UnwrapRef<typeof import('../../app/composables/usePermission')['usePermission']>
-    readonly usePermissionManagementStore: UnwrapRef<typeof import('../../app/stores/permissionManagement')['usePermissionManagementStore']>
     readonly usePinia: UnwrapRef<typeof import('../../node_modules/@pinia/nuxt/dist/runtime/composables')['usePinia']>
     readonly usePreviewMode: UnwrapRef<typeof import('../../node_modules/nuxt/dist/app/composables/preview')['usePreviewMode']>
     readonly useProduct: UnwrapRef<typeof import('../../app/composables/useProduct')['useProduct']>
-    readonly useProductManagementStore: UnwrapRef<typeof import('../../app/stores/productManagement')['useProductManagementStore']>
     readonly useProfile: UnwrapRef<typeof import('../../app/composables/useProfile')['useProfile']>
     readonly useRbac: UnwrapRef<typeof import('../../app/composables/useRbac')['useRbac']>
     readonly useRequestEvent: UnwrapRef<typeof import('../../node_modules/nuxt/dist/app/composables/ssr')['useRequestEvent']>
@@ -454,7 +441,6 @@ declare module 'vue' {
     readonly useRequestURL: UnwrapRef<typeof import('../../node_modules/nuxt/dist/app/composables/url')['useRequestURL']>
     readonly useResponseHeader: UnwrapRef<typeof import('../../node_modules/nuxt/dist/app/composables/ssr')['useResponseHeader']>
     readonly useRole: UnwrapRef<typeof import('../../app/composables/useRole')['useRole']>
-    readonly useRoleManagementStore: UnwrapRef<typeof import('../../app/stores/roleManagement')['useRoleManagementStore']>
     readonly useRoute: UnwrapRef<typeof import('../../node_modules/nuxt/dist/app/composables/router')['useRoute']>
     readonly useRouteAnnouncer: UnwrapRef<typeof import('../../node_modules/nuxt/dist/app/composables/route-announcer')['useRouteAnnouncer']>
     readonly useRouter: UnwrapRef<typeof import('../../node_modules/nuxt/dist/app/composables/router')['useRouter']>
@@ -504,7 +490,6 @@ declare module 'vue' {
     readonly useToastStore: UnwrapRef<typeof import('../../app/stores/toast')['useToastStore']>
     readonly useTransitionState: UnwrapRef<typeof import('vue')['useTransitionState']>
     readonly useUser: UnwrapRef<typeof import('../../app/composables/useUser')['useUser']>
-    readonly useUserManagementStore: UnwrapRef<typeof import('../../app/stores/userManagement')['useUserManagementStore']>
     readonly watch: UnwrapRef<typeof import('vue')['watch']>
     readonly watchEffect: UnwrapRef<typeof import('vue')['watchEffect']>
     readonly watchPostEffect: UnwrapRef<typeof import('vue')['watchPostEffect']>

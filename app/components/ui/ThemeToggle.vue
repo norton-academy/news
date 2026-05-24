@@ -5,6 +5,37 @@ import type { ThemeMode } from "~/stores/theme";
 const theme = useThemeStore();
 
 const open = ref(false);
+const dropdownRef = ref<HTMLElement | null>(null);
+
+const close = () => {
+  open.value = false;
+};
+
+const toggleDropdown = () => {
+  open.value = !open.value;
+};
+
+const handleClickOutside = (event: MouseEvent) => {
+  if (!open.value) return;
+  const target = event.target as Node | null;
+  if (dropdownRef.value && target && !dropdownRef.value.contains(target)) {
+    close();
+  }
+};
+
+const handleEscape = (event: KeyboardEvent) => {
+  if (event.key === "Escape") close();
+};
+
+onMounted(() => {
+  document.addEventListener("click", handleClickOutside);
+  document.addEventListener("keydown", handleEscape);
+});
+
+onBeforeUnmount(() => {
+  document.removeEventListener("click", handleClickOutside);
+  document.removeEventListener("keydown", handleEscape);
+});
 
 const options: {
   label: string;
@@ -30,10 +61,10 @@ const selectTheme = (mode: ThemeMode) => {
 </script>
 
 <template>
-  <div class="relative">
+  <div ref="dropdownRef" class="relative">
     <button
       type="button"
-      @click="open = !open"
+      @click="toggleDropdown"
       class="flex h-10 w-10 items-center justify-center rounded-xl border border-slate-200 bg-white text-slate-700 shadow-sm transition hover:scale-105 hover:bg-slate-50 dark:border-slate-800 dark:bg-slate-900 dark:text-slate-200 dark:hover:bg-slate-800"
     >
       <component :is="currentIcon" class="h-5 w-5" />

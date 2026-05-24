@@ -15,14 +15,14 @@ const emit = defineEmits<{
 const route = useRoute();
 const menuStore = useMenuStore();
 
-const isActive = (href?: string) => {
+const isActive = (href?: string | null) => {
   if (!href) return false;
 
   return route.path === href || route.path.startsWith(`${href}/`);
 };
 
-const visibleNavigation = computed(() => {
-  return menuStore.menus || [];
+const visibleNavigation = computed<MenuItem[]>(() => {
+  return Array.isArray(menuStore.menus) ? menuStore.menus : [];
 });
 
 const groupedNavigation = computed(() => {
@@ -44,9 +44,13 @@ const groupedNavigation = computed(() => {
   }));
 });
 
+const hasNavigation = computed(() => groupedNavigation.value.length > 0);
+
 const openGroups = ref<Record<string, boolean>>({
   Main: true,
+  Management: true,
   Administration: true,
+  Inventory: true,
   System: true,
   Account: true,
 });
@@ -81,7 +85,7 @@ onMounted(async () => {
     <Transition name="sidebar-slide">
       <aside
         v-if="open"
-        class="fixed inset-y-0 left-0 z-50 flex w-80 flex-col border-r border-border bg-card/95 shadow-2xl backdrop-blur-xl lg:hidden"
+        class="fixed inset-y-0 left-0 z-50 flex w-80 flex-col border-r border-border bg-card shadow-2xl lg:hidden"
       >
         <div class="flex h-16 items-center justify-between border-b border-border px-5">
           <div class="flex items-center gap-3">
@@ -116,6 +120,15 @@ onMounted(async () => {
             />
           </div>
 
+          <div v-else-if="!hasNavigation" class="p-4">
+            <div class="rounded-2xl border border-border bg-muted/40 p-4 text-center">
+              <p class="text-sm font-semibold text-card-foreground">No menu found</p>
+              <p class="mt-1 text-xs text-muted-foreground">
+                Menus will appear after they are assigned to your permissions.
+              </p>
+            </div>
+          </div>
+
           <nav v-else class="space-y-5 p-4">
             <div v-for="group in groupedNavigation" :key="group.label" class="space-y-2">
               <div
@@ -127,8 +140,8 @@ onMounted(async () => {
               <div class="space-y-1">
                 <NuxtLink
                   v-for="item in group.items"
-                  :key="item.route"
-                  :to="item.route"
+                  :key="item.id || item.route || item.name"
+                  :to="item.route || '#'"
                   class="group flex items-center gap-3 rounded-2xl px-4 py-3 text-sm font-semibold"
                   :class="
                     isActive(item.route)
@@ -137,7 +150,14 @@ onMounted(async () => {
                   "
                   @click="emit('close')"
                 >
-                  <MenuIcon :name="item.icon" class="h-5 w-5" />
+                  <MenuIcon
+                    :name="item.name"
+                    :label="item.label"
+                    :route="item.route"
+                    :group="item.group"
+                    size="h-5 w-5"
+                  />
+
                   <span>{{ item.label }}</span>
                 </NuxtLink>
               </div>
@@ -149,7 +169,7 @@ onMounted(async () => {
 
     <!-- Desktop sidebar -->
     <aside
-      class="hidden lg:fixed lg:inset-y-0 lg:z-30 lg:flex lg:flex-col lg:border-r lg:border-border lg:bg-card/85 lg:backdrop-blur-xl"
+      class="hidden lg:fixed lg:inset-y-0 lg:z-30 lg:flex lg:flex-col lg:border-r lg:border-border lg:bg-card"
       :class="collapsed ? 'lg:w-24' : 'lg:w-72'"
     >
       <!-- Header -->
@@ -190,6 +210,15 @@ onMounted(async () => {
           <div v-for="i in 6" :key="i" class="h-11 animate-pulse rounded-2xl bg-muted" />
         </div>
 
+        <div v-else-if="!hasNavigation && !collapsed" class="p-4">
+          <div class="rounded-2xl border border-border bg-muted/40 p-4 text-center">
+            <p class="text-sm font-semibold text-card-foreground">No menu found</p>
+            <p class="mt-1 text-xs text-muted-foreground">
+              Check your permissions or menu settings.
+            </p>
+          </div>
+        </div>
+
         <nav v-else class="p-4" :class="collapsed ? 'space-y-3' : 'space-y-5'">
           <div v-for="group in groupedNavigation" :key="group.label" class="space-y-2">
             <button
@@ -210,8 +239,8 @@ onMounted(async () => {
               <div v-if="collapsed || isGroupOpen(group.label)" class="space-y-1">
                 <NuxtLink
                   v-for="item in group.items"
-                  :key="item.route"
-                  :to="item.route"
+                  :key="item.id || item.route || item.name"
+                  :to="item.route || '#'"
                   class="group relative flex items-center rounded-2xl px-4 py-3 text-sm font-semibold"
                   :class="[
                     collapsed ? 'justify-center px-3' : 'gap-3',
@@ -220,7 +249,13 @@ onMounted(async () => {
                       : 'text-muted-foreground hover:bg-muted hover:text-card-foreground',
                   ]"
                 >
-                  <MenuIcon :name="item.icon" class="h-5 w-5 shrink-0" />
+                  <MenuIcon
+                    :name="item.name"
+                    :label="item.label"
+                    :route="item.route"
+                    :group="item.group"
+                    size="h-5 w-5 shrink-0"
+                  />
 
                   <Transition name="sidebar-label">
                     <span v-if="!collapsed" class="truncate">

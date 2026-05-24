@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { X } from "lucide-vue-next";
+
 const props = withDefaults(
   defineProps<{
     open: boolean;
@@ -17,14 +19,17 @@ const emit = defineEmits<{
   (e: "close"): void;
 }>();
 
-const sizeClass = computed(() => {
-  return {
-    sm: "max-w-md",
-    md: "max-w-2xl",
-    lg: "max-w-4xl",
-    xl: "max-w-6xl",
-  }[props.size];
-});
+const sizeClass = computed(
+  () =>
+    (({
+      sm: "max-w-md",
+      md: "max-w-2xl",
+      lg: "max-w-4xl",
+      xl: "max-w-6xl",
+    } as Record<string, string>)[props.size])
+);
+
+const handleClose = () => emit("close");
 </script>
 
 <template>
@@ -33,7 +38,7 @@ const sizeClass = computed(() => {
       <div v-if="open" class="fixed inset-0 z-50 flex items-center justify-center p-4">
         <div
           class="absolute inset-0 bg-slate-950/60 backdrop-blur-sm"
-          @click="emit('close')"
+          @click="handleClose"
         />
 
         <div
@@ -73,10 +78,13 @@ const sizeClass = computed(() => {
             </slot>
 
             <button
-              class="rounded-xl px-3 py-2 text-sm text-slate-600 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800"
-              @click="emit('close')"
+              class="rounded-xl p-2 text-slate-600 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800"
+              @click="handleClose"
+              type="button"
+              aria-label="Close"
+              title="Close"
             >
-              Close
+              <X class="h-4 w-4" />
             </button>
           </div>
 

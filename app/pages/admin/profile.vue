@@ -193,7 +193,11 @@ onMounted(async () => {
       subtitle="Manage your account information, roles, and password security."
     >
       <template #actions>
-        <AppButton variant="secondary" :loading="loading" @click="() => fetchProfile({ force: true })">
+        <AppButton
+          variant="secondary"
+          :loading="loading"
+          @click="() => fetchProfile({ force: true })"
+        >
           <RefreshCcw class="h-4 w-4" />
           Refresh
         </AppButton>

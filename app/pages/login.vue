@@ -1,11 +1,11 @@
 <script setup lang="ts">
 definePageMeta({
-  layout: "auth",
+  layout: "public",
   middleware: "guest",
   title: "Login",
 });
 
-const auth = useAuth();
+const authStore = useAuthStore();
 
 const form = reactive({
   email: "",
@@ -28,17 +28,17 @@ const handleLogin = async () => {
   clearErrors();
 
   try {
-    await auth.login({
+    const redirectTo = await authStore.login({
       email: form.email,
       password: form.password,
     });
 
-    if (!auth.user.value?.is_email_verified) {
+    if (!authStore.user?.is_email_verified) {
       await navigateTo("/email-verification");
       return;
     }
 
-    await navigateTo("/dashboard");
+    await navigateTo(redirectTo || "/");
   } catch (error: any) {
     generalError.value = error.message || "Login failed";
 
@@ -90,7 +90,7 @@ const handleLogin = async () => {
         </NuxtLink>
       </div>
 
-      <AuthButton label="Sign In" :loading="auth.loading.value" variant="primary" />
+      <AuthButton label="Sign In" :loading="authStore.loading" variant="primary" />
     </form>
 
     <div class="mt-6 text-center text-sm text-slate-600">

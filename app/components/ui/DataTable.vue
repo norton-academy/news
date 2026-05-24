@@ -8,8 +8,8 @@ export interface DataTableColumn {
 
 const props = withDefaults(
   defineProps<{
-    columns: DataTableColumn[];
-    rows: Record<string, any>[];
+    columns?: DataTableColumn[];
+    rows?: Record<string, any>[];
     loading?: boolean;
     emptyTitle?: string;
     emptyMessage?: string;
@@ -18,6 +18,8 @@ const props = withDefaults(
     clickable?: boolean;
   }>(),
   {
+    columns: () => [],
+    rows: () => [],
     loading: false,
     emptyTitle: "No data found",
     emptyMessage: "There are no records to display.",
@@ -35,6 +37,18 @@ const emit = defineEmits<{
 }>();
 
 const slots = useSlots();
+
+const safeColumns = computed(() => {
+  return Array.isArray(props.columns) ? props.columns : [];
+});
+
+const safeRows = computed(() => {
+  return Array.isArray(props.rows) ? props.rows : [];
+});
+
+const hasRows = computed(() => {
+  return safeRows.value.length > 0;
+});
 
 const alignmentClass = (align?: string) => {
   const alignments: Record<string, string> = {
@@ -100,7 +114,7 @@ const handleRowClick = (row: Record<string, any>, event: MouseEvent) => {
         >
           <tr>
             <th
-              v-for="column in columns"
+              v-for="column in safeColumns"
               :key="column.key"
               :class="[
                 'whitespace-nowrap px-6 py-4 text-xs font-bold uppercase tracking-wider text-muted-foreground',
@@ -125,7 +139,7 @@ const handleRowClick = (row: Record<string, any>, event: MouseEvent) => {
               :style="{ animationDelay: `${rowIndex * 35}ms` }"
             >
               <td
-                v-for="column in columns"
+                v-for="column in safeColumns"
                 :key="`loading-${rowIndex}-${column.key}`"
                 class="px-6 py-4"
               >
@@ -140,17 +154,17 @@ const handleRowClick = (row: Record<string, any>, event: MouseEvent) => {
           </template>
 
           <!-- Empty state -->
-          <tr v-else-if="rows.length === 0">
-            <td :colspan="columns.length" class="px-6 py-12">
+          <tr v-else-if="!hasRows">
+            <td :colspan="Math.max(safeColumns.length, 1)" class="px-6 py-12">
               <EmptyState :title="emptyTitle" :message="emptyMessage" />
             </td>
           </tr>
 
           <!-- Data rows -->
           <tr
-            v-for="(row, rowIndex) in rows"
+            v-for="(row, rowIndex) in safeRows"
             v-else
-            :key="row.id || rowIndex"
+            :key="row?.id || rowIndex"
             :style="{ animationDelay: `${rowIndex * 25}ms` }"
             :draggable="isDraggable"
             :class="[
@@ -165,7 +179,7 @@ const handleRowClick = (row: Record<string, any>, event: MouseEvent) => {
             @drop="emit('rowDrop', rowIndex)"
           >
             <td
-              v-for="column in columns"
+              v-for="column in safeColumns"
               :key="column.key"
               :class="[
                 'whitespace-nowrap px-6 py-4 text-sm text-muted-foreground',
@@ -175,14 +189,14 @@ const handleRowClick = (row: Record<string, any>, event: MouseEvent) => {
               <slot
                 :name="`cell-${column.key}`"
                 :row="row"
-                :value="row[column.key]"
+                :value="row?.[column.key]"
                 :index="rowIndex"
               >
                 <span
                   v-if="
-                    row[column.key] !== null &&
-                    row[column.key] !== undefined &&
-                    row[column.key] !== ''
+                    row?.[column.key] !== null &&
+                    row?.[column.key] !== undefined &&
+                    row?.[column.key] !== ''
                   "
                   class="font-semibold text-card-foreground"
                 >
@@ -219,7 +233,6 @@ const handleRowClick = (row: Record<string, any>, event: MouseEvent) => {
   animation: table-loading 1.1s ease-in-out infinite;
 }
 
-/* Local motion utilities (replaces global motion helpers) */
 .local-transition-smooth {
   transition: transform 180ms cubic-bezier(0.2, 0.8, 0.2, 1),
     background-color 180ms cubic-bezier(0.2, 0.8, 0.2, 1),
@@ -236,6 +249,7 @@ const handleRowClick = (row: Record<string, any>, event: MouseEvent) => {
     opacity: 0;
     transform: translateY(12px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -251,6 +265,7 @@ const handleRowClick = (row: Record<string, any>, event: MouseEvent) => {
     opacity: 0;
     transform: translateY(6px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);

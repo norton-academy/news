@@ -8,6 +8,10 @@ export const useAppCacheStore = defineStore('app-cache', {
     cache: {} as Record<string, CacheEntry<any>>,
   }),
 
+  getters: {
+    size: (state) => Object.keys(state.cache).length,
+  },
+
   actions: {
     get<T>(key: string): CacheEntry<T> | null {
       return this.cache[key] || null
@@ -20,6 +24,10 @@ export const useAppCacheStore = defineStore('app-cache', {
       }
 
       this.prune()
+    },
+
+    forget(key: string) {
+      delete this.cache[key]
     },
 
     forgetByPrefix(prefix: string) {
@@ -43,7 +51,9 @@ export const useAppCacheStore = defineStore('app-cache', {
         return this.cache[a].savedAt - this.cache[b].savedAt
       })
 
-      sortedKeys.slice(0, keys.length - MAX_CACHE_ITEMS).forEach((key) => {
+      const removeCount = keys.length - MAX_CACHE_ITEMS
+
+      sortedKeys.slice(0, removeCount).forEach((key) => {
         delete this.cache[key]
       })
     },

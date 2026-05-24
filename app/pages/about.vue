@@ -426,6 +426,11 @@
 </template>
 
 <script setup>
+definePageMeta({
+  layout: "public",
+  title: "About",
+});
+
 useHead({
   title: "About Us - Durian",
   meta: [

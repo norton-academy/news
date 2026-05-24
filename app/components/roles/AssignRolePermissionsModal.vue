@@ -11,8 +11,7 @@ import {
 } from "lucide-vue-next";
 import type { RoleItem } from "~/composables/useRole";
 import type { PermissionItem } from "~/composables/usePermission";
-import { useRoleManagementStore } from '~/stores/roleManagement'
-import { usePermissionManagementStore } from '~/stores/permissionManagement'
+import { usePermissionManagementStore } from "~/stores/management/permissionStore";
 
 const props = defineProps<{
   open: boolean;
@@ -25,9 +24,7 @@ const emit = defineEmits<{
 }>();
 
 const { getRole, syncRolePermissions } = useRole();
-const roleStore = useRoleManagementStore()
-const permissionStore = usePermissionManagementStore()
-const { getAllPermissions } = usePermission();
+const permissionStore = usePermissionManagementStore();
 const toast = useToast();
 
 const loading = ref(false);
@@ -80,73 +77,64 @@ const totalPermissions = computed(() => permissions.value.length);
 
 const selectedCount = computed(() => selectedPermissions.value.length);
 
-const newPermissionsCount = computed(() => {
-  return selectedPermissions.value.filter(
-    (permission) => !originalPermissions.value.includes(permission)
-  ).length;
-});
+const newPermissionsCount = computed(
+  () =>
+    selectedPermissions.value.filter((p) => !originalPermissions.value.includes(p)).length
+);
 
-const removedPermissionsCount = computed(() => {
-  return originalPermissions.value.filter(
-    (permission) => !selectedPermissions.value.includes(permission)
-  ).length;
-});
+const removedPermissionsCount = computed(
+  () =>
+    originalPermissions.value.filter((p) => !selectedPermissions.value.includes(p)).length
+);
 
 const arraysEqual = (a: string[], b: string[]) => {
   if (a.length !== b.length) return false;
-
   const setA = new Set(a);
-  return b.every((item) => setA.has(item));
+  for (const item of b) {
+    if (!setA.has(item)) return false;
+  }
+  return true;
 };
 
-const hasChanges = computed(() => {
-  return !arraysEqual(
-    [...originalPermissions.value].sort(),
-    [...selectedPermissions.value].sort()
-  );
-});
+const hasChanges = computed(
+  () =>
+    !arraysEqual(
+      [...originalPermissions.value].sort(),
+      [...selectedPermissions.value].sort()
+    )
+);
 
-const selectedPercent = computed(() => {
-  if (!totalPermissions.value) return 0;
+const selectedPercent = computed(() =>
+  totalPermissions.value
+    ? Math.round((selectedCount.value / totalPermissions.value) * 100)
+    : 0
+);
 
-  return Math.round((selectedCount.value / totalPermissions.value) * 100);
-});
-
-const isAllSelectedInGroup = (groupPermissions: PermissionItem[]) => {
-  if (!groupPermissions.length) return false;
-
-  return groupPermissions.every((permission) =>
-    selectedPermissions.value.includes(permission.name)
-  );
-};
+const isAllSelectedInGroup = (groupPermissions: PermissionItem[]) =>
+  groupPermissions.length > 0 &&
+  groupPermissions.every((p) => selectedPermissions.value.includes(p.name));
 
 const isSomeSelectedInGroup = (groupPermissions: PermissionItem[]) => {
-  const count = groupPermissions.filter((permission) =>
-    selectedPermissions.value.includes(permission.name)
-  ).length;
-
+  const count = groupPermissions.reduce(
+    (acc, p) => acc + (selectedPermissions.value.includes(p.name) ? 1 : 0),
+    0
+  );
   return count > 0 && count < groupPermissions.length;
 };
 
-const selectedCountInGroup = (groupPermissions: PermissionItem[]) => {
-  return groupPermissions.filter((permission) =>
-    selectedPermissions.value.includes(permission.name)
-  ).length;
-};
+const selectedCountInGroup = (groupPermissions: PermissionItem[]) =>
+  groupPermissions.filter((p) => selectedPermissions.value.includes(p.name)).length;
 
 const toggleGroup = (groupPermissions: PermissionItem[]) => {
   const allSelected = isAllSelectedInGroup(groupPermissions);
-
   if (allSelected) {
+    const namesToRemove = new Set(groupPermissions.map((p) => p.name));
     selectedPermissions.value = selectedPermissions.value.filter(
-      (name) => !groupPermissions.some((permission) => permission.name === name)
+      (name) => !namesToRemove.has(name)
     );
-
     return;
   }
-
-  const names = groupPermissions.map((permission) => permission.name);
-
+  const names = groupPermissions.map((p) => p.name);
   selectedPermissions.value = Array.from(
     new Set([...selectedPermissions.value, ...names])
   );
@@ -155,17 +143,15 @@ const toggleGroup = (groupPermissions: PermissionItem[]) => {
 const togglePermission = (permissionName: string) => {
   if (selectedPermissions.value.includes(permissionName)) {
     selectedPermissions.value = selectedPermissions.value.filter(
-      (name) => name !== permissionName
+      (n) => n !== permissionName
     );
-
-    return;
+  } else {
+    selectedPermissions.value.push(permissionName);
   }
-
-  selectedPermissions.value.push(permissionName);
 };
 
 const selectAll = () => {
-  selectedPermissions.value = permissions.value.map((permission) => permission.name);
+  selectedPermissions.value = permissions.value.map((p) => p.name);
 };
 
 const clearAll = () => {
@@ -185,8 +171,8 @@ const fetchData = async () => {
 
   try {
     // ensure permissions are cached and available
-    await permissionStore.fetchAllPermissions({ silent: true })
-    const roleData = await getRole(props.role.id)
+    await permissionStore.fetchPermissions({ per_page: 100 }, { silent: true });
+    const roleData = await getRole(props.role.id);
 
     permissions.value = permissionStore.permissions || [];
 
@@ -245,8 +231,6 @@ const handleSave = async () => {
     const notificationStore = useNotificationStore();
     await notificationStore.refreshNotifications();
 
-    // update cache locally to reflect permission changes
-    await roleStore.updateRolePermissionsInCache(props.role.id, selectedPermissions.value)
     emit("saved");
     handleClose();
   } catch (error: any) {
@@ -286,7 +270,7 @@ const handleSave = async () => {
                   <div>
                     <h2 class="text-xl font-bold text-ui">Assign Role Permissions</h2>
 
-                    <p class="mt-1 text-sm text-muted">
+                    <p class="mt-1 text-sm text-muted-foreground">
                       Manage access rules for
                       <strong class="text-ui">
                         {{ role?.name || "Selected Role" }}
@@ -371,13 +355,13 @@ const handleSave = async () => {
                       class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm dark:border-slate-800 dark:bg-slate-900"
                     >
                       <div class="flex items-center justify-between">
-                        <p class="text-sm font-medium text-muted">Selected</p>
+                        <p class="text-sm font-medium text-muted-foreground">Selected</p>
                         <CheckCircle2
                           class="h-5 w-5 text-green-600 dark:text-green-400"
                         />
                       </div>
                       <p class="mt-3 text-3xl font-bold text-ui">{{ selectedCount }}</p>
-                      <p class="mt-1 text-xs text-muted">
+                      <p class="mt-1 text-xs text-muted-foreground">
                         {{ selectedPercent }}% of permissions
                       </p>
                     </div>
@@ -386,39 +370,45 @@ const handleSave = async () => {
                       class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm dark:border-slate-800 dark:bg-slate-900"
                     >
                       <div class="flex items-center justify-between">
-                        <p class="text-sm font-medium text-muted">Available</p>
+                        <p class="text-sm font-medium text-muted-foreground">Available</p>
                         <KeyRound class="h-5 w-5 text-blue-600 dark:text-blue-400" />
                       </div>
                       <p class="mt-3 text-3xl font-bold text-ui">
                         {{ totalPermissions }}
                       </p>
-                      <p class="mt-1 text-xs text-muted">Total system permissions</p>
+                      <p class="mt-1 text-xs text-muted-foreground">
+                        Total system permissions
+                      </p>
                     </div>
 
                     <div
                       class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm dark:border-slate-800 dark:bg-slate-900"
                     >
                       <div class="flex items-center justify-between">
-                        <p class="text-sm font-medium text-muted">Newly Added</p>
+                        <p class="text-sm font-medium text-muted-foreground">
+                          Newly Added
+                        </p>
                         <Sparkles class="h-5 w-5 text-purple-600 dark:text-purple-400" />
                       </div>
                       <p class="mt-3 text-3xl font-bold text-ui">
                         {{ newPermissionsCount }}
                       </p>
-                      <p class="mt-1 text-xs text-muted">Added in this edit</p>
+                      <p class="mt-1 text-xs text-muted-foreground">Added in this edit</p>
                     </div>
 
                     <div
                       class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm dark:border-slate-800 dark:bg-slate-900"
                     >
                       <div class="flex items-center justify-between">
-                        <p class="text-sm font-medium text-muted">Removed</p>
+                        <p class="text-sm font-medium text-muted-foreground">Removed</p>
                         <AlertCircle class="h-5 w-5 text-amber-600 dark:text-amber-400" />
                       </div>
                       <p class="mt-3 text-3xl font-bold text-ui">
                         {{ removedPermissionsCount }}
                       </p>
-                      <p class="mt-1 text-xs text-muted">Removed in this edit</p>
+                      <p class="mt-1 text-xs text-muted-foreground">
+                        Removed in this edit
+                      </p>
                     </div>
                   </div>
 
@@ -511,7 +501,7 @@ const handleSave = async () => {
                             {{ moduleName }}
                           </h3>
 
-                          <p class="mt-1 text-xs text-muted">
+                          <p class="mt-1 text-xs text-muted-foreground">
                             {{ selectedCountInGroup(groupPermissions) }} of
                             {{ groupPermissions.length }} selected
                           </p>
@@ -574,7 +564,7 @@ const handleSave = async () => {
                             </AppBadge>
                           </div>
 
-                          <p class="mt-1 text-xs text-muted">
+                          <p class="mt-1 text-xs text-muted-foreground">
                             {{ permission.module || moduleName }}
                             <span v-if="permission.action"
                               >· {{ permission.action }}</span
@@ -595,7 +585,7 @@ const handleSave = async () => {
               <div
                 class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between"
               >
-                <div class="text-sm text-muted">
+                <div class="text-sm text-muted-foreground">
                   <span v-if="hasChanges"> You have unsaved permission changes. </span>
                   <span v-else> No changes to save. </span>
                 </div>
@@ -633,10 +623,14 @@ const handleSave = async () => {
 /* Scoped modal-panel transition to avoid global dependency */
 .modal-panel-enter-active,
 .modal-panel-leave-active {
-  transition: opacity 220ms cubic-bezier(.2,.8,.2,1), transform 220ms cubic-bezier(.2,.8,.2,1);
+  transition: opacity 220ms cubic-bezier(0.2, 0.8, 0.2, 1),
+    transform 220ms cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 .modal-panel-enter-from,
-.modal-panel-leave-to { opacity: 0; transform: translateY(8px) scale(.995); }
+.modal-panel-leave-to {
+  opacity: 0;
+  transform: translateY(8px) scale(0.995);
+}
 </style>
 
 <style scoped>

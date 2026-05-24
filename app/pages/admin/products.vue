@@ -12,23 +12,37 @@ import {
   TriangleAlert,
 } from "lucide-vue-next";
 
+import { useProductManagementStore } from "~/stores/inventory/productStore";
+
 definePageMeta({
   layout: "dashboard",
   middleware: ["auth", "permission"],
   permission: "product.view",
   title: "Products",
 });
-
 const { createProduct, updateProduct, deleteProduct } = useProduct();
 
 const productStore = useProductManagementStore();
+
 const toast = useToast();
 const authStore = useAuthStore();
 const notificationStore = useNotificationStore();
 
-const products = computed(() => productStore.products);
-const pagination = computed(() => productStore.pagination);
-const stats = computed(() => productStore.stats);
+const productRows = computed<ProductItem[]>(() => {
+  return Array.isArray(productStore.products) ? productStore.products : [];
+});
+
+const productCount = computed(() => productRows.value.length);
+
+const currentPage = computed(() => productStore.currentPage ?? 1);
+const lastPage = computed(() => productStore.lastPage ?? 1);
+const totalItems = computed(() => productStore.totalItems ?? 0);
+
+const totalProducts = computed(() => productStore.totalProducts ?? 0);
+const activeProducts = computed(() => productStore.activeProducts ?? 0);
+const draftProducts = computed(() => productStore.draftProducts ?? 0);
+const lowStockProducts = computed(() => productStore.lowStockProducts ?? 0);
+
 const loading = computed(() => productStore.loading);
 const refreshing = computed(() => productStore.refreshing);
 const errorMessage = computed(() => productStore.errorMessage);
@@ -44,6 +58,18 @@ const selectedProduct = ref<ProductItem | null>(null);
 const confirmOpen = ref(false);
 const confirmLoading = ref(false);
 const confirmProduct = ref<ProductItem | null>(null);
+
+const canCreateProduct = computed(() => {
+  return authStore.hasPermission("product.create");
+});
+
+const canUpdateProduct = computed(() => {
+  return authStore.hasPermission("product.update");
+});
+
+const canDeleteProduct = computed(() => {
+  return authStore.hasPermission("product.delete");
+});
 
 const saving = ref(false);
 
@@ -187,31 +213,16 @@ const saveProduct = async () => {
       const updated =
         response?.data?.product || response?.product || response?.data || response;
 
-      if (updated && updated.id) {
-        productStore.updateProductInCache(selectedProduct.value.id, updated as any);
-      } else {
-        productStore.updateProductInCache(selectedProduct.value.id, {
-          name: payload.name,
-          sku: payload.sku,
-          description: payload.description,
-          price: payload.price,
-          stock: payload.stock,
-          status: payload.status,
-        } as any);
-      }
-
+      // refresh store data after update
+      await productStore.invalidateAndRefresh();
       toast.success("Product updated", "Product information was updated successfully.");
     } else {
       const response = await createProduct(payload);
 
       const created =
         response?.data?.product || response?.product || response?.data || response;
-      if (created && created.id) {
-        productStore.addProductToCache(created as any);
-      } else {
-        await productStore.invalidateAndRefresh();
-      }
-
+      // refresh store data after create
+      await productStore.invalidateAndRefresh();
       toast.success("Product created", "New product was created successfully.");
     }
 
@@ -266,7 +277,7 @@ const handleDelete = async () => {
 
     closeDeleteConfirm();
 
-    productStore.removeProductFromCache(confirmProduct.value.id);
+    await productStore.invalidateAndRefresh();
     await notificationStore.refreshNotifications();
   } catch (error: any) {
     toast.error(
@@ -305,9 +316,17 @@ const goPrevious = async () => {
 };
 
 const goNext = async () => {
-  if (page.value >= pagination.value.last_page) return;
+  if (page.value >= lastPage.value) return;
 
   page.value++;
+  await fetchProducts();
+};
+
+const goToPage = async (targetPage: number) => {
+  if (targetPage < 1) return;
+  if (targetPage > lastPage.value) return;
+
+  page.value = targetPage;
   await fetchProducts();
 };
 
@@ -318,7 +337,6 @@ const statusVariant = (value: string) => {
 
   return "default";
 };
-
 let searchTimeout: ReturnType<typeof setTimeout> | null = null;
 
 watch(search, () => {
@@ -340,8 +358,14 @@ watch(status, async () => {
 
 onMounted(async () => {
   await fetchProducts({
-    silent: productStore.hasCachedData,
+    silent: productStore.hasData,
   });
+});
+
+onBeforeUnmount(() => {
+  if (searchTimeout) {
+    clearTimeout(searchTimeout);
+  }
 });
 </script>
 
@@ -357,7 +381,7 @@ onMounted(async () => {
           Refresh
         </AppButton>
 
-        <AppButton v-if="authStore.hasPermission('product.create')" @click="openCreate">
+        <AppButton v-if="canCreateProduct" @click="openCreate">
           <Plus class="h-4 w-4" />
           Add Product
         </AppButton>
@@ -374,7 +398,7 @@ onMounted(async () => {
     <div class="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
       <StatsCard
         title="Total Products"
-        :value="stats.total_products"
+        :value="totalProducts"
         subtitle="All inventory items"
         tone="info"
       >
@@ -387,7 +411,7 @@ onMounted(async () => {
 
       <StatsCard
         title="Active"
-        :value="stats.active_products"
+        :value="activeProducts"
         subtitle="Published products"
         tone="success"
       >
@@ -400,7 +424,7 @@ onMounted(async () => {
 
       <StatsCard
         title="Draft"
-        :value="stats.draft_products"
+        :value="draftProducts"
         subtitle="Not published yet"
         tone="warning"
       >
@@ -413,7 +437,7 @@ onMounted(async () => {
 
       <StatsCard
         title="Low Stock"
-        :value="stats.low_stock_products"
+        :value="lowStockProducts"
         subtitle="Stock less than or equal 5"
         tone="danger"
       >
@@ -454,8 +478,8 @@ onMounted(async () => {
 
     <DataTable
       :columns="columns"
-      :rows="products"
-      :loading="loading && products.length === 0"
+      :rows="productRows"
+      :loading="loading && productCount === 0"
       empty-title="No products found"
       empty-message="Create your first product to start managing inventory."
     >
@@ -526,7 +550,7 @@ onMounted(async () => {
               label: 'Edit Product',
               value: 'edit',
               icon: Edit,
-              visible: authStore.hasPermission('product.update'),
+              visible: canUpdateProduct,
               description: 'Update product information',
             },
             {
@@ -534,7 +558,7 @@ onMounted(async () => {
               value: 'delete',
               icon: Trash2,
               variant: 'danger',
-              visible: authStore.hasPermission('product.delete'),
+              visible: canDeleteProduct,
               description: 'Remove this product',
             },
           ]"
@@ -544,12 +568,15 @@ onMounted(async () => {
     </DataTable>
 
     <TablePagination
-      :current-page="pagination.current_page"
-      :last-page="pagination.last_page"
-      :total="pagination.total"
-      :loading="loading && products.length === 0"
+      :current-page="currentPage"
+      :last-page="lastPage"
+      :total="totalItems"
+      :per-page="perPage"
+      :loading="loading && productCount === 0"
       @previous="goPrevious"
       @next="goNext"
+      @page="goToPage"
+      label="products"
     />
 
     <AppModal

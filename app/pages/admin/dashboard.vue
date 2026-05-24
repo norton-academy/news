@@ -1,11 +1,4 @@
 <script setup lang="ts">
-import type {
-  DashboardStats,
-  DashboardRecentUser,
-  DashboardRecentAuditLog,
-  DashboardRoleDistribution,
-  DashboardSystem,
-} from "~/composables/useDashboard";
 import {
   Activity,
   Clock,
@@ -21,10 +14,8 @@ import {
   Workflow,
 } from "lucide-vue-next";
 
-import { useUserManagementStore } from "~/stores/userManagement";
-import { useRoleManagementStore } from "~/stores/roleManagement";
-import { usePermissionManagementStore } from "~/stores/permissionManagement";
-import { useProductManagementStore } from "~/stores/productManagement";
+import { useDashboardManagementStore } from "~/stores/dashboard/dashboardStore";
+import { useProductManagementStore } from "~/stores/inventory/productStore";
 
 definePageMeta({
   layout: "dashboard",
@@ -33,91 +24,93 @@ definePageMeta({
   title: "Dashboard",
 });
 
-const { getDashboardSummary } = useDashboard();
-const userStore = useUserManagementStore();
-const roleStore = useRoleManagementStore();
-const permissionStore = usePermissionManagementStore();
+const dashboardStore = useDashboardManagementStore();
 const productStore = useProductManagementStore();
 const toast = useToast();
 
-const loading = ref(false);
-const errorMessage = ref("");
+const loading = computed(() => dashboardStore.loading);
+const refreshing = computed(() => dashboardStore.refreshing || productStore.refreshing);
+const errorMessage = computed(() => dashboardStore.errorMessage);
 
-const stats = ref<DashboardStats>({
-  total_users: 0,
-  active_users: 0,
-  pending_users: 0,
-  inactive_users: 0,
-  total_roles: 0,
-  total_permissions: 0,
-  total_audit_logs: 0,
+const totalUsers = computed(() => dashboardStore.totalUsers);
+const activeUsers = computed(() => dashboardStore.activeUsers);
+const pendingUsers = computed(() => dashboardStore.pendingUsers);
+const inactiveUsers = computed(() => dashboardStore.inactiveUsers);
+const totalRoles = computed(() => dashboardStore.totalRoles);
+const totalPermissions = computed(() => dashboardStore.totalPermissions);
+const totalAuditLogs = computed(() => dashboardStore.totalAuditLogs);
+
+const totalProducts = computed(() => productStore.totalProducts);
+const activeProducts = computed(() => productStore.activeProducts);
+const draftProducts = computed(() => productStore.draftProducts);
+const lowStockProducts = computed(() => productStore.lowStockProducts);
+
+const system = computed(() => dashboardStore.system);
+
+const recentUsers = computed(() => {
+  return Array.isArray(dashboardStore.recentUsers) ? dashboardStore.recentUsers : [];
 });
 
-const recentUsers = ref<DashboardRecentUser[]>([]);
-const recentAuditLogs = ref<DashboardRecentAuditLog[]>([]);
-const roleDistribution = ref<DashboardRoleDistribution[]>([]);
-
-const system = ref<DashboardSystem>({
-  status: "Unknown",
-  environment: "-",
-  timezone: "-",
+const recentAuditLogs = computed(() => {
+  return Array.isArray(dashboardStore.recentAuditLogs)
+    ? dashboardStore.recentAuditLogs
+    : [];
 });
 
-const fetchDashboard = async () => {
-  loading.value = true;
-  errorMessage.value = "";
+const roleDistribution = computed(() => {
+  return Array.isArray(dashboardStore.roleDistribution)
+    ? dashboardStore.roleDistribution
+    : [];
+});
 
+const recentProducts = computed(() => {
+  return Array.isArray(productStore.products) ? productStore.products.slice(0, 5) : [];
+});
+
+const fetchDashboard = async (
+  options: {
+    force?: boolean;
+    silent?: boolean;
+  } = {}
+) => {
   try {
-    // fetch underlying stores in parallel (silent to use cache when available)
     await Promise.allSettled([
-      userStore.fetchUsers({ per_page: 5 }, { silent: true }),
-      roleStore.fetchRoles({ per_page: 100 }, { silent: true }),
-      permissionStore.fetchPermissions({ per_page: 1 }, { silent: true }),
-      productStore.fetchProducts({ per_page: 5 }, { silent: true }),
+      dashboardStore.fetchDashboard(options),
+      productStore.fetchProducts(
+        {
+          page: 1,
+          per_page: 5,
+        },
+        options
+      ),
     ]);
-
-    // compose stats from stores when available
-    stats.value.total_users = userStore.stats.total_users || 0;
-    stats.value.active_users = userStore.stats.active_users || 0;
-    stats.value.pending_users = userStore.stats.pending_users || 0;
-    stats.value.inactive_users = userStore.stats.inactive_users || 0;
-    stats.value.total_roles = roleStore.stats.total_roles || 0;
-    stats.value.total_permissions = permissionStore.stats.total_permissions || 0;
-    (stats.value as any).total_products = productStore.stats.total_products || 0;
-
-    // recent users from user store
-    recentUsers.value = (userStore.users || []).slice(0, 5);
-
-    // role distribution from role store (if roles include users_count)
-    roleDistribution.value = (roleStore.roles || []).map((r: any) => ({
-      id: r.id,
-      name: r.name,
-      users_count: r.users_count || r.count || 0,
-    }));
-
-    // still fetch audit logs and system info from dashboard endpoint
-    const response = await getDashboardSummary();
-    recentAuditLogs.value = response.data.recent_audit_logs;
-    system.value = response.data.system;
-    stats.value.total_audit_logs =
-      response.data.stats?.total_audit_logs || stats.value.total_audit_logs || 0;
   } catch (error: any) {
-    errorMessage.value = error.message || "Failed to load dashboard";
-    toast.error("Dashboard failed", errorMessage.value);
-  } finally {
-    loading.value = false;
+    toast.error(
+      "Dashboard failed",
+      error.response?.data?.message || error.message || "Failed to load dashboard"
+    );
   }
 };
 
-const rolePercent = (count: number) => {
-  if (!stats.value.total_users) return 0;
-
-  return Math.min(Math.round((count / stats.value.total_users) * 100), 100);
+const handleRefresh = async () => {
+  await fetchDashboard({
+    force: true,
+    silent: true,
+  });
 };
 
-onMounted(fetchDashboard);
-</script>
+const rolePercent = (count: number) => {
+  if (!totalUsers.value) return 0;
 
+  return Math.min(Math.round((count / totalUsers.value) * 100), 100);
+};
+
+onMounted(async () => {
+  await fetchDashboard({
+    silent: dashboardStore.totalUsers > 0 || productStore.hasData,
+  });
+});
+</script>
 <template>
   <div class="space-y-6">
     <PageHeader
@@ -125,7 +118,7 @@ onMounted(fetchDashboard);
       subtitle="Overview of users, roles, permissions, and recent system activity."
     >
       <template #actions>
-        <AppButton variant="secondary" :loading="loading" @click="fetchDashboard">
+        <AppButton variant="secondary" :loading="refreshing" @click="handleRefresh">
           <RefreshCcw class="h-4 w-4" />
           Refresh
         </AppButton>
@@ -142,8 +135,8 @@ onMounted(fetchDashboard);
     <div class="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
       <StatsCard
         title="Total Users"
-        :value="stats.total_users"
-        :subtitle="`${stats.active_users} active users`"
+        :value="totalUsers"
+        :subtitle="`${activeUsers} active users`"
         tone="info"
       >
         <template #badge>
@@ -155,7 +148,7 @@ onMounted(fetchDashboard);
 
       <StatsCard
         title="Roles"
-        :value="stats.total_roles"
+        :value="totalRoles"
         subtitle="System access groups"
         tone="default"
       >
@@ -168,7 +161,7 @@ onMounted(fetchDashboard);
 
       <StatsCard
         title="Permissions"
-        :value="stats.total_permissions"
+        :value="totalPermissions"
         subtitle="Fine-grained controls"
         tone="success"
       >
@@ -181,7 +174,7 @@ onMounted(fetchDashboard);
 
       <StatsCard
         title="Audit Logs"
-        :value="stats.total_audit_logs"
+        :value="totalAuditLogs"
         subtitle="Recorded system actions"
         tone="warning"
       >
@@ -197,7 +190,7 @@ onMounted(fetchDashboard);
     <div class="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
       <StatsCard
         title="Total Products"
-        :value="productStore.stats.total_products"
+        :value="totalProducts"
         subtitle="All inventory items"
         tone="info"
       >
@@ -210,7 +203,7 @@ onMounted(fetchDashboard);
 
       <StatsCard
         title="Active Products"
-        :value="productStore.stats.active_products"
+        :value="activeProducts"
         subtitle="Published products"
         tone="success"
       >
@@ -223,7 +216,7 @@ onMounted(fetchDashboard);
 
       <StatsCard
         title="Draft Products"
-        :value="productStore.stats.draft_products"
+        :value="draftProducts"
         subtitle="Not published yet"
         tone="warning"
       >
@@ -236,7 +229,7 @@ onMounted(fetchDashboard);
 
       <StatsCard
         title="Low Stock"
-        :value="productStore.stats.low_stock_products"
+        :value="lowStockProducts"
         subtitle="Stock ≤ 5"
         tone="danger"
       >
@@ -330,7 +323,7 @@ onMounted(fetchDashboard);
               </span>
 
               <AppBadge variant="success">
-                {{ stats.active_users }}
+                {{ activeUsers }}
               </AppBadge>
             </div>
 
@@ -342,7 +335,7 @@ onMounted(fetchDashboard);
               </span>
 
               <AppBadge variant="warning">
-                {{ stats.pending_users }}
+                {{ pendingUsers }}
               </AppBadge>
             </div>
 
@@ -352,14 +345,14 @@ onMounted(fetchDashboard);
               <span class="text-sm font-semibold text-muted-foreground"> Inactive </span>
 
               <AppBadge variant="default">
-                {{ stats.inactive_users }}
+                {{ inactiveUsers }}
               </AppBadge>
             </div>
           </div>
         </AppCard>
 
         <AppCard title="Role Distribution" subtitle="Users grouped by role.">
-          <div v-if="roleDistribution.length" class="space-y-4">
+          <div v-if="roleDistribution.length > 0" class="space-y-4">
             <div
               v-for="role in roleDistribution"
               :key="role.id"
@@ -398,7 +391,7 @@ onMounted(fetchDashboard);
 
       <div class="grid gap-4 lg:grid-cols-3">
         <AppCard title="Recent Users" subtitle="Latest registered accounts.">
-          <div v-if="recentUsers.length" class="space-y-3">
+          <div v-if="recentUsers.length > 0" class="space-y-3">
             <div
               v-for="user in recentUsers"
               :key="user.id"
@@ -440,7 +433,7 @@ onMounted(fetchDashboard);
         </AppCard>
 
         <AppCard title="Recent Audit Logs" subtitle="Latest recorded system actions.">
-          <div v-if="recentAuditLogs.length" class="space-y-3">
+          <div v-if="recentAuditLogs.length > 0" class="space-y-3">
             <div
               v-for="log in recentAuditLogs"
               :key="log.id"
@@ -472,9 +465,9 @@ onMounted(fetchDashboard);
         </AppCard>
 
         <AppCard title="Recent Products" subtitle="Latest added or updated products.">
-          <div v-if="productStore.products.length" class="space-y-3">
+          <div v-if="recentProducts.length > 0" class="space-y-3">
             <div
-              v-for="product in productStore.products.slice(0, 5)"
+              v-for="product in recentProducts"
               :key="product.id"
               class="flex items-center justify-between gap-4 rounded-2xl border border-border bg-muted/40 px-4 py-3 hover:bg-muted"
             >
@@ -523,5 +516,7 @@ onMounted(fetchDashboard);
         </AppCard>
       </div>
     </template>
+
+    <AppRefreshingIndicator :show="refreshing" />
   </div>
 </template>

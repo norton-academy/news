@@ -46,7 +46,7 @@ const commands: CommandItem[] = [
   {
     label: "Dashboard",
     description: "View system overview and statistics",
-    to: "/dashboard",
+    to: "/admin/dashboard",
     permission: "dashboard.view",
     icon: LayoutDashboard,
     keywords: ["dashboard", "home", "overview", "stats"],
@@ -54,7 +54,7 @@ const commands: CommandItem[] = [
   {
     label: "RBAC Overview",
     description: "View roles, permissions, and access summary",
-    to: "/rbac",
+    to: "/admin/rbac",
     permission: "role.view",
     icon: ShieldCheck,
     keywords: ["rbac", "access", "security", "overview"],
@@ -62,7 +62,7 @@ const commands: CommandItem[] = [
   {
     label: "Users",
     description: "Manage users, status, roles, and verification",
-    to: "/users",
+    to: "/admin/users",
     permission: "user.view",
     icon: Users,
     keywords: ["users", "accounts", "members"],
@@ -70,7 +70,7 @@ const commands: CommandItem[] = [
   {
     label: "Roles",
     description: "Manage roles and role permissions",
-    to: "/roles",
+    to: "/admin/roles",
     permission: "role.view",
     icon: UserCog,
     keywords: ["roles", "groups", "access"],
@@ -78,7 +78,7 @@ const commands: CommandItem[] = [
   {
     label: "Permissions",
     description: "Manage system permissions",
-    to: "/permissions",
+    to: "/admin/permissions",
     permission: "permission.view",
     icon: KeyRound,
     keywords: ["permissions", "rules", "abilities"],
@@ -86,7 +86,7 @@ const commands: CommandItem[] = [
   {
     label: "Menus",
     description: "Manage sidebar menus and navigation",
-    to: "/menus",
+    to: "/admin/menus",
     permission: "menu.view",
     icon: PanelTop,
     keywords: ["menus", "navigation", "sidebar"],
@@ -94,7 +94,7 @@ const commands: CommandItem[] = [
   {
     label: "Audit Logs",
     description: "Review system activity and admin changes",
-    to: "/audit-logs",
+    to: "/admin/audit-logs",
     permission: "audit.view",
     icon: FileText,
     keywords: ["audit", "logs", "activity", "history"],
@@ -102,7 +102,7 @@ const commands: CommandItem[] = [
   {
     label: "Profile",
     description: "Manage your account information",
-    to: "/profile",
+    to: "/app/profile",
     permission: "profile.view",
     icon: LockKeyhole,
     keywords: ["profile", "account", "me"],
@@ -110,7 +110,7 @@ const commands: CommandItem[] = [
   {
     label: "Settings",
     description: "Manage global system settings",
-    to: "/settings",
+    to: "/admin/settings",
     permission: "setting.view",
     icon: Settings,
     keywords: ["settings", "config", "system"],

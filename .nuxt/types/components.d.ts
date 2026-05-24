@@ -18,6 +18,7 @@ interface _GlobalComponents {
   AuthButton: typeof import("../../app/components/auth/AuthButton.vue")['default']
   AuthCard: typeof import("../../app/components/auth/AuthCard.vue")['default']
   AuthInput: typeof import("../../app/components/auth/AuthInput.vue")['default']
+  AdminShell: typeof import("../../app/components/dashboard/AdminShell.vue")['default']
   AppBreadcrumbs: typeof import("../../app/components/dashboard/AppBreadcrumbs.vue")['default']
   AppHeader: typeof import("../../app/components/dashboard/AppHeader.vue")['default']
   AppShell: typeof import("../../app/components/dashboard/AppShell.vue")['default']
@@ -89,6 +90,7 @@ interface _GlobalComponents {
   LazyAuthButton: LazyComponent<typeof import("../../app/components/auth/AuthButton.vue")['default']>
   LazyAuthCard: LazyComponent<typeof import("../../app/components/auth/AuthCard.vue")['default']>
   LazyAuthInput: LazyComponent<typeof import("../../app/components/auth/AuthInput.vue")['default']>
+  LazyAdminShell: LazyComponent<typeof import("../../app/components/dashboard/AdminShell.vue")['default']>
   LazyAppBreadcrumbs: LazyComponent<typeof import("../../app/components/dashboard/AppBreadcrumbs.vue")['default']>
   LazyAppHeader: LazyComponent<typeof import("../../app/components/dashboard/AppHeader.vue")['default']>
   LazyAppShell: LazyComponent<typeof import("../../app/components/dashboard/AppShell.vue")['default']>
