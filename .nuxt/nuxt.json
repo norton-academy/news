@@ -1,7 +1,7 @@
 {
-  "_hash": "gHszj_-kLKGjGWCRfRHnnKuzIL36cN5D3RlBcZQLXJw",
+  "_hash": "xRsxeMTWuqb8Nv53HrR5aDSHXDj6uBLz6xuX_R1_bk4",
   "project": {
-    "rootDir": "D:/cobo-project/cobo-grop/frontend"
+    "rootDir": "D:/cobo-project/cobo-core-admin/cobo-core-web"
   },
   "versions": {
     "nuxt": "4.4.2"
