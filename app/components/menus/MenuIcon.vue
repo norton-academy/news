@@ -15,8 +15,10 @@ import {
   LayoutDashboard,
   LockKeyhole,
   Menu,
+  Newspaper,
   Package,
   PanelTop,
+  Radio,
   ScrollText,
   Settings,
   ShieldCheck,
@@ -24,6 +26,7 @@ import {
   UserCog,
   Users,
   Workflow,
+  MapPin,
 } from "lucide-vue-next";
 
 const props = withDefaults(
@@ -65,6 +68,19 @@ const iconMap: Record<string, any> = {
   rbac: Workflow,
   management: UserCog,
 
+  // news
+  news: Newspaper,
+  articles: Newspaper,
+  article: Newspaper,
+  categories: Database,
+  category: Database,
+  sources: Radio,
+  source: Radio,
+  provinces: MapPin,
+  province: MapPin,
+  advertisements: Bell,
+  advertisement: Bell,
+
   // inventory
   products: Package,
   product: Package,
@@ -100,8 +116,10 @@ const iconMap: Record<string, any> = {
   LayoutDashboard,
   LockKeyhole,
   Menu,
+  Newspaper,
   Package,
   PanelTop,
+  Radio,
   ScrollText,
   Settings,
   ShieldCheck,
@@ -109,6 +127,7 @@ const iconMap: Record<string, any> = {
   UserCog,
   Users,
   Workflow,
+  MapPin,
 };
 
 const normalize = (value?: string | null) => {

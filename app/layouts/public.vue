@@ -1,23 +1,15 @@
-<template>
-  <div class="min-h-screen bg-background text-foreground">
-    <header class="border-b border-border bg-card">
-      <div class="mx-auto flex h-16 max-w-7xl items-center justify-between px-4">
-        <NuxtLink to="/" class="text-lg font-bold">
-          Cobo Core
-        </NuxtLink>
+<script setup lang="ts">
 
-        <nav class="flex items-center gap-4 text-sm font-medium">
-          <NuxtLink to="/">Home</NuxtLink>
-          <NuxtLink to="/about">About</NuxtLink>
-          <NuxtLink to="/products">Products</NuxtLink>
-          <NuxtLink to="/login">Login</NuxtLink>
-          <NuxtLink to="/admin/login">Admin</NuxtLink>
-        </nav>
-      </div>
-    </header>
+</script>
+
+<template>
+  <div class="min-h-screen bg-[#f7f6f2] text-slate-900">
+    <SiteHeader />
 
     <main>
       <slot />
     </main>
+
+    <SiteFooter />
   </div>
 </template>

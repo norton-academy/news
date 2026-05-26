@@ -49,6 +49,7 @@ const hasNavigation = computed(() => groupedNavigation.value.length > 0);
 const openGroups = ref<Record<string, boolean>>({
   Main: true,
   Management: true,
+  News: true,
   Administration: true,
   Inventory: true,
   System: true,

@@ -102,6 +102,11 @@ declare global {
   const tryUseNuxtApp: typeof import('../../node_modules/nuxt/dist/app/nuxt').tryUseNuxtApp
   const unref: typeof import('vue').unref
   const updateAppConfig: typeof import('../../node_modules/nuxt/dist/app/config').updateAppConfig
+  const useAdminArticle: typeof import('../../app/composables/useAdminArticle').useAdminArticle
+  const useAdminArticleStore: typeof import('../../app/stores/adminArticle').useAdminArticleStore
+  const useAdminNewsCategory: typeof import('../../app/composables/useAdminNewsCategory').useAdminNewsCategory
+  const useAdminNewsCategoryStore: typeof import('../../app/stores/adminNewsCategory').useAdminNewsCategoryStore
+  const useAdminNewsOptions: typeof import('../../app/composables/useAdminNewsOptions').useAdminNewsOptions
   const useAnnouncer: typeof import('../../node_modules/nuxt/dist/app/composables/announcer').useAnnouncer
   const useApi: typeof import('../../app/composables/useApi').useApi
   const useAppCacheStore: typeof import('../../app/stores/appCache').useAppCacheStore
@@ -148,6 +153,10 @@ declare global {
   const usePreviewMode: typeof import('../../node_modules/nuxt/dist/app/composables/preview').usePreviewMode
   const useProduct: typeof import('../../app/composables/useProduct').useProduct
   const useProfile: typeof import('../../app/composables/useProfile').useProfile
+  const usePublicArticleListStore: typeof import('../../app/stores/publicArticleList').usePublicArticleListStore
+  const usePublicArticleStore: typeof import('../../app/stores/publicArticle').usePublicArticleStore
+  const usePublicHomeStore: typeof import('../../app/stores/publicHome').usePublicHomeStore
+  const usePublicNews: typeof import('../../app/composables/usePublicNews').usePublicNews
   const useRbac: typeof import('../../app/composables/useRbac').useRbac
   const useRequestEvent: typeof import('../../node_modules/nuxt/dist/app/composables/ssr').useRequestEvent
   const useRequestFetch: typeof import('../../node_modules/nuxt/dist/app/composables/ssr').useRequestFetch
@@ -225,6 +234,12 @@ declare global {
   export type { PageMeta } from '../../node_modules/nuxt/dist/app/composables/pages'
   import('../../node_modules/nuxt/dist/app/composables/pages')
   // @ts-ignore
+  export type { AdminArticleFilters, AdminArticleListResponse, ArticlePayload } from '../../app/composables/useAdminArticle'
+  import('../../app/composables/useAdminArticle')
+  // @ts-ignore
+  export type { NewsCategoryPayload, NewsCategoryFilters, NewsCategoryListResponse } from '../../app/composables/useAdminNewsCategory'
+  import('../../app/composables/useAdminNewsCategory')
+  // @ts-ignore
   export type { AuditLogUser, AuditLogItem, AuditLogPagination, AuditLogListResponse, AuditLogShowResponse, AuditLogQueryParams } from '../../app/composables/useAuditLog'
   import('../../app/composables/useAuditLog')
   // @ts-ignore
@@ -260,6 +275,9 @@ declare global {
   // @ts-ignore
   export type { ProfileUser, ProfileResponse, UpdateProfilePayload, UpdatePasswordPayload } from '../../app/composables/useProfile'
   import('../../app/composables/useProfile')
+  // @ts-ignore
+  export type { ArticleListParams, ArticleListResponse } from '../../app/composables/usePublicNews'
+  import('../../app/composables/usePublicNews')
   // @ts-ignore
   export type { RbacStats, RbacRoleOverview, PermissionModuleOverview, RbacDashboardResponse } from '../../app/composables/useRbac'
   import('../../app/composables/useRbac')
@@ -387,6 +405,11 @@ declare module 'vue' {
     readonly tryUseNuxtApp: UnwrapRef<typeof import('../../node_modules/nuxt/dist/app/nuxt')['tryUseNuxtApp']>
     readonly unref: UnwrapRef<typeof import('vue')['unref']>
     readonly updateAppConfig: UnwrapRef<typeof import('../../node_modules/nuxt/dist/app/config')['updateAppConfig']>
+    readonly useAdminArticle: UnwrapRef<typeof import('../../app/composables/useAdminArticle')['useAdminArticle']>
+    readonly useAdminArticleStore: UnwrapRef<typeof import('../../app/stores/adminArticle')['useAdminArticleStore']>
+    readonly useAdminNewsCategory: UnwrapRef<typeof import('../../app/composables/useAdminNewsCategory')['useAdminNewsCategory']>
+    readonly useAdminNewsCategoryStore: UnwrapRef<typeof import('../../app/stores/adminNewsCategory')['useAdminNewsCategoryStore']>
+    readonly useAdminNewsOptions: UnwrapRef<typeof import('../../app/composables/useAdminNewsOptions')['useAdminNewsOptions']>
     readonly useAnnouncer: UnwrapRef<typeof import('../../node_modules/nuxt/dist/app/composables/announcer')['useAnnouncer']>
     readonly useApi: UnwrapRef<typeof import('../../app/composables/useApi')['useApi']>
     readonly useAppCacheStore: UnwrapRef<typeof import('../../app/stores/appCache')['useAppCacheStore']>
@@ -433,6 +456,10 @@ declare module 'vue' {
     readonly usePreviewMode: UnwrapRef<typeof import('../../node_modules/nuxt/dist/app/composables/preview')['usePreviewMode']>
     readonly useProduct: UnwrapRef<typeof import('../../app/composables/useProduct')['useProduct']>
     readonly useProfile: UnwrapRef<typeof import('../../app/composables/useProfile')['useProfile']>
+    readonly usePublicArticleListStore: UnwrapRef<typeof import('../../app/stores/publicArticleList')['usePublicArticleListStore']>
+    readonly usePublicArticleStore: UnwrapRef<typeof import('../../app/stores/publicArticle')['usePublicArticleStore']>
+    readonly usePublicHomeStore: UnwrapRef<typeof import('../../app/stores/publicHome')['usePublicHomeStore']>
+    readonly usePublicNews: UnwrapRef<typeof import('../../app/composables/usePublicNews')['usePublicNews']>
     readonly useRbac: UnwrapRef<typeof import('../../app/composables/useRbac')['useRbac']>
     readonly useRequestEvent: UnwrapRef<typeof import('../../node_modules/nuxt/dist/app/composables/ssr')['useRequestEvent']>
     readonly useRequestFetch: UnwrapRef<typeof import('../../node_modules/nuxt/dist/app/composables/ssr')['useRequestFetch']>

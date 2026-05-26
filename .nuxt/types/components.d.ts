@@ -15,6 +15,7 @@ type LazyComponent<T> = DefineComponent<HydrationStrategies, {}, {}, {}, {}, {},
 
 interface _GlobalComponents {
   AppRefreshingIndicator: typeof import("../../app/components/AppRefreshingIndicator.vue")['default']
+  ArticleForm: typeof import("../../app/components/admin/articles/ArticleForm.vue")['default']
   AuthButton: typeof import("../../app/components/auth/AuthButton.vue")['default']
   AuthCard: typeof import("../../app/components/auth/AuthCard.vue")['default']
   AuthInput: typeof import("../../app/components/auth/AuthInput.vue")['default']
@@ -30,6 +31,30 @@ interface _GlobalComponents {
   MenuFormModal: typeof import("../../app/components/menus/MenuFormModal.vue")['default']
   MenuIcon: typeof import("../../app/components/menus/MenuIcon.vue")['default']
   ImportPermissionModal: typeof import("../../app/components/permissions/ImportPermissionModal.vue")['default']
+  BreakingTicker: typeof import("../../app/components/public/BreakingTicker.vue")['default']
+  CategoryTabs: typeof import("../../app/components/public/CategoryTabs.vue")['default']
+  FeaturedHeroGrid: typeof import("../../app/components/public/FeaturedHeroGrid.vue")['default']
+  Navbar: typeof import("../../app/components/public/Navbar.vue")['default']
+  NewsSidebar: typeof import("../../app/components/public/NewsSidebar.vue")['default']
+  SiteFooter: typeof import("../../app/components/public/SiteFooter.vue")['default']
+  SiteHeader: typeof import("../../app/components/public/SiteHeader.vue")['default']
+  AiSummaryBox: typeof import("../../app/components/public/article/AiSummaryBox.vue")['default']
+  ArticleHeader: typeof import("../../app/components/public/article/ArticleHeader.vue")['default']
+  ArticleSidebar: typeof import("../../app/components/public/article/ArticleSidebar.vue")['default']
+  MoreFromSourceCard: typeof import("../../app/components/public/article/MoreFromSourceCard.vue")['default']
+  PopularArticlesCard: typeof import("../../app/components/public/article/PopularArticlesCard.vue")['default']
+  RelatedArticles: typeof import("../../app/components/public/article/RelatedArticles.vue")['default']
+  ShareBar: typeof import("../../app/components/public/article/ShareBar.vue")['default']
+  TelegramJoinCard: typeof import("../../app/components/public/article/TelegramJoinCard.vue")['default']
+  AdvertisementCard: typeof import("../../app/components/public/home/AdvertisementCard.vue")['default']
+  FeaturedNewsGrid: typeof import("../../app/components/public/home/FeaturedNewsGrid.vue")['default']
+  HomeSidebar: typeof import("../../app/components/public/home/HomeSidebar.vue")['default']
+  LatestNewsList: typeof import("../../app/components/public/home/LatestNewsList.vue")['default']
+  ProvinceFilter: typeof import("../../app/components/public/home/ProvinceFilter.vue")['default']
+  SourceToggleCard: typeof import("../../app/components/public/home/SourceToggleCard.vue")['default']
+  TrendingCard: typeof import("../../app/components/public/home/TrendingCard.vue")['default']
+  WeatherCard: typeof import("../../app/components/public/home/WeatherCard.vue")['default']
+  ArticleListPage: typeof import("../../app/components/public/listing/ArticleListPage.vue")['default']
   AssignRolePermissionsModal: typeof import("../../app/components/roles/AssignRolePermissionsModal.vue")['default']
   CloneRoleModal: typeof import("../../app/components/roles/CloneRoleModal.vue")['default']
   ImportRoleModal: typeof import("../../app/components/roles/ImportRoleModal.vue")['default']
@@ -87,6 +112,7 @@ interface _GlobalComponents {
   Body: typeof import("../../node_modules/nuxt/dist/head/runtime/components")['Body']
   NuxtIsland: typeof import("../../node_modules/nuxt/dist/app/components/nuxt-island")['default']
   LazyAppRefreshingIndicator: LazyComponent<typeof import("../../app/components/AppRefreshingIndicator.vue")['default']>
+  LazyArticleForm: LazyComponent<typeof import("../../app/components/admin/articles/ArticleForm.vue")['default']>
   LazyAuthButton: LazyComponent<typeof import("../../app/components/auth/AuthButton.vue")['default']>
   LazyAuthCard: LazyComponent<typeof import("../../app/components/auth/AuthCard.vue")['default']>
   LazyAuthInput: LazyComponent<typeof import("../../app/components/auth/AuthInput.vue")['default']>
@@ -102,6 +128,30 @@ interface _GlobalComponents {
   LazyMenuFormModal: LazyComponent<typeof import("../../app/components/menus/MenuFormModal.vue")['default']>
   LazyMenuIcon: LazyComponent<typeof import("../../app/components/menus/MenuIcon.vue")['default']>
   LazyImportPermissionModal: LazyComponent<typeof import("../../app/components/permissions/ImportPermissionModal.vue")['default']>
+  LazyBreakingTicker: LazyComponent<typeof import("../../app/components/public/BreakingTicker.vue")['default']>
+  LazyCategoryTabs: LazyComponent<typeof import("../../app/components/public/CategoryTabs.vue")['default']>
+  LazyFeaturedHeroGrid: LazyComponent<typeof import("../../app/components/public/FeaturedHeroGrid.vue")['default']>
+  LazyNavbar: LazyComponent<typeof import("../../app/components/public/Navbar.vue")['default']>
+  LazyNewsSidebar: LazyComponent<typeof import("../../app/components/public/NewsSidebar.vue")['default']>
+  LazySiteFooter: LazyComponent<typeof import("../../app/components/public/SiteFooter.vue")['default']>
+  LazySiteHeader: LazyComponent<typeof import("../../app/components/public/SiteHeader.vue")['default']>
+  LazyAiSummaryBox: LazyComponent<typeof import("../../app/components/public/article/AiSummaryBox.vue")['default']>
+  LazyArticleHeader: LazyComponent<typeof import("../../app/components/public/article/ArticleHeader.vue")['default']>
+  LazyArticleSidebar: LazyComponent<typeof import("../../app/components/public/article/ArticleSidebar.vue")['default']>
+  LazyMoreFromSourceCard: LazyComponent<typeof import("../../app/components/public/article/MoreFromSourceCard.vue")['default']>
+  LazyPopularArticlesCard: LazyComponent<typeof import("../../app/components/public/article/PopularArticlesCard.vue")['default']>
+  LazyRelatedArticles: LazyComponent<typeof import("../../app/components/public/article/RelatedArticles.vue")['default']>
+  LazyShareBar: LazyComponent<typeof import("../../app/components/public/article/ShareBar.vue")['default']>
+  LazyTelegramJoinCard: LazyComponent<typeof import("../../app/components/public/article/TelegramJoinCard.vue")['default']>
+  LazyAdvertisementCard: LazyComponent<typeof import("../../app/components/public/home/AdvertisementCard.vue")['default']>
+  LazyFeaturedNewsGrid: LazyComponent<typeof import("../../app/components/public/home/FeaturedNewsGrid.vue")['default']>
+  LazyHomeSidebar: LazyComponent<typeof import("../../app/components/public/home/HomeSidebar.vue")['default']>
+  LazyLatestNewsList: LazyComponent<typeof import("../../app/components/public/home/LatestNewsList.vue")['default']>
+  LazyProvinceFilter: LazyComponent<typeof import("../../app/components/public/home/ProvinceFilter.vue")['default']>
+  LazySourceToggleCard: LazyComponent<typeof import("../../app/components/public/home/SourceToggleCard.vue")['default']>
+  LazyTrendingCard: LazyComponent<typeof import("../../app/components/public/home/TrendingCard.vue")['default']>
+  LazyWeatherCard: LazyComponent<typeof import("../../app/components/public/home/WeatherCard.vue")['default']>
+  LazyArticleListPage: LazyComponent<typeof import("../../app/components/public/listing/ArticleListPage.vue")['default']>
   LazyAssignRolePermissionsModal: LazyComponent<typeof import("../../app/components/roles/AssignRolePermissionsModal.vue")['default']>
   LazyCloneRoleModal: LazyComponent<typeof import("../../app/components/roles/CloneRoleModal.vue")['default']>
   LazyImportRoleModal: LazyComponent<typeof import("../../app/components/roles/ImportRoleModal.vue")['default']>
