@@ -1,23 +1,13 @@
 <script setup lang="ts">
-import { ExternalLink, ImageIcon } from "lucide-vue-next";
+import { ImageIcon } from "lucide-vue-next";
 import type { Advertisement } from "~/types/news";
 
 const props = defineProps<{
-  advertisements: Advertisement[];
-  placement?: string;
+  advertisements?: Advertisement[];
 }>();
 
 const ad = computed(() => {
-  if (!Array.isArray(props.advertisements)) return null;
-
-  if (!props.placement) {
-    return props.advertisements[0] || null;
-  }
-
-  return (
-    props.advertisements.find((item) => item.placement === props.placement) ||
-    null
-  );
+  return props.advertisements?.find((item) => item.placement === "article_sidebar") || null;
 });
 </script>
 
@@ -31,7 +21,7 @@ const ad = computed(() => {
         rel="noopener noreferrer"
         class="block"
       >
-        <div v-if="ad.image" class="h-48 bg-[#efeee9]">
+        <div v-if="ad.image" class="h-44 bg-[#efeee9]">
           <img
             :src="ad.image"
             :alt="ad.title"
@@ -45,22 +35,16 @@ const ad = computed(() => {
 
         <div class="p-5">
           <p class="text-xs font-bold uppercase text-slate-400">
-            ការផ្សាយពាណិជ្ជកម្ម
+            Advertisement
           </p>
-
           <p class="mt-2 font-black text-slate-700">
             {{ ad.title }}
-          </p>
-
-          <p class="mt-2 inline-flex items-center justify-center gap-1 text-xs font-bold text-blue-700">
-            Open link
-            <ExternalLink class="h-3.5 w-3.5" />
           </p>
         </div>
       </a>
 
       <div v-else>
-        <div v-if="ad.image" class="h-48 bg-[#efeee9]">
+        <div v-if="ad.image" class="h-44 bg-[#efeee9]">
           <img
             :src="ad.image"
             :alt="ad.title"
@@ -74,9 +58,8 @@ const ad = computed(() => {
 
         <div class="p-5">
           <p class="text-xs font-bold uppercase text-slate-400">
-            ការផ្សាយពាណិជ្ជកម្ម
+            Advertisement
           </p>
-
           <p class="mt-2 font-black text-slate-700">
             {{ ad.title }}
           </p>
@@ -85,16 +68,9 @@ const ad = computed(() => {
     </template>
 
     <div v-else class="p-6">
-      <p class="text-sm font-bold text-slate-400">
-        ការផ្សាយពាណិជ្ជកម្ម
-      </p>
-
+      <p class="text-sm font-bold text-slate-400">Advertisement</p>
       <p class="mt-3 text-lg font-black text-slate-700">
-        Advertisement Slot
-      </p>
-
-      <p class="mt-1 text-sm text-slate-500">
-        No active advertisement yet.
+        Article Sidebar Slot
       </p>
     </div>
   </section>

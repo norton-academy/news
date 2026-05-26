@@ -102,11 +102,17 @@ declare global {
   const tryUseNuxtApp: typeof import('../../node_modules/nuxt/dist/app/nuxt').tryUseNuxtApp
   const unref: typeof import('vue').unref
   const updateAppConfig: typeof import('../../node_modules/nuxt/dist/app/config').updateAppConfig
+  const useAdminAdvertisement: typeof import('../../app/composables/useAdminAdvertisement').useAdminAdvertisement
+  const useAdminAdvertisementStore: typeof import('../../app/stores/adminAdvertisement').useAdminAdvertisementStore
   const useAdminArticle: typeof import('../../app/composables/useAdminArticle').useAdminArticle
   const useAdminArticleStore: typeof import('../../app/stores/adminArticle').useAdminArticleStore
   const useAdminNewsCategory: typeof import('../../app/composables/useAdminNewsCategory').useAdminNewsCategory
   const useAdminNewsCategoryStore: typeof import('../../app/stores/adminNewsCategory').useAdminNewsCategoryStore
   const useAdminNewsOptions: typeof import('../../app/composables/useAdminNewsOptions').useAdminNewsOptions
+  const useAdminNewsSource: typeof import('../../app/composables/useAdminNewsSource').useAdminNewsSource
+  const useAdminNewsSourceStore: typeof import('../../app/stores/adminNewsSource').useAdminNewsSourceStore
+  const useAdminProvince: typeof import('../../app/composables/useAdminProvince').useAdminProvince
+  const useAdminProvinceStore: typeof import('../../app/stores/adminProvince').useAdminProvinceStore
   const useAnnouncer: typeof import('../../node_modules/nuxt/dist/app/composables/announcer').useAnnouncer
   const useApi: typeof import('../../app/composables/useApi').useApi
   const useAppCacheStore: typeof import('../../app/stores/appCache').useAppCacheStore
@@ -156,6 +162,7 @@ declare global {
   const usePublicArticleListStore: typeof import('../../app/stores/publicArticleList').usePublicArticleListStore
   const usePublicArticleStore: typeof import('../../app/stores/publicArticle').usePublicArticleStore
   const usePublicHomeStore: typeof import('../../app/stores/publicHome').usePublicHomeStore
+  const usePublicLanguageStore: typeof import('../../app/stores/publicLanguage').usePublicLanguageStore
   const usePublicNews: typeof import('../../app/composables/usePublicNews').usePublicNews
   const useRbac: typeof import('../../app/composables/useRbac').useRbac
   const useRequestEvent: typeof import('../../node_modules/nuxt/dist/app/composables/ssr').useRequestEvent
@@ -234,11 +241,20 @@ declare global {
   export type { PageMeta } from '../../node_modules/nuxt/dist/app/composables/pages'
   import('../../node_modules/nuxt/dist/app/composables/pages')
   // @ts-ignore
+  export type { AdvertisementPayload, AdvertisementFilters, AdvertisementListResponse } from '../../app/composables/useAdminAdvertisement'
+  import('../../app/composables/useAdminAdvertisement')
+  // @ts-ignore
   export type { AdminArticleFilters, AdminArticleListResponse, ArticlePayload } from '../../app/composables/useAdminArticle'
   import('../../app/composables/useAdminArticle')
   // @ts-ignore
   export type { NewsCategoryPayload, NewsCategoryFilters, NewsCategoryListResponse } from '../../app/composables/useAdminNewsCategory'
   import('../../app/composables/useAdminNewsCategory')
+  // @ts-ignore
+  export type { NewsSourcePayload, NewsSourceFilters, NewsSourceListResponse } from '../../app/composables/useAdminNewsSource'
+  import('../../app/composables/useAdminNewsSource')
+  // @ts-ignore
+  export type { ProvincePayload, ProvinceFilters, ProvinceListResponse } from '../../app/composables/useAdminProvince'
+  import('../../app/composables/useAdminProvince')
   // @ts-ignore
   export type { AuditLogUser, AuditLogItem, AuditLogPagination, AuditLogListResponse, AuditLogShowResponse, AuditLogQueryParams } from '../../app/composables/useAuditLog'
   import('../../app/composables/useAuditLog')
@@ -293,6 +309,9 @@ declare global {
   // @ts-ignore
   export type { CacheEntry } from '../../app/utils/cache'
   import('../../app/utils/cache')
+  // @ts-ignore
+  export type { PublicLanguage } from '../../app/stores/publicLanguage'
+  import('../../app/stores/publicLanguage')
   // @ts-ignore
   export type { ThemeMode } from '../../app/stores/theme'
   import('../../app/stores/theme')
@@ -405,11 +424,17 @@ declare module 'vue' {
     readonly tryUseNuxtApp: UnwrapRef<typeof import('../../node_modules/nuxt/dist/app/nuxt')['tryUseNuxtApp']>
     readonly unref: UnwrapRef<typeof import('vue')['unref']>
     readonly updateAppConfig: UnwrapRef<typeof import('../../node_modules/nuxt/dist/app/config')['updateAppConfig']>
+    readonly useAdminAdvertisement: UnwrapRef<typeof import('../../app/composables/useAdminAdvertisement')['useAdminAdvertisement']>
+    readonly useAdminAdvertisementStore: UnwrapRef<typeof import('../../app/stores/adminAdvertisement')['useAdminAdvertisementStore']>
     readonly useAdminArticle: UnwrapRef<typeof import('../../app/composables/useAdminArticle')['useAdminArticle']>
     readonly useAdminArticleStore: UnwrapRef<typeof import('../../app/stores/adminArticle')['useAdminArticleStore']>
     readonly useAdminNewsCategory: UnwrapRef<typeof import('../../app/composables/useAdminNewsCategory')['useAdminNewsCategory']>
     readonly useAdminNewsCategoryStore: UnwrapRef<typeof import('../../app/stores/adminNewsCategory')['useAdminNewsCategoryStore']>
     readonly useAdminNewsOptions: UnwrapRef<typeof import('../../app/composables/useAdminNewsOptions')['useAdminNewsOptions']>
+    readonly useAdminNewsSource: UnwrapRef<typeof import('../../app/composables/useAdminNewsSource')['useAdminNewsSource']>
+    readonly useAdminNewsSourceStore: UnwrapRef<typeof import('../../app/stores/adminNewsSource')['useAdminNewsSourceStore']>
+    readonly useAdminProvince: UnwrapRef<typeof import('../../app/composables/useAdminProvince')['useAdminProvince']>
+    readonly useAdminProvinceStore: UnwrapRef<typeof import('../../app/stores/adminProvince')['useAdminProvinceStore']>
     readonly useAnnouncer: UnwrapRef<typeof import('../../node_modules/nuxt/dist/app/composables/announcer')['useAnnouncer']>
     readonly useApi: UnwrapRef<typeof import('../../app/composables/useApi')['useApi']>
     readonly useAppCacheStore: UnwrapRef<typeof import('../../app/stores/appCache')['useAppCacheStore']>
@@ -459,6 +484,7 @@ declare module 'vue' {
     readonly usePublicArticleListStore: UnwrapRef<typeof import('../../app/stores/publicArticleList')['usePublicArticleListStore']>
     readonly usePublicArticleStore: UnwrapRef<typeof import('../../app/stores/publicArticle')['usePublicArticleStore']>
     readonly usePublicHomeStore: UnwrapRef<typeof import('../../app/stores/publicHome')['usePublicHomeStore']>
+    readonly usePublicLanguageStore: UnwrapRef<typeof import('../../app/stores/publicLanguage')['usePublicLanguageStore']>
     readonly usePublicNews: UnwrapRef<typeof import('../../app/composables/usePublicNews')['usePublicNews']>
     readonly useRbac: UnwrapRef<typeof import('../../app/composables/useRbac')['useRbac']>
     readonly useRequestEvent: UnwrapRef<typeof import('../../node_modules/nuxt/dist/app/composables/ssr')['useRequestEvent']>

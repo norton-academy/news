@@ -39,6 +39,7 @@ interface _GlobalComponents {
   SiteFooter: typeof import("../../app/components/public/SiteFooter.vue")['default']
   SiteHeader: typeof import("../../app/components/public/SiteHeader.vue")['default']
   AiSummaryBox: typeof import("../../app/components/public/article/AiSummaryBox.vue")['default']
+  ArticleAdvertisementCard: typeof import("../../app/components/public/article/ArticleAdvertisementCard.vue")['default']
   ArticleHeader: typeof import("../../app/components/public/article/ArticleHeader.vue")['default']
   ArticleSidebar: typeof import("../../app/components/public/article/ArticleSidebar.vue")['default']
   MoreFromSourceCard: typeof import("../../app/components/public/article/MoreFromSourceCard.vue")['default']
@@ -52,6 +53,7 @@ interface _GlobalComponents {
   LatestNewsList: typeof import("../../app/components/public/home/LatestNewsList.vue")['default']
   ProvinceFilter: typeof import("../../app/components/public/home/ProvinceFilter.vue")['default']
   SourceToggleCard: typeof import("../../app/components/public/home/SourceToggleCard.vue")['default']
+  TopAdvertisement: typeof import("../../app/components/public/home/TopAdvertisement.vue")['default']
   TrendingCard: typeof import("../../app/components/public/home/TrendingCard.vue")['default']
   WeatherCard: typeof import("../../app/components/public/home/WeatherCard.vue")['default']
   ArticleListPage: typeof import("../../app/components/public/listing/ArticleListPage.vue")['default']
@@ -136,6 +138,7 @@ interface _GlobalComponents {
   LazySiteFooter: LazyComponent<typeof import("../../app/components/public/SiteFooter.vue")['default']>
   LazySiteHeader: LazyComponent<typeof import("../../app/components/public/SiteHeader.vue")['default']>
   LazyAiSummaryBox: LazyComponent<typeof import("../../app/components/public/article/AiSummaryBox.vue")['default']>
+  LazyArticleAdvertisementCard: LazyComponent<typeof import("../../app/components/public/article/ArticleAdvertisementCard.vue")['default']>
   LazyArticleHeader: LazyComponent<typeof import("../../app/components/public/article/ArticleHeader.vue")['default']>
   LazyArticleSidebar: LazyComponent<typeof import("../../app/components/public/article/ArticleSidebar.vue")['default']>
   LazyMoreFromSourceCard: LazyComponent<typeof import("../../app/components/public/article/MoreFromSourceCard.vue")['default']>
@@ -149,6 +152,7 @@ interface _GlobalComponents {
   LazyLatestNewsList: LazyComponent<typeof import("../../app/components/public/home/LatestNewsList.vue")['default']>
   LazyProvinceFilter: LazyComponent<typeof import("../../app/components/public/home/ProvinceFilter.vue")['default']>
   LazySourceToggleCard: LazyComponent<typeof import("../../app/components/public/home/SourceToggleCard.vue")['default']>
+  LazyTopAdvertisement: LazyComponent<typeof import("../../app/components/public/home/TopAdvertisement.vue")['default']>
   LazyTrendingCard: LazyComponent<typeof import("../../app/components/public/home/TrendingCard.vue")['default']>
   LazyWeatherCard: LazyComponent<typeof import("../../app/components/public/home/WeatherCard.vue")['default']>
   LazyArticleListPage: LazyComponent<typeof import("../../app/components/public/listing/ArticleListPage.vue")['default']>

@@ -67,6 +67,7 @@ export interface PublicHomeData {
   popular_articles: Article[]
   trending_topics: NewsCategory[]
   advertisements: Advertisement[]
+  sources: NewsSource[]
   weather: {
     city: string
     temperature: string
@@ -83,6 +84,7 @@ export interface ArticleDetailData {
   related_articles: Article[]
   more_from_source: Article[]
   popular_articles: Article[]
+  advertisements?: Advertisement[]
 }
 
 export interface ApiResponse<T> {

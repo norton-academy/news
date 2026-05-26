@@ -11,6 +11,7 @@ definePageMeta({
   layout: "public",
   title: "Article Detail",
 });
+const advertisements = computed(() => data.value?.advertisements || []);
 
 const route = useRoute();
 const slug = computed(() => String(route.params.slug));
@@ -66,7 +67,9 @@ useHead(() => ({
 
         <AiSummaryBox :summary="article.ai_summary" />
 
-        <section class="rounded-2xl border border-slate-200 bg-white p-5 leading-8 text-slate-700 shadow-sm md:p-7">
+        <section
+          class="rounded-2xl border border-slate-200 bg-white p-5 leading-8 text-slate-700 shadow-sm md:p-7"
+        >
           <p v-if="article.excerpt" class="text-lg leading-9">
             {{ article.excerpt }}
           </p>
@@ -109,6 +112,7 @@ useHead(() => ({
         :source-name="article.source?.name || 'Cobo News'"
         :more-from-source="moreFromSource"
         :popular-articles="popularArticles"
+        :advertisements="advertisements"
       />
     </div>
   </div>

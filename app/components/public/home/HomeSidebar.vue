@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { Article } from "~/types/news";
+import type { Advertisement, Article, NewsSource } from "~/types/news";
 
 import WeatherCard from "./WeatherCard.vue";
 import AdvertisementCard from "./AdvertisementCard.vue";
@@ -13,6 +13,14 @@ defineProps<{
     condition: string;
   } | null;
   popularArticles: Article[];
+  advertisements: Advertisement[];
+  sources: NewsSource[];
+  selectedSources: string[];
+}>();
+
+const emit = defineEmits<{
+  toggleSource: [slug: string];
+  clearSources: [];
 }>();
 </script>
 
@@ -20,10 +28,18 @@ defineProps<{
   <aside class="space-y-5">
     <WeatherCard :weather="weather" />
 
-    <AdvertisementCard />
+    <AdvertisementCard
+      :advertisements="advertisements"
+      placement="homepage_sidebar"
+    />
 
     <TrendingCard :articles="popularArticles" />
 
-    <SourceToggleCard />
+    <SourceToggleCard
+      :sources="sources"
+      :selected-sources="selectedSources"
+      @toggle="emit('toggleSource', $event)"
+      @clear="emit('clearSources')"
+    />
   </aside>
 </template>
