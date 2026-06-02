@@ -32,10 +32,11 @@ export const MenuFormModal: typeof import("../app/components/menus/MenuFormModal
 export const MenuIcon: typeof import("../app/components/menus/MenuIcon.vue")['default']
 export const ImportPermissionModal: typeof import("../app/components/permissions/ImportPermissionModal.vue")['default']
 export const BreakingTicker: typeof import("../app/components/public/BreakingTicker.vue")['default']
-export const CategoryTabs: typeof import("../app/components/public/CategoryTabs.vue")['default']
+export const EmptyState: typeof import("../app/components/public/EmptyState.vue")['default']
 export const FeaturedHeroGrid: typeof import("../app/components/public/FeaturedHeroGrid.vue")['default']
 export const Navbar: typeof import("../app/components/public/Navbar.vue")['default']
 export const NewsSidebar: typeof import("../app/components/public/NewsSidebar.vue")['default']
+export const PublicCategoryPage: typeof import("../app/components/public/PublicCategoryPage.vue")['default']
 export const SiteFooter: typeof import("../app/components/public/SiteFooter.vue")['default']
 export const SiteHeader: typeof import("../app/components/public/SiteHeader.vue")['default']
 export const AiSummaryBox: typeof import("../app/components/public/article/AiSummaryBox.vue")['default']
@@ -48,8 +49,11 @@ export const RelatedArticles: typeof import("../app/components/public/article/Re
 export const ShareBar: typeof import("../app/components/public/article/ShareBar.vue")['default']
 export const TelegramJoinCard: typeof import("../app/components/public/article/TelegramJoinCard.vue")['default']
 export const AdvertisementCard: typeof import("../app/components/public/home/AdvertisementCard.vue")['default']
+export const CategoryNewsSection: typeof import("../app/components/public/home/CategoryNewsSection.vue")['default']
 export const FeaturedNewsGrid: typeof import("../app/components/public/home/FeaturedNewsGrid.vue")['default']
+export const HeroNewsSection: typeof import("../app/components/public/home/HeroNewsSection.vue")['default']
 export const HomeSidebar: typeof import("../app/components/public/home/HomeSidebar.vue")['default']
+export const HomeSkeleton: typeof import("../app/components/public/home/HomeSkeleton.vue")['default']
 export const LatestNewsList: typeof import("../app/components/public/home/LatestNewsList.vue")['default']
 export const ProvinceFilter: typeof import("../app/components/public/home/ProvinceFilter.vue")['default']
 export const SourceToggleCard: typeof import("../app/components/public/home/SourceToggleCard.vue")['default']
@@ -74,7 +78,6 @@ export const AppSelect: typeof import("../app/components/ui/AppSelect.vue")['def
 export const AppTextarea: typeof import("../app/components/ui/AppTextarea.vue")['default']
 export const ConfirmDialog: typeof import("../app/components/ui/ConfirmDialog.vue")['default']
 export const DataTable: typeof import("../app/components/ui/DataTable.vue")['default']
-export const EmptyState: typeof import("../app/components/ui/EmptyState.vue")['default']
 export const FilterBar: typeof import("../app/components/ui/FilterBar.vue")['default']
 export const OtpInput: typeof import("../app/components/ui/OtpInput.vue")['default']
 export const PageHeader: typeof import("../app/components/ui/PageHeader.vue")['default']
@@ -131,10 +134,11 @@ export const LazyMenuFormModal: LazyComponent<typeof import("../app/components/m
 export const LazyMenuIcon: LazyComponent<typeof import("../app/components/menus/MenuIcon.vue")['default']>
 export const LazyImportPermissionModal: LazyComponent<typeof import("../app/components/permissions/ImportPermissionModal.vue")['default']>
 export const LazyBreakingTicker: LazyComponent<typeof import("../app/components/public/BreakingTicker.vue")['default']>
-export const LazyCategoryTabs: LazyComponent<typeof import("../app/components/public/CategoryTabs.vue")['default']>
+export const LazyEmptyState: LazyComponent<typeof import("../app/components/public/EmptyState.vue")['default']>
 export const LazyFeaturedHeroGrid: LazyComponent<typeof import("../app/components/public/FeaturedHeroGrid.vue")['default']>
 export const LazyNavbar: LazyComponent<typeof import("../app/components/public/Navbar.vue")['default']>
 export const LazyNewsSidebar: LazyComponent<typeof import("../app/components/public/NewsSidebar.vue")['default']>
+export const LazyPublicCategoryPage: LazyComponent<typeof import("../app/components/public/PublicCategoryPage.vue")['default']>
 export const LazySiteFooter: LazyComponent<typeof import("../app/components/public/SiteFooter.vue")['default']>
 export const LazySiteHeader: LazyComponent<typeof import("../app/components/public/SiteHeader.vue")['default']>
 export const LazyAiSummaryBox: LazyComponent<typeof import("../app/components/public/article/AiSummaryBox.vue")['default']>
@@ -147,8 +151,11 @@ export const LazyRelatedArticles: LazyComponent<typeof import("../app/components
 export const LazyShareBar: LazyComponent<typeof import("../app/components/public/article/ShareBar.vue")['default']>
 export const LazyTelegramJoinCard: LazyComponent<typeof import("../app/components/public/article/TelegramJoinCard.vue")['default']>
 export const LazyAdvertisementCard: LazyComponent<typeof import("../app/components/public/home/AdvertisementCard.vue")['default']>
+export const LazyCategoryNewsSection: LazyComponent<typeof import("../app/components/public/home/CategoryNewsSection.vue")['default']>
 export const LazyFeaturedNewsGrid: LazyComponent<typeof import("../app/components/public/home/FeaturedNewsGrid.vue")['default']>
+export const LazyHeroNewsSection: LazyComponent<typeof import("../app/components/public/home/HeroNewsSection.vue")['default']>
 export const LazyHomeSidebar: LazyComponent<typeof import("../app/components/public/home/HomeSidebar.vue")['default']>
+export const LazyHomeSkeleton: LazyComponent<typeof import("../app/components/public/home/HomeSkeleton.vue")['default']>
 export const LazyLatestNewsList: LazyComponent<typeof import("../app/components/public/home/LatestNewsList.vue")['default']>
 export const LazyProvinceFilter: LazyComponent<typeof import("../app/components/public/home/ProvinceFilter.vue")['default']>
 export const LazySourceToggleCard: LazyComponent<typeof import("../app/components/public/home/SourceToggleCard.vue")['default']>
@@ -173,7 +180,6 @@ export const LazyAppSelect: LazyComponent<typeof import("../app/components/ui/Ap
 export const LazyAppTextarea: LazyComponent<typeof import("../app/components/ui/AppTextarea.vue")['default']>
 export const LazyConfirmDialog: LazyComponent<typeof import("../app/components/ui/ConfirmDialog.vue")['default']>
 export const LazyDataTable: LazyComponent<typeof import("../app/components/ui/DataTable.vue")['default']>
-export const LazyEmptyState: LazyComponent<typeof import("../app/components/ui/EmptyState.vue")['default']>
 export const LazyFilterBar: LazyComponent<typeof import("../app/components/ui/FilterBar.vue")['default']>
 export const LazyOtpInput: LazyComponent<typeof import("../app/components/ui/OtpInput.vue")['default']>
 export const LazyPageHeader: LazyComponent<typeof import("../app/components/ui/PageHeader.vue")['default']>

@@ -22,6 +22,7 @@ export const usePublicHomeStore = defineStore('publicHome', {
     weather: (state) => state.data?.weather ?? null,
     exchangeRate: (state) => state.data?.exchange_rate ?? null,
     sources: (state) => state.data?.sources ?? [],
+    categorySections: (state) => state.data?.category_sections ?? [],
   },
 
   actions: {

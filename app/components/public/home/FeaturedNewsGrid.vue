@@ -6,6 +6,8 @@ defineProps<{
   articles: Article[];
 }>();
 
+const languageStore = usePublicLanguageStore();
+
 const imageFallback =
   "https://images.unsplash.com/photo-1504711434969-e33886168f5c?q=80&w=1200&auto=format&fit=crop";
 </script>
@@ -26,7 +28,7 @@ const imageFallback =
         />
 
         <div class="absolute left-4 top-4 rounded-lg bg-blue-50 px-3 py-1 text-xs font-black text-blue-700">
-          {{ article.category?.name_km || article.category?.name_en || "ព័ត៌មាន" }}
+          {{ languageStore.text(article.category?.name_km || "ព័ត៌មាន", article.category?.name_en || "News") }}
         </div>
       </div>
 
@@ -51,7 +53,9 @@ const imageFallback =
             {{ article.views_count }}
           </span>
 
-          <span>{{ article.province?.name_km || "កម្ពុជា" }}</span>
+          <span>
+            {{ languageStore.text(article.province?.name_km || "កម្ពុជា", article.province?.name_en || "Cambodia") }}
+          </span>
         </div>
       </div>
     </NuxtLink>

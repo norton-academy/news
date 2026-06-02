@@ -1,35 +1,46 @@
 <script setup lang="ts">
 import ArticleListPage from "~/components/public/listing/ArticleListPage.vue";
 
-definePageMeta({
-  layout: "public",
-  title: "Category News",
-});
+const props = defineProps<{
+  titleKm: string;
+  titleEn: string;
+  subtitleKm?: string;
+  subtitleEn?: string;
+  categorySlug: string;
+}>();
 
+const languageStore = usePublicLanguageStore();
 const route = useRoute();
 const router = useRouter();
 const articleListStore = usePublicArticleListStore();
 
-const slug = computed(() => String(route.params.slug));
 const page = computed(() => Number(route.query.page || 1));
 const search = computed(() => String(route.query.search || ""));
 
-const title = computed(() => `ប្រភេទព័ត៌មាន: ${slug.value}`);
+const title = computed(() => {
+  return languageStore.isKhmer ? props.titleKm : props.titleEn;
+});
+
+const subtitle = computed(() => {
+  return languageStore.isKhmer
+    ? props.subtitleKm || "ព័ត៌មានថ្មីៗតាមប្រភេទនេះ។"
+    : props.subtitleEn || "Latest stories in this category.";
+});
 
 const fetchData = async () => {
   await articleListStore.fetchArticles({
     page: page.value,
     per_page: 12,
-    category: slug.value,
+    category: props.categorySlug,
     search: search.value || undefined,
   });
 };
 
 await useAsyncData(
-  () => `category-${slug.value}-${page.value}-${search.value}`,
+  () => `category-page-${props.categorySlug}-${page.value}-${search.value}`,
   fetchData,
   {
-    watch: [slug, page, search],
+    watch: [page, search],
   }
 );
 
@@ -56,7 +67,7 @@ const handleSearch = async (keyword: string) => {
 <template>
   <ArticleListPage
     :title="title"
-    subtitle="News filtered by selected category."
+    :subtitle="subtitle"
     :articles="articleListStore.articles"
     :loading="articleListStore.loading"
     :error-message="articleListStore.errorMessage"

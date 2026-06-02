@@ -11,12 +11,12 @@ onMounted(() => {
 
 <template>
   <div
-    class="min-h-screen bg-[#f7f6f2] text-slate-900"
+    class="min-h-screen bg-[#f7f6f2] text-slate-900 antialiased"
     :lang="languageStore.language"
   >
     <SiteHeader />
 
-    <main>
+    <main class="min-h-[60vh]">
       <slot />
     </main>
 

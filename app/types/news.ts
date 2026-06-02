@@ -26,6 +26,11 @@ export interface Province {
   is_active: boolean
 }
 
+export interface CategoryNewsSection {
+  category: NewsCategory
+  articles: Article[]
+}
+
 export interface Article {
   id: number
   title: string
@@ -68,6 +73,8 @@ export interface PublicHomeData {
   trending_topics: NewsCategory[]
   advertisements: Advertisement[]
   sources: NewsSource[]
+  category_sections: CategoryNewsSection[]
+  
   weather: {
     city: string
     temperature: string

@@ -12,6 +12,8 @@ const emit = defineEmits<{
   clear: [];
 }>();
 
+const languageStore = usePublicLanguageStore();
+
 const getShortName = (name: string) => {
   return name
     .split(" ")
@@ -31,7 +33,7 @@ const isSelected = (slug: string) => {
     <div class="flex items-center justify-between border-b border-slate-200 px-5 py-4">
       <h3 class="flex items-center gap-2 font-black text-slate-700">
         <Square class="h-3 w-3 text-slate-400" />
-        ប្រភពព័ត៌មាន
+        {{ languageStore.isKhmer ? "ប្រភពព័ត៌មាន" : "News Sources" }}
       </h3>
 
       <button
@@ -39,7 +41,7 @@ const isSelected = (slug: string) => {
         class="text-xs font-bold text-blue-700 hover:underline"
         @click="emit('clear')"
       >
-        Clear
+        {{ languageStore.isKhmer ? "សម្អាត" : "Clear" }}
       </button>
     </div>
 
@@ -71,7 +73,10 @@ const isSelected = (slug: string) => {
             </p>
 
             <p class="text-xs text-slate-400">
-              {{ isSelected(source.slug) ? "Enabled" : "Disabled" }}
+              {{ isSelected(source.slug)
+                ? languageStore.isKhmer ? "បើក" : "Enabled"
+                : languageStore.isKhmer ? "បិទ" : "Disabled"
+              }}
             </p>
           </div>
         </div>

@@ -11,6 +11,7 @@ declare module 'nuxt/app' {
     dashboard: ComponentProps<typeof import("D:/Norton University/Assignment/cobo-news/cobo-news-web/app/layouts/dashboard.vue").default>
     default: ComponentProps<typeof import("D:/Norton University/Assignment/cobo-news/cobo-news-web/app/layouts/default.vue").default>
     public: ComponentProps<typeof import("D:/Norton University/Assignment/cobo-news/cobo-news-web/app/layouts/public.vue").default>
+    test: ComponentProps<typeof import("D:/Norton University/Assignment/cobo-news/cobo-news-web/app/layouts/test.vue").default>
     user: ComponentProps<typeof import("D:/Norton University/Assignment/cobo-news/cobo-news-web/app/layouts/user.vue").default>
   }
   export type LayoutKey = keyof NuxtLayouts extends never ? string : keyof NuxtLayouts
