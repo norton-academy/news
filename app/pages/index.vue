@@ -1,603 +1,856 @@
-<template>
-  <div class="min-h-screen bg-gradient-to-b from-gray-50 to-white font-sans antialiased">
-    <!-- Header / Navigation -->
-    <header class="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-gray-200/80 shadow-sm transition-all duration-300">
-      <div class="container mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="flex items-center justify-between h-16 lg:h-20">
-          <!-- Logo -->
-          <NuxtLink to="/" class="flex items-center space-x-2 group cursor-pointer">
-            <div class="w-8 h-8 bg-gradient-to-br from-red-600 to-red-700 rounded-lg flex items-center justify-center shadow-md transition-all duration-300 group-hover:scale-105">
-              <span class="text-white font-bold text-lg">C</span>
-            </div>
-            <span class="text-2xl font-extrabold bg-gradient-to-r from-gray-900 to-gray-700 bg-clip-text text-transparent tracking-tight">COBO-NEWS</span>
-          </NuxtLink>
+<script setup lang="ts">
+import { ref, computed } from "vue";
+import {
+  ChevronRight,
+  Calendar,
+  Eye,
+  Trophy,
+  Zap,
+  TrendingUp,
+  Clock,
+  Bookmark,
+  Share2,
+  Flame,
+  Star,
+  Newspaper,
+} from "lucide-vue-next";
 
-          <!-- Desktop Navigation (hidden on mobile) -->
-          <nav class="hidden lg:flex items-center space-x-1 xl:space-x-2">
-            <NuxtLink 
-              v-for="item in navItems" 
-              :key="item.name"
-              :to="item.href"
-              class="px-4 py-2 text-gray-700 font-medium rounded-full hover:bg-red-50 hover:text-red-600 transition-all duration-200 ease-in-out"
-              :class="{ 'text-red-600 bg-red-50': item.active }"
-            >
-              {{ item.name }}
-            </NuxtLink>
-            
-            <!-- More Dropdown (Desktop) -->
-            <div class="relative group">
-              <button class="flex items-center gap-1 px-4 py-2 text-gray-700 font-medium rounded-full hover:bg-red-50 hover:text-red-600 transition-all duration-200">
-                More
-                <ChevronDown class="w-4 h-4 transition-transform duration-200 group-hover:rotate-180" />
-              </button>
-              <div class="absolute left-0 mt-2 w-48 bg-white rounded-xl shadow-xl border border-gray-100 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform origin-top-left scale-95 group-hover:scale-100 z-50">
-                <div class="py-2">
-                  <NuxtLink to="/health" class="flex items-center gap-3 px-4 py-2.5 text-gray-700 hover:bg-red-50 hover:text-red-600 transition-colors duration-150">
-                    <Heart class="w-4 h-4" /> Health
-                  </NuxtLink>
-                  <NuxtLink to="/entertainment" class="flex items-center gap-3 px-4 py-2.5 text-gray-700 hover:bg-red-50 hover:text-red-600 transition-colors duration-150">
-                    <Gamepad2 class="w-4 h-4" /> Entertainment
-                  </NuxtLink>
-                  <NuxtLink to="/education" class="flex items-center gap-3 px-4 py-2.5 text-gray-700 hover:bg-red-50 hover:text-red-600 transition-colors duration-150">
-                    <GraduationCap class="w-4 h-4" /> Education
-                  </NuxtLink>
-                  <NuxtLink to="/agriculture" class="flex items-center gap-3 px-4 py-2.5 text-gray-700 hover:bg-red-50 hover:text-red-600 transition-colors duration-150">
-                    <Sprout class="w-4 h-4" /> Agriculture
-                  </NuxtLink>
-                </div>
-              </div>
-            </div>
-          </nav>
-
-          <!-- Desktop Right Actions (Search, Notes, Profile) -->
-          <div class="hidden lg:flex items-center gap-3">
-            <!-- Search Button -->
-            <button @click="openSearch" class="p-2 rounded-full hover:bg-gray-100 transition-colors duration-200" aria-label="Search">
-              <Search class="w-5 h-5 text-gray-600" />
-            </button>
-            
-            <!-- Notes (Bookmarks) Button -->
-            <button @click="openNotes" class="p-2 rounded-full hover:bg-gray-100 transition-colors duration-200 relative" aria-label="Saved notes">
-              <NotebookPen class="w-5 h-5 text-gray-600" />
-              <span v-if="noteCount > 0" class="absolute -top-1 -right-1 bg-red-600 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">{{ noteCount }}</span>
-            </button>
-            
-            <!-- Profile Avatar & Dropdown -->
-            <div class="relative">
-              <button @click="toggleProfileMenu" class="flex items-center gap-2 p-1 rounded-full hover:bg-gray-100 transition-colors duration-200">
-                <img src="https://randomuser.me/api/portraits/women/68.jpg" class="w-8 h-8 rounded-full object-cover" alt="Profile" />
-                <ChevronDown class="w-4 h-4 text-gray-600 transition-transform duration-200" :class="{ 'rotate-180': isProfileMenuOpen }" />
-              </button>
-              
-              <!-- Profile Dropdown -->
-              <div v-if="isProfileMenuOpen" class="absolute right-0 mt-2 w-56 bg-white rounded-xl shadow-xl border border-gray-100 py-2 z-50 animate-fade-in-up">
-                <NuxtLink to="/profile" class="flex items-center gap-3 px-4 py-2 hover:bg-gray-50 transition">
-                  <User class="w-4 h-4" /> My Account
-                </NuxtLink>
-                <NuxtLink to="/saved" class="flex items-center gap-3 px-4 py-2 hover:bg-gray-50 transition">
-                  <Bookmark class="w-4 h-4" /> Saved Articles
-                </NuxtLink>
-                <NuxtLink to="/settings" class="flex items-center gap-3 px-4 py-2 hover:bg-gray-50 transition">
-                  <Settings class="w-4 h-4" /> Settings
-                </NuxtLink>
-                <hr class="my-1 border-gray-100" />
-                <button @click="logout" class="flex items-center gap-3 px-4 py-2 w-full text-left hover:bg-gray-50 transition text-red-600">
-                  <LogOut class="w-4 h-4" /> Sign Out
-                </button>
-              </div>
-            </div>
-          </div>
-
-          <!-- Mobile Menu Button -->
-          <button 
-            @click="toggleMobileMenu" 
-            class="lg:hidden p-2 rounded-lg hover:bg-gray-100 transition-colors duration-200"
-            aria-label="Menu"
-          >
-            <Menu v-if="!isMobileMenuOpen" class="w-6 h-6 text-gray-700" />
-            <X v-else class="w-6 h-6 text-gray-700" />
-          </button>
-        </div>
-      </div>
-
-      <!-- Mobile Menu Overlay + Drawer (updated with new section links) -->
-      <Transition name="mobile-menu">
-        <div v-if="isMobileMenuOpen" class="fixed inset-0 z-40 lg:hidden">
-          <div class="absolute inset-0 bg-black/50 backdrop-blur-sm" @click="closeMobileMenu"></div>
-          <div class="absolute top-0 right-0 h-full w-80 bg-white shadow-2xl flex flex-col animate-slide-in">
-            <div class="p-6 border-b border-gray-100">
-              <div class="flex items-center gap-2">
-                <div class="w-8 h-8 bg-red-600 rounded-lg flex items-center justify-center">
-                  <span class="text-white font-bold">C</span>
-                </div>
-                <span class="text-xl font-bold text-gray-900">COBO-NEWS</span>
-              </div>
-            </div>
-            <nav class="flex-1 p-4 space-y-1">
-              <NuxtLink 
-                v-for="item in navItems" 
-                :key="item.name"
-                :to="item.href"
-                class="flex items-center justify-between py-3 px-4 text-gray-700 font-medium rounded-xl hover:bg-red-50 hover:text-red-600 transition-all duration-200"
-                @click="closeMobileMenu"
-              >
-                {{ item.name }}
-              </NuxtLink>
-              
-              <!-- Mobile More Section with Expandable (updated) -->
-              <div class="mt-1">
-                <button 
-                  @click="toggleMobileMoreSubmenu"
-                  class="flex items-center justify-between w-full py-3 px-4 text-gray-700 font-medium rounded-xl hover:bg-red-50 hover:text-red-600 transition-all duration-200"
-                >
-                  <span>More</span>
-                  <ChevronDown :class="['w-4 h-4 transition-transform duration-300', { 'rotate-180': isMobileMoreOpen }]" />
-                </button>
-                <div v-show="isMobileMoreOpen" class="ml-6 mt-1 space-y-1 border-l-2 border-red-200 pl-3">
-                  <NuxtLink to="/health" class="flex items-center gap-3 py-2.5 px-4 text-gray-600 rounded-lg hover:bg-red-50 hover:text-red-600" @click="closeMobileMenu">
-                    <Heart class="w-4 h-4" /> Health
-                  </NuxtLink>
-                  <NuxtLink to="/entertainment" class="flex items-center gap-3 py-2.5 px-4 text-gray-600 rounded-lg hover:bg-red-50 hover:text-red-600" @click="closeMobileMenu">
-                    <Gamepad2 class="w-4 h-4" /> Entertainment
-                  </NuxtLink>
-                  <NuxtLink to="/education" class="flex items-center gap-3 py-2.5 px-4 text-gray-600 rounded-lg hover:bg-red-50 hover:text-red-600" @click="closeMobileMenu">
-                    <GraduationCap class="w-4 h-4" /> Education
-                  </NuxtLink>
-                  <NuxtLink to="/agriculture" class="flex items-center gap-3 py-2.5 px-4 text-gray-600 rounded-lg hover:bg-red-50 hover:text-red-600" @click="closeMobileMenu">
-                    <Sprout class="w-4 h-4" /> Agriculture
-                  </NuxtLink>
-                </div>
-              </div>
-            </nav>
-            <div class="p-6 border-t border-gray-100">
-              <button class="w-full py-3 bg-red-600 text-white font-medium rounded-xl shadow-md hover:bg-red-700 transition-all duration-300">
-                Subscribe (Mobile)
-              </button>
-            </div>
-          </div>
-        </div>
-      </Transition>
-    </header>
-
-    <!-- Main Content (unchanged from original) -->
-    <main class="container mx-auto px-4 sm:px-6 lg:px-8 py-8 lg:py-12">
-      <!-- Hero Section -->
-      <section class="mb-12 lg:mb-16 animate-fade-in-up">
-        <div class="relative rounded-2xl overflow-hidden bg-gradient-to-br from-gray-900 to-gray-800 shadow-xl group">
-          <div class="absolute inset-0 bg-black/40 z-10 transition-all duration-500 group-hover:bg-black/30"></div>
-          <img 
-            src="https://images.unsplash.com/photo-1583417319070-4a69db38a482?w=1200&h=600&fit=crop" 
-            alt="Cambodia News" 
-            class="w-full h-64 md:h-96 object-cover transition-transform duration-700 group-hover:scale-105"
-          />
-          <div class="absolute bottom-0 left-0 right-0 z-20 p-6 md:p-10 bg-gradient-to-t from-black/90 to-transparent">
-            <div class="flex items-center gap-2 text-sm text-red-300 font-semibold mb-3">
-              <span class="bg-red-600 text-white px-2 py-0.5 rounded text-xs">BREAKING</span>
-              <span>Just now</span>
-            </div>
-            <h1 class="text-2xl md:text-4xl lg:text-5xl font-bold text-white leading-tight mb-3 drop-shadow-lg">
-              Cambodia's Digital Economy Set to Triple by 2026
-            </h1>
-            <p class="text-gray-200 text-sm md:text-base max-w-2xl line-clamp-2">
-              New policies and tech investments drive unprecedented growth in Phnom Penh's startup ecosystem.
-            </p>
-          </div>
-        </div>
-      </section>
-
-      <!-- Category Highlights -->
-      <div class="flex flex-wrap gap-2 mb-8 pb-2 border-b border-gray-200 overflow-x-auto scrollbar-hide">
-        <button 
-          v-for="cat in categories" 
-          :key="cat"
-          class="px-4 py-1.5 text-sm font-medium rounded-full transition-all duration-200 whitespace-nowrap"
-          :class="activeCategory === cat ? 'bg-red-600 text-white shadow-md' : 'bg-gray-100 text-gray-700 hover:bg-gray-200'"
-          @click="activeCategory = cat"
-        >
-          {{ cat }}
-        </button>
-      </div>
-
-      <!-- News Grid -->
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8 mb-12">
-        <div 
-          v-for="(article, index) in filteredArticles" 
-          :key="article.id"
-          class="group bg-white rounded-2xl shadow-sm hover:shadow-xl transition-all duration-500 ease-out overflow-hidden border border-gray-100 hover:-translate-y-2"
-          :style="{ animationDelay: `${index * 0.05}s` }"
-        >
-          <div class="relative overflow-hidden h-48">
-            <img 
-              :src="article.image" 
-              :alt="article.title"
-              class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-            />
-            <div class="absolute top-3 left-3">
-              <span class="px-2 py-1 bg-red-600 text-white text-xs font-semibold rounded-md shadow-md">{{ article.category }}</span>
-            </div>
-          </div>
-          <div class="p-5">
-            <div class="flex items-center gap-3 text-xs text-gray-500 mb-2">
-              <span class="flex items-center gap-1"><Calendar class="w-3 h-3" /> {{ article.date }}</span>
-              <span class="flex items-center gap-1"><Eye class="w-3 h-3" /> {{ article.views }} views</span>
-            </div>
-            <h3 class="text-xl font-bold text-gray-800 mb-2 line-clamp-2 group-hover:text-red-600 transition-colors duration-200">
-              {{ article.title }}
-            </h3>
-            <p class="text-gray-600 text-sm line-clamp-2 mb-4">{{ article.excerpt }}</p>
-            <NuxtLink :to="`/article/${article.id}`" class="inline-flex items-center gap-1 text-red-600 font-medium text-sm hover:gap-2 transition-all duration-300">
-              Read more <ChevronRight class="w-4 h-4" />
-            </NuxtLink>
-          </div>
-        </div>
-      </div>
-
-      <!-- Featured Section with Side Layout (Alternative style) -->
-      <div class="bg-white rounded-2xl shadow-md overflow-hidden border border-gray-100 mb-12 animate-fade-in-up">
-        <div class="grid md:grid-cols-2 gap-0">
-          <div class="relative h-64 md:h-auto overflow-hidden">
-            <img 
-              src="https://images.unsplash.com/photo-1543993452-315c2f5b5f3d?w=600&h=400&fit=crop" 
-              alt="Sports Feature" 
-              class="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
-            />
-            <div class="absolute inset-0 bg-gradient-to-r from-black/40 via-transparent to-transparent"></div>
-          </div>
-          <div class="p-6 md:p-8 flex flex-col justify-center">
-            <span class="text-red-600 text-sm font-semibold uppercase tracking-wider mb-2 flex items-center gap-1"><Trophy class="w-4 h-4" /> Special Report</span>
-            <h2 class="text-2xl md:text-3xl font-bold text-gray-900 mb-3">Cambodia SEA Games Legacy: How Sports Infrastructure Transforms Communities</h2>
-            <p class="text-gray-600 mb-4">From new stadiums to youth programs, discover the lasting impact of hosting Southeast Asia's biggest sporting event.</p>
-            <div class="flex items-center gap-3">
-              <img src="https://randomuser.me/api/portraits/men/32.jpg" class="w-8 h-8 rounded-full" alt="author" />
-              <span class="text-sm text-gray-500">Sokha Chea • 5 min read</span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </main>
-
-    <!-- Footer (4 columns, no newsletter) -->
-    <footer class="bg-gray-900 text-gray-300 mt-16">
-      <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:py-16">
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
-          <!-- Column 1: About / Brand -->
-          <div class="space-y-4">
-            <div class="flex items-center gap-2">
-              <div class="w-8 h-8 bg-red-600 rounded-lg flex items-center justify-center">
-                <span class="text-white font-bold text-lg">C</span>
-              </div>
-              <span class="text-2xl font-bold text-white">COBO-NEWS</span>
-            </div>
-            <p class="text-sm text-gray-400 leading-relaxed">Delivering trusted news and insights from Cambodia and beyond. Independent, factual, and forward-thinking.</p>
-            <div class="flex gap-4 pt-2">
-              <a href="#" class="hover:text-red-400 transition-colors"><Facebook class="w-5 h-5" /></a>
-              <a href="#" class="hover:text-red-400 transition-colors"><Twitter class="w-5 h-5" /></a>
-              <a href="#" class="hover:text-red-400 transition-colors"><Instagram class="w-5 h-5" /></a>
-              <a href="#" class="hover:text-red-400 transition-colors"><Youtube class="w-5 h-5" /></a>
-            </div>
-          </div>
-
-          <!-- Column 2: Sections (grid with 2 columns → 4 rows for 8 items) -->
-          <div>
-            <h4 class="text-white font-semibold text-lg mb-4">Sections</h4>
-            <ul class="grid grid-cols-2 gap-x-4 gap-y-2">
-              <li><NuxtLink to="/politics" class="hover:text-red-400 text-sm">Politics</NuxtLink></li>
-              <li><NuxtLink to="/business" class="hover:text-red-400 text-sm">Business</NuxtLink></li>
-              <li><NuxtLink to="/technology" class="hover:text-red-400 text-sm">Technology</NuxtLink></li>
-              <li><NuxtLink to="/sports" class="hover:text-red-400 text-sm">Sports</NuxtLink></li>
-              <li><NuxtLink to="/health" class="hover:text-red-400 text-sm">Health</NuxtLink></li>
-              <li><NuxtLink to="/entertainment" class="hover:text-red-400 text-sm">Entertainment</NuxtLink></li>
-              <li><NuxtLink to="/education" class="hover:text-red-400 text-sm">Education</NuxtLink></li>
-              <li><NuxtLink to="/agriculture" class="hover:text-red-400 text-sm">Agriculture</NuxtLink></li>
-            </ul>
-          </div>
-
-          <!-- Column 3: Company -->
-          <div>
-            <h4 class="text-white font-semibold text-lg mb-4">Company</h4>
-            <ul class="space-y-2">
-              <li><NuxtLink to="/about" class="hover:text-red-400 text-sm">About Us</NuxtLink></li>
-              <li><NuxtLink to="/careers" class="hover:text-red-400 text-sm">Careers</NuxtLink></li>
-              <li><NuxtLink to="/advertise" class="hover:text-red-400 text-sm">Advertise</NuxtLink></li>
-              <li><NuxtLink to="/contact" class="hover:text-red-400 text-sm">Contact</NuxtLink></li>
-              <li><NuxtLink to="/privacy" class="hover:text-red-400 text-sm">Privacy Policy</NuxtLink></li>
-              <li><NuxtLink to="/terms" class="hover:text-red-400 text-sm">Terms of Use</NuxtLink></li>
-            </ul>
-          </div>
-
-          <!-- Column 4: Follow Us / App Downloads -->
-          <div>
-            <h4 class="text-white font-semibold text-lg mb-4">Follow Us</h4>
-            <ul class="space-y-2">
-              <li><a href="#" class="flex items-center gap-3 hover:text-red-400 text-sm"><Facebook class="w-4 h-4" /> Facebook</a></li>
-              <li><a href="#" class="flex items-center gap-3 hover:text-red-400 text-sm"><Twitter class="w-4 h-4" /> Twitter</a></li>
-              <li><a href="#" class="flex items-center gap-3 hover:text-red-400 text-sm"><Instagram class="w-4 h-4" /> Instagram</a></li>
-              <li><a href="#" class="flex items-center gap-3 hover:text-red-400 text-sm"><Youtube class="w-4 h-4" /> YouTube</a></li>
-              <li><a href="#" class="flex items-center gap-3 hover:text-red-400 text-sm"><Linkedin class="w-4 h-4" /> LinkedIn</a></li>
-            </ul>
-            <div class="mt-6">
-              <p class="text-sm text-gray-400 mb-2">Download our app</p>
-              <div class="flex gap-3">
-                <!-- Placeholder images for app stores – replace with actual assets -->
-                <div class="h-10 w-28 bg-gray-700 rounded-lg flex items-center justify-center text-xs text-gray-400">App Store</div>
-                <div class="h-10 w-28 bg-gray-700 rounded-lg flex items-center justify-center text-xs text-gray-400">Google Play</div>
-              </div>
-            </div>
-          </div>
-        </div>
-        
-        <div class="border-t border-gray-800 pt-8 text-center text-sm text-gray-500">
-          <p>&copy; 2025 COBO-NEWS. All rights reserved. Cambodia News Network.</p>
-        </div>
-      </div>
-    </footer>
-
-    <!-- Search Overlay (Teleported to body) -->
-    <Teleport to="body">
-      <Transition name="fade">
-        <div v-if="isSearchOpen" class="fixed inset-0 z-[100] bg-black/80 backdrop-blur-md flex items-start justify-center pt-20" @click.self="closeSearch">
-          <div class="w-full max-w-2xl mx-4 bg-white rounded-2xl shadow-2xl overflow-hidden animate-slide-down">
-            <div class="p-4 border-b border-gray-100 flex items-center">
-              <Search class="w-5 h-5 text-gray-400 ml-2" />
-              <input 
-                type="text" 
-                v-model="searchQuery" 
-                placeholder="Search news, topics, or authors..." 
-                class="flex-1 px-3 py-2 text-lg outline-none"
-                autofocus
-                @keyup.enter="performSearch"
-              />
-              <button @click="closeSearch" class="p-2 hover:bg-gray-100 rounded-full">
-                <X class="w-5 h-5" />
-              </button>
-            </div>
-            <div class="max-h-96 overflow-y-auto">
-              <div v-if="searchResults.length" class="divide-y divide-gray-100">
-                <NuxtLink v-for="result in searchResults" :key="result.id" :to="`/article/${result.id}`" class="block p-4 hover:bg-gray-50 transition" @click="closeSearch">
-                  <h4 class="font-semibold text-gray-900">{{ result.title }}</h4>
-                  <p class="text-sm text-gray-500">{{ result.category }} • {{ result.date }}</p>
-                </NuxtLink>
-              </div>
-              <div v-else-if="searchQuery && !searching" class="p-8 text-center text-gray-500">
-                No results found for "{{ searchQuery }}"
-              </div>
-              <div v-else-if="!searchQuery" class="p-8 text-center text-gray-500">
-                Start typing to search...
-              </div>
-            </div>
-          </div>
-        </div>
-      </Transition>
-    </Teleport>
-  </div>
-</template>
-
-<script setup>
 definePageMeta({
-  layout: 'test'
-})
-import { ref, computed, onMounted, onUnmounted } from 'vue'
-import { 
-  Menu, X, ChevronDown, ChevronRight, Calendar, Eye, Heart, Gamepad2, 
-  Facebook, Twitter, Instagram, Trophy, Search, NotebookPen, User, Bookmark, 
-  Settings, LogOut, Youtube, Linkedin, GraduationCap, Sprout
-} from 'lucide-vue-next'
+  layout: "public",
+});
 
-// State
-const isMobileMenuOpen = ref(false)
-const isMobileMoreOpen = ref(false)
-const activeCategory = ref('All')
-const isProfileMenuOpen = ref(false)
-const isSearchOpen = ref(false)
-const searchQuery = ref('')
-const searchResults = ref([])
-const searching = ref(false)
-const noteCount = ref(3) // Example – replace with real data
+// ─── Category dot colors (for source badges only) ───────────────────────────
+const CATEGORY_DOT: Record<string, string> = {
+  Politics: "#dc2626",
+  Business: "#2563eb",
+  Technology: "#7c3aed",
+  Sports: "#16a34a",
+  Health: "#db2777",
+  Entertainment: "#f97316",
+  Education: "#0891b2",
+  Agriculture: "#65a30d",
+};
 
-// Navigation items
-const navItems = ref([
-  { name: 'Home', href: '/', active: true },
-  { name: 'Politics', href: '/politics', active: false },
-  { name: 'Business', href: '/business', active: false },
-  { name: 'Technology', href: '/technology', active: false },
-  { name: 'Sports', href: '/sports', active: false }
-])
+// ─── Feed Filters ───────────────────────────────────────────────────────────
+type FeedFilter = "latest" | "popular" | "trending" | "breaking" | "editors_pick";
 
-// Categories for filtering
-const categories = ['All', 'Politics', 'Business', 'Technology', 'Sports', 'Health', 'Entertainment', 'Education', 'Agriculture']
+interface FilterTab {
+  key: FeedFilter;
+  label: string;
+  labelKm: string;
+  icon: unknown;
+  description: string;
+}
 
-// Sample articles (Cambodia focused)
+const FEED_FILTERS: FilterTab[] = [
+  {
+    key: "latest",
+    label: "Latest",
+    labelKm: "ថ្មីបំផុត",
+    icon: Newspaper,
+    description: "Most recent stories",
+  },
+  {
+    key: "popular",
+    label: "Popular",
+    labelKm: "ពេញនិយម",
+    icon: Flame,
+    description: "Most read today",
+  },
+  {
+    key: "trending",
+    label: "Trending",
+    labelKm: "និន្នាការ",
+    icon: TrendingUp,
+    description: "Rising fast in last 6 hours",
+  },
+  {
+    key: "breaking",
+    label: "Breaking",
+    labelKm: "បន្ទាន់",
+    icon: Zap,
+    description: "Breaking news only",
+  },
+  {
+    key: "editors_pick",
+    label: "Editor's Pick",
+    labelKm: "ជ្រើសរើស",
+    icon: Star,
+    description: "Hand-picked by our editors",
+  },
+];
+
+// ─── State ─────────────────────────────────────────────────────────────────
+const activeFilter = ref<FeedFilter>("latest");
+
+// ─── Articles ──────────────────────────────────────────────────────────────
 const articles = ref([
   {
     id: 1,
-    title: "Cambodia's Economy Shows Strong Recovery with 6% Growth in Q1",
-    excerpt: "The Ministry of Economy and Finance reports robust performance in tourism and manufacturing sectors.",
-    image: "https://images.unsplash.com/photo-1528127269322-539801943592?w=400&h=250&fit=crop",
+    title: "Cambodia's Economy Shows Strong Recovery with 6% GDP Growth in Q1 2026",
+    excerpt:
+      "The Ministry of Economy and Finance reports robust performance across tourism, manufacturing, and digital services sectors, with foreign direct investment rising 18% year-on-year.",
+    image:
+      "https://images.unsplash.com/photo-1528127269322-539801943592?w=800&h=500&fit=crop",
     category: "Business",
-    date: "May 28, 2025",
-    views: "2.4k"
+    source: "Fresh News",
+    date: "May 28, 2026",
+    readTime: "4 min",
+    views: "2.4k",
+    isBreaking: false,
+    isFeatured: true,
   },
   {
     id: 2,
     title: "New Tech Hub Launch in Phnom Penh Attracts Regional Startups",
-    excerpt: "The 'Silicon Temple' innovation center aims to foster digital talent and cross-border collaboration.",
-    image: "https://images.unsplash.com/photo-1542744173-8e7e53415bb0?w=400&h=250&fit=crop",
+    excerpt:
+      "The 'Silicon Temple' innovation center aims to foster digital talent and cross-border collaboration across Southeast Asia.",
+    image:
+      "https://images.unsplash.com/photo-1542744173-8e7e53415bb0?w=600&h=400&fit=crop",
     category: "Technology",
-    date: "May 27, 2025",
-    views: "1.8k"
+    source: "VOD Khmer",
+    date: "May 27, 2026",
+    readTime: "3 min",
+    views: "1.8k",
+    isBreaking: false,
+    isFeatured: false,
   },
   {
     id: 3,
-    title: "Historic Temple Conservation Project Receives Global Funding",
-    excerpt: "Angkor Wat preservation efforts get $10M boost from international heritage funds.",
-    image: "https://images.unsplash.com/photo-1563351660-502e1f5c5d5c?w=400&h=250&fit=crop",
+    title: "Angkor Wat Conservation Receives $10M Global Heritage Fund",
+    excerpt:
+      "International partners accelerate preservation efforts ahead of the 2027 UNESCO review cycle.",
+    image:
+      "https://images.unsplash.com/photo-1563351660-502e1f5c5d5c?w=600&h=400&fit=crop",
     category: "Politics",
-    date: "May 26, 2025",
-    views: "3.2k"
+    source: "RFA Khmer",
+    date: "May 26, 2026",
+    readTime: "5 min",
+    views: "3.2k",
+    isBreaking: true,
+    isFeatured: false,
   },
   {
     id: 4,
-    title: "Cambodian Football Team Prepares for AFF Championship",
-    excerpt: "National squad intensifies training with new head coach aiming for historic semifinal.",
-    image: "https://images.unsplash.com/photo-1577223625816-7546f13df25d?w=400&h=250&fit=crop",
+    title: "Cambodian Football Team Prepares for AFF Championship Semifinals",
+    excerpt:
+      "National squad intensifies training under new head coach targeting historic semifinal appearance.",
+    image:
+      "https://images.unsplash.com/photo-1577223625816-7546f13df25d?w=600&h=400&fit=crop",
     category: "Sports",
-    date: "May 25, 2025",
-    views: "4.1k"
+    source: "Dap News",
+    date: "May 25, 2026",
+    readTime: "3 min",
+    views: "4.1k",
+    isBreaking: false,
+    isFeatured: false,
   },
   {
     id: 5,
-    title: "Universal Healthcare Expansion Announced for Rural Areas",
-    excerpt: "New government initiative to provide health coverage to 2 million citizens by year end.",
-    image: "https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=400&h=250&fit=crop",
+    title: "Universal Healthcare Expansion Announced for Rural Provinces",
+    excerpt:
+      "New government initiative to provide coverage to 2 million citizens by end of year.",
+    image:
+      "https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=600&h=400&fit=crop",
     category: "Health",
-    date: "May 24, 2025",
-    views: "1.5k"
+    source: "Fresh News",
+    date: "May 24, 2026",
+    readTime: "4 min",
+    views: "1.5k",
+    isBreaking: false,
+    isFeatured: false,
   },
   {
     id: 6,
-    title: "Khmer Film Wins Award at International Festival",
-    excerpt: "Drama 'Last Night in Siem Reap' receives Best Director prize in Busan.",
-    image: "https://images.unsplash.com/photo-1485846234645-a62644f84728?w=400&h=250&fit=crop",
+    title: "Khmer Film Wins Best Director at Busan International Film Festival",
+    excerpt:
+      "'Last Night in Siem Reap' becomes the first Cambodian film to win in the main competition.",
+    image:
+      "https://images.unsplash.com/photo-1485846234645-a62644f84728?w=600&h=400&fit=crop",
     category: "Entertainment",
-    date: "May 23, 2025",
-    views: "2.2k"
+    source: "VOD Khmer",
+    date: "May 23, 2026",
+    readTime: "3 min",
+    views: "2.2k",
+    isBreaking: false,
+    isFeatured: false,
   },
   {
     id: 7,
-    title: "Green Energy Transition: Solar Farms Across Cambodia",
-    excerpt: "Government partners with private sector to achieve 30% renewable energy by 2027.",
-    image: "https://images.unsplash.com/photo-1509391366360-2e959784a276?w=400&h=250&fit=crop",
+    title: "Solar Farm Network Across 8 Provinces Achieves Renewable Energy Milestone",
+    excerpt:
+      "Government partnership with private sector puts Cambodia ahead of its 30% target for 2027.",
+    image:
+      "https://images.unsplash.com/photo-1509391366360-2e959784a276?w=600&h=400&fit=crop",
     category: "Technology",
-    date: "May 22, 2025",
-    views: "1.9k"
+    source: "Kohsantepheap",
+    date: "May 22, 2026",
+    readTime: "5 min",
+    views: "1.9k",
+    isBreaking: false,
+    isFeatured: false,
   },
   {
     id: 8,
-    title: "Trade Agreement with EU Boosts Agricultural Exports",
-    excerpt: "Cambodian rice and cashew nuts gain tariff-free access to European markets.",
-    image: "https://images.unsplash.com/photo-1574943320219-553eb221f7a1?w=400&h=250&fit=crop",
-    category: "Business",
-    date: "May 21, 2025",
-    views: "2.7k"
+    title: "EU Trade Deal Gives Cambodian Rice Tariff-Free Access to European Markets",
+    excerpt:
+      "Fragrant rice and cashew exports expected to grow 40% following the new bilateral agreement.",
+    image:
+      "https://images.unsplash.com/photo-1574943320219-553eb221f7a1?w=600&h=400&fit=crop",
+    category: "Agriculture",
+    source: "RFA Khmer",
+    date: "May 21, 2026",
+    readTime: "4 min",
+    views: "2.7k",
+    isBreaking: false,
+    isFeatured: false,
   },
   {
     id: 9,
-    title: "Digital Literacy Program Reaches 200,000 Students",
-    excerpt: "Government expands tablet distribution to remote schools.",
-    image: "https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=400&h=250&fit=crop",
+    title: "Digital Literacy Program Reaches 200,000 Students in Remote Schools",
+    excerpt:
+      "Tablet distribution initiative bridges the urban-rural education divide across 14 provinces.",
+    image:
+      "https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=600&h=400&fit=crop",
     category: "Education",
-    date: "May 20, 2025",
-    views: "1.8k"
+    source: "Dap News",
+    date: "May 20, 2026",
+    readTime: "3 min",
+    views: "1.8k",
+    isBreaking: false,
+    isFeatured: false,
   },
   {
     id: 10,
-    title: "Rice Exporters Eye New Markets in Middle East",
-    excerpt: "Cambodian fragrant rice gains popularity in Gulf countries.",
-    image: "https://images.unsplash.com/photo-1464226184884-fa280b87c399?w=400&h=250&fit=crop",
+    title: "Cambodia Rice Exporters Target Expanding Gulf Markets",
+    excerpt:
+      "Premium Cambodian fragrant rice gaining significant share in Saudi Arabia and UAE supermarkets.",
+    image:
+      "https://images.unsplash.com/photo-1464226184884-fa280b87c399?w=600&h=400&fit=crop",
     category: "Agriculture",
-    date: "May 19, 2025",
-    views: "1.2k"
-  }
-])
+    source: "Fresh News",
+    date: "May 19, 2026",
+    readTime: "3 min",
+    views: "1.2k",
+    isBreaking: false,
+    isFeatured: false,
+  },
+]);
 
-// Computed filtered articles
+// ─── Computed ───────────────────────────────────────────────────────────────
+const breakingArticles = computed(() => articles.value.filter((a) => a.isBreaking));
+
 const filteredArticles = computed(() => {
-  if (activeCategory.value === 'All') return articles.value
-  return articles.value.filter(article => article.category === activeCategory.value)
-})
-
-// Search function (mock)
-const performSearch = () => {
-  if (!searchQuery.value.trim()) return
-  searching.value = true
-  // Simulate API delay
-  setTimeout(() => {
-    const query = searchQuery.value.toLowerCase()
-    searchResults.value = articles.value.filter(article =>
-      article.title.toLowerCase().includes(query) ||
-      article.excerpt.toLowerCase().includes(query) ||
-      article.category.toLowerCase().includes(query)
-    ).slice(0, 10)
-    searching.value = false
-  }, 300)
-}
-
-// Open/close search
-const openSearch = () => {
-  isSearchOpen.value = true
-  searchQuery.value = ''
-  searchResults.value = []
-}
-const closeSearch = () => { isSearchOpen.value = false }
-
-// Close search on Escape key
-const handleEscape = (e) => {
-  if (e.key === 'Escape' && isSearchOpen.value) {
-    closeSearch()
+  const all = articles.value;
+  switch (activeFilter.value) {
+    case "latest":
+      return [...all].sort(
+        (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
+      );
+    case "popular":
+      return [...all].sort((a, b) => parseFloat(b.views) - parseFloat(a.views));
+    case "trending":
+      return [...all]
+        .sort((a, b) => parseFloat(b.views) - parseFloat(a.views))
+        .slice(0, 6);
+    case "breaking":
+      return all.filter((a) => a.isBreaking);
+    case "editors_pick":
+      return all.filter((a) => a.isFeatured);
+    default:
+      return all;
   }
-}
-onMounted(() => window.addEventListener('keydown', handleEscape))
-onUnmounted(() => window.removeEventListener('keydown', handleEscape))
+});
 
-// Profile menu
-const toggleProfileMenu = () => { isProfileMenuOpen.value = !isProfileMenuOpen.value }
-const openNotes = () => { navigateTo('/saved') }
-const logout = () => { /* implement logout logic */ }
+const activeFilterTab = computed(
+  () => FEED_FILTERS.find((f) => f.key === activeFilter.value)!
+);
 
-// Mobile menu methods
-const toggleMobileMenu = () => {
-  isMobileMenuOpen.value = !isMobileMenuOpen.value
-  if (isMobileMenuOpen.value) {
-    document.body.style.overflow = 'hidden'
-  } else {
-    document.body.style.overflow = ''
-    isMobileMoreOpen.value = false
-  }
+const featuredArticle = computed(
+  () =>
+    filteredArticles.value.find((a) => a.isFeatured) ?? filteredArticles.value[0] ?? null
+);
+
+const secondaryArticles = computed(() => {
+  const featured = featuredArticle.value;
+  return filteredArticles.value.filter((a) => a.id !== featured?.id).slice(0, 6);
+});
+
+const trendingArticles = computed(() =>
+  [...articles.value]
+    .sort((a, b) => parseFloat(b.views) - parseFloat(a.views))
+    .slice(0, 5)
+);
+
+// ─── Helpers ─────────────────────────────────────────────────────────────────
+function setFilter(key: FeedFilter) {
+  activeFilter.value = key;
 }
-const closeMobileMenu = () => {
-  isMobileMenuOpen.value = false
-  document.body.style.overflow = ''
-  isMobileMoreOpen.value = false
+
+function categoryDot(cat: string): string {
+  return CATEGORY_DOT[cat] ?? "#64748b";
 }
-const toggleMobileMoreSubmenu = () => {
-  isMobileMoreOpen.value = !isMobileMoreOpen.value
+
+function categoryTextClass(cat: string): string {
+  const map: Record<string, string> = {
+    Politics: "text-red-600 dark:text-red-400 bg-red-50 dark:bg-red-950/40",
+    Business: "text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-950/40",
+    Technology: "text-violet-600 dark:text-violet-400 bg-violet-50 dark:bg-violet-950/40",
+    Sports: "text-green-600 dark:text-green-400 bg-green-50 dark:bg-green-950/40",
+    Health: "text-pink-600 dark:text-pink-400 bg-pink-50 dark:bg-pink-950/40",
+    Entertainment:
+      "text-orange-600 dark:text-orange-400 bg-orange-50 dark:bg-orange-950/40",
+    Education: "text-cyan-600 dark:text-cyan-400 bg-cyan-50 dark:bg-cyan-950/40",
+    Agriculture: "text-lime-700 dark:text-lime-400 bg-lime-50 dark:bg-lime-950/40",
+  };
+  return map[cat] ?? "text-slate-600 dark:text-slate-400 bg-slate-100 dark:bg-slate-800";
 }
 </script>
 
+<template>
+  <div
+    class="min-h-screen bg-slate-50/50 dark:bg-slate-950 transition-colors duration-500"
+  >
+    <div
+      v-if="breakingArticles.length"
+      class="bg-red-600 text-white text-xs font-semibold h-10 flex items-center relative overflow-hidden z-30 shadow-md"
+    >
+      <div
+        class="absolute left-0 top-0 bottom-0 px-4 bg-red-700 flex items-center gap-1.5 z-10 shadow-[4px_0_12px_rgba(0,0,0,0.15)] select-none"
+      >
+        <Zap class="size-3.5 fill-white animate-pulse" />
+        <span class="tracking-wider uppercase text-[11px] font-black">Breaking</span>
+      </div>
+
+      <div
+        class="marquee-track flex items-center pl-32 hover:[animation-play-state:paused]"
+      >
+        <div class="flex items-center gap-16 whitespace-nowrap animate-marquee">
+          <NuxtLink
+            v-for="a in [...breakingArticles, ...breakingArticles]"
+            :key="a.id"
+            :to="`/article/${a.id}`"
+            class="flex items-center gap-2 hover:text-slate-200 transition-colors font-medium text-sm group"
+          >
+            <span
+              class="w-1.5 h-1.5 rounded-full bg-white opacity-60 group-hover:scale-125 transition-transform"
+            ></span>
+            {{ a.title }}
+          </NuxtLink>
+        </div>
+      </div>
+    </div>
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <div
+        class="flex items-center justify-between mb-8 border-b border-slate-200/60 dark:border-slate-800/80 relative"
+      >
+        <div class="flex items-center gap-1 overflow-x-auto scrollbar-none pb-0 relative">
+          <button
+            v-for="tab in FEED_FILTERS"
+            :key="tab.key"
+            @click="setFilter(tab.key)"
+            class="group relative flex items-center gap-2 px-5 py-3.5 text-sm font-bold whitespace-nowrap transition-all duration-300 active:scale-95 z-10"
+            :class="
+              activeFilter === tab.key
+                ? 'text-red-600 dark:text-red-500'
+                : 'text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200'
+            "
+            :title="tab.description"
+          >
+            <component
+              :is="tab.icon"
+              class="size-4 transition-transform duration-300 ease-out"
+              :class="
+                activeFilter === tab.key
+                  ? 'scale-110 rotate-3'
+                  : 'group-hover:scale-110 group-hover:-rotate-3'
+              "
+            />
+            <span>{{ tab.label }}</span>
+            <span
+              v-if="tab.key === 'breaking' && breakingArticles.length"
+              class="inline-flex items-center justify-center size-4 text-[9px] font-black bg-red-600 text-white rounded-full animate-bounce"
+            >
+              {{ breakingArticles.length }}
+            </span>
+
+            <span
+              v-if="activeFilter === tab.key"
+              class="absolute bottom-0 left-0 right-0 h-0.5 bg-red-600 dark:bg-red-500 origin-left animate-line-slide"
+            ></span>
+          </button>
+        </div>
+
+        <p
+          class="hidden lg:block text-xs text-slate-400 dark:text-slate-500 font-medium italic opacity-85"
+        >
+          {{ activeFilterTab.description }}
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 xl:grid-cols-4 gap-8 items-start">
+        <div class="xl:col-span-3">
+          <transition name="fade-layout" mode="out-in">
+            <div :key="activeFilter">
+              <div
+                v-if="filteredArticles.length === 0"
+                class="flex flex-col items-center justify-center py-28 text-center bg-white dark:bg-slate-900 rounded-3xl border border-dashed border-slate-200 dark:border-slate-800 p-8 shadow-xs"
+              >
+                <div
+                  class="size-16 rounded-2xl bg-slate-50 dark:bg-slate-800 flex items-center justify-center text-3xl mb-4 shadow-xs animate-pulse"
+                >
+                  {{
+                    activeFilter === "breaking"
+                      ? "⚡"
+                      : activeFilter === "editors_pick"
+                      ? "⭐"
+                      : "📰"
+                  }}
+                </div>
+                <h4 class="text-slate-800 dark:text-slate-200 font-bold text-lg">
+                  {{
+                    activeFilter === "breaking"
+                      ? "No breaking news right now"
+                      : "No entries available"
+                  }}
+                </h4>
+                <p
+                  class="text-slate-400 dark:text-slate-500 text-sm mt-1.5 max-w-sm leading-relaxed"
+                >
+                  {{
+                    activeFilter === "breaking"
+                      ? "All quiet at this moment. Live feeds populate instantly when dispatches arrive."
+                      : "Try shifting filters or review updates shortly."
+                  }}
+                </p>
+                <button
+                  @click="setFilter('latest')"
+                  class="mt-6 px-6 py-2.5 bg-slate-950 dark:bg-white text-white dark:text-slate-950 rounded-xl text-xs font-bold uppercase tracking-wider shadow-xs hover:opacity-90 active:scale-95 transition-all"
+                >
+                  Return to Latest News
+                </button>
+              </div>
+
+              <div v-else class="space-y-8">
+                <NuxtLink
+                  v-if="featuredArticle"
+                  :to="`/article/${featuredArticle.id}`"
+                  class="group block rounded-2xl overflow-hidden bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800/80 shadow-xs hover:shadow-xl hover:border-slate-200 dark:hover:border-slate-700 transition-all duration-300"
+                >
+                  <div class="grid md:grid-cols-5 min-h-[260px]">
+                    <div
+                      class="relative md:col-span-3 overflow-hidden bg-slate-100 dark:bg-slate-800 h-56 md:h-auto"
+                    >
+                      <img
+                        :src="featuredArticle.image"
+                        :alt="featuredArticle.title"
+                        class="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-103"
+                      />
+                      <span
+                        v-if="featuredArticle.isBreaking"
+                        class="absolute top-3 left-3 flex items-center gap-1 bg-red-600 text-white text-[10px] font-black px-2.5 py-1 rounded-md uppercase tracking-wider shadow-md"
+                      >
+                        <Zap class="size-3 fill-white" /> Live
+                      </span>
+                    </div>
+
+                    <div
+                      class="md:col-span-2 p-6 sm:p-8 flex flex-col justify-between bg-gradient-to-br from-white to-slate-50/30 dark:from-slate-900 dark:to-slate-900/60"
+                    >
+                      <div>
+                        <div class="flex items-center gap-2 mb-3.5">
+                          <span
+                            class="text-[10px] font-extrabold uppercase tracking-wide px-2.5 py-0.5 rounded-md"
+                            :class="categoryTextClass(featuredArticle.category)"
+                          >
+                            {{ featuredArticle.category }}
+                          </span>
+                          <span
+                            class="text-[11px] font-semibold text-slate-400 dark:text-slate-500 flex items-center gap-1.5"
+                          >
+                            <span
+                              class="size-1.5 rounded-full"
+                              :style="{
+                                background: categoryDot(featuredArticle.category),
+                              }"
+                            ></span>
+                            {{ featuredArticle.source }}
+                          </span>
+                        </div>
+                        <h2
+                          class="text-lg sm:text-xl font-black text-slate-900 dark:text-white leading-snug mb-3 group-hover:text-red-600 dark:group-hover:text-red-500 transition-colors duration-200 line-clamp-3 tracking-tight"
+                        >
+                          {{ featuredArticle.title }}
+                        </h2>
+                        <p
+                          class="text-slate-500 dark:text-slate-400 text-xs sm:text-sm leading-relaxed line-clamp-3 font-normal opacity-90"
+                        >
+                          {{ featuredArticle.excerpt }}
+                        </p>
+                      </div>
+
+                      <div
+                        class="flex items-center justify-between mt-6 pt-4 border-t border-slate-100 dark:border-slate-800/80"
+                      >
+                        <div
+                          class="flex items-center gap-3.5 text-xs font-medium text-slate-400 dark:text-slate-500"
+                        >
+                          <span class="flex items-center gap-1"
+                            ><Clock class="size-3.5" />
+                            {{ featuredArticle.readTime }}</span
+                          >
+                          <span class="flex items-center gap-1"
+                            ><Eye class="size-3.5" /> {{ featuredArticle.views }}</span
+                          >
+                        </div>
+                        <span
+                          class="flex items-center gap-1 text-red-600 dark:text-red-500 text-xs font-bold transition-all duration-200 group-hover:gap-2"
+                        >
+                          Read Story <ChevronRight class="size-4" />
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </NuxtLink>
+
+                <div class="flex items-center gap-4 select-none">
+                  <span
+                    class="text-[11px] font-extrabold uppercase tracking-widest text-slate-400 dark:text-slate-500"
+                    >Stream Registry</span
+                  >
+                  <div class="flex-1 h-px bg-slate-200/60 dark:bg-slate-800/80"></div>
+                </div>
+
+                <div class="relative">
+                  <TransitionGroup
+                    name="card-grid"
+                    tag="div"
+                    class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"
+                  >
+                    <article
+                      v-for="article in secondaryArticles"
+                      :key="article.id"
+                      class="group bg-white dark:bg-slate-900 rounded-2xl border border-slate-100 dark:border-slate-800/70 hover:border-slate-200 dark:hover:border-slate-700 shadow-xs hover:shadow-xl transition-all duration-300 hover:-translate-y-1.5 overflow-hidden flex flex-col justify-between"
+                    >
+                      <div>
+                        <div
+                          class="relative overflow-hidden h-48 bg-slate-100 dark:bg-slate-800 shrink-0"
+                        >
+                          <img
+                            :src="article.image"
+                            :alt="article.title"
+                            loading="lazy"
+                            class="w-full h-full object-cover transition-transform duration-500 ease-out group-hover:scale-104"
+                          />
+                          <NuxtLink
+                            :to="`/${article.category.toLowerCase()}`"
+                            @click.stop
+                            class="absolute top-3 left-3 text-[10px] font-extrabold uppercase tracking-wide px-2.5 py-1 rounded-md backdrop-blur-md shadow-xs transform transition-transform duration-200 hover:scale-105"
+                            :class="categoryTextClass(article.category)"
+                          >
+                            {{ article.category }}
+                          </NuxtLink>
+                        </div>
+
+                        <div class="p-5 pb-0">
+                          <div class="flex items-center gap-2 mb-2.5 text-xs">
+                            <span
+                              class="size-1.5 rounded-full shrink-0"
+                              :style="{ background: categoryDot(article.category) }"
+                            ></span>
+                            <span
+                              class="font-bold text-slate-800 dark:text-slate-300 text-[11px]"
+                              >{{ article.source }}</span
+                            >
+                            <span class="text-slate-300 dark:text-slate-700 font-light"
+                              >·</span
+                            >
+                            <span
+                              class="text-slate-400 dark:text-slate-500 flex items-center gap-1 text-[11px]"
+                            >
+                              <Calendar class="size-3" /> {{ article.date }}
+                            </span>
+                          </div>
+
+                          <h3
+                            class="text-sm font-bold text-slate-900 dark:text-white leading-snug mb-2 line-clamp-2 group-hover:text-red-600 dark:group-hover:text-red-500 transition-colors duration-200 tracking-tight"
+                          >
+                            {{ article.title }}
+                          </h3>
+                          <p
+                            class="text-[13px] text-slate-500 dark:text-slate-400 line-clamp-2 leading-relaxed font-normal opacity-90"
+                          >
+                            {{ article.excerpt }}
+                          </p>
+                        </div>
+                      </div>
+
+                      <div
+                        class="p-5 pt-4 mt-4 border-t border-slate-50 dark:border-slate-800/50 flex items-center justify-between items-end"
+                      >
+                        <div
+                          class="flex items-center gap-3 text-[11px] font-medium text-slate-400 dark:text-slate-500"
+                        >
+                          <span class="flex items-center gap-1"
+                            ><Eye class="size-3.5" /> {{ article.views }}</span
+                          >
+                          <span class="flex items-center gap-1"
+                            ><Clock class="size-3.5" /> {{ article.readTime }}</span
+                          >
+                        </div>
+                        <div
+                          class="flex items-center gap-1.5 text-slate-400 dark:text-slate-600"
+                        >
+                          <button
+                            class="p-1.5 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-slate-700 dark:hover:text-slate-300 active:scale-90 transition-all"
+                            aria-label="Bookmark"
+                          >
+                            <Bookmark class="size-3.5" />
+                          </button>
+                          <button
+                            class="p-1.5 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-slate-700 dark:hover:text-slate-300 active:scale-90 transition-all"
+                            aria-label="Share"
+                          >
+                            <Share2 class="size-3.5" />
+                          </button>
+                        </div>
+                      </div>
+                    </article>
+                  </TransitionGroup>
+                </div>
+
+                <div class="pt-4 text-center">
+                  <button
+                    class="inline-flex items-center gap-2 px-6 py-3 border border-slate-200 dark:border-slate-800 text-slate-700 dark:text-slate-300 text-xs font-bold uppercase tracking-wider rounded-xl hover:bg-white dark:hover:bg-slate-900 shadow-xs hover:shadow-md active:scale-98 transition-all duration-200"
+                  >
+                    <span>Load more stories</span>
+                    <ChevronRight class="size-4" />
+                  </button>
+                </div>
+              </div>
+            </div>
+          </transition>
+        </div>
+
+        <aside class="xl:col-span-1 space-y-6">
+          <div
+            class="bg-white dark:bg-slate-900 rounded-2xl border border-slate-100 dark:border-slate-800/80 overflow-hidden shadow-xs"
+          >
+            <div
+              class="flex items-center gap-2 px-4 py-3.5 border-b border-slate-100 dark:border-slate-800/80 bg-slate-50/50 dark:bg-slate-900/40"
+            >
+              <TrendingUp class="size-4 text-red-500" />
+              <span
+                class="text-xs font-extrabold uppercase tracking-wider text-slate-900 dark:text-white"
+                >Trending Today</span
+              >
+            </div>
+            <div class="divide-y divide-slate-100 dark:divide-slate-800/50">
+              <NuxtLink
+                v-for="(article, i) in trendingArticles"
+                :key="article.id"
+                :to="`/article/${article.id}`"
+                class="flex items-start gap-3.5 px-4 py-3.5 hover:bg-slate-50/60 dark:hover:bg-slate-800/40 transition-colors group"
+              >
+                <span
+                  class="text-lg font-black leading-none shrink-0 w-5 text-center mt-0.5"
+                  :class="i === 0 ? 'text-red-500' : 'text-slate-300 dark:text-slate-700'"
+                >
+                  {{ i + 1 }}
+                </span>
+                <div class="flex-1 min-w-0">
+                  <p
+                    class="text-xs font-bold text-slate-800 dark:text-slate-200 line-clamp-2 leading-snug group-hover:text-red-600 dark:group-hover:text-red-500 transition-colors tracking-tight"
+                  >
+                    {{ article.title }}
+                  </p>
+                  <div
+                    class="flex items-center gap-2 mt-2 text-[10px] text-slate-400 dark:text-slate-500 font-medium"
+                  >
+                    <span
+                      class="size-1.5 rounded-full"
+                      :style="{ background: categoryDot(article.category) }"
+                    ></span>
+                    <span>{{ article.source }}</span>
+                    <span class="text-slate-300 dark:text-slate-700">·</span>
+                    <span class="flex items-center gap-0.5"
+                      ><Eye class="size-3" /> {{ article.views }}</span
+                    >
+                  </div>
+                </div>
+              </NuxtLink>
+            </div>
+          </div>
+
+          <div
+            class="bg-gradient-to-br from-slate-900 to-slate-950 rounded-2xl overflow-hidden border border-slate-800/80 shadow-md"
+          >
+            <div class="relative h-36 overflow-hidden bg-slate-800">
+              <img
+                src="https://static.ips-cambodia.com/wp-content/uploads/2023/05/Cambodia-Sea-Games-32-Opening-Ceremony.jpg"
+                alt="Editorial Legacy Spot"
+                class="w-full h-full object-cover opacity-60 transition-transform duration-700 ease-out hover:scale-104"
+              />
+              <div
+                class="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/20 to-transparent"
+              ></div>
+              <span
+                class="absolute bottom-3 left-4 flex items-center gap-1 text-red-400 text-[10px] font-extrabold uppercase tracking-widest"
+              >
+                <Trophy class="size-3" /> Feature Analysis
+              </span>
+            </div>
+
+            <div class="p-5">
+              <h3 class="text-sm font-black text-white leading-snug mb-2 tracking-tight">
+                Cambodia SEA Games Legacy: How Sports Infrastructure Transforms
+                Communities
+              </h3>
+              <p
+                class="text-xs text-slate-400 leading-relaxed line-clamp-3 mb-4 font-light opacity-90"
+              >
+                From structural regional stadiums to digital youth programs, an analytical
+                study on local updates across structural developments.
+              </p>
+
+              <div
+                class="flex items-center justify-between pt-3.5 border-t border-slate-800/80"
+              >
+                <div class="flex items-center gap-2">
+                  <img
+                    src="https://randomuser.me/api/portraits/men/32.jpg"
+                    class="size-7 rounded-full ring-2 ring-slate-800 shadow-xs"
+                    alt="Sokha profile"
+                  />
+                  <div>
+                    <p class="text-[10px] font-bold text-slate-200">Sokha Chea</p>
+                    <p class="text-[9px] text-slate-500 font-medium">5 min read</p>
+                  </div>
+                </div>
+                <button
+                  class="flex items-center gap-0.5 text-xs text-red-400 font-bold hover:text-red-300 transition-colors group/btn"
+                >
+                  Explore
+                  <ChevronRight
+                    class="size-3.5 transition-transform duration-200 group-hover/btn:translate-x-0.5"
+                  />
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div
+            class="bg-white dark:bg-slate-900 rounded-2xl border border-slate-100 dark:border-slate-800/80 p-5 shadow-xs relative overflow-hidden"
+          >
+            <div class="flex items-center gap-2 mb-2">
+              <span class="text-md">📬</span>
+              <span
+                class="text-xs font-extrabold uppercase tracking-wider text-slate-900 dark:text-white"
+                >Daily Dispatch</span
+              >
+            </div>
+            <p
+              class="text-xs text-slate-500 dark:text-slate-400 mb-4 leading-relaxed font-normal"
+            >
+              Get the top 5 localized insights from Cambodia compressed elegantly directly
+              into your mailbox daily.
+            </p>
+            <div class="space-y-2">
+              <input
+                type="email"
+                placeholder="your@email.com"
+                class="w-full text-xs px-3.5 py-2.5 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:ring-1 focus:ring-red-500 focus:border-red-500 transition-all duration-300"
+              />
+              <button
+                class="w-full text-xs font-bold py-2.5 bg-red-600 hover:bg-red-700 text-white rounded-xl shadow-xs transition-colors duration-200 active:scale-98"
+              >
+                Subscribe Free
+              </button>
+            </div>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </div>
+</template>
+
 <style scoped>
-/* Custom animations */
-@keyframes fadeInUp {
-  from { opacity: 0; transform: translateY(20px); }
-  to { opacity: 1; transform: translateY(0); }
+/* ── High-Performance Fluid Layout Morph Transitions ────────────────── */
+.card-grid-enter-active,
+.card-grid-leave-active {
+  transition: all 0.45s cubic-bezier(0.4, 0, 0.2, 1);
 }
-@keyframes slideIn {
-  from { transform: translateX(100%); }
-  to { transform: translateX(0); }
+.card-grid-enter-from {
+  opacity: 0;
+  transform: translateY(20px) scale(0.98);
 }
-@keyframes slideDown {
-  from { opacity: 0; transform: translateY(-20px); }
-  to { opacity: 1; transform: translateY(0); }
+.card-grid-leave-to {
+  opacity: 0;
+  transform: translateY(12px) scale(0.97);
 }
-.fade-enter-active, .fade-leave-active { transition: opacity 0.2s ease; }
-.fade-enter-from, .fade-leave-to { opacity: 0; }
-.animate-fade-in-up { animation: fadeInUp 0.6s ease-out forwards; }
-.animate-slide-in { animation: slideIn 0.3s ease-out forwards; }
-.animate-slide-down { animation: slideDown 0.3s ease-out forwards; }
+.card-grid-move {
+  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.card-grid-leave-active {
+  position: absolute !important;
+  visibility: hidden;
+  width: 100%;
+  max-width: 290px; /* Prevent grid collapse visual flicker */
+}
 
-.mobile-menu-enter-active, .mobile-menu-leave-active { transition: opacity 0.3s ease; }
-.mobile-menu-enter-from, .mobile-menu-leave-to { opacity: 0; }
-
-.scrollbar-hide::-webkit-scrollbar { display: none; }
-.scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
-
-.grid > div { animation: fadeInUp 0.5s ease-out backwards; }
-.line-clamp-2 {
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
+/* Tab Line Entry Effect */
+@keyframes lineSlide {
+  from {
+    transform: scaleX(0);
+    opacity: 0;
+  }
+  to {
+    transform: scaleX(1);
+    opacity: 1;
+  }
 }
-@media (max-width: 1024px) {
-  .container { padding-left: 1.5rem; padding-right: 1.5rem; }
+.animate-line-slide {
+  animation: lineSlide 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Complete View Swapping Animations */
+.fade-layout-enter-active,
+.fade-layout-leave-active {
+  transition: opacity 0.25s ease, transform 0.25s ease;
+}
+.fade-layout-enter-from {
+  opacity: 0;
+  transform: translateY(4px);
+}
+.fade-layout-leave-to {
+  opacity: 0;
+  transform: translateY(-4px);
+}
+
+/* ── Seamless Marquee Track Core Styles ─────────────────────────────── */
+.marquee-track {
+  width: 100%;
+  display: flex;
+}
+@keyframes marqueeAnimation {
+  0% {
+    transform: translate3d(0, 0, 0);
+  }
+  100% {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+.animate-marquee {
+  animation: marqueeAnimation 35s linear infinite;
+}
+
+/* Layout Utilities */
+.scrollbar-none::-webkit-scrollbar {
+  display: none;
+}
+.scrollbar-none {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
 </style>

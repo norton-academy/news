@@ -13,24 +13,22 @@ import {
   Flame,
   Star,
   Newspaper,
-  ShieldAlert,
-  Cpu,
-  Binary,
-  Radio,
-  Leaf
 } from 'lucide-vue-next'
 
 definePageMeta({
   layout: 'public'
 })
 
-// ─── Category dot colors (Extended for Tech Pillars) ────────────────────────
+// ─── Category dot colors (for source badges only) ───────────────────────────
 const CATEGORY_DOT: Record<string, string> = {
-  'AI Cybersecurity':     '#06b6d4',
-  'Consumer Gadgets':     '#7c3aed',
-  'Next-Gen Software':    '#ec4899',
-  'Telecom & Connectivity': '#3b82f6',
-  'Green Tech & Sustainability': '#10b981',
+  Politics:      '#dc2626',
+  Business:      '#2563eb',
+  Technology:    '#7c3aed',
+  Sports:        '#16a34a',
+  Health:        '#db2777',
+  Entertainment: '#f97316',
+  Education:     '#0891b2',
+  Agriculture:   '#65a30d',
 }
 
 // ─── Feed Filters ───────────────────────────────────────────────────────────
@@ -45,132 +43,145 @@ interface FilterTab {
 }
 
 const FEED_FILTERS: FilterTab[] = [
-  { key: 'latest',       label: 'Latest Tech',   labelKm: 'ថ្មីបំផុត',    icon: Newspaper,   description: 'Most recent structural shifts in industry architectures.' },
-  { key: 'popular',      label: 'Most Read',     labelKm: 'ពេញនិយម',     icon: Flame,       description: 'Highest reader traction parameters today.' },
-  { key: 'trending',     label: 'Trending',      labelKm: 'និន្នាការ',    icon: TrendingUp,   description: 'Fastest rising metrics within the last 6 hours.' },
-  { key: 'breaking',     label: 'Critical Flash', labelKm: 'បន្ទាន់',     icon: Zap,          description: 'Immediate updates and systemic network alerts.' },
-  { key: 'editors_pick', label: "Editor's Choice", labelKm: 'ជ្រើសរើស',    icon: Star,         description: 'Curated technical papers selected by system leads.' },
+  { key: 'latest',       label: 'Latest',        labelKm: 'ថ្មីបំផុត',    icon: Newspaper,   description: 'Most recent stories'          },
+  { key: 'popular',      label: 'Popular',       labelKm: 'ពេញនិយម',     icon: Flame,        description: 'Most read today'               },
+  { key: 'trending',     label: 'Trending',      labelKm: 'និន្នាការ',    icon: TrendingUp,   description: 'Rising fast in last 6 hours'   },
+  { key: 'breaking',     label: 'Breaking',      labelKm: 'បន្ទាន់',     icon: Zap,          description: 'Breaking news only'            },
+  { key: 'editors_pick', label: "Editor's Pick", labelKm: 'ជ្រើសរើស',    icon: Star,         description: 'Hand-picked by our editors'    },
 ]
 
 // ─── State ─────────────────────────────────────────────────────────────────
 const activeFilter = ref<FeedFilter>('latest')
 
-// ─── Technology Data Stream ────────────────────────────────────────────────
+// ─── Articles ──────────────────────────────────────────────────────────────
 const articles = ref([
   {
     id: 1,
-    title: "Sovereign Network Architecture Shifts Toward Predictive AI Anomaly Mitigation Models",
-    excerpt: "Enterprise systems are completely moving away from old signature-based code detection. Next-generation cyber units deploy active machine-learning instances to map and neutralize threat surfaces in sub-milliseconds.",
-    image: "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=800&h=500&fit=crop",
-    category: "AI Cybersecurity",
-    source: "Defense Matrix Ledger",
-    date: "June 08, 2026",
-    readTime: "5 min",
-    views: "4.8k",
-    isBreaking: true,
+    title: "Cambodia's Economy Shows Strong Recovery with 6% GDP Growth in Q1 2026",
+    excerpt: "The Ministry of Economy and Finance reports robust performance across tourism, manufacturing, and digital services sectors, with foreign direct investment rising 18% year-on-year.",
+    image: "https://images.unsplash.com/photo-1528127269322-539801943592?w=800&h=500&fit=crop",
+    category: "Business",
+    source: "Fresh News",
+    date: "May 28, 2026",
+    readTime: "4 min",
+    views: "2.4k",
+    isBreaking: false,
     isFeatured: true,
   },
   {
     id: 2,
-    title: "Native NPU Hardware Infrastructure Enables Complex Localized Ambient Environments",
-    excerpt: "New consumer systems prioritize physical spatial efficiency alongside processing matrices. Native Neural Processing Units run heavy multi-modal code layers cleanly without requiring remote cloud queries.",
-    image: "https://images.unsplash.com/photo-1518770660439-4636190af475?w=600&h=400&fit=crop",
-    category: "Consumer Gadgets",
-    source: "Core Hardware Journal",
-    date: "June 07, 2026",
-    readTime: "4 min",
-    views: "3.1k",
+    title: "New Tech Hub Launch in Phnom Penh Attracts Regional Startups",
+    excerpt: "The 'Silicon Temple' innovation center aims to foster digital talent and cross-border collaboration across Southeast Asia.",
+    image: "https://images.unsplash.com/photo-1542744173-8e7e53415bb0?w=600&h=400&fit=crop",
+    category: "Technology",
+    source: "VOD Khmer",
+    date: "May 27, 2026",
+    readTime: "3 min",
+    views: "1.8k",
     isBreaking: false,
     isFeatured: false,
   },
   {
     id: 3,
-    title: "Data Center Cooling Costs Drop 90% via Advanced Liquid Dielectric Submersion Arrays",
-    excerpt: "As computational workloads demand unprecedented power envelopes, global data nodes restructure pipelines. Immersion systems keep thermal envelopes stable under standard configurations.",
-    image: "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=600&h=400&fit=crop",
-    category: "Green Tech & Sustainability",
-    source: "EcoCompute Systems",
-    date: "June 06, 2026",
-    readTime: "6 min",
-    views: "2.9k",
-    isBreaking: false,
+    title: "Angkor Wat Conservation Receives $10M Global Heritage Fund",
+    excerpt: "International partners accelerate preservation efforts ahead of the 2027 UNESCO review cycle.",
+    image: "https://images.unsplash.com/photo-1563351660-502e1f5c5d5c?w=600&h=400&fit=crop",
+    category: "Politics",
+    source: "RFA Khmer",
+    date: "May 26, 2026",
+    readTime: "5 min",
+    views: "3.2k",
+    isBreaking: true,
     isFeatured: false,
   },
   {
     id: 4,
-    title: "Modular Form Factors Gain Regulatory Support Under New Right to Repair Directive",
-    excerpt: "The reliance on industrial chemical adhesives decreases. Framework architectures score perfect repair indices by utilizing standardized components and easily decoupled pressure pins.",
-    image: "https://images.unsplash.com/photo-1581092160562-40aa08e78837?w=600&h=400&fit=crop",
-    category: "Consumer Gadgets",
-    source: "Circular Electronics Hub",
-    date: "June 05, 2026",
+    title: "Cambodian Football Team Prepares for AFF Championship Semifinals",
+    excerpt: "National squad intensifies training under new head coach targeting historic semifinal appearance.",
+    image: "https://images.unsplash.com/photo-1577223625816-7546f13df25d?w=600&h=400&fit=crop",
+    category: "Sports",
+    source: "Dap News",
+    date: "May 25, 2026",
     readTime: "3 min",
-    views: "5.2k",
+    views: "4.1k",
     isBreaking: false,
     isFeatured: false,
   },
   {
     id: 5,
-    title: "Low-Code Natural Language Compilers Decentralize Application Production Timelines",
-    excerpt: "Semantic interpreters now compile structural enterprise-ready microservices directly from natural dialogue inputs, removing legacy manual compilation cycles.",
-    image: "https://images.unsplash.com/photo-1607799279861-4dd421887fb3?w=600&h=400&fit=crop",
-    category: "Next-Gen Software",
-    source: "Stack Logic Report",
-    date: "June 04, 2026",
+    title: "Universal Healthcare Expansion Announced for Rural Provinces",
+    excerpt: "New government initiative to provide coverage to 2 million citizens by end of year.",
+    image: "https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=600&h=400&fit=crop",
+    category: "Health",
+    source: "Fresh News",
+    date: "May 24, 2026",
     readTime: "4 min",
-    views: "1.9k",
+    views: "1.5k",
     isBreaking: false,
     isFeatured: false,
   },
   {
     id: 6,
-    title: "Network Slicing Protocols Guarantee Sub-Millisecond Latency for Edge Medical Robotics",
-    excerpt: "Telecom infrastructure maps dedicated virtual frequency bands across hardware nodes, ensuring uninterrupted priority channels for real-time remote physical processes.",
-    image: "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=600&h=400&fit=crop",
-    category: "Telecom & Connectivity",
-    source: "Signal Horizon Paper",
-    date: "June 03, 2026",
-    readTime: "5 min",
-    views: "3.4k",
-    isBreaking: true,
+    title: "Khmer Film Wins Best Director at Busan International Film Festival",
+    excerpt: "'Last Night in Siem Reap' becomes the first Cambodian film to win in the main competition.",
+    image: "https://images.unsplash.com/photo-1485846234645-a62644f84728?w=600&h=400&fit=crop",
+    category: "Entertainment",
+    source: "VOD Khmer",
+    date: "May 23, 2026",
+    readTime: "3 min",
+    views: "2.2k",
+    isBreaking: false,
     isFeatured: false,
   },
   {
     id: 7,
-    title: "Carbon-Aware Runtime Compilers Automatically Adjust CPU Schedules for Clean Grid Windows",
-    excerpt: "Intelligent execution systems read localized electricity grids, automatically shifting low-priority batches into high-yield renewable windows.",
-    image: "https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?w=600&h=400&fit=crop",
-    category: "Green Tech & Sustainability",
-    source: "EcoCompute Systems",
-    date: "June 02, 2026",
-    readTime: "3 min",
-    views: "2.1k",
+    title: "Solar Farm Network Across 8 Provinces Achieves Renewable Energy Milestone",
+    excerpt: "Government partnership with private sector puts Cambodia ahead of its 30% target for 2027.",
+    image: "https://images.unsplash.com/photo-1509391366360-2e959784a276?w=600&h=400&fit=crop",
+    category: "Technology",
+    source: "Kohsantepheap",
+    date: "May 22, 2026",
+    readTime: "5 min",
+    views: "1.9k",
     isBreaking: false,
     isFeatured: false,
   },
   {
     id: 8,
-    title: "Sentiment Tracking Analysis Defeats Complex Enterprise Social Engineering Campaigns",
-    excerpt: "Security systems now scan incoming text payloads for tone inconsistencies and contextual mismatch flags, blocking spoofed threats instantly.",
-    image: "https://images.unsplash.com/photo-1563986768609-322da13575f3?w=600&h=400&fit=crop",
-    category: "AI Cybersecurity",
-    source: "Defense Matrix Ledger",
-    date: "June 01, 2026",
+    title: "EU Trade Deal Gives Cambodian Rice Tariff-Free Access to European Markets",
+    excerpt: "Fragrant rice and cashew exports expected to grow 40% following the new bilateral agreement.",
+    image: "https://images.unsplash.com/photo-1574943320219-553eb221f7a1?w=600&h=400&fit=crop",
+    category: "Agriculture",
+    source: "RFA Khmer",
+    date: "May 21, 2026",
     readTime: "4 min",
-    views: "4.0k",
+    views: "2.7k",
     isBreaking: false,
     isFeatured: false,
   },
   {
     id: 9,
-    title: "Low Earth Orbit Satellite Clusters Close Bandwidth Disparity Indexes in Rural Zones",
-    excerpt: "High-density space telemetry networks achieve orbital stability, delivering high-speed packet routing to coordinates completely outside standard wire ranges.",
-    image: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=600&h=400&fit=crop",
-    category: "Telecom & Connectivity",
-    source: "Signal Horizon Paper",
-    date: "May 31, 2026",
-    readTime: "4 min",
-    views: "2.3k",
+    title: "Digital Literacy Program Reaches 200,000 Students in Remote Schools",
+    excerpt: "Tablet distribution initiative bridges the urban-rural education divide across 14 provinces.",
+    image: "https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=600&h=400&fit=crop",
+    category: "Education",
+    source: "Dap News",
+    date: "May 20, 2026",
+    readTime: "3 min",
+    views: "1.8k",
+    isBreaking: false,
+    isFeatured: false,
+  },
+  {
+    id: 10,
+    title: "Cambodia Rice Exporters Target Expanding Gulf Markets",
+    excerpt: "Premium Cambodian fragrant rice gaining significant share in Saudi Arabia and UAE supermarkets.",
+    image: "https://images.unsplash.com/photo-1464226184884-fa280b87c399?w=600&h=400&fit=crop",
+    category: "Agriculture",
+    source: "Fresh News",
+    date: "May 19, 2026",
+    readTime: "3 min",
+    views: "1.2k",
     isBreaking: false,
     isFeatured: false,
   }
@@ -231,24 +242,16 @@ function categoryDot(cat: string): string {
 
 function categoryTextClass(cat: string): string {
   const map: Record<string, string> = {
-    'AI Cybersecurity':           'text-cyan-600 dark:text-cyan-400 bg-cyan-50 dark:bg-cyan-950/40',
-    'Consumer Gadgets':           'text-violet-600 dark:text-violet-400 bg-violet-50 dark:bg-violet-950/40',
-    'Next-Gen Software':          'text-pink-600 dark:text-pink-400 bg-pink-50 dark:bg-pink-950/40',
-    'Telecom & Connectivity':     'text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-950/40',
-    'Green Tech & Sustainability': 'text-emerald-600 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-950/40',
+    Politics:      'text-red-600 dark:text-red-400 bg-red-50 dark:bg-red-950/40',
+    Business:      'text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-950/40',
+    Technology:    'text-violet-600 dark:text-violet-400 bg-violet-50 dark:bg-violet-950/40',
+    Sports:        'text-green-600 dark:text-green-400 bg-green-50 dark:bg-green-950/40',
+    Health:        'text-pink-600 dark:text-pink-400 bg-pink-50 dark:bg-pink-950/40',
+    Entertainment: 'text-orange-600 dark:text-orange-400 bg-orange-50 dark:bg-orange-950/40',
+    Education:     'text-cyan-600 dark:text-cyan-400 bg-cyan-50 dark:bg-cyan-950/40',
+    Agriculture:   'text-lime-700 dark:text-lime-400 bg-lime-50 dark:bg-lime-950/40',
   }
   return map[cat] ?? 'text-slate-600 dark:text-slate-400 bg-slate-100 dark:bg-slate-800'
-}
-
-function getCategoryIcon(cat: string) {
-  const icons: Record<string, any> = {
-    'AI Cybersecurity':           ShieldAlert,
-    'Consumer Gadgets':           Cpu,
-    'Next-Gen Software':          Binary,
-    'Telecom & Connectivity':     Radio,
-    'Green Tech & Sustainability': Leaf
-  }
-  return icons[cat] ?? Newspaper
 }
 </script>
 
@@ -257,11 +260,11 @@ function getCategoryIcon(cat: string) {
 
     <div
       v-if="breakingArticles.length"
-      class="bg-cyan-950 text-cyan-400 border-b border-cyan-800/50 text-xs font-semibold h-10 flex items-center relative overflow-hidden z-30 shadow-md"
+      class="bg-red-600 text-white text-xs font-semibold h-10 flex items-center relative overflow-hidden z-30 shadow-md"
     >
-      <div class="absolute left-0 top-0 bottom-0 px-4 bg-cyan-900 text-white flex items-center gap-1.5 z-10 shadow-[4px_0_12px_rgba(0,0,0,0.15)] select-none">
-        <Zap class="size-3.5 fill-white text-cyan-400 animate-pulse" />
-        <span class="tracking-wider uppercase text-[11px] font-black">SYSTEM ALERT</span>
+      <div class="absolute left-0 top-0 bottom-0 px-4 bg-red-700 flex items-center gap-1.5 z-10 shadow-[4px_0_12px_rgba(0,0,0,0.15)] select-none">
+        <Zap class="size-3.5 fill-white animate-pulse" />
+        <span class="tracking-wider uppercase text-[11px] font-black">Breaking</span>
       </div>
       
       <div class="marquee-track flex items-center pl-32 hover:[animation-play-state:paused]">
@@ -270,9 +273,9 @@ function getCategoryIcon(cat: string) {
             v-for="a in [...breakingArticles, ...breakingArticles]"
             :key="a.id"
             :to="`/article/${a.id}`"
-            class="flex items-center gap-2 hover:text-white transition-colors font-mono text-xs group"
+            class="flex items-center gap-2 hover:text-slate-200 transition-colors font-medium text-sm group"
           >
-            <span class="w-1.5 h-1.5 rounded-full bg-cyan-400 opacity-60 group-hover:scale-125 transition-transform"></span>
+            <span class="w-1.5 h-1.5 rounded-full bg-white opacity-60 group-hover:scale-125 transition-transform"></span>
             {{ a.title }}
           </NuxtLink>
         </div>
@@ -288,7 +291,7 @@ function getCategoryIcon(cat: string) {
             :key="tab.key"
             @click="setFilter(tab.key)"
             class="group relative flex items-center gap-2 px-5 py-3.5 text-sm font-bold whitespace-nowrap transition-all duration-300 active:scale-95 z-10"
-            :class="activeFilter === tab.key ? 'text-cyan-500 dark:text-cyan-400' : 'text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200'"
+            :class="activeFilter === tab.key ? 'text-red-600 dark:text-red-500' : 'text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200'"
             :title="tab.description"
           >
             <component
@@ -297,19 +300,19 @@ function getCategoryIcon(cat: string) {
               :class="activeFilter === tab.key ? 'scale-110 rotate-3' : 'group-hover:scale-110 group-hover:-rotate-3'"
             />
             <span>{{ tab.label }}</span>
-            <span v-if="tab.key === 'breaking' && breakingArticles.length" class="inline-flex items-center justify-center size-4 text-[9px] font-black bg-cyan-500 text-white rounded-full animate-bounce">
+            <span v-if="tab.key === 'breaking' && breakingArticles.length" class="inline-flex items-center justify-center size-4 text-[9px] font-black bg-red-600 text-white rounded-full animate-bounce">
               {{ breakingArticles.length }}
             </span>
 
             <span 
               v-if="activeFilter === tab.key"
-              class="absolute bottom-0 left-0 right-0 h-0.5 bg-cyan-500 dark:bg-cyan-400 origin-left animate-line-slide"
+              class="absolute bottom-0 left-0 right-0 h-0.5 bg-red-600 dark:bg-red-500 origin-left animate-line-slide"
             ></span>
           </button>
         </div>
 
-        <p class="hidden lg:block text-xs font-mono text-slate-400 dark:text-slate-500 italic opacity-85">
-          // {{ activeFilterTab.description }}
+        <p class="hidden lg:block text-xs text-slate-400 dark:text-slate-500 font-medium italic opacity-85">
+          {{ activeFilterTab.description }}
         </p>
       </div>
 
@@ -324,18 +327,17 @@ function getCategoryIcon(cat: string) {
                   {{ activeFilter === 'breaking' ? '⚡' : activeFilter === 'editors_pick' ? '⭐' : '📰' }}
                 </div>
                 <h4 class="text-slate-800 dark:text-slate-200 font-bold text-lg">
-                  {{ activeFilter === 'breaking' ? 'No active network warnings' : 'No entries available' }}
+                  {{ activeFilter === 'breaking' ? 'No breaking news right now' : 'No entries available' }}
                 </h4>
                 <p class="text-slate-400 dark:text-slate-500 text-sm mt-1.5 max-w-sm leading-relaxed">
-                  All systems operating nominally. Live telemetry updates display instantly upon next batch dispatch.
+                  {{ activeFilter === 'breaking' ? 'All quiet at this moment. Live feeds populate instantly when dispatches arrive.' : 'Try shifting filters or review updates shortly.' }}
                 </p>
                 <button @click="setFilter('latest')" class="mt-6 px-6 py-2.5 bg-slate-950 dark:bg-white text-white dark:text-slate-950 rounded-xl text-xs font-bold uppercase tracking-wider shadow-xs hover:opacity-90 active:scale-95 transition-all">
-                  Reset Data Feed
+                  Return to Latest News
                 </button>
               </div>
 
               <div v-else class="space-y-8">
-                
                 <NuxtLink
                   v-if="featuredArticle"
                   :to="`/article/${featuredArticle.id}`"
@@ -348,16 +350,15 @@ function getCategoryIcon(cat: string) {
                         :alt="featuredArticle.title"
                         class="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-103"
                       />
-                      <span v-if="featuredArticle.isBreaking" class="absolute top-3 left-3 flex items-center gap-1 bg-cyan-500 text-white text-[10px] font-black px-2.5 py-1 rounded-md uppercase tracking-wider shadow-md">
-                        <Zap class="size-3 fill-white" /> CRITICAL
+                      <span v-if="featuredArticle.isBreaking" class="absolute top-3 left-3 flex items-center gap-1 bg-red-600 text-white text-[10px] font-black px-2.5 py-1 rounded-md uppercase tracking-wider shadow-md">
+                        <Zap class="size-3 fill-white" /> Live
                       </span>
                     </div>
                     
                     <div class="md:col-span-2 p-6 sm:p-8 flex flex-col justify-between bg-gradient-to-br from-white to-slate-50/30 dark:from-slate-900 dark:to-slate-900/60">
                       <div>
                         <div class="flex items-center gap-2 mb-3.5">
-                          <span class="text-[10px] font-extrabold uppercase tracking-wide px-2.5 py-0.5 rounded-md flex items-center gap-1" :class="categoryTextClass(featuredArticle.category)">
-                            <component :is="getCategoryIcon(featuredArticle.category)" class="size-3" />
+                          <span class="text-[10px] font-extrabold uppercase tracking-wide px-2.5 py-0.5 rounded-md" :class="categoryTextClass(featuredArticle.category)">
                             {{ featuredArticle.category }}
                           </span>
                           <span class="text-[11px] font-semibold text-slate-400 dark:text-slate-500 flex items-center gap-1.5">
@@ -365,7 +366,7 @@ function getCategoryIcon(cat: string) {
                             {{ featuredArticle.source }}
                           </span>
                         </div>
-                        <h2 class="text-lg sm:text-xl font-black text-slate-900 dark:text-white leading-snug mb-3 group-hover:text-cyan-500 dark:group-hover:text-cyan-400 transition-colors duration-200 line-clamp-3 tracking-tight uppercase">
+                        <h2 class="text-lg sm:text-xl font-black text-slate-900 dark:text-white leading-snug mb-3 group-hover:text-red-600 dark:group-hover:text-red-500 transition-colors duration-200 line-clamp-3 tracking-tight">
                           {{ featuredArticle.title }}
                         </h2>
                         <p class="text-slate-500 dark:text-slate-400 text-xs sm:text-sm leading-relaxed line-clamp-3 font-normal opacity-90">
@@ -378,8 +379,8 @@ function getCategoryIcon(cat: string) {
                           <span class="flex items-center gap-1"><Clock class="size-3.5" /> {{ featuredArticle.readTime }}</span>
                           <span class="flex items-center gap-1"><Eye class="size-3.5" /> {{ featuredArticle.views }}</span>
                         </div>
-                        <span class="flex items-center gap-1 text-cyan-500 dark:text-cyan-400 text-xs font-bold transition-all duration-200 group-hover:gap-2">
-                          Analyze Framework <ChevronRight class="size-4" />
+                        <span class="flex items-center gap-1 text-red-600 dark:text-red-500 text-xs font-bold transition-all duration-200 group-hover:gap-2">
+                          Read Story <ChevronRight class="size-4" />
                         </span>
                       </div>
                     </div>
@@ -387,7 +388,7 @@ function getCategoryIcon(cat: string) {
                 </NuxtLink>
 
                 <div class="flex items-center gap-4 select-none">
-                  <span class="text-[11px] font-mono font-extrabold uppercase tracking-widest text-slate-400 dark:text-slate-500">System Registry Output</span>
+                  <span class="text-[11px] font-extrabold uppercase tracking-widest text-slate-400 dark:text-slate-500">Stream Registry</span>
                   <div class="flex-1 h-px bg-slate-200/60 dark:bg-slate-800/80"></div>
                 </div>
 
@@ -411,27 +412,26 @@ function getCategoryIcon(cat: string) {
                             class="w-full h-full object-cover transition-transform duration-500 ease-out group-hover:scale-104"
                           />
                           <NuxtLink
-                            :to="`/${article.category.toLowerCase().replace(/ & /g, '-').replace(/ /g, '-')}`"
+                            :to="`/${article.category.toLowerCase()}`"
                             @click.stop
-                            class="absolute top-3 left-3 text-[10px] font-extrabold uppercase tracking-wide px-2.5 py-1 rounded-md backdrop-blur-md shadow-xs transform transition-transform duration-200 hover:scale-105 flex items-center gap-1"
+                            class="absolute top-3 left-3 text-[10px] font-extrabold uppercase tracking-wide px-2.5 py-1 rounded-md backdrop-blur-md shadow-xs transform transition-transform duration-200 hover:scale-105"
                             :class="categoryTextClass(article.category)"
                           >
-                            <component :is="getCategoryIcon(article.category)" class="size-3" />
-                            {{ article.category.split(' & ')[0] }}
+                            {{ article.category }}
                           </NuxtLink>
                         </div>
 
                         <div class="p-5 pb-0">
                           <div class="flex items-center gap-2 mb-2.5 text-xs">
                             <span class="size-1.5 rounded-full shrink-0" :style="{ background: categoryDot(article.category) }"></span>
-                            <span class="font-bold text-slate-800 dark:text-slate-300 text-[11px] font-mono">{{ article.source }}</span>
+                            <span class="font-bold text-slate-800 dark:text-slate-300 text-[11px]">{{ article.source }}</span>
                             <span class="text-slate-300 dark:text-slate-700 font-light">·</span>
                             <span class="text-slate-400 dark:text-slate-500 flex items-center gap-1 text-[11px]">
                               <Calendar class="size-3" /> {{ article.date }}
                             </span>
                           </div>
 
-                          <h3 class="text-sm font-bold text-slate-900 dark:text-white leading-snug mb-2 line-clamp-2 group-hover:text-cyan-500 dark:group-hover:text-cyan-400 transition-colors duration-200 tracking-tight">
+                          <h3 class="text-sm font-bold text-slate-900 dark:text-white leading-snug mb-2 line-clamp-2 group-hover:text-red-600 dark:group-hover:text-red-500 transition-colors duration-200 tracking-tight">
                             {{ article.title }}
                           </h3>
                           <p class="text-[13px] text-slate-500 dark:text-slate-400 line-clamp-2 leading-relaxed font-normal opacity-90">
@@ -440,16 +440,16 @@ function getCategoryIcon(cat: string) {
                         </div>
                       </div>
 
-                      <div class="p-5 pt-4 mt-4 border-t border-slate-50 dark:border-slate-800/50 flex items-center justify-between">
+                      <div class="p-5 pt-4 mt-4 border-t border-slate-50 dark:border-slate-800/50 flex items-center justify-between items-end">
                         <div class="flex items-center gap-3 text-[11px] font-medium text-slate-400 dark:text-slate-500">
                           <span class="flex items-center gap-1"><Eye class="size-3.5" /> {{ article.views }}</span>
                           <span class="flex items-center gap-1"><Clock class="size-3.5" /> {{ article.readTime }}</span>
                         </div>
                         <div class="flex items-center gap-1.5 text-slate-400 dark:text-slate-600">
-                          <button class="p-1.5 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-slate-700 dark:hover:text-slate-300 active:scale-90 transition-all" aria-label="Save Stack">
+                          <button class="p-1.5 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-slate-700 dark:hover:text-slate-300 active:scale-90 transition-all" aria-label="Bookmark">
                             <Bookmark class="size-3.5" />
                           </button>
-                          <button class="p-1.5 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-slate-700 dark:hover:text-slate-300 active:scale-90 transition-all" aria-label="Route Payload">
+                          <button class="p-1.5 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-slate-700 dark:hover:text-slate-300 active:scale-90 transition-all" aria-label="Share">
                             <Share2 class="size-3.5" />
                           </button>
                         </div>
@@ -460,7 +460,7 @@ function getCategoryIcon(cat: string) {
 
                 <div class="pt-4 text-center">
                   <button class="inline-flex items-center gap-2 px-6 py-3 border border-slate-200 dark:border-slate-800 text-slate-700 dark:text-slate-300 text-xs font-bold uppercase tracking-wider rounded-xl hover:bg-white dark:hover:bg-slate-900 shadow-xs hover:shadow-md active:scale-98 transition-all duration-200">
-                    <span>Request Older Node Batches</span>
+                    <span>Load more stories</span>
                     <ChevronRight class="size-4" />
                   </button>
                 </div>
@@ -474,8 +474,8 @@ function getCategoryIcon(cat: string) {
 
           <div class="bg-white dark:bg-slate-900 rounded-2xl border border-slate-100 dark:border-slate-800/80 overflow-hidden shadow-xs">
             <div class="flex items-center gap-2 px-4 py-3.5 border-b border-slate-100 dark:border-slate-800/80 bg-slate-50/50 dark:bg-slate-900/40">
-              <TrendingUp class="size-4 text-cyan-500" />
-              <span class="text-xs font-extrabold uppercase tracking-wider text-slate-900 dark:text-white">Peak Resource Demands</span>
+              <TrendingUp class="size-4 text-red-500" />
+              <span class="text-xs font-extrabold uppercase tracking-wider text-slate-900 dark:text-white">Trending Today</span>
             </div>
             <div class="divide-y divide-slate-100 dark:divide-slate-800/50">
               <NuxtLink
@@ -484,11 +484,11 @@ function getCategoryIcon(cat: string) {
                 :to="`/article/${article.id}`"
                 class="flex items-start gap-3.5 px-4 py-3.5 hover:bg-slate-50/60 dark:hover:bg-slate-800/40 transition-colors group"
               >
-                <span class="text-sm font-mono font-black leading-none shrink-0 w-5 text-center mt-0.5" :class="i === 0 ? 'text-cyan-500' : 'text-slate-300 dark:text-slate-700'">
-                  0{{ i + 1 }}
+                <span class="text-lg font-black leading-none shrink-0 w-5 text-center mt-0.5" :class="i === 0 ? 'text-red-500' : 'text-slate-300 dark:text-slate-700'">
+                  {{ i + 1 }}
                 </span>
                 <div class="flex-1 min-w-0">
-                  <p class="text-xs font-bold text-slate-800 dark:text-slate-200 line-clamp-2 leading-snug group-hover:text-cyan-500 dark:group-hover:text-cyan-400 transition-colors tracking-tight">
+                  <p class="text-xs font-bold text-slate-800 dark:text-slate-200 line-clamp-2 leading-snug group-hover:text-red-600 dark:group-hover:text-red-500 transition-colors tracking-tight">
                     {{ article.title }}
                   </p>
                   <div class="flex items-center gap-2 mt-2 text-[10px] text-slate-400 dark:text-slate-500 font-medium">
@@ -505,34 +505,34 @@ function getCategoryIcon(cat: string) {
           <div class="bg-gradient-to-br from-slate-900 to-slate-950 rounded-2xl overflow-hidden border border-slate-800/80 shadow-md">
             <div class="relative h-36 overflow-hidden bg-slate-800">
               <img
-                src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=400&h=250&fit=crop"
-                alt="System Architecture Spotlight"
+                src="https://images.unsplash.com/photo-1543993452-315c2f5b5f3d?w=400&h=250&fit=crop"
+                alt="Editorial Legacy Spot"
                 class="w-full h-full object-cover opacity-60 transition-transform duration-700 ease-out hover:scale-104"
               />
               <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/20 to-transparent"></div>
-              <span class="absolute bottom-3 left-4 flex items-center gap-1 text-cyan-400 text-[10px] font-mono font-extrabold uppercase tracking-widest">
-                <Trophy class="size-3" /> CORE WHITEPAPER
+              <span class="absolute bottom-3 left-4 flex items-center gap-1 text-red-400 text-[10px] font-extrabold uppercase tracking-widest">
+                <Trophy class="size-3" /> Feature Analysis
               </span>
             </div>
             
             <div class="p-5">
-              <h3 class="text-sm font-black text-white leading-snug mb-2 tracking-tight uppercase">
-                The Decentralized Architecture Paradigm: Microservices at the System Edge
+              <h3 class="text-sm font-black text-white leading-snug mb-2 tracking-tight">
+                Cambodia SEA Games Legacy: How Sports Infrastructure Transforms Communities
               </h3>
               <p class="text-xs text-slate-400 leading-relaxed line-clamp-3 mb-4 font-light opacity-90">
-                An exhaustive structural overview regarding data footprint reduction patterns across hybrid container configurations.
+                From structural regional stadiums to digital youth programs, an analytical study on local updates across structural developments.
               </p>
               
               <div class="flex items-center justify-between pt-3.5 border-t border-slate-800/80">
                 <div class="flex items-center gap-2">
-                  <img src="https://randomuser.me/api/portraits/men/32.jpg" class="size-7 rounded-full ring-2 ring-slate-800 shadow-xs" alt="System Lead profile" />
+                  <img src="https://randomuser.me/api/portraits/men/32.jpg" class="size-7 rounded-full ring-2 ring-slate-800 shadow-xs" alt="Sokha profile" />
                   <div>
-                    <p class="text-[10px] font-bold text-slate-200">Devon Vance</p>
-                    <p class="text-[9px] font-mono text-slate-500">PUE Infrastructure Lead</p>
+                    <p class="text-[10px] font-bold text-slate-200">Sokha Chea</p>
+                    <p class="text-[9px] text-slate-500 font-medium">5 min read</p>
                   </div>
                 </div>
-                <button class="flex items-center gap-0.5 text-xs text-cyan-400 font-bold hover:text-cyan-300 transition-colors group/btn">
-                  Fetch <ChevronRight class="size-3.5 transition-transform duration-200 group-hover/btn:translate-x-0.5" />
+                <button class="flex items-center gap-0.5 text-xs text-red-400 font-bold hover:text-red-300 transition-colors group/btn">
+                  Explore <ChevronRight class="size-3.5 transition-transform duration-200 group-hover/btn:translate-x-0.5" />
                 </button>
               </div>
             </div>
@@ -540,20 +540,20 @@ function getCategoryIcon(cat: string) {
 
           <div class="bg-white dark:bg-slate-900 rounded-2xl border border-slate-100 dark:border-slate-800/80 p-5 shadow-xs relative overflow-hidden">
             <div class="flex items-center gap-2 mb-2">
-              <span class="text-md">📡</span>
-              <span class="text-xs font-extrabold uppercase tracking-wider text-slate-900 dark:text-white">Telemetry Reports</span>
+              <span class="text-md">📬</span>
+              <span class="text-xs font-extrabold uppercase tracking-wider text-slate-900 dark:text-white">Daily Dispatch</span>
             </div>
             <p class="text-xs text-slate-500 dark:text-slate-400 mb-4 leading-relaxed font-normal">
-              Receive raw structural diagnostic reports and industry topology shifts directly inside your secure endpoint.
+              Get the top 5 localized insights from Cambodia compressed elegantly directly into your mailbox daily.
             </p>
             <div class="space-y-2">
               <input
                 type="email"
-                placeholder="endpoint_address@domain.com"
-                class="w-full font-mono text-xs px-3.5 py-2.5 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-white placeholder-slate-500 focus:outline-none focus:ring-1 focus:ring-cyan-500 focus:border-cyan-500 transition-all duration-300"
+                placeholder="your@email.com"
+                class="w-full text-xs px-3.5 py-2.5 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:ring-1 focus:ring-red-500 focus:border-red-500 transition-all duration-300"
               />
-              <button class="w-full text-xs font-bold py-2.5 bg-cyan-600 hover:bg-cyan-700 text-white rounded-xl shadow-xs transition-colors duration-200 active:scale-98">
-                Subscribe Telemetry Stream
+              <button class="w-full text-xs font-bold py-2.5 bg-red-600 hover:bg-red-700 text-white rounded-xl shadow-xs transition-colors duration-200 active:scale-98">
+                Subscribe Free
               </button>
             </div>
           </div>
@@ -585,7 +585,7 @@ function getCategoryIcon(cat: string) {
   position: absolute !important;
   visibility: hidden;
   width: 100%;
-  max-width: 290px;
+  max-width: 290px; /* Prevent grid collapse visual flicker */
 }
 
 /* Tab Line Entry Effect */
