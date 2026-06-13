@@ -1,25 +1,43 @@
 <script setup lang="ts">
-import SiteHeader from "~/components/public/SiteHeader.vue";
-import SiteFooter from "~/components/public/SiteFooter.vue";
+const isSearchOpen = ref(false)
+const noteCount = ref(3)
+const searchItems = useState<any[]>('public-search-items', () => [])
 
-const languageStore = usePublicLanguageStore();
+function openSearch() {
+  isSearchOpen.value = true
+}
 
-onMounted(() => {
-  languageStore.initLanguage();
-});
+function closeSearch() {
+  isSearchOpen.value = false
+}
+
+function openNotes() {
+  navigateTo('/saved')
+}
+
+function logout() {
+  console.log('Logout clicked')
+}
 </script>
 
 <template>
-  <div
-    class="min-h-screen bg-[#f7f6f2] text-slate-900 antialiased"
-    :lang="languageStore.language"
-  >
-    <SiteHeader />
+  <div class="min-h-screen bg-white">
+    <PublicHeader
+      :note-count="noteCount"
+      @search="openSearch"
+      @notes="openNotes"
+      @logout="logout"
+    />
 
-    <main class="min-h-[60vh]">
+    <main class="">
       <slot />
     </main>
 
-    <SiteFooter />
+    <PublicFooter />
+
+    <PublicSearchOverlay
+      v-model="isSearchOpen"
+      :articles="searchItems"
+    />
   </div>
 </template>

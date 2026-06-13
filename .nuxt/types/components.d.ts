@@ -16,6 +16,28 @@ type LazyComponent<T> = DefineComponent<HydrationStrategies, {}, {}, {}, {}, {},
 interface _GlobalComponents {
   AppRefreshingIndicator: typeof import("../../app/components/AppRefreshingIndicator.vue")['default']
   ArticleForm: typeof import("../../app/components/admin/articles/ArticleForm.vue")['default']
+  ActionDropdown: typeof import("../../app/components/app/ActionDropdown.vue")['default']
+  AlertMessage: typeof import("../../app/components/app/AlertMessage.vue")['default']
+  AppBadge: typeof import("../../app/components/app/AppBadge.vue")['default']
+  AppButton: typeof import("../../app/components/app/AppButton.vue")['default']
+  AppCard: typeof import("../../app/components/app/AppCard.vue")['default']
+  AppDropdown: typeof import("../../app/components/app/AppDropdown.vue")['default']
+  AppInput: typeof import("../../app/components/app/AppInput.vue")['default']
+  AppModal: typeof import("../../app/components/app/AppModal.vue")['default']
+  AppSelect: typeof import("../../app/components/app/AppSelect.vue")['default']
+  AppTextarea: typeof import("../../app/components/app/AppTextarea.vue")['default']
+  ConfirmDialog: typeof import("../../app/components/app/ConfirmDialog.vue")['default']
+  DataTable: typeof import("../../app/components/app/DataTable.vue")['default']
+  EmptyState: typeof import("../../app/components/app/EmptyState.vue")['default']
+  FilterBar: typeof import("../../app/components/app/FilterBar.vue")['default']
+  OtpInput: typeof import("../../app/components/app/OtpInput.vue")['default']
+  PageHeader: typeof import("../../app/components/app/PageHeader.vue")['default']
+  PageLoadingBar: typeof import("../../app/components/app/PageLoadingBar.vue")['default']
+  PageSkeleton: typeof import("../../app/components/app/PageSkeleton.vue")['default']
+  SectionHeader: typeof import("../../app/components/app/SectionHeader.vue")['default']
+  StatsCard: typeof import("../../app/components/app/StatsCard.vue")['default']
+  TablePagination: typeof import("../../app/components/app/TablePagination.vue")['default']
+  ToastContainer: typeof import("../../app/components/app/ToastContainer.vue")['default']
   AuthButton: typeof import("../../app/components/auth/AuthButton.vue")['default']
   AuthCard: typeof import("../../app/components/auth/AuthCard.vue")['default']
   AuthInput: typeof import("../../app/components/auth/AuthInput.vue")['default']
@@ -30,64 +52,39 @@ interface _GlobalComponents {
   DeleteMenuModal: typeof import("../../app/components/menus/DeleteMenuModal.vue")['default']
   MenuFormModal: typeof import("../../app/components/menus/MenuFormModal.vue")['default']
   MenuIcon: typeof import("../../app/components/menus/MenuIcon.vue")['default']
+  ArticleCard: typeof import("../../app/components/news/ArticleCard.vue")['default']
+  ArticleEmptyState: typeof import("../../app/components/news/ArticleEmptyState.vue")['default']
+  BreakingNewsBanner: typeof import("../../app/components/news/BreakingNewsBanner.vue")['default']
+  FeaturedArticleCard: typeof import("../../app/components/news/FeaturedArticleCard.vue")['default']
+  FeaturedArticleHeroCard: typeof import("../../app/components/news/FeaturedArticleHeroCard.vue")['default']
+  FeedFilterTabs: typeof import("../../app/components/news/FeedFilterTabs.vue")['default']
+  NewArticleCard: typeof import("../../app/components/news/NewArticleCard.vue")['default']
+  NewBreakingBanner: typeof import("../../app/components/news/NewBreakingBanner.vue")['default']
+  NewEmptyState: typeof import("../../app/components/news/NewEmptyState.vue")['default']
+  NewHeroCard: typeof import("../../app/components/news/NewHeroCard.vue")['default']
+  NewSidebar: typeof import("../../app/components/news/NewSidebar.vue")['default']
+  NewsSidebar: typeof import("../../app/components/news/NewsSidebar.vue")['default']
   ImportPermissionModal: typeof import("../../app/components/permissions/ImportPermissionModal.vue")['default']
-  BreakingTicker: typeof import("../../app/components/public/BreakingTicker.vue")['default']
-  EmptyState: typeof import("../../app/components/public/EmptyState.vue")['default']
-  FeaturedHeroGrid: typeof import("../../app/components/public/FeaturedHeroGrid.vue")['default']
-  Navbar: typeof import("../../app/components/public/Navbar.vue")['default']
-  NewsSidebar: typeof import("../../app/components/public/NewsSidebar.vue")['default']
-  PublicCategoryPage: typeof import("../../app/components/public/PublicCategoryPage.vue")['default']
-  SiteFooter: typeof import("../../app/components/public/SiteFooter.vue")['default']
-  SiteHeader: typeof import("../../app/components/public/SiteHeader.vue")['default']
-  AiSummaryBox: typeof import("../../app/components/public/article/AiSummaryBox.vue")['default']
-  ArticleAdvertisementCard: typeof import("../../app/components/public/article/ArticleAdvertisementCard.vue")['default']
-  ArticleHeader: typeof import("../../app/components/public/article/ArticleHeader.vue")['default']
-  ArticleSidebar: typeof import("../../app/components/public/article/ArticleSidebar.vue")['default']
-  MoreFromSourceCard: typeof import("../../app/components/public/article/MoreFromSourceCard.vue")['default']
-  PopularArticlesCard: typeof import("../../app/components/public/article/PopularArticlesCard.vue")['default']
-  RelatedArticles: typeof import("../../app/components/public/article/RelatedArticles.vue")['default']
-  ShareBar: typeof import("../../app/components/public/article/ShareBar.vue")['default']
-  TelegramJoinCard: typeof import("../../app/components/public/article/TelegramJoinCard.vue")['default']
-  AdvertisementCard: typeof import("../../app/components/public/home/AdvertisementCard.vue")['default']
-  CategoryNewsSection: typeof import("../../app/components/public/home/CategoryNewsSection.vue")['default']
-  FeaturedNewsGrid: typeof import("../../app/components/public/home/FeaturedNewsGrid.vue")['default']
-  HeroNewsSection: typeof import("../../app/components/public/home/HeroNewsSection.vue")['default']
-  HomeSidebar: typeof import("../../app/components/public/home/HomeSidebar.vue")['default']
-  HomeSkeleton: typeof import("../../app/components/public/home/HomeSkeleton.vue")['default']
-  LatestNewsList: typeof import("../../app/components/public/home/LatestNewsList.vue")['default']
-  ProvinceFilter: typeof import("../../app/components/public/home/ProvinceFilter.vue")['default']
-  SourceToggleCard: typeof import("../../app/components/public/home/SourceToggleCard.vue")['default']
-  TopAdvertisement: typeof import("../../app/components/public/home/TopAdvertisement.vue")['default']
-  TrendingCard: typeof import("../../app/components/public/home/TrendingCard.vue")['default']
-  WeatherCard: typeof import("../../app/components/public/home/WeatherCard.vue")['default']
-  ArticleListPage: typeof import("../../app/components/public/listing/ArticleListPage.vue")['default']
+  PublicFooter: typeof import("../../app/components/public/PublicFooter.vue")['default']
+  PublicHeader: typeof import("../../app/components/public/PublicHeader.vue")['default']
+  PublicSearchOverlay: typeof import("../../app/components/public/PublicSearchOverlay.vue")['default']
   AssignRolePermissionsModal: typeof import("../../app/components/roles/AssignRolePermissionsModal.vue")['default']
   CloneRoleModal: typeof import("../../app/components/roles/CloneRoleModal.vue")['default']
   ImportRoleModal: typeof import("../../app/components/roles/ImportRoleModal.vue")['default']
   DashboardPageMotion: typeof import("../../app/components/transition/DashboardPageMotion.vue")['default']
   MotionCard: typeof import("../../app/components/transition/MotionCard.vue")['default']
-  ActionDropdown: typeof import("../../app/components/ui/ActionDropdown.vue")['default']
-  AlertMessage: typeof import("../../app/components/ui/AlertMessage.vue")['default']
-  AppBadge: typeof import("../../app/components/ui/AppBadge.vue")['default']
-  AppButton: typeof import("../../app/components/ui/AppButton.vue")['default']
-  AppCard: typeof import("../../app/components/ui/AppCard.vue")['default']
-  AppDropdown: typeof import("../../app/components/ui/AppDropdown.vue")['default']
-  AppInput: typeof import("../../app/components/ui/AppInput.vue")['default']
-  AppModal: typeof import("../../app/components/ui/AppModal.vue")['default']
-  AppSelect: typeof import("../../app/components/ui/AppSelect.vue")['default']
-  AppTextarea: typeof import("../../app/components/ui/AppTextarea.vue")['default']
-  ConfirmDialog: typeof import("../../app/components/ui/ConfirmDialog.vue")['default']
-  DataTable: typeof import("../../app/components/ui/DataTable.vue")['default']
-  FilterBar: typeof import("../../app/components/ui/FilterBar.vue")['default']
-  OtpInput: typeof import("../../app/components/ui/OtpInput.vue")['default']
-  PageHeader: typeof import("../../app/components/ui/PageHeader.vue")['default']
-  PageLoadingBar: typeof import("../../app/components/ui/PageLoadingBar.vue")['default']
-  PageSkeleton: typeof import("../../app/components/ui/PageSkeleton.vue")['default']
-  SectionHeader: typeof import("../../app/components/ui/SectionHeader.vue")['default']
-  StatsCard: typeof import("../../app/components/ui/StatsCard.vue")['default']
-  TablePagination: typeof import("../../app/components/ui/TablePagination.vue")['default']
+  Avatar: typeof import("../../app/components/ui/Avatar.vue")['default']
+  Button: typeof import("../../app/components/ui/Button.vue")['default']
+  Drawer: typeof import("../../app/components/ui/Drawer.vue")['default']
+  Dropdown: typeof import("../../app/components/ui/Dropdown.vue")['default']
+  DropdownItem: typeof import("../../app/components/ui/DropdownItem.vue")['default']
+  IconButton: typeof import("../../app/components/ui/IconButton.vue")['default']
+  Logo: typeof import("../../app/components/ui/Logo.vue")['default']
+  SearchInput: typeof import("../../app/components/ui/SearchInput.vue")['default']
+  Separator: typeof import("../../app/components/ui/Separator.vue")['default']
+  Sidebar: typeof import("../../app/components/ui/Sidebar.vue")['default']
+  Skeleton: typeof import("../../app/components/ui/Skeleton.vue")['default']
   ThemeToggle: typeof import("../../app/components/ui/ThemeToggle.vue")['default']
-  ToastContainer: typeof import("../../app/components/ui/ToastContainer.vue")['default']
   CreateUserModal: typeof import("../../app/components/users/CreateUserModal.vue")['default']
   DeleteUserModal: typeof import("../../app/components/users/DeleteUserModal.vue")['default']
   EditUserModal: typeof import("../../app/components/users/EditUserModal.vue")['default']
@@ -118,6 +115,28 @@ interface _GlobalComponents {
   NuxtIsland: typeof import("../../node_modules/nuxt/dist/app/components/nuxt-island")['default']
   LazyAppRefreshingIndicator: LazyComponent<typeof import("../../app/components/AppRefreshingIndicator.vue")['default']>
   LazyArticleForm: LazyComponent<typeof import("../../app/components/admin/articles/ArticleForm.vue")['default']>
+  LazyActionDropdown: LazyComponent<typeof import("../../app/components/app/ActionDropdown.vue")['default']>
+  LazyAlertMessage: LazyComponent<typeof import("../../app/components/app/AlertMessage.vue")['default']>
+  LazyAppBadge: LazyComponent<typeof import("../../app/components/app/AppBadge.vue")['default']>
+  LazyAppButton: LazyComponent<typeof import("../../app/components/app/AppButton.vue")['default']>
+  LazyAppCard: LazyComponent<typeof import("../../app/components/app/AppCard.vue")['default']>
+  LazyAppDropdown: LazyComponent<typeof import("../../app/components/app/AppDropdown.vue")['default']>
+  LazyAppInput: LazyComponent<typeof import("../../app/components/app/AppInput.vue")['default']>
+  LazyAppModal: LazyComponent<typeof import("../../app/components/app/AppModal.vue")['default']>
+  LazyAppSelect: LazyComponent<typeof import("../../app/components/app/AppSelect.vue")['default']>
+  LazyAppTextarea: LazyComponent<typeof import("../../app/components/app/AppTextarea.vue")['default']>
+  LazyConfirmDialog: LazyComponent<typeof import("../../app/components/app/ConfirmDialog.vue")['default']>
+  LazyDataTable: LazyComponent<typeof import("../../app/components/app/DataTable.vue")['default']>
+  LazyEmptyState: LazyComponent<typeof import("../../app/components/app/EmptyState.vue")['default']>
+  LazyFilterBar: LazyComponent<typeof import("../../app/components/app/FilterBar.vue")['default']>
+  LazyOtpInput: LazyComponent<typeof import("../../app/components/app/OtpInput.vue")['default']>
+  LazyPageHeader: LazyComponent<typeof import("../../app/components/app/PageHeader.vue")['default']>
+  LazyPageLoadingBar: LazyComponent<typeof import("../../app/components/app/PageLoadingBar.vue")['default']>
+  LazyPageSkeleton: LazyComponent<typeof import("../../app/components/app/PageSkeleton.vue")['default']>
+  LazySectionHeader: LazyComponent<typeof import("../../app/components/app/SectionHeader.vue")['default']>
+  LazyStatsCard: LazyComponent<typeof import("../../app/components/app/StatsCard.vue")['default']>
+  LazyTablePagination: LazyComponent<typeof import("../../app/components/app/TablePagination.vue")['default']>
+  LazyToastContainer: LazyComponent<typeof import("../../app/components/app/ToastContainer.vue")['default']>
   LazyAuthButton: LazyComponent<typeof import("../../app/components/auth/AuthButton.vue")['default']>
   LazyAuthCard: LazyComponent<typeof import("../../app/components/auth/AuthCard.vue")['default']>
   LazyAuthInput: LazyComponent<typeof import("../../app/components/auth/AuthInput.vue")['default']>
@@ -132,64 +151,39 @@ interface _GlobalComponents {
   LazyDeleteMenuModal: LazyComponent<typeof import("../../app/components/menus/DeleteMenuModal.vue")['default']>
   LazyMenuFormModal: LazyComponent<typeof import("../../app/components/menus/MenuFormModal.vue")['default']>
   LazyMenuIcon: LazyComponent<typeof import("../../app/components/menus/MenuIcon.vue")['default']>
+  LazyArticleCard: LazyComponent<typeof import("../../app/components/news/ArticleCard.vue")['default']>
+  LazyArticleEmptyState: LazyComponent<typeof import("../../app/components/news/ArticleEmptyState.vue")['default']>
+  LazyBreakingNewsBanner: LazyComponent<typeof import("../../app/components/news/BreakingNewsBanner.vue")['default']>
+  LazyFeaturedArticleCard: LazyComponent<typeof import("../../app/components/news/FeaturedArticleCard.vue")['default']>
+  LazyFeaturedArticleHeroCard: LazyComponent<typeof import("../../app/components/news/FeaturedArticleHeroCard.vue")['default']>
+  LazyFeedFilterTabs: LazyComponent<typeof import("../../app/components/news/FeedFilterTabs.vue")['default']>
+  LazyNewArticleCard: LazyComponent<typeof import("../../app/components/news/NewArticleCard.vue")['default']>
+  LazyNewBreakingBanner: LazyComponent<typeof import("../../app/components/news/NewBreakingBanner.vue")['default']>
+  LazyNewEmptyState: LazyComponent<typeof import("../../app/components/news/NewEmptyState.vue")['default']>
+  LazyNewHeroCard: LazyComponent<typeof import("../../app/components/news/NewHeroCard.vue")['default']>
+  LazyNewSidebar: LazyComponent<typeof import("../../app/components/news/NewSidebar.vue")['default']>
+  LazyNewsSidebar: LazyComponent<typeof import("../../app/components/news/NewsSidebar.vue")['default']>
   LazyImportPermissionModal: LazyComponent<typeof import("../../app/components/permissions/ImportPermissionModal.vue")['default']>
-  LazyBreakingTicker: LazyComponent<typeof import("../../app/components/public/BreakingTicker.vue")['default']>
-  LazyEmptyState: LazyComponent<typeof import("../../app/components/public/EmptyState.vue")['default']>
-  LazyFeaturedHeroGrid: LazyComponent<typeof import("../../app/components/public/FeaturedHeroGrid.vue")['default']>
-  LazyNavbar: LazyComponent<typeof import("../../app/components/public/Navbar.vue")['default']>
-  LazyNewsSidebar: LazyComponent<typeof import("../../app/components/public/NewsSidebar.vue")['default']>
-  LazyPublicCategoryPage: LazyComponent<typeof import("../../app/components/public/PublicCategoryPage.vue")['default']>
-  LazySiteFooter: LazyComponent<typeof import("../../app/components/public/SiteFooter.vue")['default']>
-  LazySiteHeader: LazyComponent<typeof import("../../app/components/public/SiteHeader.vue")['default']>
-  LazyAiSummaryBox: LazyComponent<typeof import("../../app/components/public/article/AiSummaryBox.vue")['default']>
-  LazyArticleAdvertisementCard: LazyComponent<typeof import("../../app/components/public/article/ArticleAdvertisementCard.vue")['default']>
-  LazyArticleHeader: LazyComponent<typeof import("../../app/components/public/article/ArticleHeader.vue")['default']>
-  LazyArticleSidebar: LazyComponent<typeof import("../../app/components/public/article/ArticleSidebar.vue")['default']>
-  LazyMoreFromSourceCard: LazyComponent<typeof import("../../app/components/public/article/MoreFromSourceCard.vue")['default']>
-  LazyPopularArticlesCard: LazyComponent<typeof import("../../app/components/public/article/PopularArticlesCard.vue")['default']>
-  LazyRelatedArticles: LazyComponent<typeof import("../../app/components/public/article/RelatedArticles.vue")['default']>
-  LazyShareBar: LazyComponent<typeof import("../../app/components/public/article/ShareBar.vue")['default']>
-  LazyTelegramJoinCard: LazyComponent<typeof import("../../app/components/public/article/TelegramJoinCard.vue")['default']>
-  LazyAdvertisementCard: LazyComponent<typeof import("../../app/components/public/home/AdvertisementCard.vue")['default']>
-  LazyCategoryNewsSection: LazyComponent<typeof import("../../app/components/public/home/CategoryNewsSection.vue")['default']>
-  LazyFeaturedNewsGrid: LazyComponent<typeof import("../../app/components/public/home/FeaturedNewsGrid.vue")['default']>
-  LazyHeroNewsSection: LazyComponent<typeof import("../../app/components/public/home/HeroNewsSection.vue")['default']>
-  LazyHomeSidebar: LazyComponent<typeof import("../../app/components/public/home/HomeSidebar.vue")['default']>
-  LazyHomeSkeleton: LazyComponent<typeof import("../../app/components/public/home/HomeSkeleton.vue")['default']>
-  LazyLatestNewsList: LazyComponent<typeof import("../../app/components/public/home/LatestNewsList.vue")['default']>
-  LazyProvinceFilter: LazyComponent<typeof import("../../app/components/public/home/ProvinceFilter.vue")['default']>
-  LazySourceToggleCard: LazyComponent<typeof import("../../app/components/public/home/SourceToggleCard.vue")['default']>
-  LazyTopAdvertisement: LazyComponent<typeof import("../../app/components/public/home/TopAdvertisement.vue")['default']>
-  LazyTrendingCard: LazyComponent<typeof import("../../app/components/public/home/TrendingCard.vue")['default']>
-  LazyWeatherCard: LazyComponent<typeof import("../../app/components/public/home/WeatherCard.vue")['default']>
-  LazyArticleListPage: LazyComponent<typeof import("../../app/components/public/listing/ArticleListPage.vue")['default']>
+  LazyPublicFooter: LazyComponent<typeof import("../../app/components/public/PublicFooter.vue")['default']>
+  LazyPublicHeader: LazyComponent<typeof import("../../app/components/public/PublicHeader.vue")['default']>
+  LazyPublicSearchOverlay: LazyComponent<typeof import("../../app/components/public/PublicSearchOverlay.vue")['default']>
   LazyAssignRolePermissionsModal: LazyComponent<typeof import("../../app/components/roles/AssignRolePermissionsModal.vue")['default']>
   LazyCloneRoleModal: LazyComponent<typeof import("../../app/components/roles/CloneRoleModal.vue")['default']>
   LazyImportRoleModal: LazyComponent<typeof import("../../app/components/roles/ImportRoleModal.vue")['default']>
   LazyDashboardPageMotion: LazyComponent<typeof import("../../app/components/transition/DashboardPageMotion.vue")['default']>
   LazyMotionCard: LazyComponent<typeof import("../../app/components/transition/MotionCard.vue")['default']>
-  LazyActionDropdown: LazyComponent<typeof import("../../app/components/ui/ActionDropdown.vue")['default']>
-  LazyAlertMessage: LazyComponent<typeof import("../../app/components/ui/AlertMessage.vue")['default']>
-  LazyAppBadge: LazyComponent<typeof import("../../app/components/ui/AppBadge.vue")['default']>
-  LazyAppButton: LazyComponent<typeof import("../../app/components/ui/AppButton.vue")['default']>
-  LazyAppCard: LazyComponent<typeof import("../../app/components/ui/AppCard.vue")['default']>
-  LazyAppDropdown: LazyComponent<typeof import("../../app/components/ui/AppDropdown.vue")['default']>
-  LazyAppInput: LazyComponent<typeof import("../../app/components/ui/AppInput.vue")['default']>
-  LazyAppModal: LazyComponent<typeof import("../../app/components/ui/AppModal.vue")['default']>
-  LazyAppSelect: LazyComponent<typeof import("../../app/components/ui/AppSelect.vue")['default']>
-  LazyAppTextarea: LazyComponent<typeof import("../../app/components/ui/AppTextarea.vue")['default']>
-  LazyConfirmDialog: LazyComponent<typeof import("../../app/components/ui/ConfirmDialog.vue")['default']>
-  LazyDataTable: LazyComponent<typeof import("../../app/components/ui/DataTable.vue")['default']>
-  LazyFilterBar: LazyComponent<typeof import("../../app/components/ui/FilterBar.vue")['default']>
-  LazyOtpInput: LazyComponent<typeof import("../../app/components/ui/OtpInput.vue")['default']>
-  LazyPageHeader: LazyComponent<typeof import("../../app/components/ui/PageHeader.vue")['default']>
-  LazyPageLoadingBar: LazyComponent<typeof import("../../app/components/ui/PageLoadingBar.vue")['default']>
-  LazyPageSkeleton: LazyComponent<typeof import("../../app/components/ui/PageSkeleton.vue")['default']>
-  LazySectionHeader: LazyComponent<typeof import("../../app/components/ui/SectionHeader.vue")['default']>
-  LazyStatsCard: LazyComponent<typeof import("../../app/components/ui/StatsCard.vue")['default']>
-  LazyTablePagination: LazyComponent<typeof import("../../app/components/ui/TablePagination.vue")['default']>
+  LazyAvatar: LazyComponent<typeof import("../../app/components/ui/Avatar.vue")['default']>
+  LazyButton: LazyComponent<typeof import("../../app/components/ui/Button.vue")['default']>
+  LazyDrawer: LazyComponent<typeof import("../../app/components/ui/Drawer.vue")['default']>
+  LazyDropdown: LazyComponent<typeof import("../../app/components/ui/Dropdown.vue")['default']>
+  LazyDropdownItem: LazyComponent<typeof import("../../app/components/ui/DropdownItem.vue")['default']>
+  LazyIconButton: LazyComponent<typeof import("../../app/components/ui/IconButton.vue")['default']>
+  LazyLogo: LazyComponent<typeof import("../../app/components/ui/Logo.vue")['default']>
+  LazySearchInput: LazyComponent<typeof import("../../app/components/ui/SearchInput.vue")['default']>
+  LazySeparator: LazyComponent<typeof import("../../app/components/ui/Separator.vue")['default']>
+  LazySidebar: LazyComponent<typeof import("../../app/components/ui/Sidebar.vue")['default']>
+  LazySkeleton: LazyComponent<typeof import("../../app/components/ui/Skeleton.vue")['default']>
   LazyThemeToggle: LazyComponent<typeof import("../../app/components/ui/ThemeToggle.vue")['default']>
-  LazyToastContainer: LazyComponent<typeof import("../../app/components/ui/ToastContainer.vue")['default']>
   LazyCreateUserModal: LazyComponent<typeof import("../../app/components/users/CreateUserModal.vue")['default']>
   LazyDeleteUserModal: LazyComponent<typeof import("../../app/components/users/DeleteUserModal.vue")['default']>
   LazyEditUserModal: LazyComponent<typeof import("../../app/components/users/EditUserModal.vue")['default']>

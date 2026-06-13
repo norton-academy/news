@@ -1,630 +1,127 @@
 <script setup lang="ts">
-import { ref, computed } from 'vue'
-import {
-  ChevronRight,
-  Calendar,
-  Eye,
-  Trophy,
-  Zap,
-  TrendingUp,
-  Clock,
-  Bookmark,
-  Share2,
-  Flame,
-  Star,
-  Newspaper,
-  ShieldAlert,
-  Cpu,
-  Binary,
-  Radio,
-  Leaf
-} from 'lucide-vue-next'
+import { ChevronRight } from 'lucide-vue-next'
+import { useTechnologyFeed, TECHNOLOGY_SUB_TOPICS } from '~/composables/useTechnologyFeed'
 
 definePageMeta({
-  layout: 'public'
+  layout: 'public',
 })
 
-// ─── Category dot colors (Extended for Tech Pillars) ────────────────────────
-const CATEGORY_DOT: Record<string, string> = {
-  'AI Cybersecurity':     '#06b6d4',
-  'Consumer Gadgets':     '#7c3aed',
-  'Next-Gen Software':    '#ec4899',
-  'Telecom & Connectivity': '#3b82f6',
-  'Green Tech & Sustainability': '#10b981',
-}
-
-// ─── Feed Filters ───────────────────────────────────────────────────────────
-type FeedFilter = 'latest' | 'popular' | 'trending' | 'breaking' | 'editors_pick'
-
-interface FilterTab {
-  key: FeedFilter
-  label: string
-  labelKm: string
-  icon: unknown
-  description: string
-}
-
-const FEED_FILTERS: FilterTab[] = [
-  { key: 'latest',       label: 'Latest Tech',   labelKm: 'ថ្មីបំផុត',    icon: Newspaper,   description: 'Most recent structural shifts in industry architectures.' },
-  { key: 'popular',      label: 'Most Read',     labelKm: 'ពេញនិយម',     icon: Flame,       description: 'Highest reader traction parameters today.' },
-  { key: 'trending',     label: 'Trending',      labelKm: 'និន្នាការ',    icon: TrendingUp,   description: 'Fastest rising metrics within the last 6 hours.' },
-  { key: 'breaking',     label: 'Critical Flash', labelKm: 'បន្ទាន់',     icon: Zap,          description: 'Immediate updates and systemic network alerts.' },
-  { key: 'editors_pick', label: "Editor's Choice", labelKm: 'ជ្រើសរើស',    icon: Star,         description: 'Curated technical papers selected by system leads.' },
-]
-
-// ─── State ─────────────────────────────────────────────────────────────────
-const activeFilter = ref<FeedFilter>('latest')
-
-// ─── Technology Data Stream ────────────────────────────────────────────────
-const articles = ref([
-  {
-    id: 1,
-    title: "Sovereign Network Architecture Shifts Toward Predictive AI Anomaly Mitigation Models",
-    excerpt: "Enterprise systems are completely moving away from old signature-based code detection. Next-generation cyber units deploy active machine-learning instances to map and neutralize threat surfaces in sub-milliseconds.",
-    image: "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=800&h=500&fit=crop",
-    category: "AI Cybersecurity",
-    source: "Defense Matrix Ledger",
-    date: "June 08, 2026",
-    readTime: "5 min",
-    views: "4.8k",
-    isBreaking: true,
-    isFeatured: true,
-  },
-  {
-    id: 2,
-    title: "Native NPU Hardware Infrastructure Enables Complex Localized Ambient Environments",
-    excerpt: "New consumer systems prioritize physical spatial efficiency alongside processing matrices. Native Neural Processing Units run heavy multi-modal code layers cleanly without requiring remote cloud queries.",
-    image: "https://images.unsplash.com/photo-1518770660439-4636190af475?w=600&h=400&fit=crop",
-    category: "Consumer Gadgets",
-    source: "Core Hardware Journal",
-    date: "June 07, 2026",
-    readTime: "4 min",
-    views: "3.1k",
-    isBreaking: false,
-    isFeatured: false,
-  },
-  {
-    id: 3,
-    title: "Data Center Cooling Costs Drop 90% via Advanced Liquid Dielectric Submersion Arrays",
-    excerpt: "As computational workloads demand unprecedented power envelopes, global data nodes restructure pipelines. Immersion systems keep thermal envelopes stable under standard configurations.",
-    image: "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=600&h=400&fit=crop",
-    category: "Green Tech & Sustainability",
-    source: "EcoCompute Systems",
-    date: "June 06, 2026",
-    readTime: "6 min",
-    views: "2.9k",
-    isBreaking: false,
-    isFeatured: false,
-  },
-  {
-    id: 4,
-    title: "Modular Form Factors Gain Regulatory Support Under New Right to Repair Directive",
-    excerpt: "The reliance on industrial chemical adhesives decreases. Framework architectures score perfect repair indices by utilizing standardized components and easily decoupled pressure pins.",
-    image: "https://images.unsplash.com/photo-1581092160562-40aa08e78837?w=600&h=400&fit=crop",
-    category: "Consumer Gadgets",
-    source: "Circular Electronics Hub",
-    date: "June 05, 2026",
-    readTime: "3 min",
-    views: "5.2k",
-    isBreaking: false,
-    isFeatured: false,
-  },
-  {
-    id: 5,
-    title: "Low-Code Natural Language Compilers Decentralize Application Production Timelines",
-    excerpt: "Semantic interpreters now compile structural enterprise-ready microservices directly from natural dialogue inputs, removing legacy manual compilation cycles.",
-    image: "https://images.unsplash.com/photo-1607799279861-4dd421887fb3?w=600&h=400&fit=crop",
-    category: "Next-Gen Software",
-    source: "Stack Logic Report",
-    date: "June 04, 2026",
-    readTime: "4 min",
-    views: "1.9k",
-    isBreaking: false,
-    isFeatured: false,
-  },
-  {
-    id: 6,
-    title: "Network Slicing Protocols Guarantee Sub-Millisecond Latency for Edge Medical Robotics",
-    excerpt: "Telecom infrastructure maps dedicated virtual frequency bands across hardware nodes, ensuring uninterrupted priority channels for real-time remote physical processes.",
-    image: "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=600&h=400&fit=crop",
-    category: "Telecom & Connectivity",
-    source: "Signal Horizon Paper",
-    date: "June 03, 2026",
-    readTime: "5 min",
-    views: "3.4k",
-    isBreaking: true,
-    isFeatured: false,
-  },
-  {
-    id: 7,
-    title: "Carbon-Aware Runtime Compilers Automatically Adjust CPU Schedules for Clean Grid Windows",
-    excerpt: "Intelligent execution systems read localized electricity grids, automatically shifting low-priority batches into high-yield renewable windows.",
-    image: "https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?w=600&h=400&fit=crop",
-    category: "Green Tech & Sustainability",
-    source: "EcoCompute Systems",
-    date: "June 02, 2026",
-    readTime: "3 min",
-    views: "2.1k",
-    isBreaking: false,
-    isFeatured: false,
-  },
-  {
-    id: 8,
-    title: "Sentiment Tracking Analysis Defeats Complex Enterprise Social Engineering Campaigns",
-    excerpt: "Security systems now scan incoming text payloads for tone inconsistencies and contextual mismatch flags, blocking spoofed threats instantly.",
-    image: "https://images.unsplash.com/photo-1563986768609-322da13575f3?w=600&h=400&fit=crop",
-    category: "AI Cybersecurity",
-    source: "Defense Matrix Ledger",
-    date: "June 01, 2026",
-    readTime: "4 min",
-    views: "4.0k",
-    isBreaking: false,
-    isFeatured: false,
-  },
-  {
-    id: 9,
-    title: "Low Earth Orbit Satellite Clusters Close Bandwidth Disparity Indexes in Rural Zones",
-    excerpt: "High-density space telemetry networks achieve orbital stability, delivering high-speed packet routing to coordinates completely outside standard wire ranges.",
-    image: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=600&h=400&fit=crop",
-    category: "Telecom & Connectivity",
-    source: "Signal Horizon Paper",
-    date: "May 31, 2026",
-    readTime: "4 min",
-    views: "2.3k",
-    isBreaking: false,
-    isFeatured: false,
-  }
-])
-
-// ─── Computed ───────────────────────────────────────────────────────────────
-const breakingArticles = computed(() =>
-  articles.value.filter(a => a.isBreaking)
-)
-
-const filteredArticles = computed(() => {
-  const all = articles.value
-  switch (activeFilter.value) {
-    case 'latest':
-      return [...all].sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
-    case 'popular':
-      return [...all].sort((a, b) => parseFloat(b.views) - parseFloat(a.views))
-    case 'trending':
-      return [...all].sort((a, b) => parseFloat(b.views) - parseFloat(a.views)).slice(0, 6)
-    case 'breaking':
-      return all.filter(a => a.isBreaking)
-    case 'editors_pick':
-      return all.filter(a => a.isFeatured)
-    default:
-      return all
-  }
+useSeoMeta({
+  title: 'Technology',
+  description: 'Latest Cambodia technology news covering startups, digital government, telecom, cybersecurity, AI, and mobile services.',
 })
 
-const activeFilterTab = computed(() =>
-  FEED_FILTERS.find(f => f.key === activeFilter.value)!
-)
-
-const featuredArticle = computed(() =>
-  filteredArticles.value.find(a => a.isFeatured) ?? filteredArticles.value[0] ?? null
-)
-
-const secondaryArticles = computed(() => {
-  const featured = featuredArticle.value
-  return filteredArticles.value
-    .filter(a => a.id !== featured?.id)
-    .slice(0, 6)
-})
-
-const trendingArticles = computed(() =>
-  [...articles.value].sort((a, b) =>
-    parseFloat(b.views) - parseFloat(a.views)
-  ).slice(0, 5)
-)
-
-// ─── Helpers ─────────────────────────────────────────────────────────────────
-function setFilter(key: FeedFilter) {
-  activeFilter.value = key
-}
-
-function categoryDot(cat: string): string {
-  return CATEGORY_DOT[cat] ?? '#64748b'
-}
-
-function categoryTextClass(cat: string): string {
-  const map: Record<string, string> = {
-    'AI Cybersecurity':           'text-cyan-600 dark:text-cyan-400 bg-cyan-50 dark:bg-cyan-950/40',
-    'Consumer Gadgets':           'text-violet-600 dark:text-violet-400 bg-violet-50 dark:bg-violet-950/40',
-    'Next-Gen Software':          'text-pink-600 dark:text-pink-400 bg-pink-50 dark:bg-pink-950/40',
-    'Telecom & Connectivity':     'text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-950/40',
-    'Green Tech & Sustainability': 'text-emerald-600 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-950/40',
-  }
-  return map[cat] ?? 'text-slate-600 dark:text-slate-400 bg-slate-100 dark:bg-slate-800'
-}
-
-function getCategoryIcon(cat: string) {
-  const icons: Record<string, any> = {
-    'AI Cybersecurity':           ShieldAlert,
-    'Consumer Gadgets':           Cpu,
-    'Next-Gen Software':          Binary,
-    'Telecom & Connectivity':     Radio,
-    'Green Tech & Sustainability': Leaf
-  }
-  return icons[cat] ?? Newspaper
-}
+const {
+  activeTopic,
+  breakingArticles,
+  filteredArticles,
+  featuredArticle,
+  gridArticles,
+  trendingArticles,
+  topicIcon,
+  topicLabel,
+  setTopic,
+} = useTechnologyFeed()
 </script>
 
 <template>
-  <div class="min-h-screen bg-slate-50/50 dark:bg-slate-950 transition-colors duration-500">
+  <div
+    class="min-h-screen bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-50 transition-colors duration-500 antialiased"
+  >
+    <!-- Breaking Banner -->
+    <NewBreakingBanner :articles="breakingArticles" />
 
-    <div
-      v-if="breakingArticles.length"
-      class="bg-cyan-950 text-cyan-400 border-b border-cyan-800/50 text-xs font-semibold h-10 flex items-center relative overflow-hidden z-30 shadow-md"
-    >
-      <div class="absolute left-0 top-0 bottom-0 px-4 bg-cyan-900 text-white flex items-center gap-1.5 z-10 shadow-[4px_0_12px_rgba(0,0,0,0.15)] select-none">
-        <Zap class="size-3.5 fill-white text-cyan-400 animate-pulse" />
-        <span class="tracking-wider uppercase text-[11px] font-black">SYSTEM ALERT</span>
-      </div>
-      
-      <div class="marquee-track flex items-center pl-32 hover:[animation-play-state:paused]">
-        <div class="flex items-center gap-16 whitespace-nowrap animate-marquee">
-          <NuxtLink
-            v-for="a in [...breakingArticles, ...breakingArticles]"
-            :key="a.id"
-            :to="`/article/${a.id}`"
-            class="flex items-center gap-2 hover:text-white transition-colors font-mono text-xs group"
-          >
-            <span class="w-1.5 h-1.5 rounded-full bg-cyan-400 opacity-60 group-hover:scale-125 transition-transform"></span>
-            {{ a.title }}
-          </NuxtLink>
-        </div>
-      </div>
-    </div>
-
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-
-      <div class="flex items-center justify-between mb-8 border-b border-slate-200/60 dark:border-slate-800/80 relative">
-        <div class="flex items-center gap-1 overflow-x-auto scrollbar-none pb-0 relative">
-          <button
-            v-for="tab in FEED_FILTERS"
-            :key="tab.key"
-            @click="setFilter(tab.key)"
-            class="group relative flex items-center gap-2 px-5 py-3.5 text-sm font-bold whitespace-nowrap transition-all duration-300 active:scale-95 z-10"
-            :class="activeFilter === tab.key ? 'text-cyan-500 dark:text-cyan-400' : 'text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200'"
-            :title="tab.description"
-          >
-            <component
-              :is="tab.icon"
-              class="size-4 transition-transform duration-300 ease-out"
-              :class="activeFilter === tab.key ? 'scale-110 rotate-3' : 'group-hover:scale-110 group-hover:-rotate-3'"
-            />
-            <span>{{ tab.label }}</span>
-            <span v-if="tab.key === 'breaking' && breakingArticles.length" class="inline-flex items-center justify-center size-4 text-[9px] font-black bg-cyan-500 text-white rounded-full animate-bounce">
-              {{ breakingArticles.length }}
-            </span>
-
-            <span 
-              v-if="activeFilter === tab.key"
-              class="absolute bottom-0 left-0 right-0 h-0.5 bg-cyan-500 dark:bg-cyan-400 origin-left animate-line-slide"
-            ></span>
-          </button>
-        </div>
-
-        <p class="hidden lg:block text-xs font-mono text-slate-400 dark:text-slate-500 italic opacity-85">
-          // {{ activeFilterTab.description }}
-        </p>
-      </div>
-
+    <div class=" mx-auto px-4 sm:px-6 lg:px-8 py-8">
       <div class="grid grid-cols-1 xl:grid-cols-4 gap-8 items-start">
 
-        <div class="xl:col-span-3">
-          <transition name="fade-layout" mode="out-in">
-            <div :key="activeFilter">
+        <!-- Main Feed -->
+        <section class="xl:col-span-3 min-w-0">
 
-              <div v-if="filteredArticles.length === 0" class="flex flex-col items-center justify-center py-28 text-center bg-white dark:bg-slate-900 rounded-3xl border border-dashed border-slate-200 dark:border-slate-800 p-8 shadow-xs">
-                <div class="size-16 rounded-2xl bg-slate-50 dark:bg-slate-800 flex items-center justify-center text-3xl mb-4 shadow-xs animate-pulse">
-                  {{ activeFilter === 'breaking' ? '⚡' : activeFilter === 'editors_pick' ? '⭐' : '📰' }}
-                </div>
-                <h4 class="text-slate-800 dark:text-slate-200 font-bold text-lg">
-                  {{ activeFilter === 'breaking' ? 'No active network warnings' : 'No entries available' }}
-                </h4>
-                <p class="text-slate-400 dark:text-slate-500 text-sm mt-1.5 max-w-sm leading-relaxed">
-                  All systems operating nominally. Live telemetry updates display instantly upon next batch dispatch.
-                </p>
-                <button @click="setFilter('latest')" class="mt-6 px-6 py-2.5 bg-slate-950 dark:bg-white text-white dark:text-slate-950 rounded-xl text-xs font-bold uppercase tracking-wider shadow-xs hover:opacity-90 active:scale-95 transition-all">
-                  Reset Data Feed
-                </button>
-              </div>
+          <!-- Empty State -->
+          <NewEmptyState
+            v-if="filteredArticles.length === 0"
+            :topic-label="topicLabel(activeTopic)"
+            @reset="setTopic('all')"
+          />
 
-              <div v-else class="space-y-8">
-                
-                <NuxtLink
-                  v-if="featuredArticle"
-                  :to="`/article/${featuredArticle.id}`"
-                  class="group block rounded-2xl overflow-hidden bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800/80 shadow-xs hover:shadow-xl hover:border-slate-200 dark:hover:border-slate-700 transition-all duration-300"
-                >
-                  <div class="grid md:grid-cols-5 min-h-[260px]">
-                    <div class="relative md:col-span-3 overflow-hidden bg-slate-100 dark:bg-slate-800 h-56 md:h-auto">
-                      <img
-                        :src="featuredArticle.image"
-                        :alt="featuredArticle.title"
-                        class="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-103"
-                      />
-                      <span v-if="featuredArticle.isBreaking" class="absolute top-3 left-3 flex items-center gap-1 bg-cyan-500 text-white text-[10px] font-black px-2.5 py-1 rounded-md uppercase tracking-wider shadow-md">
-                        <Zap class="size-3 fill-white" /> CRITICAL
-                      </span>
-                    </div>
-                    
-                    <div class="md:col-span-2 p-6 sm:p-8 flex flex-col justify-between bg-gradient-to-br from-white to-slate-50/30 dark:from-slate-900 dark:to-slate-900/60">
-                      <div>
-                        <div class="flex items-center gap-2 mb-3.5">
-                          <span class="text-[10px] font-extrabold uppercase tracking-wide px-2.5 py-0.5 rounded-md flex items-center gap-1" :class="categoryTextClass(featuredArticle.category)">
-                            <component :is="getCategoryIcon(featuredArticle.category)" class="size-3" />
-                            {{ featuredArticle.category }}
-                          </span>
-                          <span class="text-[11px] font-semibold text-slate-400 dark:text-slate-500 flex items-center gap-1.5">
-                            <span class="size-1.5 rounded-full" :style="{ background: categoryDot(featuredArticle.category) }"></span>
-                            {{ featuredArticle.source }}
-                          </span>
-                        </div>
-                        <h2 class="text-lg sm:text-xl font-black text-slate-900 dark:text-white leading-snug mb-3 group-hover:text-cyan-500 dark:group-hover:text-cyan-400 transition-colors duration-200 line-clamp-3 tracking-tight uppercase">
-                          {{ featuredArticle.title }}
-                        </h2>
-                        <p class="text-slate-500 dark:text-slate-400 text-xs sm:text-sm leading-relaxed line-clamp-3 font-normal opacity-90">
-                          {{ featuredArticle.excerpt }}
-                        </p>
-                      </div>
-                      
-                      <div class="flex items-center justify-between mt-6 pt-4 border-t border-slate-100 dark:border-slate-800/80">
-                        <div class="flex items-center gap-3.5 text-xs font-medium text-slate-400 dark:text-slate-500">
-                          <span class="flex items-center gap-1"><Clock class="size-3.5" /> {{ featuredArticle.readTime }}</span>
-                          <span class="flex items-center gap-1"><Eye class="size-3.5" /> {{ featuredArticle.views }}</span>
-                        </div>
-                        <span class="flex items-center gap-1 text-cyan-500 dark:text-cyan-400 text-xs font-bold transition-all duration-200 group-hover:gap-2">
-                          Analyze Framework <ChevronRight class="size-4" />
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-                </NuxtLink>
+          <div v-else>
 
-                <div class="flex items-center gap-4 select-none">
-                  <span class="text-[11px] font-mono font-extrabold uppercase tracking-widest text-slate-400 dark:text-slate-500">System Registry Output</span>
-                  <div class="flex-1 h-px bg-slate-200/60 dark:bg-slate-800/80"></div>
-                </div>
+            <!-- Hero Card -->
+            <NewHeroCard
+              v-if="featuredArticle"
+              :article="featuredArticle"
+              :topic-icon="topicIcon(featuredArticle.topic)"
+              :topic-label="topicLabel(featuredArticle.topic)"
+            />
 
-                <div class="relative">
-                  <TransitionGroup
-                    name="card-grid"
-                    tag="div"
-                    class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"
-                  >
-                    <article
-                      v-for="article in secondaryArticles"
-                      :key="article.id"
-                      class="group bg-white dark:bg-slate-900 rounded-2xl border border-slate-100 dark:border-slate-800/70 hover:border-slate-200 dark:hover:border-slate-700 shadow-xs hover:shadow-xl transition-all duration-300 hover:-translate-y-1.5 overflow-hidden flex flex-col justify-between"
-                    >
-                      <div>
-                        <div class="relative overflow-hidden h-48 bg-slate-100 dark:bg-slate-800 shrink-0">
-                          <img
-                            :src="article.image"
-                            :alt="article.title"
-                            loading="lazy"
-                            class="w-full h-full object-cover transition-transform duration-500 ease-out group-hover:scale-104"
-                          />
-                          <NuxtLink
-                            :to="`/${article.category.toLowerCase().replace(/ & /g, '-').replace(/ /g, '-')}`"
-                            @click.stop
-                            class="absolute top-3 left-3 text-[10px] font-extrabold uppercase tracking-wide px-2.5 py-1 rounded-md backdrop-blur-md shadow-xs transform transition-transform duration-200 hover:scale-105 flex items-center gap-1"
-                            :class="categoryTextClass(article.category)"
-                          >
-                            <component :is="getCategoryIcon(article.category)" class="size-3" />
-                            {{ article.category.split(' & ')[0] }}
-                          </NuxtLink>
-                        </div>
-
-                        <div class="p-5 pb-0">
-                          <div class="flex items-center gap-2 mb-2.5 text-xs">
-                            <span class="size-1.5 rounded-full shrink-0" :style="{ background: categoryDot(article.category) }"></span>
-                            <span class="font-bold text-slate-800 dark:text-slate-300 text-[11px] font-mono">{{ article.source }}</span>
-                            <span class="text-slate-300 dark:text-slate-700 font-light">·</span>
-                            <span class="text-slate-400 dark:text-slate-500 flex items-center gap-1 text-[11px]">
-                              <Calendar class="size-3" /> {{ article.date }}
-                            </span>
-                          </div>
-
-                          <h3 class="text-sm font-bold text-slate-900 dark:text-white leading-snug mb-2 line-clamp-2 group-hover:text-cyan-500 dark:group-hover:text-cyan-400 transition-colors duration-200 tracking-tight">
-                            {{ article.title }}
-                          </h3>
-                          <p class="text-[13px] text-slate-500 dark:text-slate-400 line-clamp-2 leading-relaxed font-normal opacity-90">
-                            {{ article.excerpt }}
-                          </p>
-                        </div>
-                      </div>
-
-                      <div class="p-5 pt-4 mt-4 border-t border-slate-50 dark:border-slate-800/50 flex items-center justify-between">
-                        <div class="flex items-center gap-3 text-[11px] font-medium text-slate-400 dark:text-slate-500">
-                          <span class="flex items-center gap-1"><Eye class="size-3.5" /> {{ article.views }}</span>
-                          <span class="flex items-center gap-1"><Clock class="size-3.5" /> {{ article.readTime }}</span>
-                        </div>
-                        <div class="flex items-center gap-1.5 text-slate-400 dark:text-slate-600">
-                          <button class="p-1.5 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-slate-700 dark:hover:text-slate-300 active:scale-90 transition-all" aria-label="Save Stack">
-                            <Bookmark class="size-3.5" />
-                          </button>
-                          <button class="p-1.5 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-slate-700 dark:hover:text-slate-300 active:scale-90 transition-all" aria-label="Route Payload">
-                            <Share2 class="size-3.5" />
-                          </button>
-                        </div>
-                      </div>
-                    </article>
-                  </TransitionGroup>
-                </div>
-
-                <div class="pt-4 text-center">
-                  <button class="inline-flex items-center gap-2 px-6 py-3 border border-slate-200 dark:border-slate-800 text-slate-700 dark:text-slate-300 text-xs font-bold uppercase tracking-wider rounded-xl hover:bg-white dark:hover:bg-slate-900 shadow-xs hover:shadow-md active:scale-98 transition-all duration-200">
-                    <span>Request Older Node Batches</span>
-                    <ChevronRight class="size-4" />
-                  </button>
-                </div>
-              </div>
-
-            </div>
-          </transition>
-        </div>
-
-        <aside class="xl:col-span-1 space-y-6">
-
-          <div class="bg-white dark:bg-slate-900 rounded-2xl border border-slate-100 dark:border-slate-800/80 overflow-hidden shadow-xs">
-            <div class="flex items-center gap-2 px-4 py-3.5 border-b border-slate-100 dark:border-slate-800/80 bg-slate-50/50 dark:bg-slate-900/40">
-              <TrendingUp class="size-4 text-cyan-500" />
-              <span class="text-xs font-extrabold uppercase tracking-wider text-slate-900 dark:text-white">Peak Resource Demands</span>
-            </div>
-            <div class="divide-y divide-slate-100 dark:divide-slate-800/50">
-              <NuxtLink
-                v-for="(article, i) in trendingArticles"
-                :key="article.id"
-                :to="`/article/${article.id}`"
-                class="flex items-start gap-3.5 px-4 py-3.5 hover:bg-slate-50/60 dark:hover:bg-slate-800/40 transition-colors group"
+            <!-- Section Divider -->
+            <div class="flex items-center gap-4 mb-6">
+              <span
+                class="text-[11px] font-extrabold uppercase tracking-widest text-slate-400 dark:text-slate-500"
               >
-                <span class="text-sm font-mono font-black leading-none shrink-0 w-5 text-center mt-0.5" :class="i === 0 ? 'text-cyan-500' : 'text-slate-300 dark:text-slate-700'">
-                  0{{ i + 1 }}
-                </span>
-                <div class="flex-1 min-w-0">
-                  <p class="text-xs font-bold text-slate-800 dark:text-slate-200 line-clamp-2 leading-snug group-hover:text-cyan-500 dark:group-hover:text-cyan-400 transition-colors tracking-tight">
-                    {{ article.title }}
-                  </p>
-                  <div class="flex items-center gap-2 mt-2 text-[10px] text-slate-400 dark:text-slate-500 font-medium">
-                    <span class="size-1.5 rounded-full" :style="{ background: categoryDot(article.category) }"></span>
-                    <span>{{ article.source }}</span>
-                    <span class="text-slate-300 dark:text-slate-700">·</span>
-                    <span class="flex items-center gap-0.5"><Eye class="size-3" /> {{ article.views }}</span>
-                  </div>
-                </div>
-              </NuxtLink>
-            </div>
-          </div>
-
-          <div class="bg-gradient-to-br from-slate-900 to-slate-950 rounded-2xl overflow-hidden border border-slate-800/80 shadow-md">
-            <div class="relative h-36 overflow-hidden bg-slate-800">
-              <img
-                src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=400&h=250&fit=crop"
-                alt="System Architecture Spotlight"
-                class="w-full h-full object-cover opacity-60 transition-transform duration-700 ease-out hover:scale-104"
-              />
-              <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/20 to-transparent"></div>
-              <span class="absolute bottom-3 left-4 flex items-center gap-1 text-cyan-400 text-[10px] font-mono font-extrabold uppercase tracking-widest">
-                <Trophy class="size-3" /> CORE WHITEPAPER
+                More Stories
               </span>
+              <div class="flex-1 h-px bg-slate-200/60 dark:bg-slate-800/80"></div>
             </div>
-            
-            <div class="p-5">
-              <h3 class="text-sm font-black text-white leading-snug mb-2 tracking-tight uppercase">
-                The Decentralized Architecture Paradigm: Microservices at the System Edge
-              </h3>
-              <p class="text-xs text-slate-400 leading-relaxed line-clamp-3 mb-4 font-light opacity-90">
-                An exhaustive structural overview regarding data footprint reduction patterns across hybrid container configurations.
-              </p>
-              
-              <div class="flex items-center justify-between pt-3.5 border-t border-slate-800/80">
-                <div class="flex items-center gap-2">
-                  <img src="https://randomuser.me/api/portraits/men/32.jpg" class="size-7 rounded-full ring-2 ring-slate-800 shadow-xs" alt="System Lead profile" />
-                  <div>
-                    <p class="text-[10px] font-bold text-slate-200">Devon Vance</p>
-                    <p class="text-[9px] font-mono text-slate-500">PUE Infrastructure Lead</p>
-                  </div>
-                </div>
-                <button class="flex items-center gap-0.5 text-xs text-cyan-400 font-bold hover:text-cyan-300 transition-colors group/btn">
-                  Fetch <ChevronRight class="size-3.5 transition-transform duration-200 group-hover/btn:translate-x-0.5" />
-                </button>
-              </div>
-            </div>
-          </div>
 
-          <div class="bg-white dark:bg-slate-900 rounded-2xl border border-slate-100 dark:border-slate-800/80 p-5 shadow-xs relative overflow-hidden">
-            <div class="flex items-center gap-2 mb-2">
-              <span class="text-md">📡</span>
-              <span class="text-xs font-extrabold uppercase tracking-wider text-slate-900 dark:text-white">Telemetry Reports</span>
-            </div>
-            <p class="text-xs text-slate-500 dark:text-slate-400 mb-4 leading-relaxed font-normal">
-              Receive raw structural diagnostic reports and industry topology shifts directly inside your secure endpoint.
-            </p>
-            <div class="space-y-2">
-              <input
-                type="email"
-                placeholder="endpoint_address@domain.com"
-                class="w-full font-mono text-xs px-3.5 py-2.5 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-white placeholder-slate-500 focus:outline-none focus:ring-1 focus:ring-cyan-500 focus:border-cyan-500 transition-all duration-300"
+            <!-- Article Grid -->
+            <TransitionGroup
+              name="card-grid"
+              tag="div"
+              class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 relative"
+            >
+              <NewArticleCard
+                v-for="article in gridArticles"
+                :key="article.id"
+                :article="article"
+                :topic-icon="topicIcon(article.topic)"
+                :topic-label="topicLabel(article.topic)"
               />
-              <button class="w-full text-xs font-bold py-2.5 bg-cyan-600 hover:bg-cyan-700 text-white rounded-xl shadow-xs transition-colors duration-200 active:scale-98">
-                Subscribe Telemetry Stream
+            </TransitionGroup>
+
+            <!-- Load More -->
+            <div class="mt-10 text-center">
+              <button
+                class="inline-flex items-center gap-2 px-6 py-3 border border-slate-200 dark:border-slate-800 text-slate-600 dark:text-slate-400 text-sm font-semibold rounded-full hover:border-red-200 dark:hover:border-red-900 hover:text-red-700 dark:hover:text-red-400 hover:bg-red-50/50 dark:hover:bg-red-950/20 active:scale-95 transition-all duration-300 shadow-xs cursor-pointer"
+              >
+                Load more stories <ChevronRight class="size-4" />
               </button>
             </div>
-          </div>
 
-        </aside>
+          </div>
+        </section>
+
+        <!-- Sidebar -->
+        <NewSidebar
+          v-model:active-topic="activeTopic"
+          :sub-topics="TECHNOLOGY_SUB_TOPICS"
+          :trending-articles="trendingArticles"
+        />
+
       </div>
     </div>
   </div>
 </template>
 
 <style scoped>
-/* ── High-Performance Fluid Layout Morph Transitions ────────────────── */
-.card-grid-enter-active,
+.card-grid-enter-active {
+  transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
 .card-grid-leave-active {
-  transition: all 0.45s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  position: absolute;
+  z-index: 0;
+  pointer-events: none;
 }
 .card-grid-enter-from {
   opacity: 0;
-  transform: translateY(20px) scale(0.98);
+  transform: translateY(24px) scale(0.98);
 }
 .card-grid-leave-to {
   opacity: 0;
   transform: translateY(12px) scale(0.97);
 }
 .card-grid-move {
-  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
 }
-.card-grid-leave-active {
-  position: absolute !important;
-  visibility: hidden;
-  width: 100%;
-  max-width: 290px;
-}
-
-/* Tab Line Entry Effect */
-@keyframes lineSlide {
-  from { transform: scaleX(0); opacity: 0; }
-  to { transform: scaleX(1); opacity: 1; }
-}
-.animate-line-slide {
-  animation: lineSlide 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-}
-
-/* Complete View Swapping Animations */
-.fade-layout-enter-active,
-.fade-layout-leave-active {
-  transition: opacity 0.25s ease, transform 0.25s ease;
-}
-.fade-layout-enter-from {
-  opacity: 0;
-  transform: translateY(4px);
-}
-.fade-layout-leave-to {
-  opacity: 0;
-  transform: translateY(-4px);
-}
-
-/* ── Seamless Marquee Track Core Styles ─────────────────────────────── */
-.marquee-track {
-  width: 100%;
-  display: flex;
-}
-@keyframes marqueeAnimation {
-  0% { transform: translate3d(0, 0, 0); }
-  100% { transform: translate3d(-50%, 0, 0); }
-}
-.animate-marquee {
-  animation: marqueeAnimation 35s linear infinite;
-}
-
-/* Layout Utilities */
-.scrollbar-none::-webkit-scrollbar { display: none; }
-.scrollbar-none { -ms-overflow-style: none; scrollbar-width: none; }
 </style>

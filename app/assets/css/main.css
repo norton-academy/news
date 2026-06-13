@@ -1,9 +1,5 @@
 @import "tailwindcss";
-@import url("https://fonts.googleapis.com/css2?family=Noto+Sans+Khmer:wght@400;500;600;700;800;900&display=swap");
 
-html {
-  font-family: "Noto Sans Khmer", system-ui, sans-serif;
-}
 @custom-variant dark (&:where(.dark, .dark *));
 
 @theme inline {
