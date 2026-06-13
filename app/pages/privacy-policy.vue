@@ -5,40 +5,77 @@ definePageMeta({
 
 useSeoMeta({
   title: "Privacy Policy",
-  description:
-    "Read how COBO-NEWS collects, uses, and protects personal information.",
+  description: "Read how COBO-NEWS collects, uses, and protects personal information.",
 })
+
+// Structural data to keep the template clean, maintainable, and dry
+const policySections = [
+  {
+    title: "Information we collect",
+    content: "We may collect contact details you submit, device information, and basic usage analytics to improve our services."
+  },
+  {
+    title: "How we use it",
+    content: "Information is used to respond to requests, send updates you request, maintain site security, and improve content experience."
+  },
+  {
+    title: "Your choices",
+    content: "You can request access, corrections, or deletion of personal data by contacting our team."
+  }
+]
 </script>
 
 <template>
   <div class="min-h-screen bg-slate-50 text-slate-900 antialiased dark:bg-slate-950 dark:text-slate-50">
-    <main class="mx-auto max-w-5xl px-4 py-16 sm:px-6 lg:px-8 lg:py-24">
-      <div class="rounded-[2rem] border border-slate-200 bg-white p-8 shadow-sm dark:border-slate-800 dark:bg-slate-900 sm:p-10">
-        <p class="text-sm font-bold uppercase tracking-[0.24em] text-red-600 dark:text-red-400">
-          Legal
-        </p>
-        <h1 class="mt-4 text-4xl font-black tracking-tight sm:text-5xl">
-          Privacy Policy
-        </h1>
-        <p class="mt-5 text-base leading-8 text-slate-600 dark:text-slate-300">
-          This page explains how COBO-NEWS handles information when you visit our website, contact us, or subscribe to updates.
-        </p>
+    <main class="mx-auto max-w-4xl px-4 py-16 sm:px-6 lg:px-8 lg:py-24">
+      
+      <div class="animate-fade-in-up rounded-3xl border border-slate-200/60 bg-white p-8 shadow-xl shadow-slate-100/40 dark:border-slate-800/60 dark:bg-slate-900 dark:shadow-none sm:p-12">
+        
+        <header class="border-b border-slate-100 pb-8 dark:border-slate-800">
+          <p class="text-xs font-bold uppercase tracking-[0.2em] text-red-600 dark:text-red-400">
+            Legal Document
+          </p>
+          <h1 class="mt-3 text-4xl font-extrabold tracking-tight text-slate-950 dark:text-white sm:text-5xl">
+            Privacy Policy
+          </h1>
+          <p class="mt-4 text-base leading-relaxed text-slate-500 dark:text-slate-400">
+            This page explains how COBO-NEWS handles information when you visit our website, contact us, or subscribe to updates.
+          </p>
+        </header>
 
-        <div class="mt-10 space-y-8 text-sm leading-7 text-slate-600 dark:text-slate-300">
-          <section>
-            <h2 class="text-lg font-bold text-slate-950 dark:text-white">Information we collect</h2>
-            <p class="mt-2">We may collect contact details you submit, device information, and basic usage analytics to improve our services.</p>
-          </section>
-          <section>
-            <h2 class="text-lg font-bold text-slate-950 dark:text-white">How we use it</h2>
-            <p class="mt-2">Information is used to respond to requests, send updates you request, maintain site security, and improve content experience.</p>
-          </section>
-          <section>
-            <h2 class="text-lg font-bold text-slate-950 dark:text-white">Your choices</h2>
-            <p class="mt-2">You can request access, corrections, or deletion of personal data by contacting our team.</p>
+        <div class="mt-10 divide-y divide-slate-100/80 space-y-8 dark:divide-slate-800/50">
+          <section 
+            v-for="(section, index) in policySections" 
+            :key="index"
+            class="pt-8 first:pt-0"
+          >
+            <h2 class="text-xl font-semibold tracking-tight text-slate-900 dark:text-slate-100">
+              {{ section.title }}
+            </h2>
+            <p class="mt-3 text-sm leading-relaxed text-slate-600 dark:text-slate-300">
+              {{ section.content }}
+            </p>
           </section>
         </div>
+
       </div>
     </main>
   </div>
 </template>
+
+<style scoped>
+.animate-fade-in-up {
+  animation: fadeInUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+</style>

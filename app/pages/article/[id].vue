@@ -563,16 +563,6 @@ useHead(() => ({
       <div class="h-full bg-gradient-to-r from-red-500 to-red-600 rounded-full"></div>
     </div>
 
-    <!-- Dark Mode Toggle Button -->
-    <button
-      @click="toggleDarkMode"
-      class="fixed top-20 right-4 z-50 p-2 rounded-full bg-white dark:bg-gray-800 shadow-md hover:shadow-lg transition-all duration-300 border border-gray-200 dark:border-gray-700"
-      aria-label="Toggle dark mode"
-    >
-      <Sun v-if="isDarkMode" class="w-5 h-5 text-yellow-500" />
-      <Moon v-else class="w-5 h-5 text-gray-700" />
-    </button>
-
     <!-- Loading State with Skeleton (Dark mode aware) -->
     <div v-if="loading" class="mx-auto px-4 py-8">
       <div class="animate-pulse">
