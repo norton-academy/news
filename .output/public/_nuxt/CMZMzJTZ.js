@@ -1,0 +1,1 @@
+import{ao as e,y as n,D as i}from"./B9EPCKWF.js";const r=e(a=>{const t=n();if(t.initialized||t.initAuth(),!t.isAuthenticated)return a.path.startsWith("/admin")?i("/admin/login"):i("/login")});export{r as default};

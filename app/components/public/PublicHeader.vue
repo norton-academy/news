@@ -86,10 +86,8 @@ function isActiveLink(href: string) {
     class="px-5 sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-gray-200/80 shadow-sm transition-all duration-300 dark:bg-slate-900/80 dark:border-slate-800"
   >
     <div class="flex h-16 items-center justify-between lg:h-20">
-      <NuxtLink to="/" class="flex items-center space-x-2 group cursor-pointer select-none">
-        <div class="w-8 h-8 bg-gradient-to-br from-red-600 to-red-700 rounded-lg flex items-center justify-center shadow-md transition-transform duration-300 ease-out group-hover:scale-110 group-hover:rotate-3">
-          <span class="text-white font-bold text-lg">C</span>
-        </div>
+      <NuxtLink to="/" class="flex items-center space-x-3 group cursor-pointer select-none">
+        <img src="/logo.png" alt="COBO-NEWS logo" class="w-8 h-8 rounded-lg object-cover shadow-md transition-transform duration-300 ease-out group-hover:scale-110 group-hover:rotate-3" />
         <span class="text-2xl font-extrabold bg-gradient-to-r from-gray-900 via-gray-800 to-gray-700 bg-clip-text text-transparent tracking-tight dark:from-white dark:to-slate-400 transition-all duration-300 group-hover:opacity-90">
           COBO-NEWS
         </span>
@@ -191,7 +189,13 @@ function isActiveLink(href: string) {
       description="Browse COBO-NEWS sections."
     >
       <div class="space-y-5">
-        <Logo name="COBO-NEWS" subtitle="Cambodia News" mark="C" />
+        <div class="flex items-center gap-3">
+          <img src="/logo.png" alt="COBO-NEWS logo" class="w-10 h-10 rounded-lg object-cover" />
+          <div>
+            <div class="text-lg font-bold text-slate-900 dark:text-white">COBO-NEWS</div>
+            <div class="text-xs text-slate-500 dark:text-slate-400">Cambodia News</div>
+          </div>
+        </div>
 
         <Separator />
 

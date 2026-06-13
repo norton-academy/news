@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import { onMounted } from 'vue'
 import {
   ArrowRight,
   BookOpen,
   CheckCircle2,
   Eye,
+  Handshake,
   MapPin,
   ShieldCheck,
   Sparkles,
@@ -12,16 +12,17 @@ import {
   Globe2,
 } from "lucide-vue-next"
 
-// Page metadata
 definePageMeta({
   layout: "public",
 })
 
 useSeoMeta({
   title: "About Us",
-  description: "Learn about COBO-NEWS, our mission, values, editorial vision, and the people behind our Cambodia-focused newsroom.",
+  description:
+    "Learn about COBO-NEWS, our mission, values, editorial vision, and the people behind our Cambodia-focused newsroom.",
   ogTitle: "About Us | COBO-NEWS",
-  ogDescription: "Discover the story, mission, vision, values, and team behind COBO-NEWS.",
+  ogDescription:
+    "Discover the story, mission, vision, values, and team behind COBO-NEWS.",
   ogType: "website",
 })
 
@@ -35,308 +36,364 @@ useHead({
         name: "COBO-NEWS",
         url: "https://cobo-news.com",
         logo: "https://cobo-news.com/logo.png",
-        description: "A modern Cambodia-focused newsroom delivering trusted stories, analysis, and useful context.",
+        description:
+          "A modern Cambodia-focused newsroom delivering trusted stories, analysis, and useful context.",
       }),
     },
   ],
 })
 
-// Team members data
+const milestones = [
+  {
+    year: "2019",
+    title: "A newsroom with a local heartbeat",
+    description:
+      "We began with a small editorial team focused on credible Cambodia news and on-the-ground reporting.",
+  },
+  {
+    year: "2022",
+    title: "Expanded coverage",
+    description:
+      "We grew into business, technology, health, education, sports, and public-interest reporting.",
+  },
+  {
+    year: "2026",
+    title: "Built for a faster audience",
+    description:
+      "Our product now blends sharp reporting, clean presentation, and accessible storytelling across devices.",
+  },
+]
+
+const principles = [
+  {
+    title: "Mission",
+    icon: Target,
+    description:
+      "Deliver reliable, balanced, and practical journalism that helps people understand Cambodia and the wider world.",
+  },
+  {
+    title: "Vision",
+    icon: Eye,
+    description:
+      "Become a trusted modern newsroom known for clarity, speed, and editorial integrity across every screen.",
+  },
+  {
+    title: "Values",
+    icon: ShieldCheck,
+    description:
+      "Truth first, people-centered reporting, accountability, and respect for the communities we cover.",
+  },
+]
+
+const values = [
+  {
+    title: "Accuracy",
+    description:
+      "We verify before we publish and keep context visible, not hidden.",
+  },
+  {
+    title: "Independence",
+    description:
+      "Editorial decisions stay separate from outside pressure and short-term noise.",
+  },
+  {
+    title: "Clarity",
+    description:
+      "We write to be understood quickly without flattening nuance or detail.",
+  },
+  {
+    title: "Community",
+    description:
+      "We create coverage that reflects real people, real places, and real impact.",
+  },
+]
+
 const team = [
   {
     name: "PHANG Rithy",
     role: "Software Engineer",
     image: "/images/team/marketing-david.jpg",
-    bio: "Builds and maintains the COBO-NEWS platform, ensuring a fast, reliable, and user-friendly reader experience.",
+    bio: " Builds and maintains the COBO-NEWS website, ensuring a fast, reliable, and user-friendly experience for our readers.",
   },
   {
     name: "Chhoeun Longheng",
     role: "Technical Lead",
     image: "/images/team/chef-michael.jpg",
-    bio: "Oversees the digital architecture, scaling engine systems to support dynamic editorial delivery flawlessly.",
+    bio: " Oversees the technical direction of COBO-NEWS, leading development efforts and ensuring our digital platform supports our editorial mission effectively.",
   },
   {
-    name: "Srey Leak",
-    role: "Managing Editor",
+    name: "No Name",
+    role: "None",
     image: "/images/team/manager-sarah.jpg",
-    bio: "Sets the editorial compass, keeping our news coverage deeply focused, balanced, and locally analytical.",
+    bio: "Sets the editorial direction and keeps the newsroom focused on useful, fair, and timely stories.",
   },
   {
-    name: "Nika Sam",
-    role: "Audience Lead",
+    name: "No name",
+    role: "",
     image: "/images/team/support-emma.jpg",
-    bio: "Fosters deeper connections with readers through responsive interaction and community-first storytelling.",
+    bio: "Builds reader trust through responsive engagement, service stories, and community-first ideas.",
   },
 ]
 
-// Historical milestones
-const milestones = [
-  {
-    year: "2019",
-    title: "A newsroom with a local heartbeat",
-    description: "We began with a small editorial team focused on credible Cambodia news and on-the-ground reporting.",
-  },
-  {
-    year: "2022",
-    title: "Expanded coverage",
-    description: "We grew into business, technology, health, education, sports, and public-interest reporting.",
-  },
-  {
-    year: "2026",
-    title: "Built for a faster audience",
-    description: "Our product now blends sharp reporting, clean presentation, and accessible storytelling across devices.",
-  },
-]
-
-// Core principles with icons
-const principles = [
-  {
-    title: "Mission",
-    icon: Target,
-    description: "Deliver reliable, balanced, and practical journalism that helps people understand Cambodia and the wider world.",
-  },
-  {
-    title: "Vision",
-    icon: Eye,
-    description: "Become a trusted modern newsroom known for clarity, speed, and editorial integrity across every screen.",
-  },
-  {
-    title: "Values",
-    icon: ShieldCheck,
-    description: "Truth first, people-centered reporting, accountability, and respect for the communities we cover.",
-  },
-]
-
-// Editorial values
-const values = [
-  { title: "Accuracy", description: "We verify before we publish and keep context visible, not hidden." },
-  { title: "Independence", description: "Editorial decisions stay separate from outside pressure and short-term noise." },
-  { title: "Clarity", description: "We write to be understood quickly without flattening nuance or detail." },
-  { title: "Community", description: "We create coverage that reflects real people, real places, and real impact." },
-]
-
-// Key metrics
 const metrics = [
   { value: "24/7", label: "newsroom rhythm" },
   { value: "5", label: "core coverage pillars" },
   { value: "100%", label: "Cambodia-first perspective" },
 ]
-
-// Scroll-triggered animation observer
-onMounted(() => {
-  const observer = new IntersectionObserver(
-    (entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('is-visible')
-        }
-      })
-    },
-    { threshold: 0.1, rootMargin: "0px 0px -40px 0px" }
-  )
-
-  document.querySelectorAll('.scroll-anim').forEach((el) => {
-    observer.observe(el)
-  })
-})
 </script>
 
 <template>
-  <div class="min-h-screen bg-slate-50 font-sans text-slate-900 antialiased dark:bg-slate-950 dark:text-slate-50">
-    <main class="space-y-24 pb-24">
-      
-      <!-- Hero Section -->
-      <section class="relative overflow-hidden border-b border-slate-200/50 bg-white pt-12 dark:border-slate-900 dark:bg-slate-950">
-        <!-- Background gradients -->
-        <div class="absolute inset-0 pointer-events-none">
-          <div class="absolute -left-24 top-0 h-96 w-96 rounded-full bg-red-500/10 blur-[100px]"></div>
-          <div class="absolute right-0 top-16 h-96 w-96 rounded-full bg-amber-500/5 blur-[120px]"></div>
-          <div class="absolute inset-0 bg-[radial-gradient(circle_at_15%_0%,_rgba(220,38,38,0.06),_transparent_40%)]"></div>
+  <div class="min-h-screen bg-slate-50 text-slate-900 antialiased dark:bg-slate-950 dark:text-slate-50">
+    <main>
+      <section class="relative overflow-hidden border-b border-slate-200/70 bg-white dark:border-slate-800/80 dark:bg-slate-950">
+        <div class="absolute inset-0">
+          <div class="absolute -left-24 top-0 h-72 w-72 rounded-full bg-red-500/15 blur-3xl"></div>
+          <div class="absolute right-0 top-16 h-80 w-80 rounded-full bg-amber-400/10 blur-3xl"></div>
+          <div class="absolute inset-0 bg-[radial-gradient(circle_at_top_left,_rgba(220,38,38,0.12),_transparent_34%),radial-gradient(circle_at_bottom_right,_rgba(15,23,42,0.08),_transparent_32%)] dark:bg-[radial-gradient(circle_at_top_left,_rgba(248,113,113,0.16),_transparent_34%),radial-gradient(circle_at_bottom_right,_rgba(248,250,252,0.06),_transparent_32%)]"></div>
         </div>
 
-        <div class="relative mx-auto grid max-w-7xl gap-16 px-4 py-16 sm:px-6 lg:grid-cols-[1.15fr_0.85fr] lg:px-8 lg:py-24">
-          
-          <!-- Hero Content -->
-          <div class="scroll-anim flex flex-col justify-center">
-            <div class="mb-6 inline-flex w-fit items-center gap-2 rounded-full border border-red-200/60 bg-red-50/50 px-4 py-1.5 text-xs font-bold uppercase tracking-widest text-red-600 dark:border-red-900/40 dark:bg-red-950/30 dark:text-red-400">
-              <Sparkles class="size-3.5 animate-pulse" aria-hidden="true" />
+        <div class="relative mx-auto grid max-w-7xl gap-12 px-4 py-16 sm:px-6 lg:grid-cols-[1.1fr_0.9fr] lg:px-8 lg:py-24">
+          <div class="max-w-3xl">
+            <div class="mb-5 inline-flex items-center gap-2 rounded-full border border-red-200/70 bg-red-50 px-4 py-2 text-xs font-semibold uppercase tracking-[0.24em] text-red-700 dark:border-red-900/60 dark:bg-red-950/40 dark:text-red-300">
+              <Sparkles class="size-4" />
               About COBO-NEWS
             </div>
 
-            <h1 class="text-4xl font-extrabold leading-tight tracking-tight text-slate-950 dark:text-white sm:text-5xl lg:text-6xl">
-              A newsroom built to explain Cambodia with <span class="bg-gradient-to-r from-red-600 to-amber-600 bg-clip-text text-transparent dark:from-red-400 dark:to-amber-400">clarity & speed.</span>
+            <h1 class="max-w-2xl text-4xl font-black leading-tight tracking-tight sm:text-5xl lg:text-6xl">
+              A newsroom built to explain Cambodia with clarity, speed, and care.
             </h1>
 
-            <p class="mt-6 max-w-xl text-base leading-relaxed text-slate-500 dark:text-slate-400">
-              COBO-NEWS brings together sharp reporting, operational analysis, and service journalism into a beautifully polished reading experience.
+            <p class="mt-6 max-w-2xl text-lg leading-8 text-slate-600 dark:text-slate-300">
+              COBO-NEWS brings together reporting, analysis, and service journalism in a clean, modern experience. We help readers understand what matters, why it matters, and what comes next.
             </p>
 
-            <div class="mt-8 flex flex-wrap gap-4">
-              <NuxtLink to="/" class="group inline-flex items-center gap-2 rounded-xl bg-slate-950 px-6 py-3.5 text-sm font-semibold text-white transition-all duration-300 hover:bg-red-600 dark:bg-white dark:text-slate-950 dark:hover:bg-red-500 dark:hover:text-white">
-                Read latest stories
-                <ArrowRight class="size-4 transition-transform group-hover:translate-x-1" aria-hidden="true" />
+            <div class="mt-8 flex flex-col gap-3 sm:flex-row">
+              <NuxtLink
+                to="/"
+                class="inline-flex items-center justify-center gap-2 rounded-full bg-slate-950 px-6 py-3.5 text-sm font-semibold text-white transition-transform duration-200 hover:-translate-y-0.5 hover:bg-slate-800 dark:bg-white dark:text-slate-950 dark:hover:bg-slate-200"
+              >
+                Read the latest stories
+                <ArrowRight class="size-4" />
               </NuxtLink>
-              <NuxtLink to="#team" class="inline-flex items-center gap-2 rounded-xl border border-slate-200 bg-slate-50/50 px-6 py-3.5 text-sm font-semibold text-slate-700 transition-all duration-300 hover:border-slate-300 hover:bg-white dark:border-slate-800 dark:bg-slate-900/50 dark:text-slate-300 dark:hover:border-slate-700 dark:hover:bg-slate-900">
+              <NuxtLink
+                to="#team"
+                class="inline-flex items-center justify-center gap-2 rounded-full border border-slate-300 bg-white px-6 py-3.5 text-sm font-semibold text-slate-700 transition-all duration-200 hover:border-red-300 hover:text-red-700 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-200 dark:hover:border-red-800 dark:hover:text-red-300"
+              >
                 Meet the team
               </NuxtLink>
             </div>
 
-            <div class="mt-12 grid gap-4 sm:grid-cols-3">
-              <div v-for="metric in metrics" :key="metric.label" class="rounded-2xl border border-slate-100 bg-slate-50/50 p-5 dark:border-slate-900/50 dark:bg-slate-900/20">
-                <div class="text-3xl font-black tracking-tight text-slate-950 dark:text-white">{{ metric.value }}</div>
-                <div class="mt-1 text-xs font-medium uppercase tracking-wider text-slate-400 dark:text-slate-500">{{ metric.label }}</div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Hero Image -->
-          <div class="scroll-anim relative lg:mt-0">
-            <div class="relative overflow-hidden rounded-3xl border border-slate-200/60 bg-white p-4 shadow-xl shadow-slate-200/40 dark:border-slate-800/60 dark:bg-slate-900 dark:shadow-none">
-              <div class="overflow-hidden rounded-2xl bg-slate-100 dark:bg-slate-950">
-                <img
-                  src="/images/kitchen-story.png"
-                  alt="COBO-NEWS newsroom showcase"
-                  class="h-64 w-full object-cover sm:h-80 opacity-95 hover:scale-[1.02] transition-transform duration-700"
-                />
-              </div>
-              <div class="mt-4 grid gap-4 sm:grid-cols-2">
-                <div class="rounded-xl bg-slate-950 p-5 text-white dark:bg-slate-50 dark:text-slate-950">
-                  <div class="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-red-400 dark:text-red-600">
-                    <BookOpen class="size-4" aria-hidden="true" /> Editorial focus
-                  </div>
-                  <p class="mt-2 text-xs leading-relaxed text-slate-300 dark:text-slate-600">News, global context, and deep local investigative modules.</p>
+            <div class="mt-10 grid gap-4 sm:grid-cols-3">
+              <div
+                v-for="metric in metrics"
+                :key="metric.label"
+                class="rounded-2xl border border-slate-200/80 bg-white/90 p-4 shadow-sm backdrop-blur dark:border-slate-800 dark:bg-slate-900/80"
+              >
+                <div class="text-2xl font-black tracking-tight text-slate-950 dark:text-white">
+                  {{ metric.value }}
                 </div>
-                <div class="rounded-xl border border-slate-100 bg-slate-50 p-5 dark:border-slate-800 dark:bg-slate-950/40">
-                  <div class="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500">
-                    <MapPin class="size-4 text-red-500" aria-hidden="true" /> Built in Phnom Penh
-                  </div>
-                  <p class="mt-2 text-xs leading-relaxed text-slate-500 dark:text-slate-400">Grounded realities matched directly with accurate regional data streams.</p>
+                <div class="mt-1 text-sm text-slate-500 dark:text-slate-400">
+                  {{ metric.label }}
                 </div>
               </div>
             </div>
           </div>
 
+          <div class="relative">
+            <div class="absolute inset-0 -z-10 translate-x-4 translate-y-4 rounded-[2rem] bg-slate-200/60 blur-xl dark:bg-slate-800/70"></div>
+            <div class="overflow-hidden rounded-[2rem] border border-slate-200 bg-white shadow-[0_24px_80px_-20px_rgba(15,23,42,0.22)] dark:border-slate-800 dark:bg-slate-900">
+              <img
+                src="/images/kitchen-story.png"
+                alt="COBO-NEWS newsroom story"
+                class="h-72 w-full object-cover sm:h-96"
+              />
+              <div class="grid gap-4 p-6 sm:grid-cols-2">
+                <div class="rounded-2xl bg-slate-950 p-5 text-white dark:bg-slate-50 dark:text-slate-950">
+                  <div class="flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.22em] text-red-300 dark:text-red-600">
+                    <BookOpen class="size-4" />
+                    Editorial focus
+                  </div>
+                  <p class="mt-3 text-sm leading-6 text-slate-300 dark:text-slate-600">
+                    News, context, and practical coverage for readers who want the full picture.
+                  </p>
+                </div>
+                <div class="rounded-2xl border border-slate-200 bg-slate-50 p-5 dark:border-slate-800 dark:bg-slate-950">
+                  <div class="flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.22em] text-slate-500 dark:text-slate-400">
+                    <MapPin class="size-4 text-red-600" />
+                    Based in Cambodia
+                  </div>
+                  <p class="mt-3 text-sm leading-6 text-slate-600 dark:text-slate-300">
+                    We keep our reporting grounded in local realities and regional relevance.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </section>
 
-      <!-- Timeline Section -->
-      <section id="story" class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div class="grid gap-12 lg:grid-cols-[0.8fr_1.2fr]">
-          <div class="scroll-anim max-w-md sticky top-12 h-fit">
-            <p class="text-xs font-bold uppercase tracking-widest text-red-600 dark:text-red-400">Timeline</p>
-            <h2 class="mt-3 text-3xl font-extrabold tracking-tight text-slate-950 dark:text-white sm:text-4xl">Our Evolution</h2>
-            <p class="mt-4 text-sm leading-relaxed text-slate-500 dark:text-slate-400">
-              COBO-NEWS started with a singular, quiet task: clean up coverage gaps. Here is how we scaled into a high-performance publishing hub.
+      <section id="story" class="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8 lg:py-24">
+        <div class="grid gap-10 lg:grid-cols-[0.85fr_1.15fr]">
+          <div class="max-w-xl">
+            <p class="text-sm font-bold uppercase tracking-[0.24em] text-red-600 dark:text-red-400">
+              Our story
+            </p>
+            <h2 class="mt-4 text-3xl font-black tracking-tight sm:text-4xl">
+              From a focused editorial desk to a full digital news experience.
+            </h2>
+            <p class="mt-5 text-base leading-8 text-slate-600 dark:text-slate-300">
+              COBO-NEWS started with a simple idea: deliver trustworthy Cambodia news in a way that feels clear, fast, and genuinely useful. As our audience grew, we expanded into more beats, refined the reading experience, and built a newsroom that treats design and journalism as partners.
             </p>
           </div>
 
-          <div class="relative space-y-6">
-            <div class="absolute left-8 top-2 h-[calc(100%-24px)] w-px bg-slate-200 dark:bg-slate-800"></div>
-            <article v-for="milestone in milestones" :key="milestone.year" class="scroll-anim relative flex gap-6 rounded-2xl border border-slate-100 bg-white p-6 shadow-sm dark:border-slate-900 dark:bg-slate-900/40">
-              <div class="flex size-11 shrink-0 items-center justify-center rounded-full bg-red-50 font-bold text-red-600 ring-4 ring-white dark:bg-red-950/50 dark:text-red-400 dark:ring-slate-950 z-10">
-                {{ milestone.year.slice(-2) }}
-              </div>
-              <div>
-                <h3 class="text-base font-bold text-slate-950 dark:text-white">{{ milestone.title }}</h3>
-                <p class="mt-1.5 text-sm leading-relaxed text-slate-500 dark:text-slate-400">{{ milestone.description }}</p>
-              </div>
-            </article>
-          </div>
-        </div>
-      </section>
-
-      <!-- Core DNA Section -->
-      <section class="scroll-anim mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div class="rounded-3xl border border-slate-200/60 bg-white p-8 dark:border-slate-900 dark:bg-slate-900/30 sm:p-12">
-          <div class="max-w-2xl">
-            <p class="text-xs font-bold uppercase tracking-widest text-red-600 dark:text-red-400">Core DNA</p>
-            <h2 class="mt-3 text-3xl font-extrabold tracking-tight text-slate-950 dark:text-white">What Guides Our Desk</h2>
-          </div>
-
-          <div class="mt-10 grid gap-6 md:grid-cols-3">
-            <article v-for="item in principles" :key="item.title" class="group rounded-2xl border border-slate-100 bg-slate-50/50 p-6 transition-all duration-300 hover:bg-white hover:shadow-md dark:border-slate-900 dark:bg-slate-950/20 dark:hover:bg-slate-900">
-              <div class="flex size-10 items-center justify-center rounded-xl bg-white text-red-600 shadow-sm ring-1 ring-slate-100 group-hover:bg-red-600 group-hover:text-white dark:bg-slate-900 dark:ring-slate-800 transition-colors">
-                <component :is="item.icon" class="size-5" aria-hidden="true" />
-              </div>
-              <h3 class="mt-4 text-base font-bold text-slate-950 dark:text-white">{{ item.title }}</h3>
-              <p class="mt-2 text-xs leading-relaxed text-slate-500 dark:text-slate-400">{{ item.description }}</p>
-            </article>
-          </div>
-
-          <div class="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-            <div v-for="val in values" :key="val.title" class="rounded-xl border border-slate-100 p-5 dark:border-slate-900">
-              <div class="flex items-center gap-2 text-xs font-bold text-slate-800 dark:text-slate-200">
-                <CheckCircle2 class="size-4 text-red-600" aria-hidden="true" /> {{ val.title }}
-              </div>
-              <p class="mt-2 text-xs text-slate-400 dark:text-slate-500 leading-relaxed">{{ val.description }}</p>
+          <div class="relative">
+            <div class="absolute left-6 top-0 h-full w-px bg-gradient-to-b from-red-500 via-slate-300 to-transparent dark:via-slate-700"></div>
+            <div class="space-y-6">
+              <article
+                v-for="milestone in milestones"
+                :key="milestone.year"
+                class="relative rounded-3xl border border-slate-200 bg-white p-6 pl-16 shadow-sm dark:border-slate-800 dark:bg-slate-900"
+              >
+                <div class="absolute left-0 top-6 flex h-12 w-12 -translate-x-1/2 items-center justify-center rounded-full border-4 border-slate-50 bg-red-600 text-sm font-bold text-white dark:border-slate-950">
+                  {{ milestone.year }}
+                </div>
+                <h3 class="text-lg font-bold tracking-tight">
+                  {{ milestone.title }}
+                </h3>
+                <p class="mt-2 text-sm leading-7 text-slate-600 dark:text-slate-300">
+                  {{ milestone.description }}
+                </p>
+              </article>
             </div>
           </div>
         </div>
       </section>
 
-      <!-- Team Section -->
-      <section id="team" class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div class="scroll-anim max-w-3xl">
-          <p class="text-xs font-bold uppercase tracking-widest text-red-600 dark:text-red-400">The Newsroom</p>
-          <h2 class="mt-3 text-3xl font-extrabold tracking-tight text-slate-950 dark:text-white sm:text-4xl">The Minds Behind the Desk</h2>
+      <section class="border-y border-slate-200/80 bg-white py-16 dark:border-slate-800 dark:bg-slate-950 lg:py-24">
+        <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div class="max-w-2xl">
+            <p class="text-sm font-bold uppercase tracking-[0.24em] text-red-600 dark:text-red-400">
+              What drives us
+            </p>
+            <h2 class="mt-4 text-3xl font-black tracking-tight sm:text-4xl">
+              Mission, vision, and values that guide every story we publish.
+            </h2>
+          </div>
+
+          <div class="mt-10 grid gap-6 lg:grid-cols-3">
+            <article
+              v-for="item in principles"
+              :key="item.title"
+              class="group rounded-[1.75rem] border border-slate-200 bg-slate-50 p-7 shadow-sm transition-transform duration-300 hover:-translate-y-1 dark:border-slate-800 dark:bg-slate-900"
+            >
+              <div class="flex h-12 w-12 items-center justify-center rounded-2xl bg-white text-red-600 shadow-sm ring-1 ring-slate-200 transition-colors duration-300 group-hover:bg-red-600 group-hover:text-white dark:bg-slate-950 dark:ring-slate-800">
+                <component :is="item.icon" class="size-5" />
+              </div>
+              <h3 class="mt-5 text-xl font-bold">
+                {{ item.title }}
+              </h3>
+              <p class="mt-3 text-sm leading-7 text-slate-600 dark:text-slate-300">
+                {{ item.description }}
+              </p>
+            </article>
+          </div>
+
+          <div class="mt-12 grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+            <article
+              v-for="value in values"
+              :key="value.title"
+              class="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-800 dark:bg-slate-900"
+            >
+              <div class="flex items-center gap-2 text-sm font-semibold uppercase tracking-[0.2em] text-slate-500 dark:text-slate-400">
+                <CheckCircle2 class="size-4 text-red-600" />
+                {{ value.title }}
+              </div>
+              <p class="mt-4 text-sm leading-7 text-slate-600 dark:text-slate-300">
+                {{ value.description }}
+              </p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section id="team" class="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8 lg:py-24">
+        <div class="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
+          <div class="max-w-2xl">
+            <p class="text-sm font-bold uppercase tracking-[0.24em] text-red-600 dark:text-red-400">
+              The team
+            </p>
+            <h2 class="mt-4 text-3xl font-black tracking-tight sm:text-4xl">
+              A small team with a shared standard: make the news easy to trust.
+            </h2>
+            <p class="mt-5 text-base leading-8 text-slate-600 dark:text-slate-300">
+              We combine editorial judgment, audience thinking, and practical design so the newsroom stays fast without losing depth or care.
+            </p>
+          </div>
         </div>
 
-        <div class="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-          <article v-for="member in team" :key="member.name" class="scroll-anim group overflow-hidden rounded-2xl border border-slate-200/60 bg-white shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-lg dark:border-slate-900 dark:bg-slate-900">
-            <div class="relative h-64 overflow-hidden bg-slate-100 dark:bg-slate-950">
+        <div class="mt-10 grid gap-6 md:grid-cols-2 xl:grid-cols-4">
+          <article
+            v-for="member in team"
+            :key="member.name"
+            class="group overflow-hidden rounded-[1.75rem] border border-slate-200 bg-white shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-xl dark:border-slate-800 dark:bg-slate-900"
+          >
+            <div class="relative h-72 overflow-hidden">
               <img
                 :src="member.image"
-                :alt="`${member.name}, ${member.role}`"
-                class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.03]"
+                :alt="member.name"
+                class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
               />
-              <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/20 to-transparent opacity-85"></div>
-              <div class="absolute inset-x-0 bottom-0 p-5">
-                <p class="text-[10px] font-bold uppercase tracking-widest text-red-400">{{ member.role }}</p>
-                <h3 class="mt-1 text-lg font-bold text-white">{{ member.name }}</h3>
+              <div class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-slate-950/90 to-transparent p-5">
+                <p class="text-sm font-semibold uppercase tracking-[0.2em] text-red-300">
+                  {{ member.role }}
+                </p>
+                <h3 class="mt-2 text-2xl font-black tracking-tight text-white">
+                  {{ member.name }}
+                </h3>
               </div>
             </div>
-            <div class="p-5">
-              <p class="text-xs leading-relaxed text-slate-500 dark:text-slate-400">{{ member.bio }}</p>
+            <div class="p-6">
+              <p class="text-sm leading-7 text-slate-600 dark:text-slate-300">
+                {{ member.bio }}
+              </p>
             </div>
           </article>
         </div>
       </section>
 
-      <!-- CTA Section -->
-      <section class="scroll-anim mx-auto max-w-7xl px-4">
-        <div class="relative overflow-hidden rounded-3xl bg-slate-950 px-8 py-12 text-white dark:bg-slate-900 lg:px-16 lg:py-16">
-          <div class="absolute -right-16 -top-16 size-64 rounded-full bg-red-600/20 blur-3xl pointer-events-none"></div>
-          
-          <div class="relative grid gap-8 lg:grid-cols-[1fr_auto] lg:items-center">
+      <section class="mx-auto max-w-7xl px-4 pb-20 sm:px-6 lg:px-8 lg:pb-28">
+        <div class="overflow-hidden rounded-[2rem] border border-slate-200 bg-slate-950 px-6 py-10 text-white shadow-[0_28px_90px_-30px_rgba(15,23,42,0.6)] dark:border-slate-800 sm:px-10 lg:px-14">
+          <div class="grid gap-8 lg:grid-cols-[1fr_auto] lg:items-center">
             <div class="max-w-2xl">
-              <p class="text-xs font-bold uppercase tracking-widest text-red-400">Stay Informed</p>
-              <h2 class="mt-3 text-2xl font-extrabold tracking-tight sm:text-4xl">Dependable news streams built for analytical clarity.</h2>
+              <p class="text-sm font-bold uppercase tracking-[0.24em] text-red-300">
+                Work with us
+              </p>
+              <h2 class="mt-4 text-3xl font-black tracking-tight sm:text-4xl">
+                We’re building a newsroom that feels as dependable as it looks.
+              </h2>
+              <p class="mt-4 text-base leading-8 text-slate-300">
+                If you care about thoughtful reporting, strong editorial standards, and a polished reading experience, COBO-NEWS is built for you.
+              </p>
             </div>
-            <div class="flex flex-wrap gap-4 shrink-0">
-              <NuxtLink to="/" class="inline-flex items-center gap-2 rounded-xl bg-white px-6 py-3.5 text-sm font-semibold text-slate-950 hover:bg-slate-100 transition-colors">
-                Explore Coverage <Globe2 class="size-4" aria-hidden="true" />
+            <div class="flex flex-col gap-3 sm:flex-row lg:flex-col">
+              <NuxtLink
+                to="/"
+                class="inline-flex items-center justify-center gap-2 rounded-full bg-white px-6 py-3.5 text-sm font-semibold text-slate-950 transition-transform duration-200 hover:-translate-y-0.5 hover:bg-slate-100"
+              >
+                Explore coverage
+                <Globe2 class="size-4" />
+              </NuxtLink>
+              <NuxtLink
+                to="#story"
+                class="inline-flex items-center justify-center gap-2 rounded-full border border-white/20 px-6 py-3.5 text-sm font-semibold text-white transition-colors duration-200 hover:border-white/40 hover:bg-white/10"
+              >
+                Review our story
+                <ArrowRight class="size-4" />
               </NuxtLink>
             </div>
           </div>
         </div>
       </section>
-
     </main>
   </div>
 </template>
-
-<style scoped>
-.scroll-anim {
-  opacity: 0;
-  transform: translateY(24px);
-  transition:
-    opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1),
-    transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
-  will-change: transform, opacity;
-}
-
-.scroll-anim.is-visible {
-  opacity: 1;
-  transform: translateY(0);
-}
-</style>

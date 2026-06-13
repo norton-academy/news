@@ -1,0 +1,1 @@
+import{s as e}from"./B9EPCKWF.js";const c=e("toggle-left",[["circle",{cx:"9",cy:"12",r:"3",key:"u3jwor"}],["rect",{width:"20",height:"14",x:"2",y:"5",rx:"7",key:"g7kal2"}]]);export{c as T};
