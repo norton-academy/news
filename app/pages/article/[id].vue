@@ -73,7 +73,7 @@ const articlesDatabase = ref([
     author: "Sophea Meas",
     authorTitle: "Senior Political Correspondent",
     authorBio: "Sophea has covered Cambodian politics for over a decade, specializing in legislative and governance issues. Her reporting has been featured in international publications including Asia Times and The Diplomat.",
-    authorAvatar: "https://randomuser.me/api/portraits/women/68.jpg",
+    authorAvatar: "/img_5.jpg",
     authorSocial: { twitter: "@sopheameas", linkedin: "sophea-meas" },
   },
   {
@@ -247,33 +247,6 @@ const articlesDatabase = ref([
   },
 ]);
 
-// Dark mode support
-const isDarkMode = ref(false);
-
-// Check for saved dark mode preference or system preference
-const initDarkMode = () => {
-  const saved = localStorage.getItem('darkMode');
-  if (saved !== null) {
-    isDarkMode.value = saved === 'true';
-  } else {
-    isDarkMode.value = window.matchMedia('(prefers-color-scheme: dark)').matches;
-  }
-  applyDarkMode();
-};
-
-const toggleDarkMode = () => {
-  isDarkMode.value = !isDarkMode.value;
-  localStorage.setItem('darkMode', String(isDarkMode.value));
-  applyDarkMode();
-};
-
-const applyDarkMode = () => {
-  if (isDarkMode.value) {
-    document.documentElement.classList.add('dark');
-  } else {
-    document.documentElement.classList.remove('dark');
-  }
-};
 
 // Enhanced comments system
 interface Comment {
@@ -526,13 +499,6 @@ const fetchArticle = () => {
 watch(articleId, () => {
   fetchArticle();
 }, { immediate: true });
-
-// Lifecycle hooks
-onMounted(() => {
-  window.addEventListener("scroll", handleScroll);
-  fetchArticle();
-  initDarkMode();
-});
 
 onUnmounted(() => {
   window.removeEventListener("scroll", handleScroll);
