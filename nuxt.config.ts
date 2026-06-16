@@ -10,7 +10,7 @@ export default defineNuxtConfig({
     plugins: [tailwindcss()],
   },
 
-  modules: ['@pinia/nuxt', '@vercel/speed-insights'],
+  modules: ['@pinia/nuxt'],
 
   runtimeConfig: {
     public: {
@@ -19,7 +19,7 @@ export default defineNuxtConfig({
   },
 
    nitro: {
-    preset: 'vercel'
+    preset: 'netlify-edge'
   },
   ssr: false,
   components: [{ path: '~/components', pathPrefix: false }],
