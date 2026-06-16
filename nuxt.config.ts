@@ -10,12 +10,16 @@ export default defineNuxtConfig({
     plugins: [tailwindcss()],
   },
 
-  modules: ['@pinia/nuxt'],
+  modules: ['@pinia/nuxt', '@vercel/speed-insights'],
 
   runtimeConfig: {
     public: {
       apiBase: 'http://127.0.0.1:8000/api',
     },
+  },
+
+   nitro: {
+    preset: 'vercel'
   },
   ssr: false,
   components: [{ path: '~/components', pathPrefix: false }],
