@@ -10,7 +10,19 @@ export default defineNuxtConfig({
     plugins: [tailwindcss()],
   },
 
-  modules: ['@pinia/nuxt'],
+  modules: ['@pinia/nuxt', '@nuxtjs/google-fonts'],
+
+  googleFonts: {
+    families: {
+      'Noto Sans Khmer': [400, 500, 700],
+      Battambang: [400, 700]
+    },
+    display: 'swap'
+  },
+
+  nitro: {
+    preset: 'netlify-edge'
+  },
 
   runtimeConfig: {
     public: {
@@ -18,9 +30,6 @@ export default defineNuxtConfig({
     },
   },
 
-   nitro: {
-    preset: 'netlify-edge'
-  },
   ssr: false,
   components: [{ path: '~/components', pathPrefix: false }],
 })
