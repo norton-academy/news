@@ -4,40 +4,40 @@ definePageMeta({
 })
 
 useSeoMeta({
-  title: "Sitemap",
-  description: "Browse the COBO-NEWS sitemap and quickly find key public pages.",
+  title: "ប្លង់គេហទំព័រ (Sitemap)",
+  description: "រុករកប្លង់គេហទំព័ររបស់ COBO-NEWS និងស្វែងរកទំព័រសាធារណៈសំខាន់ៗបានយ៉ាងរហ័ស។",
 })
 
 // Categorized data structure for a more organized, modern directory look
 const sitemapGroups = [
   {
-    title: "General",
+    title: "ទូទៅ",
     pages: [
-      { label: "Home", to: "/" },
-      { label: "About", to: "/about" },
-      { label: "Contact", to: "/contact" },
-      { label: "Saved Articles", to: "/saved" },
+      { label: "ទំព័រដើម", to: "/" },
+      { label: "អំពីយើង", to: "/about" },
+      { label: "ទាក់ទងយើង", to: "/contact" },
+      { label: "អត្ថបទដែលបានរក្សាទុក", to: "/saved" },
     ]
   },
   {
-    title: "News Topics",
+    title: "ប្រធានបទព័ត៌មាន",
     pages: [
-      { label: "Politics", to: "/politics" },
-      { label: "Business", to: "/business" },
-      { label: "Technology", to: "/technology" },
-      { label: "Sports", to: "/sports" },
-      { label: "Health", to: "/health" },
-      { label: "Entertainment", to: "/entertainment" },
-      { label: "Education", to: "/education" },
-      { label: "Agriculture", to: "/agriculture" },
+      { label: "នយោបាយ", to: "/politics" },
+      { label: "អាជីវកម្ម", to: "/business" },
+      { label: "បច្ចេកវិទ្យា", to: "/technology" },
+      { label: "កីឡា", to: "/sports" },
+      { label: "សុខភាព", to: "/health" },
+      { label: "កម្សាន្ត", to: "/entertainment" },
+      { label: "ការអប់រំ", to: "/education" },
+      { label: "កសិកម្ម", to: "/agriculture" },
     ]
   },
   {
-    title: "Company",
+    title: "ក្រុមហ៊ុន",
     pages: [
-      { label: "Careers", to: "/career" },
-      { label: "Advertise", to: "/advertise" },
-      { label: "Press Kit", to: "/press-kit" },
+      { label: "ឱកាសការងារ", to: "/career" },
+      { label: "ផ្សព្វផ្សាយពាណិជ្ជកម្ម", to: "/advertise" },
+      { label: "កញ្ចប់ព័ត៌មានសារព័ត៌មាន (Press Kit)", to: "/press-kit" },
     ]
   }
 ]
@@ -45,19 +45,19 @@ const sitemapGroups = [
 
 <template>
   <div class="min-h-screen bg-slate-50 text-slate-900 antialiased dark:bg-slate-950 dark:text-slate-50">
-    <main class="mx-auto max-w-5xl px-4 py-16 sm:px-6 lg:px-8 lg:py-24">
-      
+    <main class="m-10 px-10 py-10 dark:bg-slate-900/40 rounded-xl border border-neutral-200/80 dark:border-neutral-800/80">
+       
       <div class="animate-fade-in-up rounded-3xl border border-slate-200/60 bg-white p-8 shadow-xl shadow-slate-100/40 dark:border-slate-800/60 dark:bg-slate-900 dark:shadow-none sm:p-12">
-        
+         
         <header class="border-b border-slate-100 pb-8 dark:border-slate-800">
           <p class="text-xs font-bold uppercase tracking-[0.2em] text-red-600 dark:text-red-400">
-            Navigation
+            ការរុករកគេហទំព័រ
           </p>
           <h1 class="mt-3 text-4xl font-extrabold tracking-tight text-slate-950 dark:text-white sm:text-5xl">
-            Sitemap
+            ប្លង់គេហទំព័រ
           </h1>
           <p class="mt-4 text-base leading-relaxed text-slate-500 dark:text-slate-400">
-            Browse the COBO-NEWS directory and find key public pages quickly.
+            រុករកបញ្ជីទំព័ររបស់ COBO-NEWS និងស្វែងរកទំព័រសាធារណៈសំខាន់ៗបានយ៉ាងរហ័ស។
           </p>
         </header>
 
@@ -70,7 +70,7 @@ const sitemapGroups = [
             <h2 class="text-xs font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500">
               {{ group.title }}
             </h2>
-            
+             
             <div class="grid gap-4 sm:grid-cols-2 md:grid-cols-3">
               <NuxtLink
                 v-for="page in group.pages"
@@ -81,7 +81,7 @@ const sitemapGroups = [
                 <span class="text-sm font-medium text-slate-700 transition-colors group-hover:text-red-600 dark:text-slate-300 dark:group-hover:text-red-400">
                   {{ page.label }}
                 </span>
-                
+                 
                 <svg 
                   xmlns="http://www.w3.org/2000/svg" 
                   viewBox="0 0 20 20" 

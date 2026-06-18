@@ -44,208 +44,1908 @@ const articleId = computed(() => parseInt(route.params.id as string));
 const articlesDatabase = ref([
   {
     id: 1,
-    title: "National Assembly Passes Landmark Education Reform Bill",
-    excerpt: "Unanimous vote paves way for modernization of curriculum and teacher training across Cambodia.",
+    title: 'រដ្ឋសភាអនុម័តច្បាប់សេដ្ឋកិច្ចឌីជីថលដ៏សំខាន់',
+    excerpt: 'រដ្ឋសភាបានអនុម័តជាឯកច្ឆន្ទលើសេចក្តីព្រាងច្បាប់ក្របខ័ណ្ឌសេដ្ឋកិច្ចឌីជីថល ដែលបើកផ្លូវសម្រាប់បទប្បញ្ញត្តិថ្មីៗគ្រប់គ្រងលើវិស័យបច្ចេកវិទ្យាហិរញ្ញវត្ថុ (Fintech) ពាណិជ្ជកម្មអេឡិចត្រូនិក (E-commerce) និងអធិបតេយ្យភាពទិន្នន័យនៅទូទាំងប្រទេសកម្ពុជា។',
     content: `
-      <h2>Historic Legislative Milestone</h2>
-      <p>The National Assembly today voted unanimously to pass the long-awaited Education Reform Bill, a landmark piece of legislation that overhauls Cambodia's public education system for the first time in two decades.</p>
-      <p>The bill introduces a new national curriculum focused on critical thinking, digital literacy, and practical skills. It also mandates continuous professional development for all teachers and establishes a merit-based promotion system.</p>
-      <h2>Key Provisions of the Bill</h2>
+      <h2>ការបោះជំហានទៅរកយុគសម័យឌីជីថល</h2>
+      <p>រដ្ឋសភានៃព្រះរាជាណាចក្រកម្ពុជា បានសម្រេចអនុម័តជាឯកច្ឆន្ទលើសេចក្តីព្រាងច្បាប់ក្របខ័ណ្ឌសេដ្ឋកិច្ចឌីជីថលដ៏សំខាន់។ ច្បាប់ថ្មីនេះត្រូវបានរៀបចំឡើងដើម្បីជំរុញការលូតលាស់នៃបច្ចេកវិទ្យា និងធានាបាននូវបរិយាកាសធុរកិច្ចប្រកបដោយសុវត្ថិភាព និងទំនុកចិត្ត។</p>
+      <p>បទប្បញ្ញត្តិនេះនឹងគ្របដណ្តប់លើការគ្រប់គ្រងប្រព័ន្ធហិរញ្ញវត្ថុឌីជីថល ការពារទិន្នន័យអ្នកប្រើប្រាស់ និងសម្របសម្រួលដល់ការធ្វើពាណិជ្ជកម្មតាមប្រព័ន្ធអេឡិចត្រូនិកឱ្យកាន់តែមានប្រសិទ្ធភាព។</p>
+      <h2>ចំណុចគន្លឹះនៃច្បាប់ថ្មីនេះ</h2>
       <ul>
-        <li>Modernized curriculum with emphasis on STEM and Khmer language proficiency</li>
-        <li>Annual teacher training requirements with performance incentives</li>
-        <li>Increased funding for rural schools and infrastructure</li>
-        <li>Establishment of a National Education Quality Assurance Council</li>
+        <li>បង្កើតក្របខ័ណ្ឌគតិយុត្តិច្បាស់លាស់សម្រាប់អាជីវកម្ម Fintech និង E-commerce</li>
+        <li>ពង្រឹងកិច្ចការពារអធិបតេយ្យភាពទិន្នន័យ និងឯកជនភាពរបស់អ្នកប្រើប្រាស់</li>
+        <li>សម្រួលដល់ការទូទាត់ប្រាក់ឆ្លងដែនតាមប្រព័ន្ធឌីជីថល</li>
+        <li>លើកទឹកចិត្តដល់ការវិនិយោគពីបរទេសលើវិស័យបច្ចេកវិទ្យា</li>
       </ul>
-      <h2>Stakeholder Reactions</h2>
-      <p>Minister of Education, Hang Chuon Naron, called the bill "a transformative step toward a knowledge-based economy." The opposition also supported the bill, praising its inclusive drafting process.</p>
-      <p>The bill now awaits signature by the King before becoming law. Implementation is expected to begin in the 2026 academic year.</p>
-      <h3>Implementation Timeline</h3>
-      <p>The Ministry has outlined a three-phase rollout beginning with pilot schools in Phnom Penh, followed by provincial capitals, and finally rural areas by 2027.</p>
     `,
     category: "Politics",
-    date: "May 28, 2025",
-    views: 3200,
-    likes: 245,
+    date: 'May 28, 2026',
+    views: 4800,
+    likes: 412,
     readTime: 5,
-    image: "https://images.unsplash.com/photo-1580894894513-541e068a3e2b?w=1200&h=600&fit=crop",
-    imageCredit: "National Assembly of Cambodia",
-    author: "Sophea Meas",
-    authorTitle: "Senior Political Correspondent",
-    authorBio: "Sophea has covered Cambodian politics for over a decade, specializing in legislative and governance issues. Her reporting has been featured in international publications including Asia Times and The Diplomat.",
-    authorAvatar: "/img_5.jpg",
-    authorSocial: { twitter: "@sopheameas", linkedin: "sophea-meas" },
+    isBreaking: true,
+    isFeatured: true,
+    image: 'https://images.unsplash.com/photo-1529107386315-e1a2ed48a620?w=900&h=500&fit=crop',
+    imageCredit: "VOD Khmer",
+    author: "ចាន់ សុភ័ក្ត្រ",
+    authorTitle: "Senior IT & Legal Reporter",
+    authorBio: "សុភ័ក្ត្រ មានបទពិសោធន៍ប្រាំឆ្នាំក្នុងការរាយការណ៍អំពីគោលនយោបាយបច្ចេកវិទ្យា និងច្បាប់សេដ្ឋកិច្ចនៅកម្ពុជា។",
+    authorAvatar: "/img_author_1.jpg",
+    authorSocial: { twitter: "@sopheak_chan", linkedin: "sopheak-chan" }
   },
   {
     id: 2,
-    title: "Cambodia's Economy Shows Strong Recovery with 6% Growth in Q1",
-    excerpt: "The Ministry of Economy and Finance reports robust performance in tourism and manufacturing sectors.",
+    title: 'កម្ពុជានិងចិនចុះហត្ថលេខាលើកិច្ចព្រមព្រៀងហេដ្ឋារចនាសម្ព័ន្ធថ្មី ៥',
+    excerpt: 'ក្នុងអំឡុងពេលទស្សនកិច្ចផ្លូវរដ្ឋនៅទីក្រុងប៉េកាំង មន្ត្រីកម្ពុជាបានសម្រេចកិច្ចព្រមព្រៀងចុងក្រោយគ្របដណ្តប់លើការអភិវឌ្ឍន៍កំពង់ផែ ការពង្រីកបណ្តាញផ្លូវរថភ្លើង និងតំបន់សេដ្ឋកិច្ចពិសេសថ្មីមួយនៅក្នុងក្រុងព្រះសីហនុ។',
     content: `
-      <h2>Economic Indicators Exceed Expectations</h2>
-      <p>Cambodia's economy grew by 6% in the first quarter of 2025, driven by a resurgence in tourism and strong manufacturing exports, according to a report released today by the Ministry of Economy and Finance.</p>
-      <p>The growth exceeded forecasts and marks a full recovery from the pandemic-induced slowdown. Tourist arrivals reached 1.5 million in Q1, up 35% year-on-year, while garment exports increased by 12%.</p>
-      <h2>Sector Performance Highlights</h2>
+      <h2>ពង្រឹងកិច្ចសហប្រតិបត្តិការទ្វេភាគី</h2>
+      <p>តំណាងរាជរដ្ឋាភិបាលកម្ពុជា និងសមភាគីចិន បានចុះហត្ថលេខាលើអនុស្សរណៈនៃការយោគយល់គ្នា (MoU) ចំនួន៥ ផ្តោតសំខាន់លើការអភិវឌ្ឍហេដ្ឋារចនាសម្ព័ន្ធខ្នាតធំនៅក្នុងប្រទេសកម្ពុជា ក្នុងគោលបំណងបង្កើនសមត្ថភាពដឹកជញ្ជូន និងពាណិជ្ជកម្ម។</p>
+      <h2>គម្រោងធំៗទាំង៥ រួមមាន៖</h2>
       <ul>
-        <li>Tourism: $800M in revenue, led by Chinese and Korean visitors</li>
-        <li>Manufacturing: Garment exports up 12%, electronics up 18%</li>
-        <li>Construction: Residential projects surge in Phnom Penh suburbs</li>
-        <li>Agriculture: Rice exports to EU hit record high</li>
+        <li>ការធ្វើទំនើបកម្មកំពង់ផែស្វយ័តក្រុងព្រះសីហនុ</li>
+        <li>ការសិក្សានិងពង្រីកបណ្តាញផ្លូវរថភ្លើងល្បឿនលឿន</li>
+        <li>ការបង្កើតតំបន់សេដ្ឋកិច្ចពិសេសលំដាប់អន្តរជាតិថ្មី</li>
+        <li>ការសាងសង់ស្ពានឆ្លងកាត់ទន្លេមេគង្គបន្ថែម</li>
+        <li>ការគាំទ្រប្រព័ន្ធថាមពលកកើតឡើងវិញ</li>
       </ul>
-      <h2>Government Outlook</h2>
-      <p>Finance Minister Aun Pornmoniroth stated that the government will maintain supportive fiscal policies to sustain growth. The IMF has revised its full-year forecast for Cambodia to 6.2%.</p>
     `,
-    category: "Business",
-    date: "May 27, 2025",
-    views: 2800,
-    likes: 189,
+    category: "Foreign Policy",
+    date: 'May 27, 2026',
+    views: 3200,
+    likes: 289,
     readTime: 4,
-    image: "https://images.unsplash.com/photo-1528127269322-539801943592?w=1200&h=600&fit=crop",
-    imageCredit: "Phnom Penh Economic Zone",
-    author: "Rithy Samnang",
-    authorTitle: "Business Editor",
-    authorBio: "Rithy has 15 years of experience covering Cambodia's economic and financial sectors, previously serving as a financial analyst at the World Bank.",
-    authorAvatar: "https://randomuser.me/api/portraits/men/45.jpg",
-    authorSocial: { twitter: "@rithysamnang", linkedin: "rithy-samnang" },
+    isBreaking: false,
+    isFeatured: false,
+    image: 'https://images.unsplash.com/photo-1605106702842-01a887a31122?w=600&h=400&fit=crop',
+    imageCredit: "Fresh News",
+    author: "កែវ មុនី",
+    authorTitle: "International Relations Analyst",
+    authorBio: "មុនី ជំនាញខាងវិភាគទំនាក់ទំនងអន្តរជាតិ និងកិច្ចព្រមព្រៀងពាណិជ្ជកម្មក្នុងតំបន់អាស៊ីអាគ្នេយ៍។",
+    authorAvatar: "/img_author_2.jpg",
+    authorSocial: { twitter: "@mony_keo", linkedin: "mony-keo" }
   },
   {
     id: 3,
-    title: "Cambodian AI Startup Raises $12M Series A for Agriculture Solutions",
-    excerpt: "'AgriMind' uses computer vision to detect crop diseases, aiming to increase rice yields by 30%.",
+    title: 'គណៈកម្មការជាតិរៀបចំការបោះឆ្នោតប្រកាសកាលវិភាគការបោះឆ្នោតឃុំ ២០២៧',
+    excerpt: 'គណៈកម្មាធិការជាតិរៀបចំការបោះឆ្នោត (គ.ជ.ប) បានកំណត់កាលបរិច្ឆេទឈប់ទទួលពាក្យចុះឈ្មោះ និងបានបញ្ជាក់ថា ការិយាល័យបោះឆ្នោតនឹងកើនឡើង ១៥% នៅតាមបណ្តាខេត្ត ដើម្បីបង្កលក្ខណៈងាយស្រួលដល់អ្នកបោះឆ្នោតដំបូង។',
     content: `
-      <h2>Record-Breaking Fundraise for Cambodian Tech</h2>
-      <p>Phnom Penh-based agritech startup AgriMind has raised $12 million in a Series A funding round led by Singapore-based VC firm Golden Gate Ventures, the company announced today.</p>
-      <p>The startup's flagship product uses computer vision and machine learning to identify crop diseases from smartphone photos, providing real-time recommendations to farmers.</p>
-      <h2>Transformative Impact on Agriculture</h2>
-      <p>In pilot programs across Battambang and Kampong Cham provinces, AgriMind reduced pesticide misuse by 40% and increased rice yields by an average of 28%. The company plans to expand to 100,000 farmers by the end of 2026.</p>
-      <h2>Founder's Vision</h2>
-      <p>"We're building technology that solves real problems for Cambodian farmers," said CEO Sreynoch Lim. "This investment will allow us to scale our platform and add new features like weather forecasting and market price alerts."</p>
-      <p>The funding round also included participation from Mekong Angel Investors and Impact Asia.</p>
+      <h2>ការត្រៀមលក្ខណៈសម្រាប់ព្រឹត្តិការណ៍ជាតិ</h2>
+      <p>គ.ជ.ប បានចេញសេចក្តីប្រកាសជាផ្លូវការអំពីផែនការមេ និងកាលវិភាគលម្អិតសម្រាប់ការបោះឆ្នោតជ្រើសរើសក្រុមប្រឹក្សាឃុំ សង្កាត់ ឆ្នាំ២០២៧ ខាងមុខនេះ។ ការកែទម្រង់ថ្មីនេះធ្វើឡើងដើម្បីធានាការបោះឆ្នោតប្រព្រឹត្តទៅដោយសេរី និងយុត្តិធម៌។</p>
+      <h2>ការផ្លាស់ប្តូរសំខាន់ៗ</h2>
+      <p>ការបង្កើនចំនួនការិយាល័យបោះឆ្នោតរហូតដល់ ១៥% នឹងជួយកាត់បន្ថយការកកស្ទះ និងការធ្វើដំណើរឆ្ងាយរបស់ប្រជាពលរដ្ឋ ជាពិសេសយុវជនដែលត្រូវបោះឆ្នោតជាលើកដំបូង។</p>
     `,
-    category: "Technology",
-    date: "May 26, 2025",
-    views: 3500,
-    likes: 423,
-    readTime: 5,
-    image: "https://images.unsplash.com/photo-1581091226033-d5c48150dbaa?w=1200&h=600&fit=crop",
-    imageCredit: "AgriMind Demo",
-    author: "Sreynoch Lim",
-    authorTitle: "Tech Reporter",
-    authorBio: "Sreynoch covers technology and innovation across Southeast Asia, with a focus on Cambodia's startup ecosystem and digital transformation initiatives.",
-    authorAvatar: "https://randomuser.me/api/portraits/women/44.jpg",
-    authorSocial: { twitter: "@sreynochlim", linkedin: "sreynoch-lim" },
+    category: "Elections",
+    date: 'May 26, 2026',
+    views: 2900,
+    likes: 195,
+    readTime: 4,
+    isBreaking: false,
+    isFeatured: false,
+    image: 'https://images.unsplash.com/photo-1540910419892-4a36d2c3266c?w=600&h=400&fit=crop',
+    imageCredit: "RFA Khmer",
+    author: "សិលា វឌ្ឍនា",
+    authorTitle: "Political & Affairs Journalist",
+    authorBio: "វឌ្ឍនា តាមដានរាយការណ៍ជុំវិញដំណើរការប្រជាធិបតេយ្យ និងការបោះឆ្នោតនៅកម្ពុជាអស់រយៈពេលជាង ៨ឆ្នាំ។",
+    authorAvatar: "/img_author_3.jpg",
+    authorSocial: { twitter: "@vathanasila", linkedin: "vathana-sila" }
   },
   {
     id: 4,
-    title: "Cambodia National Football Team Advances to AFF Cup Semifinals",
-    excerpt: "Historic 2-1 victory over Indonesia sends Angkor Warriors to the final four for the first time in 10 years.",
+    title: 'តុលាការកំពូលសម្រេចលើបណ្ដឹងសិទ្ធិដីធ្លីដ៏សំខាន់នៅកំពង់ចាម',
+    excerpt: 'នៅក្នុងការសម្រេចចិត្តដ៏មានសារៈសំខាន់ជាប្រវត្តិសាស្ត្រ តុលាការកំពូលបានកាត់ក្តីឱ្យគ្រួសារកសិករចំនួន ៣៤០គ្រួសារ ឈ្នះក្តីក្នុងវិវាទដីសម្បទានដែលបានផ្តល់ទៅឱ្យក្រុមហ៊ុនអភិវឌ្ឍន៍ឯកជនមួយកាលពីឆ្នាំ២០១៩។',
     content: `
-      <h2>Dramatic Victory at Olympic Stadium</h2>
-      <p>In front of a roaring crowd of 50,000 at Phnom Penh's Olympic Stadium, the Cambodian national football team secured a dramatic 2-1 victory over Indonesia to advance to the AFF Cup semifinals for the first time since 2015.</p>
-      <p>Striker Sieng Chanthea scored both goals for Cambodia, including a 89th-minute winner that sent the stadium into delirium. Indonesia had equalized early in the second half, but Cambodia's relentless pressure paid off.</p>
-      <h2>Road to the Semifinals</h2>
-      <p>Cambodia finished second in Group B behind Vietnam, with wins over Laos and Myanmar. The semifinal opponent will be determined by a draw later this week.</p>
-      <h2>Coach's Reaction</h2>
-      <p>Coach Felix Dalmas praised his team's resilience: "These players never gave up. We believe we can go all the way." The semifinal first leg will be played on June 5 at Olympic Stadium.</p>
+      <h2>យុត្តិធម៌សម្រាប់សហគមន៍កសិករ</h2>
+      <p>ក្រោយពីការតស៊ូតាមផ្លូវច្បាប់យ៉ាងស្វិតស្វាញអស់រយៈពេលជាច្រើនឆ្នាំ ទីបំផុតតុលាការកំពូលបានប្រកាសសាលដីកាស្ថាពរ ដោយផ្តល់សិទ្ធិស្របច្បាប់លើដីធ្លីត្រឡប់ទៅឱ្យប្រជាពលរដ្ឋចំនួន ៣៤០គ្រួសារវិញ។</p>
+      <p>សាលដីកានេះត្រូវបានមើលឃើញថាជាគំរូដ៏មានសារៈសំខាន់សម្រាប់ការដោះស្រាយវិវាដីធ្លីដទៃទៀតនៅទូទាំងប្រទេស ដោយផ្អែកលើភស្តុតាងនៃការកាន់កាប់ជាក់ស្តែង និងយូរអង្វែងរបស់ពលរដ្ឋ។</p>
     `,
-    category: "Sports",
-    date: "May 25, 2025",
-    views: 5200,
-    likes: 892,
-    readTime: 4,
-    image: "https://images.unsplash.com/photo-1551958219-acbc608c6377?w=1200&h=600&fit=crop",
-    imageCredit: "FFC / AFF Cup",
-    author: "Bora Thach",
-    authorTitle: "Sports Editor",
-    authorBio: "Bora has covered Cambodian football for 12 years and is a regular commentator on local broadcasts, known for his passionate analysis and deep knowledge of ASEAN football.",
-    authorAvatar: "https://randomuser.me/api/portraits/men/32.jpg",
-    authorSocial: { twitter: "@borathach", linkedin: "bora-thach" },
+    category: "Law & Justice",
+    date: 'May 25, 2026',
+    views: 3600,
+    likes: 310,
+    readTime: 5,
+    isBreaking: false,
+    isFeatured: false,
+    image: 'https://images.unsplash.com/photo-1589829545856-d10d557cf95f?w=600&h=400&fit=crop',
+    imageCredit: "VOD Khmer",
+    author: "សៅ រតនា",
+    authorTitle: "Human Rights & Legal Correspondent",
+    authorBio: "រតនា ផ្តោតលើការរាយការណ៍រឿងក្តីសិទ្ធិមនុស្ស សិទ្ធិដីធ្លី និងប្រព័ន្ធយុត្តិធម៌សង្គមក្នុងប្រទេសកម្ពុជា។",
+    authorAvatar: "/img_author_4.jpg",
+    authorSocial: { twitter: "@ratana_sau", linkedin: "ratana-sau" }
   },
   {
     id: 5,
-    title: "Universal Health Coverage Expansion Reaches 5 Million Cambodians",
-    excerpt: "Government launches digital health ID system to streamline access to public hospitals nationwide.",
+    title: 'ក្រសួងសេដ្ឋកិច្ចព្យាករណ៍កំណើន GDP ៦.៨% ក្នុងឆ្នាំ ២០២៦',
+    excerpt: 'ការកែសម្រួលដំឡើងពីការព្យាករណ៍ចាស់ ៦% នេះ គឺដោយសារតែក្រសួងបានមើលឃើញពីការនាំចេញសម្លៀកបំពាក់ដ៏រឹងមាំលើសពីការរំពឹងទុក និងការកើនឡើង ២៨% នៃចំនួនភ្ញៀវទេសចរមកពីបណ្តាប្រទេសក្នុងតំបន់អាស៊ាន។',
     content: `
-      <h2>Healthcare Milestone Achieved</h2>
-      <p>The Ministry of Health today announced that the national universal health coverage (UHC) scheme now covers more than 5 million citizens, exceeding its 2025 target six months early.</p>
-      <p>The centerpiece of the expansion is a new digital health ID system that allows patients to access services at any public hospital using a smartphone app or a physical card.</p>
-      <h2>Key Achievements of the Program</h2>
+      <h2>សញ្ញាវិជ្ជមាននៃសេដ្ឋកិច្ចជាតិ</h2>
+      <p>ក្រសួងសេដ្ឋកិច្ច និងហិរញ្ញវត្ថុ បានបង្ហាញរបាយការណ៍ថ្មីមួយដោយកែសម្រួលអត្រាកំណើនសេដ្ឋកិច្ចកម្ពុជាឡើងដល់ ៦.៨% សម្រាប់ឆ្នាំ២០២៦ នេះ។ និន្នាការនេះសហការគ្នាដោយសារការងើបឡើងវិញយ៉ាងគំហុកនៃវិស័យសំខាន់ៗ។</p>
+      <h2>កត្តាជំរុញកំណើន</h2>
       <ul>
-        <li>Over 1,200 health centers upgraded with electronic medical records</li>
-        <li>Free maternal and child health services for all pregnant women</li>
-        <li>Chronic disease management programs for diabetes and hypertension</li>
-        <li>Telemedicine consultations in remote provinces</li>
+        <li>កំណើននៃការបញ្ជាទិញសម្លៀកបំពាក់ និងផលិតផលធ្វើដំណើរពីទីផ្សារអន្តរជាតិ</li>
+        <li>លំហូរភ្ញៀវទេសចរក្នុងតំបន់អាស៊ានកើនឡើង ២៨%</li>
+        <li>ការកើនឡើងនៃការវិនិយោគផ្ទាល់ពីបរទេស (FDI) លើវិស័យកសិឧស្សាហកម្ម</li>
       </ul>
-      <h2>Future Expansion Plans</h2>
-      <p>Health Minister Mam Bunheng stated that the government aims to reach 8 million citizens by the end of 2026. The initiative is supported by the World Bank and Global Fund.</p>
     `,
-    category: "Health",
-    date: "May 24, 2025",
-    views: 2900,
-    likes: 367,
-    readTime: 5,
-    image: "https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=1200&h=600&fit=crop",
-    imageCredit: "Ministry of Health",
-    author: "Dr. Malis Sovann",
-    authorTitle: "Health Correspondent",
-    authorBio: "Dr. Sovann is a public health specialist and journalist covering healthcare in Cambodia, holding a Master's in Public Health from Johns Hopkins University.",
-    authorAvatar: "https://randomuser.me/api/portraits/women/56.jpg",
-    authorSocial: { twitter: "@drmalissovann", linkedin: "malis-sovann" },
+    category: "Economy",
+    date: 'May 24, 2026',
+    views: 2400,
+    likes: 185,
+    readTime: 3,
+    isBreaking: false,
+    isFeatured: false,
+    image: 'https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=600&h=400&fit=crop',
+    imageCredit: "Fresh News",
+    author: "លី ម៉េងហួរ",
+    authorTitle: "Financial & Macroeconomics Editor",
+    authorBio: "ម៉េងហួរ វិភាគទិន្នន័យម៉ាក្រូសេដ្ឋកិច្ច និងគោលនយោបាយហិរញ្ញវត្ថុរបស់រាជរដ្ឋាភិបាល។",
+    authorAvatar: "/img_author_5.jpg",
+    authorSocial: { twitter: "@menghour_ly", linkedin: "menghour-ly" }
   },
   {
     id: 6,
-    title: "Angkor Music Festival Returns with Star-Studded Lineup",
-    excerpt: "International and local artists to perform at Siem Reap's iconic temple backdrop for 3-day celebration.",
-    content: "<h2>Grand Return After Hiatus</h2><p>The Angkor Music Festival will return from November 15-17, 2025, featuring headliners including Cambodian pop star Laura Mam and international acts from Thailand and Vietnam...</p><h2>Cultural Significance</h2><p>The festival celebrates Cambodia's rich musical heritage while embracing contemporary sounds, attracting thousands of visitors annually.</p>",
-    category: "Entertainment",
-    date: "May 22, 2025",
-    views: 4100,
-    likes: 578,
-    readTime: 3,
-    image: "https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=1200&h=600&fit=crop",
-    imageCredit: "Angkor Music Festival",
-    author: "Ratanak Kim",
-    authorTitle: "Entertainment Editor",
-    authorBio: "Ratanak covers arts, culture, and entertainment in Cambodia, with a passion for promoting local artists on the international stage.",
-    authorAvatar: "https://randomuser.me/api/portraits/men/52.jpg",
-    authorSocial: { twitter: "@ratanakk", instagram: "ratanak.kim" },
+    title: 'គណៈកម្មការព្រឹទ្ធសភាពិនិត្យវិសោធនកម្មច្បាប់ប្រឆាំងអំពើពុករលួយ',
+    excerpt: 'វិសោធនកម្មដែលបានស្នើឡើងនេះ នឹងពង្រឹងលក្ខខណ្ឌតម្រូវក្នុងការប្រកាសទ្រព្យសម្បត្តិសម្រាប់មន្ត្រីជាន់ខ្ពស់ និងដាក់ចេញនូវរយៈពេលរង់ចាំរយៈពេលបីឆ្នាំជាកំហិត សម្រាប់មន្ត្រីរាជការដែលផ្លាស់ប្តូរទៅបម្រើការងារក្នុងវិស័យឯកជន។',
+    content: `
+      <h2>ពង្រឹងតម្លាភាពក្នុងស្ថាប័នរដ្ឋ</h2>
+      <p>គណៈកម្មការជំនាញនៃព្រឹទ្ធសភា បានបើកកិច្ចប្រជុំពិភាក្សាលើសេចក្តីព្រាងវិសោធនកម្មច្បាប់ស្តីពីការប្រឆាំងអំពើពុករលួយ ដើម្បីធ្វើឱ្យយន្តការត្រួតពិនិត្យកាន់តែមានភាពតឹងរ៉ឹង និងមានប្រសិទ្ធភាពខ្ពស់ជាងមុន។</p>
+      <p>ច្បាប់ថ្មីនេះក៏បានដាក់ទណ្ឌកម្មបន្ថែមចំពោះការមិនព្រមប្រកាស ឬលាក់បាំងទ្រព្យសម្បត្តិ និងកែសម្រួលបែបបទដើម្បីធានាការធ្វើការដោយស្មោះត្រង់របស់មន្ត្រីសាធារណៈ។</p>
+    `,
+    category: "Politics",
+    date: 'May 23, 2026',
+    views: 1800,
+    likes: 142,
+    readTime: 4,
+    isBreaking: false,
+    isFeatured: false,
+    image: 'https://images.unsplash.com/photo-1575505586569-646b2ca898fc?w=600&h=400&fit=crop',
+    imageCredit: "Kohsantepheap",
+    author: "ធីតា វ៉ាន់",
+    authorTitle: "Senate & Legislative Reporter",
+    authorBio: "វ៉ាន់ ធីតា យកព័ត៌មានប្រចាំព្រឹទ្ធសភា និងតាមដានរាល់ការកែទម្រង់ច្បាប់សំខាន់ៗនៅក្នុងប្រទេស។",
+    authorAvatar: "/img_author_6.jpg",
+    authorSocial: { twitter: "@thida_van", linkedin: "thida-van" }
   },
   {
     id: 7,
-    title: "Government Launches Digital Literacy Program for 1 Million Students",
-    excerpt: "Partnership with tech companies brings tablets and coding curriculum to public schools nationwide.",
-    content: "<h2>Bridging the Digital Divide</h2><p>The Ministry of Education today unveiled a $50 million digital literacy program that will provide tablets and coding training to 1 million students over the next three years...</p><h2>Public-Private Partnership</h2><p>Major tech companies including Smart Axiata and Cellcard have committed to providing infrastructure support and training resources.</p>",
-    category: "Education",
-    date: "May 20, 2025",
-    views: 2300,
-    likes: 312,
+    title: 'កម្ពុជាចូលរួមក្របខ័ណ្ឌសេដ្ឋកិច្ចឌីជីថលអាស៊ាន',
+    excerpt: 'ក្នុងនាមជាសមាជិកអាស៊ានចុងក្រោយគេដែលបានចុះហត្ថលេខា ប្រទេសកម្ពុជាប្តេជ្ញាអនុវត្តតាមស្តង់ដារលំហូរទិន្នន័យឆ្លងដែន ការសម្របសម្រួលពាណិជ្ជកម្មឌីជីថល និងពិធីសារសន្តិសុខសាយប័ររួមគ្នានៅត្រឹមឆ្នាំ២០២៨។',
+    content: `
+      <h2>សមាហរណកម្មឌីជីថលក្នុងតំបន់</h2>
+      <p>ការសម្រេចចិត្តចូលរួមក្នុងក្របខ័ណ្ឌសេដ្ឋកិច្ចឌីជីថលអាស៊ាន (DEFA) នឹងជួយឱ្យកម្ពុជាពង្រីកសក្តានុពលពាណិជ្ជកម្មរបស់ខ្លួនជាមួយបណ្តាប្រទេសជាសមាជិកដទៃទៀត តាមរយៈការតភ្ជាប់ប្រព័ន្ធបច្ចេកវិទ្យា និងទិន្នន័យប្រកបដោយស្តង់ដាររួមមួយ។</p>
+      <h2>អត្ថប្រយោជន៍ចំពោះអាជីវកម្មក្នុងស្រុក</h2>
+      <p>សហគ្រាសធុនតូច និងមធ្យម (SMEs) នៅកម្ពុជានឹងអាចទទួលបានឱកាសពង្រីកទីផ្សារទៅក្រៅប្រទេសកាន់តែងាយស្រួល ព្រមទាំងទទួលបានការការពារផ្នែកសន្តិសុខសាយប័រខ្ពស់។</p>
+    `,
+    category: "Foreign Policy",
+    date: 'May 22, 2026',
+    views: 2100,
+    likes: 168,
     readTime: 4,
-    image: "https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=1200&h=600&fit=crop",
-    imageCredit: "MoEYS",
-    author: "Sreymom Chea",
-    authorTitle: "Education Correspondent",
-    authorBio: "Sreymom reports on education policy and school innovations in Cambodia, previously working as a teacher in rural provinces.",
-    authorAvatar: "https://randomuser.me/api/portraits/women/28.jpg",
-    authorSocial: { twitter: "@sreymomchea", linkedin: "sreymom-chea" },
+    isBreaking: false,
+    isFeatured: false,
+    image: 'https://images.unsplash.com/photo-1557804506-669a67965ba0?w=600&h=400&fit=crop',
+    imageCredit: "Dap News",
+    author: "សុខ ជា",
+    authorTitle: "Regional Integration Analyst",
+    authorBio: "សុខ ជា ជំនាញការខាងកិច្ចការអាស៊ាន និងការធ្វើសមាហរណកម្មសេដ្ឋកិច្ចឌីជីថលក្នុងតំបន់។",
+    authorAvatar: "/img_author_7.jpg",
+    authorSocial: { twitter: "@cheasokh", linkedin: "chea-sokh" }
   },
   {
     id: 8,
-    title: "Cambodia Rice Exports Surge 25% in First Half of 2025",
-    excerpt: "China and EU markets drive record shipments as premium fragrant rice gains global recognition.",
-    content: "<h2>Record Export Figures</h2><p>Cambodia exported 650,000 tons of milled rice in the first six months of 2025, a 25% increase over the same period last year, according to the Cambodia Rice Federation...</p><h2>Quality Recognition</h2><p>Cambodian premium fragrant rice won the World's Best Rice Award for the third consecutive year at the World Rice Conference.</p>",
-    category: "Agriculture",
-    date: "May 18, 2025",
-    views: 1900,
-    likes: 156,
-    readTime: 4,
-    image: "https://images.unsplash.com/photo-1464226184884-fa280b87c399?w=1200&h=600&fit=crop",
-    imageCredit: "CRF",
-    author: "Sophea Rin",
-    authorTitle: "Agriculture Editor",
-    authorBio: "Sophea has reported on Cambodia's agricultural sector for over a decade, traveling extensively to rice-growing provinces.",
-    authorAvatar: "https://randomuser.me/api/portraits/men/42.jpg",
-    authorSocial: { twitter: "@sophearin", linkedin: "sophea-rin" },
+    title: 'គណបក្សប្រឆាំងស្នើឱ្យពិនិត្យឡើងវិញនូវគណៈកម្មការជាតិរៀបចំការបោះឆ្នោត',
+    excerpt: 'សម្ព័ន្ធភាពនៃក្រុមគណបក្សប្រឆាំងបានដាក់ញត្តិជាផ្លូវការ ដោយស្នើសុំឱ្យមានការសវនកម្មឯករាជ្យលើសមាសភាព គ.ជ.ប និងភាពត្រឹមត្រូវនៃបញ្ជីឈ្មោះអ្នកបោះឆ្នោត មុនពេលវដ្តនៃការបោះឆ្នោតឆ្នាំ២០២៧ ចូលមកដល់។',
+    content: `
+      <h2>ការទាមទារឱ្យមានការកែទម្រង់ប្រព័ន្ធបោះឆ្នោត</h2>
+      <p>តំណាងសម្ព័ន្ធភាពគណបក្សប្រឆាំង បានរួមគ្នាកោះប្រជុំសារព័ត៌មាន ដើម្បីបង្ហាញពីក្តីកង្វល់ជុំវិញតម្លាភាពនៃប្រព័ន្ធគ្រប់គ្រងទិន្នន័យអ្នកបោះឆ្នោតនាពេលបច្ចុប្បន្ន។ ពួកគេបានស្នើឱ្យមានការចូលរួមត្រួតពិនិត្យពីអង្គការសង្គមស៊ីវិលជាតិ និងអន្តរជាតិ។</p>
+      <p>ញត្តិផ្លូវការត្រូវបានបញ្ជូនទៅកាន់ស្ថាប័នពាក់ព័ន្ធ ដោយសង្ឃឹមថានឹងមានការជជែកពិភាក្សារកដំណោះស្រាយរួមមួយដើម្បីភាពជឿជាក់នៃលទ្ធផលឆ្នោត។</p>
+    `,
+    category: "Elections",
+    date: 'May 21, 2026',
+    views: 3400,
+    likes: 252,
+    readTime: 3,
+    isBreaking: false,
+    isFeatured: false,
+    image: 'https://images.unsplash.com/photo-1541872703-74c5e44368f9?w=600&h=400&fit=crop',
+    imageCredit: "RFA Khmer",
+    author: "គឹម ស៊ុយហៀង",
+    authorTitle: "Political Democracy Reporter",
+    authorBio: "ស៊ុយហៀង ធ្វើការរាយការណ៍ផ្តោតលើសកម្មភាពបក្សនយោបាយ និងចលនាសង្គមស៊ីវិលនៅកម្ពុជា។",
+    authorAvatar: "/img_author_8.jpg",
+    authorSocial: { twitter: "@suyhieng_kim", linkedin: "suyhieng-kim" }
   },
+  {
+    id: 9,
+    title: 'បទប្បញ្ញត្តិថ្មីប្រឆាំងការសំអាតប្រាក់នឹងចូលជាធរមានខែក្រោយ',
+    excerpt: 'អង្គភាពស៊ើបការណ៍ហិរញ្ញវត្ថុនឹងទទួលបានអំណាចថ្មីក្នុងការបង្កកទ្រព្យសម្បត្តិ និងបង្ខំឱ្យមានការលាតត្រដាងព័ត៌មានពីសំណាក់អ្នកអភិវឌ្ឍន៍អចលនទ្រព្យ ក្រុមហ៊ុនប្តូរប្រាក់គ្រីបតូ (Cryptocurrency) និងអ្នកជំនាញផ្នែកច្បាប់។',
+    content: `
+      <h2>ការរឹតបន្តឹងលំហូរហិរញ្ញវត្ថុមិនស្របច្បាប់</h2>
+      <p>ដើម្បីដកខ្លួនចេញពីបញ្ជីត្រួតពិនិត្យផ្សេងៗ និងពង្រឹងប្រព័ន្ធហិរញ្ញវត្ថុជាតិ អាជ្ញាធរកម្ពុជាបានសម្រេចដាក់ចេញនូវវិធានការក្តៅ ក្នុងការប្រឆាំងការលាងលុយកខ្វក់ និងការផ្តល់ហិរញ្ញប្បទានដល់ភេរវកម្ម។</p>
+      <h2>វិស័យដែលរងការត្រួតពិនិត្យខ្លាំង៖</h2>
+      <ul>
+        <li>ការទិញលក់អចលនទ្រព្យលំដាប់ខ្ពស់ និងគម្រោងខុនដូ</li>
+        <li>ប្រតិបត្តិការទ្រព្យសកម្មឌីជីថល និងគ្រីបតូ</li>
+        <li>កាស៊ីណូ និងល្បែងភ្នាល់នានា</li>
+      </ul>
+    `,
+    category: "Law & Justice",
+    date: 'May 20, 2026',
+    views: 1500,
+    likes: 110,
+    readTime: 4,
+    isBreaking: false,
+    isFeatured: false,
+    image: 'https://images.unsplash.com/photo-1450101499163-c8848c66ca85?w=600&h=400&fit=crop',
+    imageCredit: "Fresh News",
+    author: "អ៊ុន ចាន់ដារ៉ា",
+    authorTitle: "Financial Crime Investigator",
+    authorBio: "ចាន់ដារ៉ា តាមដានស៊ីជម្រៅលើបទល្មើសសេដ្ឋកិច្ច ការលាងលុយកខ្វក់ និងបទប្បញ្ញត្តិធនាគារ។",
+    authorAvatar: "/img_author_9.jpg",
+    authorSocial: { twitter: "@chandara_un", linkedin: "chandara-un" }
+  },
+  {
+    id: 11,
+    title: 'ផ្សារមូលបត្រកម្ពុជាសម្រេចបានកំណើនប្រចាំត្រីមាសខ្ពស់បំផុតជាប្រវត្តិសាស្ត្ររហូតដល់ ១៨%',
+    excerpt: 'ទំនុកចិត្តរបស់អ្នកវិនិយោគបានកើនឡើង បន្ទាប់ពីការចុះបញ្ជីថ្មីៗក្នុងវិស័យបច្ចេកវិទ្យាហិរញ្ញវត្ថុ និងថាមពលបៃតង បានជំរុញឱ្យសន្ទស្សន៍កើនឡើងលើសពី ១,២០០ ពិន្ទុ។',
+    content: `
+      <h2>កំណត់ត្រាថ្មីនៃទីផ្សារភាគហ៊ុនិក</h2>
+      <p>ផ្សារមូលបត្រកម្ពុជា (CSX) បានប្រកាសពីលទ្ធផលដ៏គួរឱ្យភ្ញាក់ផ្អើលប្រចាំត្រីមាសទីមួយ ដោយសម្រេចបានកំណើនសន្ទស្សន៍រហូតដល់ ១៨% ដែលជាការកើនឡើងខ្ពស់បំផុតមិនធ្លាប់មានចាប់តាំងពីបង្កើតស្ថាប័ននេះមក។</p>
+      <p>ការហក់ឡើងនៃទំហំជួញដូរនេះត្រូវបានជំរុញដោយវត្តមានរបស់ក្រុមហ៊ុនបច្ចេកវិទ្យាហិរញ្ញវត្ថុ (Fintech) ឈានមុខគេ និងក្រុមហ៊ុនផលិតថាមពលកកើតឡើងវិញដែលទើបតែបោះផ្សាយលក់មូលបត្រជាសាធារណៈ (IPO)។</p>
+      <h2>កត្តាសំខាន់ៗនៃកំណើន</h2>
+      <ul>
+        <li>ការចូលរួមយ៉ាងសកម្មពីសំណាក់វិនិយោគិនបុគ្គលក្នុងស្រុកកើនឡើង ៣៥%</li>
+        <li>លំហូរទុនវិនិយោគបរទេសមកពីស្ថាប័នហិរញ្ញវត្ថុធំៗនៅអាស៊ី</li>
+        <li>គោលនយោបាយលើកទឹកចិត្តពន្ធដារពីរាជរដ្ឋាភិបាលសម្រាប់ក្រុមហ៊ុនចុះបញ្ជី</li>
+      </ul>
+    `,
+    category: "Finance & Markets",
+    date: 'May 28, 2026',
+    views: 5100,
+    likes: 495,
+    readTime: 5,
+    isBreaking: true,
+    isFeatured: true,
+    image: 'https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?w=900&h=500&fit=crop',
+    imageCredit: "Fresh News",
+    author: "ចិន្តា មុនីរ័ត្ន",
+    authorTitle: "Financial Markets Editor",
+    authorBio: "មុនីរ័ត្ន ជំនាញខាងវិភាគនិន្នាការទីផ្សារភាគហ៊ុន និងចលនាទុនវិនិយោគអន្តរជាតិប្រចាំតំបន់អាស៊ីអាគ្នេយ៍។",
+    authorAvatar: "/img_author_11.jpg",
+    authorSocial: { twitter: "@muniroth_c", linkedin: "chinda-muniroth" }
+  },
+  {
+    id: 12,
+    title: 'អ្នកនាំចេញសម្លៀកបំពាក់មើលឃើញកំណើន ២២% បន្ទាប់ពីទទួលបានការអនុគ្រោះពាណិជ្ជកម្មពី EU',
+    excerpt: 'ការកែលម្អផ្លូវដឹកជញ្ជូន និងការបន្ធូរបន្ថយពន្ធគយ បានជួយដល់ក្រុមហ៊ុនផលិតសម្លៀកបំពាក់ក្នុងការពង្រីកការបញ្ជាទិញពីអ្នកលក់រាយនៅអឺរ៉ុប។',
+    content: `
+      <h2>ឱកាសមាសសម្រាប់វិស័យកាត់ដេរ</h2>
+      <p>សមាគមវាយនភណ្ឌ និងកាត់ដេរនៅកម្ពុជា បានបង្ហាញក្តីសោមនស្សរីករាយយ៉ាងខ្លាំង បន្ទាប់ពីទិន្នន័យនាំចេញទៅកាន់សហភាពអឺរ៉ុប (EU) បានបង្ហាញសញ្ញាលោតផ្លោះរហូតដល់ ២២% ក្នុងរយៈពេលប៉ុន្មានខែចុងក្រោយនេះ។</p>
+      <p>ការសម្របសម្រួលនីតិវិធីគយតាមប្រព័ន្ធឌីជីថល និងការធ្លាក់ចុះនៃថ្លៃដឹកជញ្ជូនតាមផ្លូវសមុទ្រ បានក្លាយជាកាតាលីករដ៏សំខាន់ក្នុងការជួយឱ្យទំនិញកម្ពុជាមានភាពប្រកួតប្រជែងខ្ពស់នៅលើទីផ្សារអន្តរជាតិ។</p>
+    `,
+    category: "International Trade",
+    date: 'May 27, 2026',
+    views: 3800,
+    likes: 312,
+    readTime: 4,
+    isBreaking: false,
+    isFeatured: false,
+    image: 'https://images.unsplash.com/photo-1519337265831-281ec6cc8514?w=600&h=400&fit=crop',
+    imageCredit: "VOD Khmer",
+    author: "លី គីមហុង",
+    authorTitle: "Trade & Industry Correspondent",
+    authorBio: "គីមហុង តាមដានរាយការណ៍យ៉ាងដិតដល់អំពីកិច្ចព្រមព្រៀងពាណិជ្ជកម្មសេរី និងចង្វាក់ផ្គត់ផ្គង់សកល។",
+    authorAvatar: "/img_author_12.jpg",
+    authorSocial: { twitter: "@kimhong_ly", linkedin: "kimhong-ly" }
+  },
+  {
+    id: 13,
+    title: 'ក្រុមហ៊ុនអាជីវកម្មថ្មី (Startup) នៅភ្នំពេញកៀរគរទុនបាន ៤លានដុល្លារ ដើម្បីពង្រីកបច្ចេកវិទ្យាកសិកម្ម',
+    excerpt: 'ការកៀរគរទុនក្នុងវគ្គនេះ នឹងជួយពន្លឿនការអភិវឌ្ឍឧបករណ៍កសិកម្មទំនើប (Precision Farming) សម្រាប់អ្នកដាំដុះស្រូវនៅក្នុងប្រទេសកម្ពុជា និងអាស៊ាន។',
+    content: `
+      <h2>បដិវត្តន៍កសិកម្មបែបបច្ចេកវិទ្យា</h2>
+      <p>ក្រុមហ៊ុនបច្ចេកវិទ្យាកសិកម្មឈានមុខគេមួយដែលមានមូលដ្ឋាននៅរាជធានីភ្នំពេញ បានប្រកាសទទួលបានជោគជ័យក្នុងការកៀរគរទុនដំណាក់កាលទីមួយ (Series A) ចំនួន ៤លានដុល្លារពីមូលនិធិបណ្តាក់ទុនបរទេស។</p>
+      <p>ថវិកាទាំងនេះនឹងត្រូវប្រើប្រាស់ដើម្បីពង្រឹងការស្រាវជ្រាវប្រព័ន្ធគ្រប់គ្រងទឹកឆ្លាតវៃ និងដ្រូន (Drones) កសិកម្ម ដែលជួយកាត់បន្ថយការប្រើប្រាស់ជីគីមី និងបង្កើនទិន្នផលស្រូវដល់ប្រជាកសិករ។</p>
+    `,
+    category: "Tech Startup",
+    date: 'May 26, 2026',
+    views: 2900,
+    likes: 245,
+    readTime: 4,
+    isBreaking: false,
+    isFeatured: false,
+    image: 'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=600&h=400&fit=crop',
+    imageCredit: "Kohsantepheap",
+    author: "សុខ ជា",
+    authorTitle: "Innovation & Technology Reporter",
+    authorBio: "សុខ ជា ផ្តោតលើការសរសេរអត្ថបទជុំវិញប្រព័ន្ធអេកូឡូស៊ីអាជីវកម្មថ្មី (Startup) និងបច្ចេកវិទ្យាឧស្សាហកម្ម ៤.០។",
+    authorAvatar: "/img_author_13.jpg",
+    authorSocial: { twitter: "@cheasokh_tech", linkedin: "chea-sokh-tech" }
+  },
+  {
+    id: 14,
+    title: 'ក្រសួងអនុម័តក្រមពន្ធសាជីវកម្មថ្មីសម្រាប់សហគ្រាសធុនតូច និងមធ្យម (SMEs)',
+    excerpt: 'ក្រមពន្ធសាជីវកម្មដែលបានកែសម្រួលថ្មីនេះ រួមបញ្ចូលទាំងការផ្តល់ការលើកទឹកចិត្តសម្រាប់អាជីវកម្មថ្មីៗក្នុងស្រុក ក្រុមហ៊ុនឌីជីថល និងអ្នកនាំចេញដែលមានលក្ខណៈសម្បត្តិគ្រប់គ្រាន់។',
+    content: `
+      <h2>កំណែទម្រង់ពន្ធដារដើម្បីគាំទ្រអាជីវកម្មក្នុងស្រុក</h2>
+      <p>ក្រសួងសេដ្ឋកិច្ច និងហិរញ្ញវត្ថុ បានប្រកាសដាក់ឱ្យប្រើប្រាស់ក្រមពន្ធសាជីវកម្មថ្មី ដែលមានលក្ខណៈធូរស្រាល និងអនុគ្រោះច្រើនជាងមុន ដើម្បីជួយសម្រាលបន្ទុកដល់សហគ្រាសធុនតូច និងមធ្យម (SMEs)។</p>
+      <h2>អត្ថប្រយោជន៍សំខាន់ៗនៃក្រមពន្ធថ្មី</h2>
+      <ul>
+        <li>ការលើកលែងពន្ធលើប្រាក់ចំណូលរយៈពេល ៣ឆ្នាំ សម្រាប់ Startup ផ្នែកបច្ចេកវិទ្យា</li>
+        <li>ការសម្រួលបែបបទកាត់កងពន្ធ និងការដាក់លិខិតប្រកាសពន្ធតាមអនឡាញ</li>
+        <li>ការកាត់បន្ថយអត្រាពន្ធកាត់ទុក (Withholding Tax) លើសេវាកម្មមួយចំនួន</li>
+      </ul>
+    `,
+    category: "Economic Policy",
+    date: 'May 25, 2026',
+    views: 3600,
+    likes: 288,
+    readTime: 5,
+    isBreaking: false,
+    isFeatured: false,
+    image: 'https://images.unsplash.com/photo-1007679799987-c73779587ccf?w=600&h=400&fit=crop',
+    imageCredit: "RFA Khmer",
+    author: "គង់ សំរិទ្ធ",
+    authorTitle: "Public Policy Analyst",
+    authorBio: "សំរិទ្ធ តាមដាន និងវិភាគលើច្បាប់ហិរញ្ញវត្ថុសាធារណៈ និងរចនាសម្ព័ន្ធពន្ធដារនៅកម្ពុជាជាង ១០ឆ្នាំ។",
+    authorAvatar: "/img_author_14.jpg",
+    authorSocial: { twitter: "@samrith_kong", linkedin: "samrith-kong" }
+  },
+  {
+    id: 15,
+    title: 'ពិព័រណ៍ពាណិជ្ជកម្មថ្នាក់តំបន់ទាក់ទាញក្រុមហ៊ុនចំនួន ១២០ មកកាន់កំពង់ផែក្រុងព្រះសីហនុ',
+    excerpt: 'អ្នកនាំចេញក្នុងវិស័យវាយនភណ្ឌ គ្រឿងសមុទ្រ និងគ្រឿងអេឡិចត្រូនិក បានដាក់បង្ហាញទំនិញដឹកជញ្ជូនថ្មីៗរបស់ពួកគេ មុនពេលរដូវវស្សាមកដល់។',
+    content: `
+      <h2>វេទិកាភ្ជាប់ទំនាក់ទំនងពាណិជ្ជកម្មដែនសមុទ្រ</h2>
+      <p>ព្រឹត្តិការណ៍ពិព័រណ៍ពាណិជ្ជកម្ម និងភស្តុភារកម្មសមុទ្រប្រចាំឆ្នាំបានបើកទ្វារជាផ្លូវការនៅក្នុងខេត្តព្រះសីហនុ ដោយទាក់ទាញក្រុមហ៊ុនជាតិ និងអន្តរជាតិចូលរួមដាក់តាំងបង្ហាញផលិតផលជាង ១២០ស្តង់។</p>
+      <p>នេះជាឱកាសដ៏សំខាន់សម្រាប់សហគ្រិនកម្ពុជា ក្នុងការស្វែងរកដៃគូចែកចាយ និងចុះកិច្ចសន្យាទិញ-លក់ដោយផ្ទាល់ជាមួយតំណាងពាណិជ្ជករមកពីបណ្តាប្រទេសក្នុងតំបន់អាស៊ី។</p>
+    `,
+    category: "International Trade",
+    date: 'May 24, 2026',
+    views: 2500,
+    likes: 198,
+    readTime: 3,
+    isBreaking: false,
+    isFeatured: false,
+    image: 'https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?w=600&h=400&fit=crop',
+    imageCredit: "Fresh News",
+    author: "សៅ រតនា",
+    authorTitle: "Provincial Business Correspondent",
+    authorBio: "រតនា ប្រចាំការយកព័ត៌មានសេដ្ឋកិច្ច និងការអភិវឌ្ឍតំបន់ឆ្នេរ ជាពិសេសតំបន់សេដ្ឋកិច្ចពិសេសក្រុងព្រះសីហនុ។",
+    authorAvatar: "/img_author_15.jpg",
+    authorSocial: { twitter: "@ratana_sau", linkedin: "ratana-sau" }
+  },
+  {
+    id: 16,
+    title: 'កម្ពុជាដាក់ឱ្យដំណើរការមជ្ឈមណ្ឌលពាណិជ្ជកម្មអេឡិចត្រូនិកជាតិសម្រាប់សហគ្រាសធុនតូច និងមធ្យម',
+    excerpt: 'វេទិកាថ្មីនេះផ្តល់នូវការគាំទ្រផ្នែកភស្តុភារ ការទូទាត់ប្រាក់ឌីជីថល និងការបណ្តុះបណ្តាល ដើម្បីជួយដល់អាជីវកម្មខ្នាតតូចនិងមធ្យមអាចលក់ផលិតផលទៅក្រៅប្រទេសបាន។',
+    content: `
+      <h2>ច្រកចេញចូលតែមួយសម្រាប់ E-Commerce</h2>
+      <p>ក្រសួងពាណិជ្ជកម្មបានសម្ពោធដាក់ឱ្យដំណើរការ មជ្ឈមណ្ឌលពាណិជ្ជកម្មអេឡិចត្រូនិកជាតិជាផ្លូវការ ដើម្បីជាក្បាលម៉ាស៊ីនរុញច្រានផលិតផលក្នុងស្រុកទៅកាន់ទីផ្សារពិភពលោក។</p>
+      <p>មជ្ឈមណ្ឌលនេះនឹងផ្តល់ការបណ្តុះបណ្តាលបច្ចេកវិទ្យាទំនើបៗ ជួយរៀបចំការវេចខ្ចប់ឱ្យត្រូវស្តង់ដារ និងតភ្ជាប់ប្រព័ន្ធទូទាត់ប្រាក់ឌីជីថលឆ្លងដែនប្រកបដោយសុវត្ថិភាព។</p>
+    `,
+    category: "Corporate & Business",
+    date: 'May 23, 2026',
+    views: 3000,
+    likes: 260,
+    readTime: 4,
+    isBreaking: false,
+    isFeatured: false,
+    image: 'https://images.unsplash.com/photo-1485217988980-11786ced9454?w=600&h=400&fit=crop',
+    imageCredit: "Dap News",
+    author: "អ៊ុន ចាន់ដារ៉ា",
+    authorTitle: "E-commerce & Retail Reporter",
+    authorBio: "ចាន់ដារ៉ា តាមដានការវិវត្តនៃសេដ្ឋកិច្ចឌីជីថល ពាណិជ្ជកម្មទំនើប និងការផ្លាស់ប្តូរទម្លាប់ទិញទំនិញរបស់អ្នកប្រើប្រាស់។",
+    authorAvatar: "/img_author_16.jpg",
+    authorSocial: { twitter: "@chandara_un", linkedin: "chandara-un" }
+  },
+  {
+    id: 17,
+    title: 'វិស័យធនាគារពង្រីកសេវាកម្មទូទាត់ប្រាក់តាមទូរស័ព្ទដៃទៅកាន់បណ្តាស្រុកដាច់ស្រយាល',
+    excerpt: 'ភាពជាដៃគូថ្មីជាមួយក្រុមហ៊ុនប្រតិបត្តិករទូរគមនាគមន៍ ធ្វើឱ្យកាបូបប្រាក់ឌីជីថល (Digital Wallets) មានលទ្ធភាពប្រើប្រាស់បាននៅទូទាំងបណ្តាខេត្ត។',
+    content: `
+      <h2>បរិយាបន្នហិរញ្ញវត្ថុនៅតាមជនបទ</h2>
+      <p>ធនាគារជាតិសហការជាមួយស្ថាប័នមីក្រូហិរញ្ញវត្ថុ និងក្រុមហ៊ុនទូរស័ព្ទ បានសម្រេចជោគជ័យក្នុងការដាក់ពង្រាយបណ្តាញទូទាត់ QR Code និងកាបូបលុយអេឡិចត្រូនិកនៅតាមភូមិស្រុកដាច់ស្រយាល។</p>
+      <p>គំនិតផ្តួចផ្តើមនេះជួយកាត់បន្ថយគម្លាតរវាងទីក្រុង និងជនបទ ដោយអនុញ្ញាតឱ្យប្រជាពលរដ្ឋអាចធ្វើការផ្ទេរប្រាក់ ចំណាយលើការទិញទំនិញ និងទទួលប្រាក់កម្ចីបានយ៉ាងរហ័សតាមទូរស័ព្ទដៃ។</p>
+    `,
+    category: "Finance & Markets",
+    date: 'May 22, 2026',
+    views: 2800,
+    likes: 215,
+    readTime: 4,
+    isBreaking: false,
+    isFeatured: false,
+    image: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=600&h=400&fit=crop',
+    imageCredit: "VOD Khmer",
+    author: "លី ម៉េងហួរ",
+    authorTitle: "Banking & Fintech Analyst",
+    authorBio: "ម៉េងហួរ ផ្តោតលើការរាយការណ៍អំពីប្រព័ន្ធធនាគារ បច្ចេកវិទ្យាហិរញ្ញវត្ថុ និងគោលនយោបាយរូបិយវត្ថុជាតិ។",
+    authorAvatar: "/img_author_17.jpg",
+    authorSocial: { twitter: "@menghour_ly", linkedin: "menghour-ly" }
+  },
+  {
+    id: 18,
+    title: 'អ្នកនាំចេញអង្ករកម្ពុជា បង្កើនគោលដៅពង្រីកទីផ្សារថ្មីៗនៅតំបន់ឈូងសមុទ្រ',
+    excerpt: 'កិច្ចព្រមព្រៀងចែកចាយថ្មីៗ មានគោលបំណងនាំយកអង្ករក្រអូបប្រណិត និងផលិតផលគ្រាប់ស្វាយចន្ទី ទៅកាន់អ្នកទិញនៅក្នុងប្រទេសអារ៉ាប៊ីសាអូឌីត និងអារ៉ាប់រួម (UAE)។',
+    content: `
+      <h2>វាយលុកទីផ្សារមជ្ឈិមបូព៌ា</h2>
+      <p>សហព័ន្ធស្រូវអង្ករកម្ពុជាបានចុះហត្ថលេខាលើកិច្ចព្រមព្រៀងជាយុទ្ធសាស្ត្រជាមួយបណ្តាញផ្សារទំនើបធំៗនៅតំបន់ឈូងសមុទ្រពែរ្ស (Gulf Region) ដើម្បីនាំចេញអង្ករផ្ការំដួល និងគ្រាប់ស្វាយចន្ទីកែច្នៃរបស់កម្ពុជា។</p>
+      <p>ទីផ្សារថ្មីនេះមានសក្តានុពលខ្ពស់ និងផ្តល់តម្លៃបន្ថែមច្រើន ដែលនឹងជួយលើកកម្ពស់ជីវភាពប្រជាកសិករ និងបង្កើនទំហំពាណិជ្ជកម្មក្រៅប្រទេសរបស់កម្ពុជា។</p>
+    `,
+    category: "International Trade",
+    date: 'May 21, 2026',
+    views: 2400,
+    likes: 180,
+    readTime: 4,
+    isBreaking: false,
+    isFeatured: false,
+    image: 'https://postkhmer.com/wp-content/uploads/2026/04/6_1_2026_4178.jpg',
+    imageCredit: "Kohsantepheap",
+    author: "កែវ មុនី",
+    authorTitle: "Agro-Trade Correspondent",
+    authorBio: "មុនី តាមដានយ៉ាងយកចិត្តទុកដាក់លើការនាំចេញកសិផល និងគោលនយោបាយសន្តិសុខស្បៀងក្នុងតំបន់។",
+    authorAvatar: "/img_author_18.jpg",
+    authorSocial: { twitter: "@mony_keo", linkedin: "mony-keo" }
+  },
+  {
+    id: 19,
+    title: 'ការចាប់អារម្មណ៍ពីមូលនិធិវិនិយោគ (Venture Capital) លើវិស័យ Fintech កម្ពុជាកើនឡើងខ្ពស់បំផុតមិនធ្លាប់មាន',
+    excerpt: 'មូលនិធិអន្តរជាតិកំពុងគាំទ្រលើអាជីវកម្មថ្មីៗផ្នែកសេវាធនាគារតាមទូរស័ព្ទ ការផ្ទេរប្រាក់ និងការទូទាត់ប្រាក់បែប B2B នៅទូទាំងតំបន់មេគង្គ។',
+    content: `
+      <h2>លំហូរទុនវិនិយោគលើបច្ចេកវិទ្យា</h2>
+      <p>របាយការណ៍ស្ទង់មតិចុងក្រោយពីសមាគមវិនិយោគិនអាស៊ីបានបង្ហាញថា កម្ពុជាកំពុងក្លាយជាចំណុចក្តៅ (Hotspot) ថ្មីសម្រាប់មូលនិធិ Venture Capital ដែលស្វែងរកឱកាសបណ្តាក់ទុនលើវិស័យបច្ចេកវិទ្យាហិរញ្ញវត្ថុ។</p>
+      <p>ការកើនឡើងនូវការប្រើប្រាស់ប្រព័ន្ធទូទាត់បាគង (Bakong) និងការគាំទ្រហេដ្ឋារចនាសម្ព័ន្ធឌីជីថលពីរដ្ឋ បានបង្កើតលក្ខខណ្ឌអំណោយផលបំផុតសម្រាប់ក្រុមហ៊ុនបង្កើតថ្មីក្នុងការបោះជំហានពង្រីកខ្លួន។</p>
+    `,
+    category: "Tech Startup",
+    date: 'May 20, 2026',
+    views: 1900,
+    likes: 155,
+    readTime: 3,
+    isBreaking: false,
+    isFeatured: false,
+    image: 'https://cambodiainvestmentreview.com/wp-content/uploads/2025/09/Picture-3-scaled.jpg',
+    imageCredit: "Fresh News",
+    author: "ចាន់ សុភ័ក្ត្រ",
+    authorTitle: "Venture & Tech Analyst",
+    authorBio: "សុភ័ក្ត្រ ជំនាញខាងស្រាវជ្រាវទីផ្សារបច្ចេកវិទ្យា និងការវិភាគផែនការអាជីវកម្មរបស់ក្រុមហ៊ុនធុនតូច។",
+    authorAvatar: "/img_author_19.jpg",
+    authorSocial: { twitter: "@sopheak_chan", linkedin: "sopheak-chan" }
+  },
+  {
+    id: 20,
+    title: 'ក្រសួងពាណិជ្ជកម្មប្រកាសផ្សព្វផ្សាយផែនទីបង្ហាញផ្លូវសម្រាប់ការវិនិយោគថ្មីសម្រាប់ឆ្នាំ២០២៧',
+    excerpt: 'ផែនទីបង្ហាញផ្លូវនេះផ្តល់អាទិភាពលើថាមពលស្អាត ហេដ្ឋារចនាសម្ព័ន្ធឌីជីថល និងការនាំចេញផលិតផលកសិកម្មដែលមានតម្លៃបន្ថែមខ្ពស់។',
+    content: `
+      <h2>ត្រៀមលក្ខណៈសម្រាប់ផែនការយុទ្ធសាស្ត្រថ្មី</h2>
+      <p>ក្រសួងពាណិជ្ជកម្មបានរៀបចំសិក្ខាសាលាថ្នាក់ជាតិមួយ ដើម្បីប្រកាសជាផ្លូវការនូវ «ផែនទីបង្ហាញផ្លូវសម្រាប់ការវិនិយោគ និងពាណិជ្ជកម្មឆ្នាំ២០២៧» ក្នុងគោលបំណងទាក់ទាញគម្រោងវិនិយោគដែលមានគុណភាពខ្ពស់។</p>
+      <h2>សសរស្តម្ភទាំង៣ នៃផែនទីបង្ហាញផ្លូវ៖</h2>
+      <ul>
+        <li>ការបំប្លែងខ្លួនទៅជាសេដ្ឋកិច្ចបៃតង និងគាំទ្រថាមពលស្អាត</li>
+        <li>ការកសាង និងពង្រីកប្រព័ន្ធភស្តុភារកម្មឆ្លាតវៃ</li>
+        <li>ការលើកកម្ពស់ឧស្សាហកម្មកែច្នៃក្នុងស្រុកដើម្បីជំនួសការនាំចូល</li>
+      </ul>
+    `,
+    category: "Economic Policy",
+    date: 'May 19, 2026',
+    views: 1600,
+    likes: 124,
+    readTime: 3,
+    isBreaking: false,
+    isFeatured: false,
+    image: 'https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=600&h=400&fit=crop',
+    imageCredit: "RFA Khmer",
+    author: "ធីតា វ៉ាន់",
+    authorTitle: "Senior Macroeconomics Reporter",
+    authorBio: "វ៉ាន់ ធីតា តាមដានយុទ្ធសាស្ត្រអភិវឌ្ឍន៍ជាតិ និងផែនការថវិការបស់ក្រសួងស្ថាប័នរដ្ឋ។",
+    authorAvatar: "/img_author_20.jpg",
+    authorSocial: { twitter: "@thida_van", linkedin: "thida-van" }
+  },
+  {
+    id: 21,
+    title: 'កម្ពុជាឡើងទៅវគ្គត្រីមាសផ្តាច់ព្រ័ត្រនៃពានរង្វាន់ AFF Nations Cup',
+    excerpt: 'ការស៊ុតបញ្ចូលទីយកឈ្នះយ៉ាងរំភើបនៅនាទីបន្ថែមចុងម៉ោង បានជួយឱ្យក្រុមជម្រើសជាតិសម្រេចបានលទ្ធផលល្អបំផុតនៅក្នុងការប្រកួតនេះ ចាប់តាំងពីឆ្នាំ២០១៨ មក។',
+    content: `
+      <h2>រាត្រីប្រវត្តិសាស្ត្រនៅពហុកីឡដ្ឋានជាតិ</h2>
+      <p>ក្រុមបាល់ទាត់ជម្រើសជាតិកម្ពុជាបានបង្កើតភាពភ្ញាក់ផ្អើលយ៉ាងខ្លាំងនៅទូទាំងតំបន់អាស៊ាន បន្ទាប់ពីបានទម្លាក់ក្រុមខ្លាំងដើម្បីកក់កៅអីឡើងទៅវគ្គត្រីមាសផ្តាច់ព្រ័ត្រនៃពានរង្វាន់ AFF Nations Cup ក្នុងលទ្ធផលដកដង្ហើមចុងចង្ការ។</p>
+      <p>គ្រាប់បាល់ជ័យជម្នះដែលរកបានដោយខ្សែប្រយុទ្ធវ័យក្មេងនៅនាទីទី ៩០+៤ ធ្វើឱ្យអ្នកគាំទ្រជាង ៥ ម៉ឺននាក់នៅក្នុងកីឡដ្ឋានផ្ទុះការអបអរសាទរយ៉ាងកងរំពង ដែលនេះជាសមិទ្ធផលដ៏អស្ចារ្យបំផុតក្នុងរយៈពេលជិតមួយទសវត្សរ៍ចុងក្រោយ។</p>
+      <h2>ផែនការយុទ្ធសាស្ត្របន្ទាប់</h2>
+      <ul>
+        <li>ការត្រៀមលក្ខណៈហ្វឹកហាត់កម្រិតធ្ងន់ដើម្បីជួបក្រុមជម្រើសជាតិថៃនៅសប្តាហ៍ក្រោយ</li>
+        <li>ការរក្សាកម្លាំងស្នូល និងយុទ្ធសាស្ត្រវាយបកលឿន (Counter-attack)</li>
+        <li>ការជម្រុញស្មារតីរួមចិត្តតែមួយពីសំណាក់គ្រូបង្វឹកអន្តរជាតិ</li>
+      </ul>
+    `,
+    category: "Sports",
+    date: 'May 28, 2026',
+    views: 6200,
+    likes: 845,
+    readTime: 5,
+    isBreaking: true,
+    isFeatured: true,
+    image: 'https://images.unsplash.com/photo-1517649763962-0c623066013b?w=900&h=500&fit=crop',
+    imageCredit: "Fresh News",
+    author: "ចាន់ វិបុល",
+    authorTitle: "Senior Sports Journalist",
+    authorBio: "វិបុល មានបទពិសោធន៍ជាង ៨ ឆ្នាំ ក្នុងការយកព័ត៌មានកីឡាបាល់ទាត់ជាតិ និងអន្តរជាតិ។",
+    authorAvatar: "/img_author_21.jpg",
+    authorSocial: { twitter: "@vibol_chan", linkedin: "vibol-chan-sports" }
+  },
+  {
+    id: 22,
+    title: 'កីឡាករប្រដាល់កម្ពុជាឈ្នះមេដាយប្រាក់ក្នុងការប្រកួតជើងឯកអាស៊ីអាគ្នេយ៍',
+    excerpt: 'ម្ចាស់ជើងឯកទម្ងន់ស្រាល (Lightweight) បានខិតខំប្រឹងប្រែងប្រកួតយ៉ាងខ្លាំងក្លានៅទឹកចុងក្រោយ ដើម្បីដណ្តើមបានមេដាយដំបូងជូនជាតិក្នុងការប្រកួតនេះ។',
+    content: `
+      <h2>មោទនភាពក្បាច់គុនបុរាណលើឆាកអន្តរជាតិ</h2>
+      <p>ម្ចាស់ខ្សែក្រវាត់ទម្ងន់ស្រាលរបស់កម្ពុជា បានសាងកំណត់ត្រាថ្មីមួយទៀតដោយដណ្តើមបានមេដាយប្រាក់ ក្នុងការប្រកួតកីឡាប្រដាល់ជើងឯកអាស៊ីអាគ្នេយ៍ បន្ទាប់ពីឆ្លងកាត់ការប្រកួតយ៉ាងស្វិតស្វាញ ៥ ទឹកពេញជាមួយកីឡាករម្ចាស់ផ្ទះ។</p>
+      <p>ទោះបីជាមិនបានមេដាយមាស ប៉ុន្តែបច្ចេកទេសវាយចេញ និងភាពធន់របស់កីឡាករយើង បានទទួលការកោតសរសើរយ៉ាងខ្លាំងពីគណៈកម្មការរៀបចំការប្រកួត និងអ្នកទស្សនាផ្ទាល់។</p>
+    `,
+    category: "Sports",
+    date: 'May 27, 2026',
+    views: 3900,
+    likes: 412,
+    readTime: 4,
+    isBreaking: false,
+    isFeatured: false,
+    image: 'https://images.unsplash.com/photo-1517649763962-0c623066013b?w=600&h=400&fit=crop',
+    imageCredit: "VOD Khmer",
+    author: "សៅ ភារុណ",
+    authorTitle: "Combat Sports Reporter",
+    authorBio: "ភារុណ ចូលចិត្តដេញដោល និងរាយការណ៍ពីព្រឹត្តិការណ៍ប្រដាល់គុនខ្មែរ និងកីឡាប្រយុទ្ធគ្រប់ទម្រង់។",
+    authorAvatar: "/img_author_22.jpg",
+    authorSocial: { twitter: "@phirom_sau", linkedin: "phirom-sau" }
+  },
+  {
+    id: 23,
+    title: 'ព្រឹត្តិការណ៍រត់ប្រណាំងម៉ារ៉ាតុងក្រុងភ្នំពេញ ទាក់ទាញអ្នករត់ជាង ១ម៉ឺននាក់ ដើម្បីសប្បុរសធម៌',
+    excerpt: 'អ្នករៀបចំកម្មវិធីបានរាយការណ៍ពីចំនួនអ្នកចូលរួមច្រើនបំផុតជាប្រវត្តិសាស្ត្រ ខណៈដែលអ្នកគាំទ្រកីឡាបានរួមគ្នាគាំទ្រដល់កម្មវិធីអភិវឌ្ឍន៍យុវជន។',
+    content: `
+      <h2>មហាព្រឹត្តិការណ៍សហគមន៍កណ្តាលរាជធានី</h2>
+      <p>ផ្លូវសំខាន់ៗក្នុងរាជធានីភ្នំពេញត្រូវបានបិទជាបណ្តោះអាសន្ន ដើម្បីស្វាគមន៍អ្នករត់ប្រណាំងជាតិ និងអន្តរជាតិជាង ១០០,០០០ នាក់ ដែលបានចូលរួមក្នុងកម្មវិធីរត់ប្រណាំងម៉ារ៉ាតុងសប្បុរសធម៌ក្រុងភ្នំពេញប្រចាំឆ្នាំ។</p>
+      <p>ថវិការកបានពីការលក់សំបុត្រ និងការឧបត្ថម្ភទាំងអស់ នឹងត្រូវបរិច្ចាគទៅកាន់មន្ទីរពេទ្យកុមារ និងកម្មវិធីគាំទ្រការអប់រំកាយដល់កុមារក្រីក្រនៅតាមបណ្តាខេត្ត។</p>
+    `,
+    category: "Sports",
+    date: 'May 26, 2026',
+    views: 3100,
+    likes: 389,
+    readTime: 4,
+    isBreaking: false,
+    isFeatured: false,
+    image: 'https://image.freshnewsasia.com/2021/2026/06/fn-2026-06-14-06-17-36-824.jpg',
+    imageCredit: "RFA Khmer",
+    author: "កែវ សុខា",
+    authorTitle: "Community & Athletics Writer",
+    authorBio: "សុខា ផ្តោតលើព័ត៌មានកីឡាមហាជន ការរត់ប្រណាំង និងព្រឹត្តិការណ៍សហគមន៍ធំៗ។",
+    authorAvatar: "/img_author_23.jpg",
+    authorSocial: { twitter: "@sokha_keo", linkedin: "sokha-keo" }
+  },
+  {
+    id: 24,
+    title: 'ក្រុមបាល់បោះ Angkor Warriors ចុះហត្ថលេខាលើកិច្ចព្រមព្រៀងឧបត្ថម្ភថ្មី មុនបើករដូវកាល',
+    excerpt: 'ក្លិបបាល់បោះមួយនេះនឹងដាក់បង្ហាញការកែប្រែម៉ាកសញ្ញាថ្មី និងរៀបចំវគ្គបណ្តុះបណ្តាលសហគមន៍ មុនពេលរាត្រីបើកឆាកការប្រកួតមកដល់។',
+    content: `
+      <h2>ជំហានថ្មីឆ្ពោះទៅកាន់អាជីពកម្រិតខ្ពស់</h2>
+      <p>ក្លិបបាល់បោះឈានមុខគេរបស់កម្ពុជា Angkor Warriors បានប្រកាសជាផ្លូវការអំពីកិច្ចព្រមព្រៀងឧបត្ថម្ភធំរយៈពេល ៣ ឆ្នាំ ជាមួយក្រុមហ៊ុនភេសជ្ជៈខ្នាតអន្តរជាតិមួយ។</p>
+      <p>កញ្ចប់ថវិកានេះនឹងជួយពង្រឹងដល់ការទិញដូរកីឡាករបរទេសមានសមត្ថភាពខ្ពស់ និងការកែលម្អទីលានហ្វឹកហាត់ឱ្យស្របតាមស្តង់ដារលីគកំពូលអាស៊ី។</p>
+    `,
+    category: "Sports",
+    date: 'May 25, 2026',
+    views: 4300,
+    likes: 520,
+    readTime: 5,
+    isBreaking: false,
+    isFeatured: false,
+    image: 'https://cdn.troryorng.com/wp-content/uploads/2026/06/16133409/714631199_1510821027163049_8010282073945793194_n-819x1024.jpg',
+    imageCredit: "Kohsantepheap",
+    author: "ឡុង ឌីណា",
+    authorTitle: "Sports Business Analyst",
+    authorBio: "ឌីណា តាមដានអាជីវកម្មកីឡា ការឧបត្ថម្ភក្លិប និងការអភិវឌ្ឍលីគអាជីពនៅកម្ពុជា។",
+    authorAvatar: "/img_author_24.jpg",
+    authorSocial: { twitter: "@dina_long", linkedin: "dina-long" }
+  },
+  {
+    id: 25,
+    title: 'កម្ពុជាធ្វើជាម្ចាស់ផ្ទះរៀបចំពិព័រណ៍កីឡាយានយន្តជាតិលើកដំបូងនៅក្នុងខេត្តកំពត',
+    excerpt: 'ការដាក់បង្ហាញរថយន្តប្រណាំង (Rally) ម៉ូតូធំ និងការសម្តែងដ្រីហ្វ (Drift) បានទាក់ទាញអ្នកគាំទ្រក្នុងតំបន់ សម្រាប់ចុងសប្តាហ៍នៃល្បឿនដ៏គួរឱ្យរំភើបនេះ។',
+    content: `
+      <h2>សប្តាហ៍នៃល្បឿន និងបច្ចេកវិទ្យាយានយន្ត</h2>
+      <p>សហព័ន្ធកីឡាយានយន្តកម្ពុជាបានសហការជាមួយរដ្ឋបាលខេត្តកំពត បើកទ្វារស្វាគមន៍ពិព័រណ៍កីឡាយានយន្តជាតិលើកដំបូង ដែលមានការចូលរួមពីអ្នកបើកបរអាជីព និងរថយន្តកែច្នៃពិសេសជាង ៨០ គ្រឿង។</p>
+      <p>កម្មវិធីនេះមិនត្រឹមតែបង្កើតការកម្សាន្តប្លែកភ្នែកប៉ុណ្ណោះទេ ប៉ុន្តែថែមទាំងជួយជម្រុញវិស័យទេសចរណ៍ក្នុងខេត្តកំពតឱ្យកាន់តែមានសន្ទុះខ្លាំងឡើងក្នុងអំឡុងចុងសប្តាហ៍។</p>
+    `,
+    category: "Sports",
+    date: 'May 24, 2026',
+    views: 2800,
+    likes: 310,
+    readTime: 3,
+    isBreaking: false,
+    isFeatured: false,
+    image: 'https://s3.ams.com.kh/economy/2023/11/20220411034538_NY_auto_show.jpeg',
+    imageCredit: "Dap News",
+    author: "អ៊ុយ ម៉េងលី",
+    authorTitle: "Motorsport Correspondent",
+    authorBio: "ម៉េងលី ជំនាញខាងព័ត៌មានឡានប្រណាំង ម៉ូតូធំ និងព្រឹត្តិការណ៍ផ្សងព្រេងបែប Extreme Sports។",
+    authorAvatar: "/img_author_25.jpg",
+    authorSocial: { twitter: "@mengly_uy", linkedin: "mengly-uy" }
+  },
+  {
+    id: 26,
+    title: 'សាលាបាល់ទាត់ជាតិ ពង្រីកការហ្វឹកហាត់ទៅកាន់បណ្តាខេត្តដាច់ស្រយាល',
+    excerpt: 'មជ្ឈមណ្ឌលបង្ហាត់បង្រៀនថ្មីៗ នឹងគាំទ្រដល់ការបណ្តុះបណ្តាលទេពកោសល្យជំនាន់ក្រោយ នៅតាមបណ្តាខេត្តចំនួនប្រាំមួយ។',
+    content: `
+      <h2>ការបណ្តុះគ្រាប់ពូជបាល់ទាត់ពីឫសគល់</h2>
+      <p>ដើម្បីពង្រឹងសមត្ថភាពក្រុមជម្រើសជាតិរយៈពេលវែង សាលាបាល់ទាត់ជាតិបានប្រកាសគម្រោងយុទ្ធសាស្ត្រថ្មី ដោយបង្កើតមជ្ឈមណ្ឌលហ្វឹកហាត់យុវជនតាមបណ្តាខេត្តឆ្ងាយៗដូចជា រតនគិរី និងស្ទឹងត្រែង។</p>
+      <p>យុវជនដែលមានទេពកោសល្យនឹងទទួលបានអាហារូបករណ៍ស្នាក់នៅ រៀនសូត្រ និងហ្វឹកហាត់កីឡាដោយឥតគិតថ្លៃ ក្រោមការមើលថែពីគ្រូបង្វឹកដែលមានអាជ្ញាប័ណ្ណផ្លូវការ។</p>
+    `,
+    category: "Sports",
+    date: 'May 23, 2026',
+    views: 2600,
+    likes: 275,
+    readTime: 4,
+    isBreaking: false,
+    isFeatured: false,
+    image: 'https://images.unsplash.com/photo-1495562569060-2eec283d3391?w=600&h=400&fit=crop',
+    imageCredit: "Fresh News",
+    author: "ចាន់ វិបុល",
+    authorTitle: "Senior Sports Journalist",
+    authorBio: "វិបុល មានបទពិសោធន៍ជាង ៨ ឆ្នាំ ក្នុងការយកព័ត៌មានកីឡាបាល់ទាត់ជាតិ និងអន្តរជាតិ។",
+    authorAvatar: "/img_author_21.jpg",
+    authorSocial: { twitter: "@vibol_chan", linkedin: "vibol-chan-sports" }
+  },
+  {
+    id: 27,
+    title: 'ម្ចាស់ជើងឯកក្នុងស្រុក ប្រកាសផែនការសាងសង់សង្វៀនប្រដាល់សម្រាប់យុវជន',
+    excerpt: 'ទីកន្លែងហ្វឹកហាត់នេះ នឹងផ្តល់ជូននូវវគ្គហ្វឹកហ្វឺនដោយឥតគិតថ្លៃ និងការណែនាំតម្រង់ទិសសម្រាប់អ្នកដែលមានបំណងចង់ក្លាយជាអ្នកប្រដាល់។',
+    content: `
+      <h2>ការចែករំលែកត្រឡប់ទៅសង្គមវិញ</h2>
+      <p>អតីតកីឡាករប្រដាល់ល្បីឈ្មោះរបស់កម្ពុជា បានប្រកាសប្រើប្រាស់ថវិកាផ្ទាល់ខ្លួនរួមផ្សំនឹងជំនួយសប្បុរសធម៌ ដើម្បីសាងសង់ក្លិបហ្វឹកហាត់គុណខ្មែរថ្មីមួយសម្រាប់កុមារ និងយុវជនក្រីក្រ។</p>
+      <p>គម្រោងនេះមានគោលបំណងជួយយុវជនឱ្យជៀសឆ្ងាយពីគ្រឿងញៀន និងផ្តល់ឱកាសឱ្យពួកគេអាចកសាងអាជីពជាកីឡាករអាជីពទៅថ្ងៃអនាគត។</p>
+    `,
+    category: "Sports",
+    date: 'May 22, 2026',
+    views: 2300,
+    likes: 340,
+    readTime: 3,
+    isBreaking: false,
+    isFeatured: false,
+    image: 'https://images.unsplash.com/photo-1508609349937-5ec4ae374ebf?w=600&h=400&fit=crop',
+    imageCredit: "VOD Khmer",
+    author: "សៅ ភារុណ",
+    authorTitle: "Combat Sports Reporter",
+    authorBio: "ភារុណ ចូលចិត្តដេញដោល និងរាយការណ៍ពីព្រឹត្តិការណ៍ប្រដាល់គុនខ្មែរ និងកីឡាប្រយុទ្ធគ្រប់ទម្រង់។",
+    authorAvatar: "/img_author_22.jpg",
+    authorSocial: { twitter: "@phirom_sau", linkedin: "phirom-sau" }
+  },
+  {
+    id: 28,
+    title: 'លីគបាល់បោះ ប្រកាសកម្មវិធីថ្មីសម្រាប់ការអភិវឌ្ឍយុវជន',
+    excerpt: 'លីគនឹងវិនិយោគលើក្លិបមូលដ្ឋាន និងការអប់រំបណ្តុះបណ្តាលគ្រូបង្វឹក មុនពេលរដូវកាលបន្ទាប់ចាប់ផ្តើម។',
+    content: `
+      <h2>ពង្រឹងគ្រឹះស្ថានកីឡាបាល់បោះជាតិ</h2>
+      <p>គណៈកម្មការគ្រប់គ្រងលីគបាល់បោះកម្ពុជាបានសម្រេចអនុម័តកញ្ចប់ថវិកាពិសេស ដើម្បីរៀបចំកម្មវិធីប្រកួតកម្រិតវិទ្យាល័យ និងការបណ្តុះបណ្តាលអាជ្ញាកណ្តាលទូទាំងប្រទេស។</p>
+      <p>នេះជាយុទ្ធសាស្ត្រឆ្លើយតបទៅនឹងការកើនឡើងប្រជាប្រិយភាពនៃកីឡាបាល់បោះក្នុងចំណោមសិស្សសាលានាពេលបច្ចុប្បន្ន។</p>
+    `,
+    category: "Sports",
+    date: 'May 21, 2026',
+    views: 2000,
+    likes: 185,
+    readTime: 4,
+    isBreaking: false,
+    isFeatured: false,
+    image: 'https://images.unsplash.com/photo-1521412644187-c49fa049e84d?w=600&h=400&fit=crop',
+    imageCredit: "RFA Khmer",
+    author: "ឡុង ឌីណា",
+    authorTitle: "Sports Business Analyst",
+    authorBio: "ឌីណា តាមដានអាជីវកម្មកីឡា ការឧបត្ថម្ភក្លិប និងការអភិវឌ្ឍលីគអាជីពនៅកម្ពុជា។",
+    authorAvatar: "/img_author_24.jpg",
+    authorSocial: { twitter: "@dina_long", linkedin: "dina-long" }
+  },
+  {
+    id: 31,
+    title: 'មជ្ឈមណ្ឌលនវានុវត្តន៍ភ្នំពេញបើកដំណើរការ ជាមួយក្រុមហ៊ុនអាជីវកម្មថ្មីៗក្នុងតំបន់ចំនួន ៨០',
+    excerpt: 'បរិវេណសាលាថ្មីនៅកណ្តាលទីក្រុងនេះ ប្រមូលផ្តុំស្ថាបនិក វិស្វករ និងវិនិយោគិនរួមគ្នា សម្រាប់កម្មវិធីបច្ចេកវិទ្យាហិរញ្ញវត្ថុ ភស្តុភារ អាកាសធាតុ និងបច្ចេកវិទ្យាប្រព័ន្ធផ្សព្វផ្សាយ។',
+    content: `
+      <h2>បេះដូងថ្មីនៃបច្ចេកវិទ្យានៅកម្ពុជា</h2>
+      <p>មជ្ឈមណ្ឌលនវានុវត្តន៍ភ្នំពេញ (Phnom Penh Innovation Center) បានបើកទ្វារជាផ្លូវការដើម្បីក្លាយជាមជ្ឈមណ្ឌលបច្ចេកវិទ្យាធំជាងគេបង្អស់នៅក្នុងប្រទេស ដោយស្វាគមន៍ក្រុមហ៊ុនបង្កើតថ្មី (Startups) ជាង ៨០ ក្រុមហ៊ុនមកពីជុំវិញតំបន់អាស៊ីអាគ្នេយ៍។</p>
+      <p>ទីតាំងដ៏ទំនើបនេះមានបំពាក់នូវបន្ទប់ពិសោធន៍ AI កន្លែងធ្វើការរួមគ្នា (Co-working space) និងសាលសន្និសីទ ដែលអនុញ្ញាតឱ្យស្ថាបនិកវ័យក្មេងអាចជួបពិភាក្សាផ្ទាល់ជាមួយវិនិយោគិនអន្តរជាតិជារៀងរាល់ថ្ងៃ។</p>
+    `,
+    category: "Technology",
+    date: 'May 28, 2026',
+    views: 5600,
+    likes: 620,
+    readTime: 5,
+    isBreaking: true,
+    isFeatured: true,
+    image: 'https://images.unsplash.com/photo-1497366754035-f200968a6e72?w=900&h=500&fit=crop',
+    imageCredit: "VOD Khmer",
+    author: "លី គីមហុង",
+    authorTitle: "Tech & Innovation Editor",
+    authorBio: "គីមហុង តាមដានការរីកចម្រើននៃប្រព័ន្ធអេកូឡូស៊ីបច្ចេកវិទ្យា និងការវិនិយោគលើវិស័យឌីជីថលនៅអាស៊ី។",
+    authorAvatar: "/img_author_31.jpg",
+    authorSocial: { twitter: "@kimhong_tech", linkedin: "kimhong-tech" }
+  },
+  {
+    id: 32,
+    title: 'រដ្ឋាភិបាលពង្រីកសេវាកម្មអត្តសញ្ញាណប័ណ្ណឌីជីថលទៅកាន់ខេត្តចំនួនប្រាំបន្ថែមទៀត',
+    excerpt: 'បច្ចុប្បន្ន ប្រជាពលរដ្ឋអាចចូលប្រើប្រាស់សេវាចុះបញ្ជីរដ្ឋប្បវេណី លិខិតអនុញ្ញាតអាជីវកម្ម និងការដាក់លិខិតប្រកាសពន្ធ តាមរយៈវេទិកាចល័តរួមតែមួយដ៏ងាយស្រួល។',
+    content: `
+      <h2>ការធ្វើបរិវត្តកម្មឌីជីថលនៃសេវាសាធារណៈ</h2>
+      <p>ក្រសួងមុខងារសាធារណៈបានប្រកាសជោគជ័យក្នុងការដាក់ពង្រាយប្រព័ន្ធអត្តសញ្ញាណប័ណ្ណឌីជីថល (Digital ID) ទៅកាន់ខេត្តចំនួនប្រាំបន្ថែមទៀត ដែលនេះជួយសម្រួលដល់ការរស់នៅរបស់ប្រជាពលរដ្ឋយ៉ាងខ្លាំង។</p>
+      <p>តាមរយៈកម្មវិធីទូរស័ព្ទដៃផ្លូវការ ប្រជាពលរដ្ឋលែងទាមទារឱ្យកាន់ឯកសារចម្លងជាក្រដាសច្រើនដូចមុនទៀតហើយ ក្នុងការស្នើសុំសេវារដ្ឋបាល ឬសេវាគតិយុត្តផ្សេងៗ។</p>
+    `,
+    category: "Technology",
+    date: 'May 27, 2026',
+    views: 3900,
+    likes: 415,
+    readTime: 4,
+    isBreaking: false,
+    isFeatured: false,
+    image: 'https://images.unsplash.com/photo-1551434678-e076c223a692?w=600&h=400&fit=crop',
+    imageCredit: "Fresh News",
+    author: "គង់ សំរិទ្ធ",
+    authorTitle: "E-Government Specialist",
+    authorBio: "សំរិទ្ធ វិភាគនិងរាយការណ៍អំពីគោលនយោបាយបច្ចេកវិទ្យារបស់រដ្ឋ និងសេវាសាធារណៈបែបឌីជីថល។",
+    authorAvatar: "/img_author_14.jpg",
+    authorSocial: { twitter: "@samrith_gov", linkedin: "samrith-kong" }
+  },
+  {
+    id: 33,
+    title: 'ក្រុមហ៊ុនប្រតិបត្តិករទូរគមនាគមន៍ ចាប់ផ្តើមធ្វើតេស្តប្រপ্রধানমন্ত্রী 5G នៅតាមបណ្តោយផ្លូវក្រវាត់ក្រុងភ្នំពេញ',
+    excerpt: 'ការគ្របដណ្តប់សាកល្បងនេះ នឹងគាំទ្រដល់ឧបករណ៍ចាប់សញ្ញាចរាចរណ៍ ប្រព័ន្ធដឹកជញ្ជូន និងកម្មវិធីឆ្លើយតបគ្រោះអាសន្ន មុនពេលដាក់ឱ្យដំណើរការកាន់តែទូលំទូលាយ។',
+    content: `
+      <h2>ហេដ្ឋារចនាសម្ព័ន្ធសម្រាប់ទីក្រុងឆ្លាតវៃ</h2>
+      <p>បណ្តាញអ៊ិនធឺណិតល្បឿនលឿនជំនាន់ទី៥ (5G) ត្រូវបានដាក់ឱ្យដំណើរការសាកល្បងនៅលើផ្លូវក្រវាត់ក្រុងថ្មី ដើម្បីបម្រើឱ្យប្រព័ន្ធគ្រប់គ្រងចរាចរណ៍វៃឆ្លាត និងឡានដឹកទំនិញស្វ័យប្រវត្ត។</p>
+      <p>ការធ្វើតេស្តបឋមបានបង្ហាញពីល្បឿនទាញយកទិន្នន័យលឿនជាងប្រព័ន្ធ 4G រហូតដល់ទៅ ១០ ដង ដែលជាគ្រឹះយ៉ាងសំខាន់សម្រាប់ IoT (Internet of Things)។</p>
+    `,
+    category: "Technology",
+    date: 'May 26, 2026',
+    views: 3400,
+    likes: 298,
+    readTime: 4,
+    isBreaking: false,
+    isFeatured: false,
+    image: 'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=600&h=400&fit=crop',
+    imageCredit: "Kohsantepheap",
+    author: "អ៊ុន ចាន់ដារ៉ា",
+    authorTitle: "Telecom & Infrastructure Reporter",
+    authorBio: "ចាន់ដារ៉ា តាមដានចង្វាក់អភិវឌ្ឍន៍បណ្តាញទូរគមនាគមន៍ និងបច្ចេកវិទ្យាទំនាក់ទំនងចល័ត។",
+    authorAvatar: "/img_author_16.jpg",
+    authorSocial: { twitter: "@chandara_telecom", linkedin: "chandara-un" }
+  },
+  {
+    id: 34,
+    title: 'មជ្ឈមណ្ឌលសន្តិសុខសាយប័រ ព្រមានដល់សហគ្រាសធុនតូចនិងមធ្យម ក្រោយមានរលកនៃការបោកប្រាស់តាមវិក្កយបត្រ',
+    excerpt: 'មន្ត្រីជំនាញណែនាំឱ្យមានការផ្ទៀងផ្ទាត់ការទូទាត់ប្រាក់ឱ្យបានម៉ត់ចត់ និងការបណ្តុះបណ្តាលបុគ្គលិក ខណៈដែលការប៉ុនប៉ងបោកប្រាស់មានការកើនឡើងក្នុងវិស័យនាំចេញ និងអចលនទ្រព្យ។',
+    content: `
+      <h2>ការការពារប្រព័ន្ធហិរញ្ញវត្ថុអាជីវកម្ម</h2>
+      <p>ការវាយប្រហារតាមអ៊ីនធឺណិតលើអាជីវកម្មខ្នាតតូចបានកើនឡើងគួរឱ្យកត់សម្គាល់ តាមរយៈការក្លែងបន្លំអ៊ីមែលរបស់ដៃគូជំនួញដើម្បីកែប្រែគណនីធនាគារលើវិក្កយបត្រទូទាត់លុយ។</p>
+      <p>អ្នកជំនាញសន្តិសុខបច្ចេកវិទ្យាបានក្រើនរំលឹកដល់ម្ចាស់អាជីវកម្មទាំងអស់ឱ្យប្រើប្រាស់ប្រព័ន្ធផ្ទៀងផ្ទាត់ពីរជាន់ (2FA) និងពិនិត្យមើលអាសយដ្ឋានអ៊ីមែលឱ្យបានច្បាស់លាស់មុននឹងផ្ទេរប្រាក់។</p>
+    `,
+    category: "Technology",
+    date: 'May 25, 2026',
+    views: 4200,
+    likes: 312,
+    readTime: 5,
+    isBreaking: false,
+    isFeatured: false,
+    image: 'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=600&h=400&fit=crop',
+    imageCredit: "RFA Khmer",
+    author: "សុខ ជា",
+    authorTitle: "Cybersecurity Analyst",
+    authorBio: "សុខ ជា ផ្តោតលើការស្រាវជ្រាវ និងសរសេរការណែនាំអំពីការការពារទិន្នន័យ និងសុវត្ថិភាពសាយប័រ។",
+    authorAvatar: "/img_author_13.jpg",
+    authorSocial: { twitter: "@cheasokh_cyber", linkedin: "chea-sokh-tech" }
+  },
+  {
+    id: 35,
+    title: 'ការសាកល្បងកម្មវិធីជំនួយការ AI ជាភាសាខ្មែរ ចាប់ផ្តើមនៅតាមមជ្ឈមណ្ឌលសេវាសាធារណៈ',
+    excerpt: 'កម្មវិធីជំនួយការនេះ ឆ្លើយរាល់សំណួរទូទៅអំពីលិខិតអនុញ្ញាត និងការចុះឈ្មោះជាភាសាខ្មែរ អង់គ្លេស និងការជជែកកំសាន្តតាមទូរស័ព្ទដៃជាសំឡេង។',
+    content: `
+      <h2>ភាសាជាតិជួបនឹងបញ្ញាសិប្បនិម្មិត</h2>
+      <p>ម៉ូដែលភាសាខ្មែរធំ (Khmer Large Language Model) ត្រូវបានយកមកអភិវឌ្ឍជាជំនួយការសំឡេងឆ្លាតវៃនៅតាមសាលាក្រុង ដើម្បីជួយពន្យល់ពីនីតិវិធីធ្វើឯកសារផ្សេងៗជូនប្រជាពលរដ្ឋ។</p>
+      <p>ប្រព័ន្ធនេះអាចយល់ពីគ្រាមភាសាតាមតំបន់ និងឆ្លើយតបមកវិញដោយសំឡេងធម្មជាតិ ដែលជួយសម្រួលយ៉ាងខ្លាំងដល់ពលរដ្ឋវ័យចំណាស់ ឬអ្នកមិនសូវស្ទាត់ជំនាញអក្សរកម្ម។</p>
+    `,
+    category: "Technology",
+    date: 'May 24, 2026',
+    views: 3700,
+    likes: 420,
+    readTime: 4,
+    isBreaking: false,
+    isFeatured: false,
+    image: 'https://images.unsplash.com/photo-1677442136019-21780ecad995?w=600&h=400&fit=crop',
+    imageCredit: "Dap News",
+    author: "លី គីមហុង",
+    authorTitle: "Tech & Innovation Editor",
+    authorBio: "គីមហុង តាមដានការរីកចម្រើននៃប្រព័ន្ធអេកូឡូស៊ីបច្ចេកវិទ្យា និងការវិនិយោគលើវិស័យឌីជីថលនៅអាស៊ី។",
+    authorAvatar: "/img_author_31.jpg",
+    authorSocial: { twitter: "@kimhong_tech", linkedin: "kimhong-tech" }
+  },
+  {
+    id: 36,
+    title: 'កាបូបប្រាក់ឌីជីថល បន្ថែមការទូទាត់តាម QR Code បែប អហ្វឡាញ (Offline) សម្រាប់ទីផ្សារជនបទ',
+    excerpt: 'ការគាំទ្រប្រតិបត្តិការទិន្នន័យកម្រិតទាបថ្មីនេះ ត្រូវបានរចនាឡើងសម្រាប់កសិករ ហាងតូចៗ និងអាជីវករតាមដងផ្លូវដែលមានប្រព័ន្ធអ៊ីនធឺណិតមិនស្ថិតស្ថេរ។',
+    content: `
+      <h2>ដំណោះស្រាយហិរញ្ញវត្ថុគ្មានដែនកំណត់</h2>
+      <p>បញ្ហាដាច់អ៊ីនធឺណិតនៅតាមតំបន់ស្រែចម្ការលែងជាឧបសគ្គទៀតហើយ ក្រោយក្រុមហ៊ុន Fintech ក្នុងស្រុកបានដាក់ឱ្យប្រើបច្ចេកវិទ្យា QR Code ជំនាន់ថ្មីដែលអាចដំណើរការបានទោះគ្មានសេវាទូរស័ព្ទ។</p>
+      <p>ប្រព័ន្ធនេះប្រើប្រាស់ការកូដនីយកម្មទិន្នន័យកម្រិតស្រាល រួចធ្វើសមកាលកម្ម (Sync) ទៅកាន់ប្រព័ន្ធធំភ្លាមៗនៅពេលទូរស័ព្ទមានសេវាឡើងវិញ។</p>
+    `,
+    category: "Technology",
+    date: 'May 23, 2026',
+    views: 3100,
+    likes: 255,
+    readTime: 3,
+    isBreaking: false,
+    isFeatured: false,
+    image: 'https://images.unsplash.com/photo-1563013544-824ae1b704d3?w=600&h=400&fit=crop',
+    imageCredit: "Fresh News",
+    author: "លី ម៉េងហួរ",
+    authorTitle: "Fintech Analyst",
+    authorBio: "ម៉េងហួរ តាមដានយ៉ាងដិតដល់នូវការវិវត្តនៃប្រព័ន្ធទូទាត់ឌីជីថល និងសេដ្ឋកិច្ចគ្មានសាច់ប្រាក់។",
+    authorAvatar: "/img_author_17.jpg",
+    authorSocial: { twitter: "@menghour_ly", linkedin: "menghour-ly" }
+  },
+  {
+    id: 37,
+    title: 'ក្រុមហ៊ុនអាជីវកម្មដ្រូនកម្ពុជា ធ្វើផែនទីហានិភ័យទឹកជំនន់នៅក្នុងសហគមន៍បឹងទន្លេសាប',
+    excerpt: 'ទិន្នន័យពីលើអាកាសដែលមានកម្រិតច្បាស់ខ្ពស់ នឹងជួយដល់អាជ្ញាធរមូលដ្ឋានក្នុងការរៀបចំផ្លូវជម្លៀសប្រជាពលរដ្ឋ និងការពារហេដ្ឋារចនាសម្ព័ន្ធជលផល។',
+    content: `
+      <h2>បច្ចេកវិទ្យាអាកាសយានការពារសហគមន៍</h2>
+      <p>ក្រុមវិស្វករដ្រូនស៊ីវិលបានសហការជាមួយអ្នកជំនាញបរិស្ថាន ចុះវាស់វែង និងថតរូបភាពកម្រិតច្បាស់ពីលើអាកាសនៅតាមភូមិបណ្តែតទឹក ដើម្បីបង្កើតម៉ូដែលព្យាករណ៍កម្ពស់ទឹកជំនន់។</p>
+      <p>ទិន្នន័យទាំងនេះជួយឱ្យសហគមន៍អាចដឹងមុនពីគ្រោះថ្នាក់ និងរៀបចំទីទួលសុវត្ថិភាពសម្រាប់សត្វពាហនៈ និងមនុស្សបានទាន់ពេលវេលា។</p>
+    `,
+    category: "Technology",
+    date: 'May 22, 2026',
+    views: 2800,
+    likes: 290,
+    readTime: 4,
+    isBreaking: false,
+    isFeatured: false,
+    image: 'https://images.unsplash.com/photo-1473968512647-3e447244af8f?w=600&h=400&fit=crop',
+    imageCredit: "VOD Khmer",
+    author: "សុខ ជា",
+    authorTitle: "Tech & Innovation Reporter",
+    authorBio: "សុខ ជា ផ្តោតលើការសរសេរអត្ថបទជុំវិញប្រព័ន្ធអេកូឡូស៊ីអាជីវកម្មថ្មី (Startup) និងបច្ចេកវិទ្យាឧស្សហកម្ម។",
+    authorAvatar: "/img_author_13.jpg",
+    authorSocial: { twitter: "@cheasokh_tech", linkedin: "chea-sokh-tech" }
+  },
+  {
+    id: 38,
+    title: 'ផែនការផ្លាស់ប្តូរទិន្នន័យទៅកាន់ប្រព័ន្ធ Cloud ជាតិ គ្រោងបញ្ចប់នៅតាមក្រសួងស្នូលៗត្រឹមឆ្នាំ២០២៧',
+    excerpt: 'ផែនទីបង្ហាញផ្លូវនេះផ្តល់អាទិភាពលើការផ្ទុកទិន្នន័យដែលមានសុវត្ថិភាព ការស្តារទិន្នន័យឡើងវិញពេលមានអាសន្ន និងស្តង់ដារទិន្នន័យរួមគ្នានៅតាមស្ថាប័នសាធារណៈ។',
+    content: `
+      <h2>ការធានាសុវត្ថិភាពទិន្នន័យកម្រិតជាតិ</h2>
+      <p>រាជរដ្ឋាភិបាលបានដាក់ចេញនូវយុទ្ធសាស្ត្រពន្លឿនការផ្លាស់ទីទិន្នន័យរដ្ឋបាលទាំងអស់ ទៅរក្សាទុកនៅលើប្រព័ន្ធផ្ទុកទិន្នន័យកម្រិតពពកជាតិ (National Cloud Infrastructure) ដើម្បីបង្កើនសុវត្ថិភាព។</p>
+      <p>ប្រព័ន្ធនេះមិនត្រឹមតែការពារការលួចទិន្នន័យពី Hacker ប៉ុណ្ណោះទេ ប៉ុន្តែថែមទាំងជួយសម្រួលដល់ការសហការ និងការបញ្ជូនព័ត៌មានរវាងក្រសួង និងក្រសួងឱ្យកាន់តែរហ័ស។</p>
+    `,
+    category: "Technology",
+    date: 'May 21, 2026',
+    views: 2600,
+    likes: 198,
+    readTime: 4,
+    isBreaking: false,
+    isFeatured: false,
+    image: 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=600&h=400&fit=crop',
+    imageCredit: "Fresh News",
+    author: "គង់ សំរិទ្ធ",
+    authorTitle: "E-Government Specialist",
+    authorBio: "សំរិទ្ធ វិភាគនិងរាយការណ៍អំពីគោលនយោបាយបច្ចេកវិទ្យារបស់រដ្ឋ និងសេវាសាធារណៈបែបឌីជីថល។",
+    authorAvatar: "/img_author_14.jpg",
+    authorSocial: { twitter: "@samrith_gov", linkedin: "samrith-kong" }
+  },
+  {
+    id: 39,
+    title: 'បណ្តាសាកលវិទ្យាល័យរួមគ្នាបង្កើតមន្ទីរពិសោធន៍ AI សម្រាប់ការស្រាវជ្រាវកសិកម្ម និងសុខាភិបាល',
+    excerpt: 'ក្រុមអ្នកស្រាវជ្រាវនឹងបង្កើតប្រព័ន្ធរកឃើញជំងឺលើដំណាំ ការពិនិត្យព្យាបាលវេជ្ជសាស្ត្រជាភាសាខ្មែរ និងសំណុំទិន្នន័យបើកទូលាយសម្រាប់អ្នកបង្កើតថ្មីក្នុងស្រុក។',
+    content: `
+      <h2>ការរួមកម្លាំងដើម្បីការស្រាវជ្រាវកម្រិតខ្ពស់</h2>
+      <p>សាកលវិទ្យាល័យធំៗចំនួនបីនៅក្នុងប្រទេសកម្ពុជាបានចុះហត្ថលេខារួមគ្នា បង្កើតមន្ទីរពិសោធន៍បញ្ញាសិប្បនិម្មិតរួមមួយ ដើម្បីលើកកម្ពស់ការស្រាវជ្រាវបែបអនុវត្តជាក់ស្តែង។</p>
+      <p>គម្រោងដំបូងបង្អស់គឺការបង្កើត App ទូរស័ព្ទដែលអាចស្កេនស្លឹកដំឡូងមី ដើម្បីដឹងថារុក្ខជាតិមានជំងឺប្រភេទណា និងផ្តល់វិធីព្យាបាលភ្លាមៗដល់កសិករ។</p>
+    `,
+    category: "Technology",
+    date: 'May 20, 2026',
+    views: 2300,
+    likes: 245,
+    readTime: 3,
+    isBreaking: false,
+    isFeatured: false,
+    image: 'https://images.unsplash.com/photo-1531482615713-2afd69097998?w=600&h=400&fit=crop',
+    imageCredit: "Kohsantepheap",
+    author: "ចាន់ សុភ័ក្ត្រ",
+    authorTitle: "Academic Tech Analyst",
+    authorBio: "សុភ័ក្ត្រ តាមដានការស្រាវជ្រាវបច្ចេកវិទ្យានៅតាមគ្រឹះស្ថានឧត្តមសិក្សា និងការតភ្ជាប់ជាមួយវិស័យឯកជន។",
+    authorAvatar: "/img_author_19.jpg",
+    authorSocial: { twitter: "@sopheak_academic", linkedin: "sopheak-chan" }
+  },
+  {
+    id: 40,
+    title: 'បណ្តាញខ្សែកាបអុបទិកគ្របដណ្តប់ថ្មី តភ្ជាប់សាលារៀននៅតាមបណ្តាខេត្តភូមិភាគឦសាន',
+    excerpt: 'ការធ្វើបច្ចុប្បន្នភាពបណ្តាញអប់រំនេះ នាំមកនូវការចូលប្រើប្រាស់ការរៀនសូត្រតាមអនឡាញកាន់តែលឿនដល់សាលារៀនដាច់ស្រយាលក្នុងខេត្តរតនគិរី មណ្ឌលគិរី និងស្ទឹងត្រែង។',
+    content: `
+      <h2>ការលុបបំបាត់គម្លាតឌីជីថលក្នុងការអប់រំ</h2>
+      <p>យុទ្ធនាការអូសខ្សែកាបអុបទិកកម្រិតដីទៅកាន់សាលារៀននៅភូមិភាគឦសានត្រូវបានបញ្ចប់ជាស្ថាពរ ដែលអនុញ្ញាតឱ្យសិស្សជនជាតិដើមភាគតិចអាចទទួលបានការរៀនសូត្រស្មើភាពគ្នាជាមួយសិស្សនៅទីក្រុង។</p>
+      <p>បណ្ណាល័យឌីជីថល និងថ្នាក់រៀនពីចម្ងាយឥឡូវនេះអាចដំណើរការបានយ៉ាងរលូន ដោយគ្មានការរអាក់រអួល ឬយឺតយ៉ាវដូចមុនទៀតឡើយ។</p>
+    `,
+    category: "Technology",
+    date: 'May 19, 2026',
+    views: 2100,
+    likes: 180,
+    readTime: 3,
+    isBreaking: false,
+    isFeatured: false,
+    image: 'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=600&h=400&fit=crop',
+    imageCredit: "RFA Khmer",
+    author: "អ៊ុន ចាន់ដារ៉ា",
+    authorTitle: "Telecom & Infrastructure Reporter",
+    authorBio: "ចាន់ដារ៉ា តាមដានចង្វាក់អភិវឌ្ឍន៍បណ្តាញទូរគមនាគមន៍ និងបច្ចេកវិទ្យាទំនាក់ទំនងចល័ត។",
+    authorAvatar: "/img_author_16.jpg",
+    authorSocial: { twitter: "@chandara_telecom", linkedin: "chandara-un" }
+  },
+  {
+    id: 41,
+    title: 'បណ្តាញមន្ទីរពេទ្យជាតិ បន្ថែមបន្ទប់ពិគ្រោះជំងឺពីចម្ងាយ (Telemedicine) ថ្មីចំនួន ២០០ បន្ទប់',
+    excerpt: 'ការដាក់ឱ្យដំណើរការការពិគ្រោះជំងឺពីចម្ងាយនេះ នឹងតភ្ជាប់មន្ទីរពេទ្យបង្អែកស្រុកជាមួយគ្រូពេទ្យជំនាញនៅភ្នំពេញ ដើម្បីជួយឱ្យការធ្វើរោគវិនិច្ឆ័យ និងការបញ្ជូនបន្តបានលឿនជាងមុន។',
+    content: `
+      <h2>បដិវត្តន៍ថែទាំសុខភាពតាមប្រព័ន្ធអ៊ីនធឺណិត</h2>
+      <p>ក្រសួងសុខាភិបាលបានប្រកាសដាក់ឱ្យប្រើប្រាស់ជាផ្លូវការនូវប្រព័ន្ធពិគ្រោះជំងឺពីចម្ងាយ (Telemedicine) ខ្នាតធំ ដែលតភ្ជាប់ដោយផ្ទាល់រវាងមន្ទីរពេទ្យថ្នាក់ជាតិនៅភ្នំពេញ ជាមួយមន្ទីរពេទ្យបង្អែកស្រុកដាច់ស្រយាល។</p>
+      <p>គំនិតផ្តួចផ្តើមនេះអនុញ្ញាតឱ្យអ្នកជំងឺនៅតាមខេត្តឆ្ងាយៗ អាចទទួលបានការពិគ្រោះយោបល់ និងធ្វើរោគវិនិច្ឆ័យពីគ្រូពេទ្យឯកទេសល្បីៗ ដោយមិនចាំបាច់ចំណាយពេលវេលា និងថវិកាធ្វើដំណើរមកទីក្រុងឡើយ។</p>
+    `,
+    category: "Health & Wellbeing",
+    date: 'May 28, 2026',
+    views: 4900,
+    likes: 512,
+    readTime: 5,
+    isBreaking: true,
+    isFeatured: true,
+    image: 'https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=900&h=500&fit=crop',
+    imageCredit: "VOD Khmer",
+    author: "ធីតា វ៉ាន់",
+    authorTitle: "Public Health Journalist",
+    authorBio: "ធីតា ផ្តោតលើការសរសេរអត្ថបទគោលនយោបាយសុខាភិបាល សុខភាពមាតានិងទារក និងបច្ចេកវិទ្យាវេជ្ជសាស្ត្រ។",
+    authorAvatar: "/img_author_41.jpg",
+    authorSocial: { twitter: "@thida_health", linkedin: "thida-van" }
+  },
+  {
+    id: 42,
+    title: 'ក្រសួងបើកយុទ្ធនាការចាក់វ៉ាក់សាំងកុមារ នៅតាមបណ្តាខេត្តដាច់ស្រយាល',
+    excerpt: 'គ្លីនិកចល័តនឹងចុះទៅតាមសាលារៀន និងសាលាឃុំ ដើម្បីបង្កើនការគ្របដណ្តប់លើការចាក់វ៉ាក់សាំងការពារជំងឺកញ្ជ្រឹល ស្វិតដៃជើង និងការចាក់ថ្នាំបង្ការជាប្រចាំ។',
+    content: `
+      <h2>ការការពារសុខភាពកុមារជំនាន់ក្រោយ</h2>
+      <p>ក្រសួងសុខាភិបាលបានសហការជាមួយអង្គការ UNICEF ចាប់ផ្តើមយុទ្ធនាការទ្រង់ទ្រាយធំ ចុះចាក់វ៉ាក់សាំងការពារជំងឺឆ្លងសំខាន់ៗជូនកុមារអាយុក្រោម ៥ ឆ្នាំ នៅតាមតំបន់ជនបទដាច់ស្រយាល។</p>
+      <p>ក្រុមការងារគ្រូពេទ្យចល័តបានធ្វើដំណើរដោយទូក និងរថយន្តកាត់ព្រៃភ្នំ ដើម្បីធានាថាគ្មានកុមារណាម្នាក់ត្រូវបានរំលងចោលឡើយ។</p>
+    `,
+    category: "Health & Wellbeing",
+    date: 'May 27, 2026',
+    views: 3600,
+    likes: 420,
+    readTime: 4,
+    isBreaking: false,
+    isFeatured: false,
+    image: 'https://images.unsplash.com/photo-1584515933487-779824d29309?w=600&h=400&fit=crop',
+    imageCredit: "Fresh News",
+    author: "សៅ រតនា",
+    authorTitle: "Healthcare Correspondent",
+    authorBio: "រតនា តាមដានកម្មវិធីសុខភាពសហគមន៍ និងការចុះយុទ្ធនាការវេជ្ជសាស្ត្រនៅតាមបណ្តាខេត្ត។",
+    authorAvatar: "/img_author_15.jpg",
+    authorSocial: { twitter: "@ratana_health", linkedin: "ratana-sau" }
+  },
+  {
+    id: 43,
+    title: 'មន្ត្រីត្រួតពិនិត្យឱសថ បង្កើនការត្រួតពិនិត្យលើឱសថក្លែងក្លាយ',
+    excerpt: 'អាជ្ញាធរមានសមត្ថកិច្ចថ្លែងថា វិធានការបង្ក្រាបនេះនឹងផ្តោតលើអ្នកលក់តាមអនឡាញ និងអ្នកចែកចាយដែលគ្មានអាជ្ញាប័ណ្ណ នៅក្នុងទីផ្សារទីប្រជុំជនធំៗ។',
+    content: `
+      <h2>វិធានការក្តៅដើម្បីសុវត្ថិភាពអ្នកប្រើប្រាស់</h2>
+      <p>នាយកដ្ឋានឱសថនៃក្រសួងសុខាភិបាលបានសហការជាមួយកម្លាំងនគរបាលសេដ្ឋកិច្ច ចុះឆែកឆេរនិងដកហូតឱសថខុសច្បាប់ និងអាហារបំប៉នគ្មានច្បាប់អនុញ្ញាតរាប់សិបតោន។</p>
+      <p>អាជ្ញាធរបានព្រមានពិន័យជាប្រាក់យ៉ាងធ្ងន់ធ្ងរ និងអាចឈានទៅដល់ការបិទអាជីវកម្មចំពោះឱសថស្ថានណាដែលបន្តលក់ថ្នាំហួសកាលកំណត់ ឬថ្នាំគ្មានប្រភពច្បាស់លាស់។</p>
+    `,
+    category: "Health & Wellbeing",
+    date: 'May 26, 2026',
+    views: 3200,
+    likes: 245,
+    readTime: 4,
+    isBreaking: false,
+    isFeatured: false,
+    image: 'https://images.unsplash.com/photo-1584017911766-d451b3d0e843?w=600&h=400&fit=crop',
+    imageCredit: "Kohsantepheap",
+    author: "សុខ ជា",
+    authorTitle: "Consumer Safety Reporter",
+    authorBio: "សុខ ជា តាមដានរាយការណ៍អំពីបញ្ហាសុវត្ថិភាពចំណីអាហារ ឱសថ និងការការពារសិទ្ធិអ្នកប្រើប្រាស់។",
+    authorAvatar: "/img_author_13.jpg",
+    authorSocial: { twitter: "@cheasokh_safety", linkedin: "chea-sokh-tech" }
+  },
+  {
+    id: 44,
+    title: 'ក្រុមឆ្លើយតបគ្រោះអាសន្ន ហ្វឹកហាត់លើការត្រៀមលក្ខណៈបង្ការរលកកម្តៅ និងទឹកជំនន់',
+    excerpt: 'ផែនការឆ្លើយតបដែលបានធ្វើបច្ចុប្បន្នភាព រួមបញ្ចូលទាំងគ្លីនិកចល័ត ស្ថានីយទឹកស្អាត និងការសម្របសម្រួលសង្គ្រោះបឋមសម្រាប់សហគមន៍ដែលងាយរងគ្រោះ។',
+    content: `
+      <h2>ការទប់ទល់នឹងការប្រែប្រួលអាកាសធាតុ</h2>
+      <p>ដោយសារតែនិន្នាការសីតុណ្ហភាពសកលមានការកើនឡើង គណៈកម្មាធិការជាតិគ្រប់គ្រងគ្រោះមហន្តរាយបានបើកវគ្គហ្វឹកហ្វឺនទ្រង់ទ្រាយធំដល់ភ្នាក់ងារសង្គ្រោះបឋម។</p>
+      <p>ការហ្វឹកហាត់នេះផ្តោតលើការសង្គ្រោះអ្នកសន្លប់ដោយសារកម្តៅខ្លាំង (Heatstroke) និងការត្រៀមស្បៀងអាហារ ថ្នាំសង្កូវសម្រាប់ចែកជូនពលរដ្ឋពេលមានទឹកជំនន់ភ្លាមៗ។</p>
+    `,
+    category: "Health & Wellbeing",
+    date: 'May 25, 2026',
+    views: 3900,
+    likes: 310,
+    readTime: 5,
+    isBreaking: false,
+    isFeatured: false,
+    image: 'https://images.unsplash.com/photo-1504439468489-c8920d796a29?w=600&h=400&fit=crop',
+    imageCredit: "RFA Khmer",
+    author: "គង់ សំរិទ្ធ",
+    authorTitle: "Emergency Policy Analyst",
+    authorBio: "សំរិទ្ធ តាមដានយុទ្ធសាស្ត្រគ្រប់គ្រងគ្រោះមហន្តរាយ និងគោលនយោបាយសុវត្ថិភាពសាធារណៈ។",
+    authorAvatar: "/img_author_14.jpg",
+    authorSocial: { twitter: "@samrith_safe", linkedin: "samrith-kong" }
+  },
+  {
+    id: 45,
+    title: 'កម្មវិធីអាហារូបត្ថម្ភថ្មី ផ្តោតលើការការពារជំងឺទឹកនោមផ្អែមនៅភ្នំពេញ',
+    excerpt: 'គ្លីនិកនឹងផ្តល់ការប្រឹក្សាយោបល់អំពីរបបអាហារ ការហាត់ប្រាណ និងការពិនិត្យជាតិស្ករក្នុងឈាម នៅតាមមជ្ឈមណ្ឌលសុខភាពសហគមន៍ dinners។',
+    content: `
+      <h2>លើកកម្ពស់សុខភាពរស់នៅតាមបែបសម័យថ្មី</h2>
+      <p>សមាគមគ្រូពេទ្យស្ម័គ្រចិត្តបានបើកយុទ្ធនាការអប់រំសុខភាពស្តីពី «ការរស់នៅស្អាត គ្មានជំងឺទឹកនោមផ្អែម» នៅតាមទីប្រជុំជននានាក្នុងរាជធានីភ្នំពេញ។</p>
+      <p>កម្មវិធីនេះផ្តល់ការវាស់ជាតិស្ករក្នុងឈាមដោយឥតគិតថ្លៃ និងណែនាំពលរដ្ឋឱ្យកាត់បន្ថយការបរិភោគភេសជ្ជៈផ្អែមខ្លាំង រួមទាំងការជម្រុញឱ្យដើរហាត់ប្រាណឱ្យបាន ៣០ នាទីជារៀងរាល់ថ្ងៃ។</p>
+    `,
+    category: "Health & Wellbeing",
+    date: 'May 24, 2026',
+    views: 3400,
+    likes: 288,
+    readTime: 4,
+    isBreaking: false,
+    isFeatured: false,
+    image: 'https://images.unsplash.com/photo-1498837167922-ddd27525d352?w=600&h=400&fit=crop',
+    imageCredit: "Dap News",
+    author: "អ៊ុន ចាន់ដារ៉ា",
+    authorTitle: "Lifestyle & Wellness Writer",
+    authorBio: "ចាន់ដារ៉ា សរសេរឯកទេសខាងរបបអាហារ សុខភាពផ្លូវចិត្ត និងការថែទាំរាងកាយបែបធម្មជាតិ។",
+    authorAvatar: "/img_author_16.jpg",
+    authorSocial: { twitter: "@chandara_wellness", linkedin: "chandara-un" }
+  },
+  {
+    id: 46,
+    title: 'គ្លីនិកស្រុក ចាប់ផ្តើមផ្លាស់ប្តូរទៅប្រើប្រាស់ប្រព័ន្ធកត់ត្រាប្រវត្តិអ្នកជំងឺបែបឌីជីថល',
+    excerpt: 'ប្រព័ន្ធកត់ត្រាថ្មីនេះ នឹងជួយកាត់បន្ថយការធ្វើតេស្តជាន់គ្នា និងជួយឱ្យគ្រូពេទ្យអាចចែករំលែកកំណត់ត្រាករណីជំងឺសំខាន់ៗប្រកបដោយសុវត្ថិភាព។',
+    content: `
+      <h2>ការលាឈប់ប្រើប្រាស់ក្រដាសកត់ត្រាប្រពៃណី</h2>
+      <p>មជ្ឈមណ្ឌលសុខភាពនៅតាមស្រុកនានាបានចាប់ផ្តើមអនុវត្តការប្រើប្រាស់ប្រព័ន្ធទិន្នន័យអេឡិចត្រូនិក (EHR) សម្រាប់កត់ត្រាប្រវត្តិជំងឺ សៀវភៅចាក់វ៉ាក់សាំង និងទិន្នន័យអាឡែស៊ីថ្នាំរបស់អ្នកជំងឺ។</p>
+      <p>ការធ្វើបែបនេះជួយឱ្យគ្រូពេទ្យអាចស្វែងរកទិន្នន័យអ្នកជំងឺបានលឿនក្នុងករណីសង្គ្រោះបន្ទាន់ និងជៀសវាងការចេញថ្នាំខុសកម្រិត។</p>
+    `,
+    category: "Health & Wellbeing",
+    date: 'May 23, 2026',
+    views: 3000,
+    likes: 210,
+    readTime: 3,
+    isBreaking: false,
+    isFeatured: false,
+    image: 'https://images.unsplash.com/photo-1551076805-e1869033e561?w=600&h=400&fit=crop',
+    imageCredit: "Fresh News",
+    author: "ធីតា វ៉ាន់",
+    authorTitle: "Public Health Journalist",
+    authorBio: "ធីតា ផ្តោតលើការសរសេរអត្ថបទគោលនយោបាយសុខាភិបាល សុខភាពមាតានិងទារក និងបច្ចេកវិទ្យាវេជ្ជសាស្ត្រ។",
+    authorAvatar: "/img_author_41.jpg",
+    authorSocial: { twitter: "@thida_health", linkedin: "thida-van" }
+  },
+  {
+    id: 47,
+    title: 'មហាវិទ្យាល័យវេជ្ជសាស្ត្រនៃសាកលវិទ្យាល័យភូមិន្ទ ពង្រីកកម្មវិធីពិនិត្យសុខភាពសហគមន៍',
+    excerpt: 'និស្សិត និងសាស្ត្រាចារ្យ នឹងធ្វើដំណើរទៅកាន់តំបន់ដាច់ស្រយាល ដើម្បីពិនិត្យសម្ពាធឈាម ភ្នែក និងសុខភាពមាត់ធ្មេញ ជូនប្រជាពលរដ្ឋ។',
+    content: `
+      <h2>រៀនសូត្រផង ជួយសង្គមជាតិផង</h2>
+      <p>និស្សិតពេទ្យឆ្នាំទី៥ និងទី៦ នៃសាកលវិទ្យាល័យវិទ្យាសាស្ត្រសុខាភិបាល បានចុះយុទ្ធនាការមនុស្សធម៌ទ្រង់ទ្រាយធំ រយៈពេលមួយសប្តាហ៍ដើម្បីពិនិត្យសុខភាពជូនពលរដ្ឋដោយមិនគិតថ្លៃ។</p>
+      <p>កម្មវិធីនេះទទួលបានការគាំទ្រយ៉ាងខ្លាំងពីអាជ្ញាធរមូលដ្ឋាន ព្រោះវាបានជួយដោះស្រាយបញ្ហាសុខភាពបឋមជូនចាស់ជរា និងកុមារតូចៗបានរាប់ពាន់នាក់។</p>
+    `,
+    category: "Health & Wellbeing",
+    date: 'May 22, 2026',
+    views: 2700,
+    likes: 315,
+    readTime: 4,
+    isBreaking: false,
+    isFeatured: false,
+    image: 'https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?w=600&h=400&fit=crop',
+    imageCredit: "VOD Khmer",
+    author: "ចាន់ សុភ័ក្ត្រ",
+    authorTitle: "Medical & Academic Writer",
+    authorBio: "សុភ័ក្ត្រ រាយការណ៍អំពីការអប់រំវេជ្ជសាស្ត្រ របកគំហើញវិទ្យាសាស្ត្រ និងសេវាស្ម័គ្រចិត្ត។",
+    authorAvatar: "/img_author_19.jpg",
+    authorSocial: { twitter: "@sopheak_med", linkedin: "sopheak-chan" }
+  },
+  {
+    id: 48,
+    title: 'មន្ទីរពេទ្យនៅភ្នំពេញ ធ្វើតេស្តប្រប្រព័ន្ធ AI សម្រាប់បែងចែកកម្រិតសង្គ្រោះបន្ទាន់នៅបន្ទប់សង្គ្រោះបន្ទាន់',
+    excerpt: 'កម្មវិធីសាកល្បងនេះ នឹងផ្តល់អាទិភាពលើការពិនិត្យបឋមដែលមិនទាមទារការវះកាត់ និងការបញ្ជូនអ្នកជំងឺកម្រិតធ្ងន់ឱ្យបានលឿនក្នុងអំឡុងពេលមានមនុស្សច្រើន។',
+    content: `
+      <h2>បច្ចេកវិទ្យាជួយសង្គ្រោះជីវិតមនុស្ស</h2>
+      <p>មន្ទីរពេទ្យរដ្ឋដ៏មមាញឹកមួយនៅភ្នំពេញ បានដាក់ឱ្យដំណើរការសាកល្បងប្រព័ន្ធ AI Triage ដែលជួយវិភាគកម្រិតធ្ងន់ធ្ងររបស់អ្នកជំងឺនៅក្នុងបន្ទប់សង្គ្រោះបន្ទាន់ (ER)។</p>
+      <p>ប្រព័ន្ធនេះស្កេនសញ្ញាជីវិត (Vital Signs) របស់អ្នកជំងឺ រួចផ្តល់សញ្ញាអាទិភាពភ្លាមៗទៅកាន់គ្រូពេទ្យ ដើម្បីធានាថាអ្នកជំងឺមានសភាពគ្រោះថ្នាក់បំផុតទទួលបានការព្យាបាលមុនគេ។</p>
+    `,
+    category: "Health & Wellbeing",
+    date: 'May 21, 2026',
+    views: 2800,
+    likes: 240,
+    readTime: 4,
+    isBreaking: false,
+    isFeatured: false,
+    image: 'https://images.unsplash.com/photo-1538108149393-fbbd81895907?w=600&h=400&fit=crop',
+    imageCredit: "Kohsantepheap",
+    author: "លី ម៉េងហួរ",
+    authorTitle: "Health-Tech Analyst",
+    authorBio: "ម៉េងហួរ តាមដានបច្ចេកវិទ្យាវេជ្ជសាស្ត្រទំនើបៗ និងការគ្រប់គ្រងមន្ទីរពេទ្យឌីជីថល។",
+    authorAvatar: "/img_author_17.jpg",
+    authorSocial: { twitter: "@menghour_health", linkedin: "menghour-ly" }
+  },
+  {
+    id: 49,
+    title: 'យុទ្ធនាការសុខុមាលភាព ជម្រុញការហាត់ប្រាណ និងដំណេកប្រកបដោយសុខភាពសម្រាប់បុគ្គលិកការិយាល័យ',
+    excerpt: 'វគ្គណែនាំសាធារណៈនៅទូទាំងរាជធានី នឹងផ្តល់ដំបូន្មានអំពីការគ្រប់គ្រងស្ត្រេស ការហាត់ពត់ប្រាណសម្រាលការហត់នឿយ និងគន្លឹះអាហារូបត្ថម្ភ។',
+    content: `
+      <h2>ការទប់ស្កាត់រោគសញ្ញាការិយាល័យ (Office Syndrome)</h2>
+      <p>ដោយសារអត្រានៃការធ្វើការអង្គុយមួយកន្លែងយូរមានការកើនឡើង យុទ្ធនាការជាតិមួយត្រូវបានបង្កើតឡើងដើម្បីក្រើនរំលឹកបុគ្គលិកក្រុមហ៊ុនអំពីគ្រោះថ្នាក់នៃភាពស្រ្តេស និងការគេងមិនលក់។</p>
+      <p>អ្នកជំនាញណែនាំឱ្យមានការងើបឈរពត់ដៃជើងរៀងរាល់ ២ ម៉ោងម្តង និងកាត់បន្ថយការមើលអេក្រង់ទូរស័ព្ទ ១ ម៉ោងមុនពេលចូលគេង។</p>
+    `,
+    category: "Health & Wellbeing",
+    date: 'May 20, 2026',
+    views: 2400,
+    likes: 195,
+    readTime: 3,
+    isBreaking: false,
+    isFeatured: false,
+    image: 'https://images.unsplash.com/photo-1518611012118-696072aa579a?w=600&h=400&fit=crop',
+    imageCredit: "RFA Khmer",
+    author: "អ៊ុន ចាន់ដារ៉ា",
+    authorTitle: "Lifestyle & Wellness Writer",
+    authorBio: "ចាន់ដារ៉ា សរសេរឯកទេសខាងរបបអាហារ សុខភាពផ្លូវចិត្ត និងការថែទាំរាងកាយបែបធម្មជាតិ។",
+    authorAvatar: "/img_author_16.jpg",
+    authorSocial: { twitter: "@chandara_wellness", linkedin: "chandara-un" }
+  },
+  {
+    id: 50,
+    title: 'ស្តង់ដារត្រួតពិនិត្យការចងកាត់មេរោគថ្មី ដាក់ឱ្យអនុវត្តនៅតាមគ្លីនិកឯកជន',
+    excerpt: 'ក្រសួងសុខាភិបាលបញ្ជាក់ថា ការចុះសវនកម្មជាប្រចាំនឹងធ្វើឡើងដើម្បីពិនិត្យការសម្លាប់មេរោគ ការគ្រប់គ្រងកាកសំណល់ និងការអនុវត្តតាមការបណ្តុះបណ្តាលរបស់បុគ្គលិក។',
+    content: `
+      <h2>ការលើកកម្ពស់ស្តង់ដារអនាម័យវេជ្ជសាស្ត្រ</h2>
+      <p>ដើម្បីធានាទំនុកចិត្ត និងសុវត្ថិភាពខ្ពស់បំផុតជូនប្រជាពលរដ្ឋ ក្រសួងសុខាភិបាលបានដាក់ចេញនូវលក្ខខណ្ឌតឹងរឹងថ្មីជុំវិញការសម្លាប់មេរោគលើឧបករណ៍ពេទ្យនៅតាមគ្លីនិកឯកជនធុនតូចនិងមធ្យម។</p>
+      <p>រាល់ការបំពាន ឬការគ្រប់គ្រងកាកសំណល់វេជ្ជសាស្ត្រមិនត្រឹមត្រូវ នឹងត្រូវប្រឈមមុខនឹងការផ្អាកអាជ្ញាប័ណ្ណដំណើរការភ្លាមៗដោយគ្មានការលើកលែង។</p>
+    `,
+    category: "Health & Wellbeing",
+    date: 'May 19, 2026',
+    views: 2200,
+    likes: 154,
+    readTime: 4,
+    isBreaking: false,
+    isFeatured: false,
+    image: 'https://images.unsplash.com/photo-1581056771107-24ca5f033842?w=600&h=400&fit=crop',
+    imageCredit: "Dap News",
+    author: "សៅ រតនា",
+    authorTitle: "Healthcare Correspondent",
+    authorBio: "រតនា តាមដានកម្មវិធីសុខភាពសហគមន៍ និងការចុះយុទ្ធនាការវេជ្ជសាស្ត្រនៅតាមបណ្តាខេត្ត។",
+    authorAvatar: "/img_author_15.jpg",
+    authorSocial: { twitter: "@ratana_health", linkedin: "ratana-sau" }
+  },
+  {
+    id: 61,
+    title: 'សំបុត្រចូលទស្សនាពិព័រណ៍តន្ត្រីអង្គរ ត្រូវបានលក់អស់ក្នុងរយៈពេល ៤៨ ម៉ោង',
+    excerpt: 'អ្នករៀបចំកម្មវិធីបានពង្រីកបញ្ជីឈ្មោះសិល្បករល្បីៗ ដោយមានការចូលរួមពីតារាចម្រៀងកម្ពុជា តារាចម្រៀងក្នុងតំបន់ និងការសម្តែងពេលរាត្រីដ៏អស្ចារ្យនៅជិតបរិវេណប្រាសាទ។',
+    content: `
+      <h2>មហោស្រពតន្ត្រីវប្បធម៌ដ៏ធំប្រចាំឆ្នាំ</h2>
+      <p>សំបុត្រចូលរួមទស្សនាព្រឹត្តិការណ៍តន្ត្រីលំដាប់អន្តរជាតិ «អង្គរតន្ត្រីសម័យ» ត្រូវបានអ្នកគាំទ្រសម្រុកទិញអស់ពីប្រព័ន្ធអនឡាញក្នុងរយៈពេលត្រឹមតែពីរថ្ងៃប៉ុណ្ណោះ ដែលនេះស្តែងឱ្យឃើញពីការគាំទ្រយ៉ាងខ្លាំងក្លា។</p>
+      <p>ព្រឹត្តិការណ៍នេះនឹងនាំយកការសម្តែងតន្ត្រីបុរាណលាយឡំនឹងតន្ត្រីសម័យទំនើប ញ៉ាំងឱ្យបរិវេណខេត្តសៀមរាបមានភាពអធិកអធម និងទាក់ទាញភ្ញៀវទេសចរបរទេសរាប់ម៉ឺននាក់។</p>
+    `,
+    category: "Entertainment",
+    date: 'May 28, 2026',
+    views: 6400,
+    likes: 720,
+    readTime: 5,
+    isBreaking: true,
+    isFeatured: true,
+    image: 'https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=900&h=500&fit=crop',
+    imageCredit: "VOD Khmer",
+    author: "លី គីមហុង",
+    authorTitle: "Culture & Arts Reporter",
+    authorBio: "គីមហុង សរសេរព័ត៌មានទាក់ទងនឹងសិល្បៈ តន្ត្រីសម័យ និងការកម្សាន្តបែបវប្បធម៌។",
+    authorAvatar: "/img_author_31.jpg",
+    authorSocial: { twitter: "@kimhong_ent", linkedin: "kimhong-ly" }
+  },
+  {
+    id: 62,
+    title: 'រឿងភាគកំប្លែងខ្មែរត្រឡប់មកវិញ ជាមួយទីតាំងថតថ្មីៗក្នុងរាជធានីភ្នំពេញ',
+    excerpt: 'រដូវកាលទីពីរនេះ នឹងមានការចូលរួមពីអ្នកនិពន្ធក្នុងស្រុក ទិដ្ឋភាពតាមផ្សាររទេះបុក និងការចូលរួមសម្តែងពិសេសពីតារាកំប្លែងកម្ពុជាជាច្រើនរូប។',
+    content: `
+      <h2>សំណើចថ្មីចុងសប្តាហ៍សម្រាប់ក្រុមគ្រួសារ</h2>
+      <p>ខ្សែភាពយន្តភាគទូរទស្សន៍បែបកំប្លែងដែលទទួលបានការគាំទ្រខ្លាំងកាលពីឆ្នាំទៅ បានប្រកាសបើកកាមេរ៉ាថតរដូវកាលទីពីរហើយ ដោយផ្តោតលើខ្សែជីវិតប្លែកៗរបស់អាជីវករលក់ដូរតាមចិញ្ចើមផ្លូវ។</p>
+      <p>អ្នកដឹកនាំរឿងសន្យាថានឹងនាំមកនូវសាច់រឿងដែលឆ្លុះបញ្ចាំងពីតថភាពសង្គមពិតៗ បូករួមនឹងឈុតឆាកកំប្លែងសើចចុកពោះ ធានាខុសពីវគ្គមុនៗ។</p>
+    `,
+    category: "Entertainment",
+    date: 'May 27, 2026',
+    views: 4100,
+    likes: 395,
+    readTime: 4,
+    isBreaking: false,
+    isFeatured: false,
+    image: 'https://images.unsplash.com/photo-1501386761578-eac5c94b800a?w=600&h=400&fit=crop',
+    imageCredit: "Fresh News",
+    author: "ចិន្តា មុនីរ័ត្ន",
+    authorTitle: "TV & Media Correspondent",
+    authorBio: "មុនីរ័ត្ន តាមដានចង្វាក់ផលិតកម្មភាពយន្តភាគភាគ និងការវិវត្តនៃប្រព័ន្ធផ្សព្វផ្សាយក្នុងស្រុក។",
+    authorAvatar: "/img_author_11.jpg",
+    authorSocial: { twitter: "@muniroth_ent", linkedin: "chinda-muniroth" }
+  },
+  {
+    id: 63,
+    title: 'មជ្ឈមណ្ឌលភាពយន្តជាតិ បើកផ្តល់ប្រាក់ឧបត្ថម្ភសម្រាប់អ្នកដឹកនាំរឿងដំបូង',
+    excerpt: 'កម្មវិធីនេះនឹងផ្តល់មូលនិធិដល់ភាពយន្តខ្នាតខ្លី ការបង្ហាញគម្រោងខ្សែកុនឯកសារ និងការបណ្តុះបណ្តាលផលិតកម្មសម្រាប់ក្រុមការងារវ័យក្មេងកម្ពុជា។',
+    content: `
+      <h2>ការជម្រុញទឹកចិត្តអ្នកបង្កើតភាពយន្តជំនាន់ក្រោយ</h2>
+      <p>ដើម្បីលើកកម្ពស់វិស័យខ្សែកុនខ្មែរឱ្យដើរទាន់ឆាកអន្តរជាតិ មជ្ឈមណ្ឌលភាពយន្តជាតិបានបញ្ចេញកញ្ចប់ថវិកាគាំទ្រពិសេសសម្រាប់យុវជនដែលមានគម្រោងផលិតភាពយន្តខ្នាតខ្លី។</p>
+      <p>ក្រៅពីថវិកា ពួកគេនឹងទទួលបានការប្រឹក្សាយោបល់ផ្ទាល់ពីអ្នកដឹកនាំរឿងជើងចាស់ ជួយកែសម្រួលអត្ថបទរឿង និងបច្ចេកទេសពណ៌ (Color Grading) ឱ្យកាន់តែមានស្តង់ដារ។</p>
+    `,
+    category: "Entertainment",
+    date: 'May 26, 2026',
+    views: 3800,
+    likes: 290,
+    readTime: 4,
+    isBreaking: false,
+    isFeatured: false,
+    image: 'https://images.unsplash.com/photo-1485846234645-a62644f84728?w=600&h=400&fit=crop',
+    imageCredit: "Kohsantepheap",
+    author: "សុខ ជា",
+    authorTitle: "Cinema & Arts Critic",
+    authorBio: "សុខ ជា ចូលចិត្តវិភាគសាច់រឿងភាពយន្ត និងរាយការណ៍ពីមហោស្រពភាពយន្តនានា។",
+    authorAvatar: "/img_author_13.jpg",
+    authorSocial: { twitter: "@cheasokh_film", linkedin: "chea-sokh-tech" }
+  },
+  {
+    id: 64,
+    title: 'មេចុងភៅ និងជាពិធីករល្បីឈ្មោះ បើកដំណើរការទីតាំងអាហារដ្ឋានវប្បធម៌តាមដងទន្លេ',
+    excerpt: 'ទីកន្លែងថ្មីនេះ រួមបញ្ចូលគ្នានូវរាត្រីសម្តែងសិល្បៈ រូបមន្តម្ហូបក្នុងស្រុក និងការដាក់បង្ហាញសិល្បៈក្នុងតំបន់ នៅក្នុងអគារសម័យអាណានិគមដែលបានជួសជុលឡើងវិញ។',
+    content: `
+      <h2>ការរួមបញ្ចូលគ្នារវាងរសជាតិអាហារ និងសិល្បៈ</h2>
+      <p>តារាទូរទស្សន៍ និងជាមេចុងភៅដ៏ល្បីល្បាញមួយរូប បានប្រកាសបើកសម្ពោធភោជនីយដ្ឋានបែបវប្បធម៌ថ្មីមួយនៅតាមបណ្តោយមាត់ទន្លេសាប ដោយមានការរៀបចំតុបតែងតាមរចនាបថខ្មែរបុរាណ។</p>
+      <p>ភ្ញៀវដែលមកពិសាអាហារនៅទីនេះ មិនត្រឹមតែបានភ្លក្សរសជាតិម្ហូបខ្មែរដែលបាត់បង់យូរមកហើយនោះទេ ប៉ុន្តែថែមទាំងអាចទស្សនាការសម្តែងល្ខោនស្រមោលស្បែកតូចទៀតផង។</p>
+    `,
+    category: "Entertainment",
+    date: 'May 25, 2026',
+    views: 4000,
+    likes: 345,
+    readTime: 5,
+    isBreaking: false,
+    isFeatured: false,
+    image: 'https://images.unsplash.com/photo-1551218808-94e220e084d2?w=600&h=400&fit=crop',
+    imageCredit: "RFA Khmer",
+    author: "អ៊ុន ចាន់ដារ៉ា",
+    authorTitle: "Culture & Lifestyle Editor",
+    authorBio: "ចាន់ដារ៉ា តាមដាននិន្នាការម្ហូបអាហារ ការកម្សាន្ត លំហែកាយ និងសិល្បៈរស់នៅរបស់ពលរដ្ឋទីក្រុង។",
+    authorAvatar: "/img_author_16.jpg",
+    authorSocial: { twitter: "@chandara_life", linkedin: "chandara-un" }
+  },
+  {
+    id: 65,
+    title: 'កម្មវិធីសម្តែងសិល្បៈតាមដងផ្លូវបែបបើកចំហ ទាក់ទាញហ្វូងមនុស្សយ៉ាងច្រើននៅបាត់ដំបង',
+    excerpt: 'សិល្បករ អ្នករាំ និងអ្នកសម្តែងទស្សនីយភាពប្លែកភ្នែក នឹងធ្វើដំណើរទៅតាមបណ្តាខេត្តនានា ជាមួយនឹងការបង្ហាញខ្លួននៅចុងសប្តាហ៍រហូតដល់ខែមិថុនា។',
+    content: `
+      <h2>ទីក្រុងសិល្បៈរស់រវើកឡើងវិញ</h2>
+      <p>ខេត្តបាត់ដំបងបានក្លាយជាផ្ទាំងទស្សនីយភាពដ៏អស្ចារ្យ ក្នុងអំឡុងពេលនៃការរៀបចំពិព័រណ៍សិល្បៈតាមដងផ្លូវ ដែលមានការចូលរួមសម្តែងសៀក គូរគំនូរផ្ទាល់ និងការរាំរបាំសហសម័យ។</p>
+      <p>ព្រឹត្តិការណ៍នេះបើកឱ្យសាធារណជនចូលទស្សនាដោយសេរី ក្នុងគោលបំណងលើកកម្ពស់ការយល់ដឹងពីសិល្បៈចម្រុះ និងបង្កើនភាពសប្បាយរីករាយក្នុងសហគមន៍។</p>
+    `,
+    category: "Entertainment",
+    date: 'May 24, 2026',
+    views: 3200,
+    likes: 215,
+    readTime: 3,
+    isBreaking: false,
+    isFeatured: false,
+    image: 'https://images.unsplash.com/photo-1501386761578-eac5c94b800a?w=600&h=400&fit=crop',
+    imageCredit: "Dap News",
+    author: "សៅ រតនា",
+    authorTitle: "Provincial Arts Correspondent",
+    authorBio: "រតនា រាយការណ៍អំពីចលនាវប្បធម៌ និងពិព័រណ៍សិល្បៈតាមបណ្តាខេត្តប្រវត្តិសាស្ត្រ។",
+    authorAvatar: "/img_author_15.jpg",
+    authorSocial: { twitter: "@ratana_arts", linkedin: "ratana-sau" }
+  },
+  {
+    id: 66,
+    title: 'អាល់ប៊ុមចម្រៀងប៉ុបខ្មែរ ឈរនៅចំណាត់ថ្នាក់លេខ១ លើតារាងចាក់តន្ត្រីអនឡាញក្នុងតំបន់',
+    excerpt: 'ស្នាដៃតន្ត្រីនេះ រួមបញ្ចូលគ្នារវាងឧបករណ៍តន្ត្រីប្រពៃណី ជាមួយការផលិតបែបសម័យទំនើប និងមានការចូលរួមសហការពីសិល្បករអាស៊ានផងដែរ។',
+    content: `
+      <h2>តន្ត្រីខ្មែរឈានជើងចូលទីផ្សារអន្តរជាតិ</h2>
+      <p>ចម្រៀងថ្មីរបស់តារាចម្រៀងករីកចម្រើនកម្ពុជាមួយរូប បានបង្កើតប្រវត្តិសាស្ត្រដោយហក់ឡើងទៅឈរនៅកំពូលតារាង (Top Charts) នៃកម្មវិធីស្តាប់តន្ត្រីល្បីៗក្នុងតំបន់អាស៊ីអាគ្នេយ៍។</p>
+      <p>ការលាយបញ្ចូលគ្នារវាងសំឡេងឧបករណ៍ខ្នើយ និងចង្វាក់ភ្លេងអេឡិចត្រូនិចសម័យថ្មី (Synth-pop) បានធ្វើឱ្យបទចម្រៀងនេះមានភាពទាក់ទាញខ្លាំង ទាំងអ្នកស្តាប់ក្នុងស្រុក និងបរទេស។</p>
+    `,
+    category: "Entertainment",
+    date: 'May 23, 2026',
+    views: 3600,
+    likes: 410,
+    readTime: 4,
+    isBreaking: false,
+    isFeatured: false,
+    image: 'https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=600&h=400&fit=crop',
+    imageCredit: "Fresh News",
+    author: "លី គីមហុង",
+    authorTitle: "Culture & Arts Reporter",
+    authorBio: "គីមហុង សរសេរព័ត៌មានទាក់ទងនឹងសិល្បៈ តន្ត្រីសម័យ និងការកម្សាន្តបែបវប្បធម៌។",
+    authorAvatar: "/img_author_31.jpg",
+    authorSocial: { twitter: "@kimhong_ent", linkedin: "kimhong-ly" }
+  },
+  {
+    id: 67,
+    title: 'អ្នកផលិតរឿងភាគទូរទស្សន៍ ស្វែងរកមូលនិធិថ្មីសម្រាប់ការផលិតមាតិកាជាភាសាខ្មែរ',
+    excerpt: 'ស្ថានីយទូរទស្សន៍ និងអ្នកបង្កើតមាតិកា កំពុងជម្រុញឱ្យមានការផលិតក្នុងស្រុកកាន់តែច្រើន ជាមួយនឹងអត្ថបទរឿងកាន់តែល្អ និងការគាំទ្រផ្នែកបច្ចេកទេសកាត់តកាន់តែប្រសើរ។',
+    content: `
+      <h2>ការប្រកួតប្រជែងគុណភាពមាតិកាភាគខ្មែរ</h2>
+      <p>សមាគមអ្នកផលិតភាពយន្តបានរៀបចំកិច្ចប្រជុំតុមូលមួយ ដើម្បីពិភាក្សាពីឱកាសកៀរគរទុនពីវិស័យឯកជន យកមកវិនិយោគលើការសរសេរស្គ្រីបរឿងភាគឱ្យកាន់តែមានជម្រៅលម្អិត។</p>
+      <p>គោលដៅចម្បងគឺកាត់បន្ថយការទិញសិទ្ធិចាក់ផ្សាយរឿងភាគបរទេស និងជំនួសមកវិញនូវសាច់រឿងដែលឆ្លុះបញ្ចាំងពីតម្លៃគ្រួសារ និងវប្បធម៌រស់នៅរបស់ខ្មែរយើង។</p>
+    `,
+    category: "Entertainment",
+    date: 'May 22, 2026',
+    views: 3000,
+    likes: 245,
+    readTime: 4,
+    isBreaking: false,
+    isFeatured: false,
+    image: 'https://images.unsplash.com/photo-1574375927938-d5a98e8ffe85?w=600&h=400&fit=crop',
+    imageCredit: "VOD Khmer",
+    author: "ចិន្តា មុនីរ័ត្ន",
+    authorTitle: "TV & Media Correspondent",
+    authorBio: "មុនីរ័ត្ន តាមដានចង្វាក់ផលិតកម្មភាពយន្តភាគភាគ និងការវិវត្តនៃប្រព័ន្ធផ្សព្វផ្សាយក្នុងស្រុក។",
+    authorAvatar: "/img_author_11.jpg",
+    authorSocial: { twitter: "@muniroth_ent", linkedin: "chinda-muniroth" }
+  },
+  {
+    id: 68,
+    title: 'អ្នកដឹកនាំរឿងវ័យក្មេង បើកដំណើរការការប្រកួតប្រជែងភាពយន្តខ្នាតខ្លីនៅភ្នំពេញ',
+    excerpt: 'ការប្រកួតប្រជែងនេះ នឹងដាក់បង្ហាញសាច់រឿងពីនិស្សិត អ្នកផលិតភាពយន្តឯករាជ្យ និងអ្នកសរសេរស្គ្រីបភាពយន្តជាលើកដំបូង។',
+    content: `
+      <h2>វេទិកាបញ្ចេញសមត្ថភាពខ្សែកុនខ្នាតខ្លី</h2>
+      <p>ការប្រកួតប្រជែងភាពយន្តខ្នាតខ្លីរដូវកាលថ្មីបានចាប់ផ្តើមទទួលពាក្យហើយ ដោយបើកទូលាយសម្រាប់សិស្ស និស្សិត និងអ្នកចូលចិត្តផលិតវីដេអូគ្រប់ទម្រង់ចូលរួមប្រកួតប្រជែង។</p>
+      <p>ស្នាដៃដែលទទួលបានជ័យលាភីនឹងត្រូវយកទៅដាក់បញ្ចាំងនៅក្នុងរោងភាពយន្តទំនើបៗក្នុងរាជធានីភ្នំពេញ និងទទួលបានប្រាក់រង្វាន់លើកទឹកចិត្តដើម្បីបន្តក្តីស្រមៃ។</p>
+    `,
+    category: "Entertainment",
+    date: 'May 21, 2026',
+    views: 2700,
+    likes: 198,
+    readTime: 3,
+    isBreaking: false,
+    isFeatured: false,
+    image: 'https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?w=600&h=400&fit=crop',
+    imageCredit: "Kohsantepheap",
+    author: "សុខ ជា",
+    authorTitle: "Cinema & Arts Critic",
+    authorBio: "សុខ ជា ចូលចិត្តវិភាគសាច់រឿងភាពយន្ត និងរាយការណ៍ពីមហោស្រពភាពយន្តនានា។",
+    authorAvatar: "/img_author_13.jpg",
+    authorSocial: { twitter: "@cheasokh_film", linkedin: "chea-sokh-tech" }
+  },
+  {
+    id: 69,
+    title: 'តារាសម្តែង និងជាសកម្មជនមនុស្សធម៌ បើកកម្មវិធីណែនាំសិល្បៈយុវជន',
+    excerpt: 'គំនិតផ្តួចផ្តើមនេះ ភ្ជាប់អ្នកសម្តែងជំនាន់ក្រោយជាមួយអ្នកណែនាំជំនាញ លើផ្នែកសម្តែង រាំ ការរៀបចំស្ទីលសម្លៀកបំពាក់ និងការផលិតនៅពីក្រោយឆាក។',
+    content: `
+      <h2>ការបណ្តុះបណ្តាលឆ្ពោះទៅរកអាជីពសិល្បៈពិតប្រាកដ</h2>
+      <p>តារាសម្តែងស្រីឆ្នើមមួយរូបបានបង្កើតកម្មវិធី Mentorship ដោយឥតគិតថ្លៃមួយ ដើម្បីជួយណែនាំតម្រង់ទិសដល់យុវជនដែលមានចំណង់ចំណូលចិត្តលើការសម្តែង និងការងារសិល្បៈ។</p>
+      <p>វគ្គសិក្សានេះផ្តោតសំខាន់លើការគ្រប់គ្រងអារម្មណ៍ ការនិយាយស្តីជាសាធារណៈ និងសីលធម៌ក្នុងវិជ្ជាជីវៈសិល្បករ ដើម្បីធានាបាននូវការអភិវឌ្ឍប្រកបដោយនិរន្តរភាព។</p>
+    `,
+    category: "Entertainment",
+    date: 'May 20, 2026',
+    views: 2500,
+    likes: 310,
+    readTime: 4,
+    isBreaking: false,
+    isFeatured: false,
+    image: 'https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=600&h=400&fit=crop',
+    imageCredit: "RFA Khmer",
+    author: "អ៊ុន ចាន់ដារ៉ា",
+    authorTitle: "Culture & Lifestyle Editor",
+    authorBio: "ចាន់ដារ៉ា តាមដាននិន្នាការម្ហូបអាហារ ការកម្សាន្ត លំហែកាយ និងសិល្បៈរស់នៅរបស់ពលរដ្ឋទីក្រុង។",
+    authorAvatar: "/img_author_16.jpg",
+    authorSocial: { twitter: "@chandara_life", linkedin: "chandara-un" }
+  },
+  {
+    id: 70,
+    title: 'អត្ថបទរបៀបរស់នៅ៖ កំណើននៃការរចនាម៉ូដបែបខ្មែរក្នុងគេហដ្ឋានសម័យទំនើប',
+    excerpt: 'អ្នករចនាម៉ូដផ្នែកខាងក្នុង (Interior Designers) លើកឡើងថា គំរូក្បាច់ប្រពៃណី ការងារឈើ និងវាយនភណ្ឌក្នុងស្រុក កំពុងមានតម្រូវការឡើងវិញក្នុងចំណោមម្ចាស់ផ្ទះនៅទីក្រុង។',
+    content: `
+      <h2>សោភ័ណភាពប្រពៃណីក្នុងយុគសម័យស៊ីវិល័យ</h2>
+      <p>និន្នាការរៀបចំដេគ័រផ្ទះនាពេលបច្ចុប្បន្នបានបង្ហាញពីការងាកមកប្រើប្រាស់សម្ភារៈក្នុងស្រុក ដូចជាការតុបតែងដោយក្រមារង្វង់ គ្រឿងផ្តៅ និងចម្លាក់ឈើក្បាច់ខ្មែរជំនួសឱ្យគ្រឿងជ័រលំដាប់អន្តរជាតិ។</p>
+      <p>ការច្នៃប្រឌិតបែបនេះមិនត្រឹមតែជួយឱ្យលំនៅឋានមានភាពត្រជាក់ភ្នែក និងប្លែកអារម្មណ៍ប៉ុណ្ណោះទេ ប៉ុន្តែថែមទាំងចូលរួមគាំទ្រដល់ជីវភាពរបស់អ្នកភូមិដែលផលិតវត្ថុអនុស្សាវរីយ៍ទាំងនោះផងដែរ។</p>
+    `,
+    category: "Entertainment",
+    date: 'May 19, 2026',
+    views: 2200,
+    likes: 185,
+    readTime: 3,
+    isBreaking: false,
+    isFeatured: false,
+    image: 'https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?w=600&h=400&fit=crop',
+    imageCredit: "Dap News",
+    author: "អ៊ុន ចាន់ដារ៉ា",
+    authorTitle: "Culture & Lifestyle Editor",
+    authorBio: "ចាន់ដារ៉ា តាមដាននិន្នាការម្ហូបអាហារ ការកម្សាន្ត លំហែកាយ និងសិល្បៈរស់នៅរបស់ពលរដ្ឋទីក្រុង។",
+    authorAvatar: "/img_author_16.jpg",
+    authorSocial: { twitter: "@chandara_life", linkedin: "chandara-un" }
+  },
+  {
+    id: 71,
+    title: 'កម្មវិធីចំណេះដឹងឌីជីថល ឈានទៅដល់សិស្សានុសិស្ស ១លាននាក់នៅទូទាំងប្រទេស',
+    excerpt: 'ការដាក់ឱ្យដំណើរការនេះ នាំយកថេប្លេត ការចូលប្រើប្រាស់អ៊ីនធឺណិត និងមេរៀនសរសេរកូដ (Coding) ទៅកាន់សាលារៀនសាធារណៈនៅគ្រប់បណ្តាខេត្តក្រុង។',
+    content: `
+      <h2>ជំហានដ៏ធំឆ្ពោះទៅរកសេដ្ឋកិច្ចចំណេះដឹង</h2>
+      <p>ក្រសួងអប់រំ យុវជន និងកីឡា បានប្រកាសពីជោគជ័យនៃយុទ្ធនាការជាតិ «ចំណេះដឹងឌីជីថលសម្រាប់សាលារៀន» ដែលបានបណ្តុះបណ្តាលសិស្សានុសិស្សបានគ្រប់ ១ លាននាក់ក្នុងការប្រើប្រាស់បច្ចេកវិទ្យាជាប្រយោជន៍។</p>
+      <p>សាលារៀនជាច្រើនត្រូវបានបំពាក់ឧបករណ៍កុំព្យូទ័រ និងបណ្តាញអ៊ិនធឺណិតល្បឿនលឿន ដើម្បីជួយឱ្យសិស្សអាចរៀនស្វែងយល់ពីមូលដ្ឋានគ្រឹះនៃការសរសេរកូដ និងការស្រាវជ្រាវអន្តរជាតិ។</p>
+    `,
+    category: "Education",
+    date: 'May 28, 2026',
+    views: 5800,
+    likes: 645,
+    readTime: 5,
+    isBreaking: true,
+    isFeatured: true,
+    image: 'https://s3.ams.com.kh/education/2026/01/611695331_1293206476166106_9209993410170704701_n.jpg',
+    imageCredit: "VOD Khmer",
+    author: "ចាន់ សុភ័ក្ត្រ",
+    authorTitle: "Education Tech Specialist",
+    authorBio: "សុភ័ក្ត្រ តាមដានការអភិវឌ្ឍប្រព័ន្ធសិក្សាធិការ និងការដាក់បញ្ចូលបច្ចេកវិទ្យាក្នុងថ្នាក់រៀន។",
+    authorAvatar: "/img_author_19.jpg",
+    authorSocial: { twitter: "@sopheak_edu", linkedin: "sopheak-chan" }
+  },
+  {
+    id: 72,
+    title: 'ការពង្រីកអាហារូបករណ៍សាកលវិទ្យាល័យ សម្រាប់សិស្សវិទ្យាល័យបញ្ចប់ការសិក្សានៅតាមជនបទ',
+    excerpt: 'មូលនិធិថ្មីនេះ មានគោលបំណងគាំទ្រដល់សិស្សដែលមានជីវភាពខ្វះខាត ក្នុងការចូលរៀនជំនាញ STEM គរុកោសល្យ និងរដ្ឋបាលសាធារណៈ។',
+    content: `
+      <h2>ការបើកទ្វារឧត្តមសិក្សាជូនយុវជនក្រីក្រ</h2>
+      <p>មូលនិធិអប់រំជាតិបានប្រកាសបង្កើនចំនួនអាហារូបករណ៍ ១០០% ពេញ សម្រាប់សិស្សឆ្នើមមកពីគ្រួសារកសិករនៅតាមបណ្តាខេត្ត ដើម្បីឱ្យពួកគេមានឱកាសបន្តការសិក្សានៅសាកលវិទ្យាល័យធំៗក្នុងរាជធានីភ្នំពេញ។</p>
+      <p>អាហារូបករណ៍នេះគ្របដណ្តប់លើថ្លៃសិក្សា ការស្នាក់នៅ និងប្រាក់ឧបត្ថម្ភប្រចាំខែ ដោយផ្តល់អាទិភាពលើមុខវិជ្ជាវិទ្យាសាស្ត្រ បច្ចេកវិទ្យា វិស្វកម្ម និងគណិតវិទ្យា (STEM)។</p>
+    `,
+    category: "Education",
+    date: 'May 27, 2026',
+    views: 4200,
+    likes: 490,
+    readTime: 4,
+    isBreaking: false,
+    isFeatured: false,
+    image: 'https://images.unsplash.com/photo-1523580846011-d3a5bc25702b?w=600&h=400&fit=crop',
+    imageCredit: "Fresh News",
+    author: "គង់ សំរិទ្ធ",
+    authorTitle: "Education Policy Reporter",
+    authorBio: "សំរិទ្ធ វិភាគនិងរាយការណ៍អំពីប្រព័ន្ធអប់រំជាតិ និងការអភិវឌ្ឍធនធានមនុស្សនៅកម្ពុជា។",
+    authorAvatar: "/img_author_14.jpg",
+    authorSocial: { twitter: "@samrith_edu", linkedin: "samrith-kong" }
+  },
+  {
+    id: 73,
+    title: 'មជ្ឈមណ្ឌលបណ្តុះបណ្តាលគ្រូបង្រៀន បញ្ចូលកម្មវិធីសិក្សាថ្មីស្តីពីការណែនាំក្នុងថ្នាក់រៀន',
+    excerpt: 'កម្មវិធីសិក្សាដែលបានកែសម្រួលថ្មីនេះ ផ្តោតលើភាពស្ទាត់ជំនាញក្នុងការអាន ការគ្រប់គ្រងថ្នាក់រៀន និងការរចនាមេរៀនបែបឌីជីថល។',
+    content: `
+      <h2>ពង្រឹងសមត្ថភាពគ្រូ ដើម្បីគុណភាពសិស្ស</h2>
+      <p>វិទ្យាស្ថានគរុកោសល្យបានកែទម្រង់កម្មវិធីបណ្តុះបណ្តាលគរុនិស្សិត ដោយបន្ថែមវិធីសាស្ត្របង្រៀនបែបសកម្ម (Active Learning) និងការប្រើប្រាស់ App ជំនួយការបង្រៀន។</p>
+      <p>គោលដៅគឺផ្លាស់ប្តូរពីការទន្ទេញចាំមេរៀនមកជាការជម្រុញឱ្យសិស្សានុសិស្សចេះគិតពិចារណា និងដោះស្រាយបញ្ហាដោយខ្លួនឯង។</p>
+    `,
+    category: "Education",
+    date: 'May 26, 2026',
+    views: 3500,
+    likes: 230,
+    readTime: 4,
+    isBreaking: false,
+    isFeatured: false,
+    image: 'https://images.unsplash.com/photo-1524178232363-1fb2b075b655?w=600&h=400&fit=crop',
+    imageCredit: "Kohsantepheap",
+    author: "ចាន់ សុភ័ក្ត្រ",
+    authorTitle: "Education Tech Specialist",
+    authorBio: "សុភ័ក្ត្រ តាមដានការអភិវឌ្ឍប្រព័ន្ធសិក្សាធិការ និងការដាក់បញ្ចូលបច្ចេកវិទ្យាក្នុងថ្នាក់រៀន។",
+    authorAvatar: "/img_author_19.jpg",
+    authorSocial: { twitter: "@sopheak_edu", linkedin: "sopheak-chan" }
+  },
+  {
+    id: 74,
+    title: 'ក្រសួងដាក់ឱ្យប្រើប្រាស់កម្មវិធីសិក្សាថ្មីសម្រាប់មុខវិជ្ជាវិទ្យាសាស្ត្រ និងគណិតវិទ្យា នៅមធ្យមសិក្សា',
+    excerpt: 'ការធ្វើបច្ចុប្បន្នភាពនេះ បន្ថែមការរៀនសូត្រផ្អែកលើការអនុវត្តគម្រោង ការពិសោធន៍ និងការត្រៀមប្រឡងជាក់ស្តែងចាប់ពីថ្នាក់ទី៧ ដល់ទី១២។',
+    content: `
+      <h2>កំណែទម្រង់សៀវភៅសិក្សាគោល</h2>
+      <p>សៀវភៅណែនាំមុខវិជ្ជា រូបវិទ្យា គីមីវិទ្យា និងគណិតវិទ្យាជំនរាន់ថ្មី ត្រូវបានដាក់ឱ្យអនុវត្តជាផ្លូវការ ដោយមានបន្ថែមការពិសោធន៍ក្នុងមន្ទីរពិសោធន៍ផ្ទាល់កាន់តែច្រើនជាងមុន។</p>
+      <p>ការផ្លាស់ប្តូរនេះធ្វើឡើងដើម្បីធានាថា សិស្សកម្ពុជាមានសមត្ថភាពចំណេះដឹងផ្នែកវិទ្យាសាស្ត្ររឹងមាំ អាចប្រកួតប្រជែងក្នុងព្រឹត្តិការណ៍អូឡាំព្យាដអន្តរជាតិបាន។</p>
+    `,
+    category: "Education",
+    date: 'May 25, 2026',
+    views: 3900,
+    likes: 312,
+    readTime: 5,
+    isBreaking: false,
+    isFeatured: false,
+    image: 'https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=600&h=400&fit=crop',
+    imageCredit: "RFA Khmer",
+    author: "គង់ សំរិទ្ធ",
+    authorTitle: "Education Policy Reporter",
+    authorBio: "សំរិទ្ធ វិភាគនិងរាយការណ៍អំពីប្រព័ន្ធអប់រំជាតិ និងការអភិវឌ្ឍធនធានមនុស្សនៅកម្ពុជា។",
+    authorAvatar: "/img_author_14.jpg",
+    authorSocial: { twitter: "@samrith_edu", linkedin: "samrith-kong" }
+  },
+  {
+    id: 75,
+    title: 'មជ្ឈមណ្ឌលនវានុវត្តន៍ក្នុងបរិវេណសាកលវិទ្យាល័យ ជួយនិស្សិតបង្កើតគម្រោងអាជីវកម្មថ្មីៗ',
+    excerpt: 'និស្សិតកំពុងកែច្នៃសារណាបញ្ចប់ការសិក្សាឱ្យទៅជាផលិតផលជាក់ស្តែង ក្រោមការណែនាំពីស្ថាបនិកក្រុមហ៊ុនក្នុងស្រុក និងសាស្ត្រាចារ្យ។',
+    content: `
+      <h2>ពីនិស្សិតសាលា ទៅជាម្ចាស់អាជីវកម្ម</h2>
+      <p>សាកលវិទ្យាល័យភូមិន្ទភ្នំពេញបានសម្ពោធបន្ទប់ Incubator ពិសេសមួយដែលជួយបណ្តុះបណ្តាលនិស្សិតដែលមានគំនិតច្នៃប្រឌិតចង់បង្កើតសហគ្រាសផ្ទាល់ខ្លួន។</p>
+      <p>គម្រោងឆ្នើមៗនឹងទទួលបានការវិនិយោគទុនដំបូង (Seed Funding) ដើម្បីបង្កើតផលិតផលសាកល្បងលក់នៅលើទីផ្សារពិតប្រាកដមុនពេលពួកគេបញ្ចប់ការសិក្សា។</p>
+    `,
+    category: "Education",
+    date: 'May 24, 2026',
+    views: 3300,
+    likes: 270,
+    readTime: 4,
+    isBreaking: false,
+    isFeatured: false,
+    image: 'https://images.unsplash.com/photo-1519389950473-47ba0277781c?w=600&h=400&fit=crop',
+    imageCredit: "Dap News",
+    author: "លី គីមហុង",
+    authorTitle: "Higher Education Correspondent",
+    authorBio: "គីមហុង តាមដាននិន្នាការអប់រំកម្រិតឧត្តមសិក្សា និងការបង្កើតថ្មីខាងបច្ចេកវិទ្យារបស់យុវជន។",
+    authorAvatar: "/img_author_31.jpg",
+    authorSocial: { twitter: "@kimhong_edu", linkedin: "kimhong-ly" }
+  },
+  {
+    id: 76,
+    title: 'សាលារៀនសាធារណៈ ពង្រីកការសាកល្បងថ្នាក់រៀនឆ្លាតវៃ (Smart Classroom) ដល់ ១២០ ទីតាំង',
+    excerpt: 'ការសាកល្បងនេះ រួមបញ្ចូលទាំងក្តារខៀនអន្តរកម្ម (Interactive Boards) ថេប្លេតសម្រាប់គ្រូ និងបណ្ណាល័យប្រព័ន្ធ Cloud រួមសម្រាប់ឯកសារមេរៀន។',
+    content: `
+      <h2>សាលារៀនជំនាន់ថ្មីទូទាំងប្រទេស</h2>
+      <p>គម្រោងថ្នាក់រៀនឆ្លាតវៃត្រូវបានពង្រីកវិសាលភាពបន្ថែមដើម្បីធានាទំនើបកម្មនៃការរៀនសូត្រ ដោយជំនួសក្តារខៀនដីសមកជាក្តារចុច Touchscreen ដ៏ទំនើបវិញ។</p>
+      <p>លោកគ្រូអ្នកគ្រូអាចទាញយកវីដេអូគំនូរជីវចល 3D មកបង្ហាញសិស្សក្នុងម៉ោងវិទ្យាសាស្ត្រ ដែលជួយឱ្យកុមារងាយយល់ និងចងចាំមេរៀនបានល្អជាងមុន។</p>
+    `,
+    category: "Education",
+    date: 'May 23, 2026',
+    views: 3100,
+    likes: 195,
+    readTime: 3,
+    isBreaking: false,
+    isFeatured: false,
+    image: 'https://images.unsplash.com/photo-1509062522246-3755977927d7?w=600&h=400&fit=crop',
+    imageCredit: "VOD Khmer",
+    author: "ចាន់ សុភ័ក្ត្រ",
+    authorTitle: "Education Tech Specialist",
+    authorBio: "សុភ័ក្ត្រ តាមដានការអភិវឌ្ឍប្រព័ន្ធសិក្សាធិការ និងការដាក់បញ្ចូលបច្ចេកវិទ្យាក្នុងថ្នាក់រៀន។",
+    authorAvatar: "/img_author_19.jpg",
+    authorSocial: { twitter: "@sopheak_edu", linkedin: "sopheak-chan" }
+  },
+  {
+    id: 77,
+    title: 'ស្រុកតាមជនបទ ទទួលបានថវិកាឧបត្ថម្ភថ្មីសម្រាប់កសាងលំនៅឋានជូនគ្រូបង្រៀន',
+    excerpt: 'កញ្ចប់លើកទឹកចិត្តនេះ ត្រូវបានរចនាឡើងដើម្បីកាត់បន្ថយការផ្លាស់ប្តូរការងារ និងទាក់ទាញគ្រូបង្រៀនដែលមានសមត្ថភាពទៅកាន់តំបន់ដាច់ស្រយាល។',
+    content: `
+      <h2>ការគិតគូរពីជីវភាពរស់នៅរបស់លោកគ្រូអ្នកគ្រូ</h2>
+      <p>ក្រសួងសេដ្ឋកិច្ចបានអនុម័តកញ្ចប់ថវិកាពិសេសសាងសង់ផ្ទះស្នាក់នៅសមរម្យ បំពាក់ដោយប្រព័ន្ធទឹកភ្លើង និងអ៊ីនធឺណិតជូនគ្រូបង្រៀនដែលស្ម័គ្រចិត្តទៅបង្រៀននៅតំបន់ព្រៃភ្នំ។</p>
+      <p>គោលនយោបាយនេះជួយឱ្យលោកគ្រូអ្នកគ្រូមានចិត្តជ្រះថ្លាក្នុងការផ្ទេរចំណេះដឹង និងកាត់បន្ថយការសុំច្បាប់ផ្លាស់ប្តូរទីកន្លែងការងារត្រឡប់មកក្រុងវិញ។</p>
+    `,
+    category: "Education",
+    date: 'May 22, 2026',
+    views: 2800,
+    likes: 310,
+    readTime: 4,
+    isBreaking: false,
+    isFeatured: false,
+    image: 'https://images.unsplash.com/photo-1434030216411-0b793f4b4173?w=600&h=400&fit=crop',
+    imageCredit: "Fresh News",
+    author: "សៅ រតនា",
+    authorTitle: "Provincial Education Reporter",
+    authorBio: "រតនា យកព័ត៌មានជុំវិញការសាងសង់សាលារៀន និងជីវភាពរស់នៅរបស់គ្រូបង្រៀនតាមខេត្តឆ្ងាយៗ។",
+    authorAvatar: "/img_author_15.jpg",
+    authorSocial: { twitter: "@ratana_edu", linkedin: "ratana-sau" }
+  },
+  {
+    id: 78,
+    title: 'មន្ទីរពិសោធន៍ស្រាវជ្រាវសាកលវិទ្យាល័យ សហការជាមួយវិស័យឯកជនលើផ្នែក AI និងវិទ្យាសាស្ត្រទិន្នន័យ',
+    excerpt: 'ភាពជាដៃគូនេះ នឹងគាំទ្រដល់ការចុះកម្មសិក្សារបស់និស្សិត ការស្រាវជ្រាវរួមគ្នា និងការប្រើប្រាស់ឧបករណ៍កុំព្យូទ័រទំនើបៗរួមគ្នា។',
+    content: `
+      <h2>ការផ្សារភ្ជាប់ទ្រឹស្តីទៅនឹងការអនុវត្តការងារពិត</h2>
+      <p>ក្រុមហ៊ុនបច្ចេកវិទ្យាធំមួយបានចុះហត្ថលេខាជាមួយមហាវិទ្យាល័យវិស្វកម្ម ដើម្បីបង្កើតកម្មវិធីស្រាវជ្រាវរួមគ្នាលើការវិភាគទិន្នន័យធំៗ (Big Data)។</p>
+      <p>និស្សិតនឹងទទួលបានឱកាសចុះអនុវត្តការងារផ្ទាល់លើគម្រោងពិតប្រាកដរបស់ក្រុមហ៊ុន ដែលនេះជួយបង្កើនឱកាសទទួលបានការងារធ្វើភ្លាមៗក្រោយរៀនចប់។</p>
+    `,
+    category: "Education",
+    date: 'May 21, 2026',
+    views: 2600,
+    likes: 215,
+    readTime: 4,
+    isBreaking: false,
+    isFeatured: false,
+    image: 'https://images.unsplash.com/photo-1531482615713-2afd69097998?w=600&h=400&fit=crop',
+    imageCredit: "Kohsantepheap",
+    author: "ចាន់ សុភ័ក្ត្រ",
+    authorTitle: "Education Tech Specialist",
+    authorBio: "សុភ័ក្ត្រ តាមដានការអភិវឌ្ឍប្រព័ន្ធសិក្សាធិការ និងការដាក់បញ្ចូលបច្ចេកវិទ្យាក្នុងថ្នាក់រៀន។",
+    authorAvatar: "/img_author_19.jpg",
+    authorSocial: { twitter: "@sopheak_edu", linkedin: "sopheak-chan" }
+  },
+  {
+    id: 79,
+    title: 'កម្មវិធីត្រៀមប្រឡងថ្នាក់ជាតិ ទទួលបានការគាំទ្រខ្លាំងពីសិស្សថ្នាក់ទី១២',
+    excerpt: 'កម្មវិធីទូរស័ព្ទដៃនេះ ផ្តល់នូវមេរៀនជាវីដេអូ លំហាត់សាកល្បង និងការតាមដានការរីកចម្រើនសម្រាប់មុខវិជ្ជាគណិតវិទ្យា ភាសាខ្មែរ និងវិទ្យាសាស្ត្រ។',
+    content: `
+      <h2>ជំនួយការផ្ទាល់ខ្លួនសម្រាប់សិស្សបាក់ឌុប</h2>
+      <p>App ទូរស័ព្ទដៃស្វ័យសិក្សាថ្មីមួយដែលមានឈ្មោះថា «បាក់ឌុបឆ្លាតវៃ» ត្រូវបានសិស្សានុសិស្សថ្នាក់ទី១២ រាប់សែននាក់ទាញយកទៅប្រើប្រាស់ដើម្បីរំលឹកមេរៀនឡើងវិញ។</p>
+      <p>នៅក្នុង App មានបញ្ចូលវិញ្ញាសាប្រឡងចាស់ៗ រួមទាំងវីដេអូពន្យល់រូបមន្តយ៉ាងលម្អិតពីលោកគ្រូអ្នកគ្រូពូកែៗ ដែលជួយឱ្យសិស្សងាយយល់ និងអាចរៀនបានគ្រប់ពេលវេលា។</p>
+    `,
+    category: "Education",
+    date: 'May 20, 2026',
+    views: 2400,
+    likes: 280,
+    readTime: 3,
+    isBreaking: false,
+    isFeatured: false,
+    image: 'https://images.unsplash.com/photo-1513258496099-48168024aec0?w=600&h=400&fit=crop',
+    imageCredit: "RFA Khmer",
+    author: "គង់ សំរិទ្ធ",
+    authorTitle: "Education Policy Reporter",
+    authorBio: "សំរិទ្ធ វិភាគនិងរាយការណ៍អំពីប្រព័ន្ធអប់រំជាតិ និងការអភិវឌ្ឍធនធានមនុស្សនៅកម្ពុជា។",
+    authorAvatar: "/img_author_14.jpg",
+    authorSocial: { twitter: "@samrith_edu", linkedin: "samrith-kong" }
+  },
+  {
+    id: 80,
+    title: 'ក្រសួងពិនិត្យមើលគោលនយោបាយថ្មី សម្រាប់ស្តង់ដារអាហារ និងអាហារូបត្ថម្ភតាមសាលារៀន',
+    excerpt: 'សេចក្តីព្រាងច្បាប់នេះ មានគោលបំណងលើកកម្ពស់អត្រាចូលរៀន ការផ្តោតអារម្មណ៍ និងលទ្ធផលសុខភាពរបស់សិស្សានុសិស្សនៅតាមសាលាបឋមសិក្សា។',
+    content: `
+      <h2>អាហារសុវត្ថិភាពដើម្បីខួរក្បាលឆ្លាតវៃ</h2>
+      <p>ក្រសួងអប់រំបានសហការជាមួយក្រសួងសុខាភិបាល រៀបចំសេចក្តីណែនាំថ្មីហាមឃាត់ការលក់ដូរចំណីអាហារដែលមានជាតិគីមី ឬផ្អែមខ្លាំងនៅតាមគ្រឹះស្ថានសិក្សា។</p>
+      <p>ជំនួសមកវិញ សាលានឹងជម្រុញឱ្យមានកម្មវិធីផ្តល់អាហារពេលព្រឹកដែលមានជីវជាតិគ្រប់គ្រាន់ (បន្លែ ត្រី សាច់ ផ្លែឈើ) ដល់កុមារតូចៗ ដើម្បីធានាការលូតលាស់រាងកាយបានល្អ។</p>
+    `,
+    category: "Education",
+    date: 'May 19, 2026',
+    views: 2200,
+    likes: 165,
+    readTime: 4,
+    isBreaking: false,
+    isFeatured: false,
+    image: 'https://images.unsplash.com/photo-1498837167922-ddd27525d352?w=600&h=400&fit=crop',
+    imageCredit: "Dap News",
+    author: "អ៊ុន ចាន់ដារ៉ា",
+    authorTitle: "Lifestyle & Wellness Writer",
+    authorBio: "ចាន់ដារ៉ា សរសេរឯកទេសខាងរបបអាហារ សុខភាពផ្លូវចិត្ត និងការថែទាំរាងកាយបែបធម្មជាតិ។",
+    authorAvatar: "/img_author_16.jpg",
+    authorSocial: { twitter: "@chandara_wellness", linkedin: "chandara-un" }
+  },
+  {
+    id: 81,
+    title: 'ការនាំចេញអង្ករហក់ឡើងខ្ពស់ បន្ទាប់ពីស្តង់ដារម៉ាស៊ីនកិនស្រូវថ្មីចូលជាធរមាន',
+    excerpt: 'ម្ចាស់រោងម៉ាស៊ីនកិនស្រូវលើកឡើងថា ការធ្វើបច្ចុប្បន្នភាពគុណភាពកំពុងជួយឱ្យអង្ករក្រអូបកម្ពុជា ទទួលបានតម្រូវការកាន់តែខ្លាំងនៅអឺរ៉ុប និងតំបន់ឈូងសមុទ្រពែរ្ស។',
+    content: `
+      <h2>មាសសកម្ពុជាវាយលុកទីផ្សារអន្តរជាតិ</h2>
+      <p>សហព័ន្ធស្រូវអង្ករកម្ពុជាបានរាយការណ៍ពីកំណើននៃការនាំចេញអង្ករប្រណិត កើនឡើងគួរឱ្យកត់សម្គាល់ បន្ទាប់ពីរោងម៉ាស៊ីនកិនស្រូវក្នុងស្រុកភាគច្រើនបានកែច្នៃម៉ាស៊ីនឱ្យស្របតាមស្តង់ដារអនាម័យអឺរ៉ុប។</p>
+      <p>ការវេចខ្ចប់ប្រកបដោយភាពច្នៃប្រឌិត និងការរក្សាបាននូវក្លិនក្រអូបធម្មជាតិបានធ្វើឱ្យអង្ករផ្ការំដួលរបស់កម្ពុជា បន្តរក្សាបានតំណែងជាជម្រើសទីមួយនៅលើតុអាហាររបស់អតិថិជនលំដាប់ខ្ពស់។</p>
+    `,
+    category: "Agriculture & Environment",
+    date: 'May 28, 2026',
+    views: 5200,
+    likes: 412,
+    readTime: 5,
+    isBreaking: true,
+    isFeatured: true,
+    image: 'https://images.unsplash.com/photo-1464226184884-fa280b87c399?w=900&h=500&fit=crop',
+    imageCredit: "VOD Khmer",
+    author: "កែវ មុនី",
+    authorTitle: "Agribusiness Correspondent",
+    authorBio: "មុនី តាមដានខ្សែចង្វាក់ផលិតកម្មកសិកម្ម ការនាំចេញកសិផល និងគោលនយោបាយដីធ្លី។",
+    authorAvatar: "/img_author_18.jpg",
+    authorSocial: { twitter: "@mony_agri", linkedin: "mony-keo" }
+  },
+  {
+    id: 82,
+    title: 'កសិករចាប់ផ្តើមប្រើប្រាស់ប្រព័ន្ធស្រោចស្រពវៃឆ្លាត នៅតាមបណ្តាខេត្តដែលងាយរងគ្រោះដោយគ្រោះរាំងស្ងួត',
+    excerpt: 'ឧបករណ៍សែនស័រ និងម៉ាស៊ីនបូមទឹកដើរដោយថាមពលព្រះអាទិត្យថ្មី កំពុងជួយអ្នកដាំដុះស្រូវកាត់បន្ថយការប្រើប្រាស់ទឹក និងរក្សាទិន្នផលឱ្យមានលំនឹងក្នុងរដូវប្រាំង។',
+    content: `
+      <h2>បច្ចេកវិទ្យាសន្សំសំចៃទឹកដើម្បីកសិកម្មប្រកបដោយចីរភាព</h2>
+      <p>ប្រព័ន្ធស្រោចស្រពដោយស្វ័យប្រវត្តដែលប្រើប្រាស់ថាមពលពន្លឺព្រះអាទិត្យ ត្រូវបានដាក់ពង្រាយនៅតាមសហគមន៍កសិកម្មក្នុងខេត្តបាត់ដំបង និងបន្ទាយមានជ័យ ដើម្បីទប់ទល់នឹងបាតុភូតអាកាសធាតុក្តៅហួតហែង។</p>
+      <p>សែនស័រវាស់សំណើមដីនឹងបញ្ជូនសញ្ញាទៅបិទបើកម៉ូទ័រទឹកដោយស្វ័យប្រវត្ត ដែលជួយឱ្យកសិករសន្សំសំចៃទឹកបានរហូតដល់ ៤០% បើធៀបនឹងការស្រោចស្រពធម្មតា។</p>
+    `,
+    category: "Agriculture & Environment",
+    date: 'May 27, 2026',
+    views: 4100,
+    likes: 385,
+    readTime: 4,
+    isBreaking: false,
+    isFeatured: false,
+    image: 'https://gdb.voanews.com/5802ab7e-b3b4-4524-8322-48c61b56af38_cx0_cy9_cw0_w1023_r1_s.jpg',
+    imageCredit: "Fresh News",
+    author: "សុខ ជា",
+    authorTitle: "Agri-Tech & Innovation Reporter",
+    authorBio: "សុខ ជា ផ្តោតលើការសរសេរអត្ថបទជុំវិញបច្ចេកវិទ្យាកសិកម្មទំនើប និងឧបករណ៍កសិកម្មឆ្លាតវៃ។",
+    authorAvatar: "/img_author_13.jpg",
+    authorSocial: { twitter: "@cheasokh_agri", linkedin: "chea-sokh-tech" }
+  },
+  {
+    id: 83,
+    title: 'យុទ្ធនាការសុខភាពសត្វពាហនៈថ្មី ឆ្ពោះទៅរកកសិករចិញ្ចឹមបក្សីនៅតាមជនបទ',
+    excerpt: 'គ្រូពេទ្យសត្វនឹងធ្វើដំណើរចុះទៅតាមបណ្តាខេត្តនានា ដើម្បីផ្តល់វ៉ាក់សាំង ការបណ្តុះបណ្តាល និងការណែនាំអំពីសុវត្ថិភាពជីវសាស្ត្រ។',
+    content: `
+      <h2>ការការពារប្រភពចំណីអាហារសហគមន៍</h2>
+      <p>អគ្គនាយកដ្ឋានសុខភាពសត្វបានបើកយុទ្ធនាការចុះចាក់ថ្នាំបង្ការជំងឺឆ្លងផ្សេងៗ ជូនសត្វមាន់ ទា និងគោក្របីរបស់ប្រជាពលរដ្ឋនៅតាមភូមិស្រុកដាច់ស្រយាលដោយឥតគិតថ្លៃ។</p>
+      <p>កម្មវិធីនេះក៏មានការបង្រៀនកសិករពីរបៀបធ្វើអនាម័យទ្រុង និងវិធីសាស្ត្រការពារសត្វចិញ្ចឹមពីការឆ្លងជំងឺរាតត្បាតក្នុងអំឡុងពេលប្តូររដូវកាលផងដែរ។</p>
+    `,
+    category: "Agriculture & Environment",
+    date: 'May 26, 2026',
+    views: 3600,
+    likes: 210,
+    readTime: 4,
+    isBreaking: false,
+    isFeatured: false,
+    image: 'https://images.unsplash.com/photo-1500937386664-56d1dfef3854?w=600&h=400&fit=crop',
+    imageCredit: "Kohsantepheap",
+    author: "កែវ មុនី",
+    authorTitle: "Agribusiness Correspondent",
+    authorBio: "មុនី តាមដានខ្សែចង្វាក់ផលិតកម្មកសិកម្ម ការនាំចេញកសិផល និងគោលនយោបាយដីធ្លី។",
+    authorAvatar: "/img_author_18.jpg",
+    authorSocial: { twitter: "@mony_agri", linkedin: "mony-keo" }
+  },
+  {
+    id: 84,
+    title: 'កម្រិតទឹកទន្លេមេគង្គមានលំនឹងឡើងវិញ បន្ទាប់ពីមានធ្លាក់ភ្លៀងដើមរដូវវស្សា',
+    excerpt: 'មន្ត្រីជំនាញថ្លែងថា ការផ្គត់ផ្គង់ទឹកដែលបានធូរស្រាលនេះ គួរតែអាចជួយដល់ការដាំដុះបន្លែក្នុងរដូវប្រាំង និងគន្លងផ្លាស់ទីរបស់សត្វត្រី។',
+    content: `
+      <h2>សញ្ញាវិជ្ជមានសម្រាប់ប្រព័ន្ធអេកូឡូស៊ីជលផល</h2>
+      <p>ក្រសួងធនធានទឹកបានបញ្ជាក់ថា កម្ពស់ទឹកទន្លេមេគង្គបានចាប់ផ្តើមកើនឡើងជាលំដាប់ និងមានលំនឹងល្អឡើងវិញ បន្ទាប់ពីមានភ្លៀងធ្លាក់ជាប់ៗគ្នារយៈពេលប៉ុន្មានសប្តាហ៍កន្លងមកនេះ។</p>
+      <p>ការកើនឡើងនៃកម្រិតទឹកនេះ ផ្តល់ក្តីសង្ឃឹមយ៉ាងខ្លាំងដល់ប្រជាហេសនទោច និងកសិករដែលរស់នៅតាមដងទន្លេ ក្នុងការចាប់ផ្តើមរៀបចំរដូវកាលបង្កបង្កើនផលថ្មី។</p>
+    `,
+    category: "Agriculture & Environment",
+    date: 'May 25, 2026',
+    views: 3900,
+    likes: 315,
+    readTime: 5,
+    isBreaking: false,
+    isFeatured: false,
+    image: 'https://images.unsplash.com/photo-1500375592092-40eb2168fd21?w=600&h=400&fit=crop',
+    imageCredit: "RFA Khmer",
+    author: "សៅ រតនា",
+    authorTitle: "Environmental Journalist",
+    authorBio: "រតនា តាមដានការប្រែប្រួលអាកាសធាតុ ធនធានទឹក និងការអភិរក្សព្រៃឈើនៅកម្ពុជា។",
+    authorAvatar: "/img_author_15.jpg",
+    authorSocial: { twitter: "@ratana_env", linkedin: "ratana-sau" }
+  },
+  {
+    id: 85,
+    title: 'អ្នកដាំម្រេចសរីរាង្គ បើកយុទ្ធនាការបង្កើតម៉ាកសញ្ញារួមគ្នារបស់សហគមន៍',
+    excerpt: 'យុទ្ធនាការនេះមានគោលបំណងបើកច្រកនាំចេញលំដាប់ខ្ពស់ និងផ្តល់ឱ្យកសិករខ្នាតតូចនូវអំណាចចរចាកាន់តែរឹងមាំនៅលើទីផ្សារ។',
+    content: `
+      <h2>ការពង្រឹងតម្លៃកសិផលក្នុងស្រុក</h2>
+      <p>សហគមន៍អ្នកដាំម្រេចសរីរាង្គបានរួមគ្នាចុះបញ្ជីម៉ាកសញ្ញារួម (Collective Brand) ដើម្បីការពារតម្លៃទីផ្សារ និងទប់ស្កាត់ការក្លែងបន្លំគុណភាពពីឈ្មួញកណ្តាល។</p>
+      <p>យុទ្ធសាស្ត្រនេះជួយឱ្យកសិករខ្នាតតូចអាចនាំចេញផលិតផលរបស់ខ្លួនទៅកាន់ទីផ្សារអឺរ៉ុបបានដោយផ្ទាល់ និងទទួលបានប្រាក់កម្រៃខ្ពស់ជាងមុន។</p>
+    `,
+    category: "Agriculture & Environment",
+    date: 'May 24, 2026',
+    views: 3300,
+    likes: 240,
+    readTime: 4,
+    isBreaking: false,
+    isFeatured: false,
+    image: 'https://images.unsplash.com/photo-1617038260897-41a1f14a8ca0?w=600&h=400&fit=crop',
+    imageCredit: "Dap News",
+    author: "កែវ មុនី",
+    authorTitle: "Agribusiness Correspondent",
+    authorBio: "មុនី តាមដានខ្សែចង្វាក់ផលិតកម្មកសិកម្ម ការនាំចេញកសិផល និងគោលនយោបាយដីធ្លី។",
+    authorAvatar: "/img_author_18.jpg",
+    authorSocial: { twitter: "@mony_agri", linkedin: "mony-keo" }
+  },
+  {
+    id: 86,
+    title: 'ក្រុមហ៊ុនបង្កើតថ្មីផ្នែកកសិធុរកិច្ច នាំយកបច្ចេកវិទ្យាដ្រូនវាស់វែងផែនទីមកប្រើប្រាស់ក្នុងចម្ការចោត',
+    excerpt: 'សេវាកម្មនេះជួយឱ្យអ្នកដាំដុះអាចមើលឃើញពីសម្ពាធសត្វល្អិតបំផ្លាញបានឆាប់រហ័ស និងរៀបចំផែនការដាក់ជីបានកាន់តែជាក់លាក់។',
+    content: `
+      <h2>ការធ្វើកសិកម្មបែបទំនើបនិងច្បាស់លាស់</h2>
+      <p>ក្រុមហ៊ុន Startup មួយបានដាក់ឱ្យប្រើប្រាស់ដ្រូនកសិកម្មជំនាញ ដែលអាចថតរូបវិភាគគុណភាពដី និងរកឃើញការបំផ្លាញពីសត្វល្អិតនៅលើផ្ទៃដីចម្ការរាប់រយហិកតាក្នុងពេលតែប៉ុន្មាននាទី។</p>
+      <p>បច្ចេកវិទ្យានេះជួយឱ្យម្ចាស់ចម្ការកាត់បន្ថយការចំណាយលើកម្លាំងពលកម្ម និងអាចបាញ់ថ្នាំសម្លាប់សត្វល្អិតចំគោលដៅ ដោយមិនបាច់បាញ់ព្រួសទូទាំងចម្ការឡើយ។</p>
+    `,
+    category: "Agriculture & Environment",
+    date: 'May 23, 2026',
+    views: 3000,
+    likes: 198,
+    readTime: 3,
+    isBreaking: false,
+    isFeatured: false,
+    image: 'https://media.licdn.com/dms/image/v2/D5612AQE1p0aR9NcDcA/article-cover_image-shrink_720_1280/article-cover_image-shrink_720_1280/0/1703559214630?e=2147483647&v=beta&t=MngVr45IK0oLr58cOdHg4pscGzFUibo-v5MoMmXOpgI',
+    imageCredit: "Fresh News",
+    author: "សុខ ជា",
+    authorTitle: "Agri-Tech & Innovation Reporter",
+    authorBio: "សុខ ជា ផ្តោតលើការសរសេរអត្ថបទជុំវិញបច្ចេកវិទ្យាកសិកម្មទំនើប និងឧបករណ៍កសិកម្មឆ្លាតវៃ។",
+    authorAvatar: "/img_author_13.jpg",
+    authorSocial: { twitter: "@cheasokh_agri", linkedin: "chea-sokh-tech" }
+  },
+  {
+    id: 87,
+    title: 'សហគមន៍កសិកម្ម ពង្រីកឃ្លាំងផ្ទុកត្រជាក់សម្រាប់ការប្រមូលផលផ្លែឈើ',
+    excerpt: 'បន្ទប់ផ្ទុកទំនិញថ្មីនៅក្នុងខេត្តកំពត និងខេត្តបាត់ដំបង មានគោលបំណងកាត់បន្ថយការខូចខាត និងបង្កើនឱកាសជួបជាមួយអ្នកទិញដើម្បីនាំចេញ។',
+    content: `
+      <h2>ដំណោះស្រាយកាត់បន្ថយការខូចខាតក្រោយប្រមូលផល</h2>
+      <p>បញ្ហាផ្លែឈើរលួយខូចខាតលឿនត្រូវបានដោះស្រាយមួយកម្រិតធំ ក្រោយការសាងសង់ឃ្លាំងផ្ទុកត្រជាក់ (Cold Storage) ខ្នាតធំសម្រេចបានជាស្ថាពរសម្រួលដល់ការរក្សាទុកផ្លែមៀន និងស្វាយ។</p>
+      <p>ប្រព័ន្ធនេះជួយរក្សាគុណភាពផ្លែឈើឱ្យនៅស្រស់បានយូរ ដែលអនុញ្ញាតឱ្យកសិករមានពេលវេលាចរចាតម្លៃជាមួយអ្នកទិញបរទេស ដោយមិនបារម្ភពីការបង្អាប់ថ្លៃ។</p>
+    `,
+    category: "Agriculture & Environment",
+    date: 'May 22, 2026',
+    views: 2800,
+    likes: 215,
+    readTime: 4,
+    isBreaking: false,
+    isFeatured: false,
+    image: 'https://s3.ams.com.kh/economy/2024/07/450616935_1031538638337999_7699050370433580962_n.jpg',
+    imageCredit: "VOD Khmer",
+    author: "កែវ មុនី",
+    authorTitle: "Agribusiness Correspondent",
+    authorBio: "មុនី តាមដានខ្សែចង្វាក់ផលិតកម្មកសិកម្ម ការនាំចេញកសិផល និងគោលនយោបាយដីធ្លី។",
+    authorAvatar: "/img_author_18.jpg",
+    authorSocial: { twitter: "@mony_agri", linkedin: "mony-keo" }
+  },
+  {
+    id: 88,
+    title: 'មជ្ឈមណ្ឌលស្រាវជ្រាវស្រូវ បញ្ចេញពូជស្រូវថ្មីដែលអាចធន់នឹងបម្រែបម្រួលអាកាសធាតុ',
+    excerpt: 'ខ្សែស្រឡាយពូជស្រូវថ្មីទាំងនេះ ត្រូវបានរចនាឡើងសម្រាប់តំបន់ដែលមានរបាយទឹកភ្លៀងទាប និងមានរដូវកាលដាំដុះខ្លី នៅតាមបណ្តាខេត្តភាគខាងជើង។',
+    content: `
+      <h2>របកគំហើញវិទ្យាសាស្ត្រកសិកម្ម</h2>
+      <p>ក្រុមអ្នកវិទ្យាសាស្ត្រកសិកម្មកម្ពុជាបានបង្កាត់ពូជស្រូវថ្មីដែលប្រើប្រាស់រយៈពេលដាំដុះខ្លីជាងមុន ប៉ុន្តែអាចទប់ទល់នឹងលក្ខខណ្ឌខ្វះទឹក ឬគ្រាំងស្ងួតបានយ៉ាងល្អឥតខ្ចោះ។</p>
+      <p>ពូជស្រូវនេះនឹងត្រូវយកទៅចែកជូនកសិករនៅតំបន់រងគ្រោះសាកល្បងដាំដុះក្នុងជំហានដំបូង ដើម្បីធានាសន្តិសុខស្បៀង និងប្រាក់ចំណូលលំនឹងរបស់ពួកគាត់។</p>
+    `,
+    category: "Agriculture & Environment",
+    date: 'May 21, 2026',
+    views: 2600,
+    likes: 195,
+    readTime: 4,
+    isBreaking: false,
+    isFeatured: false,
+    image: 'https://images.unsplash.com/photo-1472145246862-b24cf25c4a36?w=600&h=400&fit=crop',
+    imageCredit: "Kohsantepheap",
+    author: "ចាន់ សុភ័ក្ត្រ",
+    authorTitle: "Academic Tech Analyst",
+    authorBio: "សុភ័ក្ត្រ តាមដានការស្រាវជ្រាវបច្ចេកវិទ្យានៅតាមគ្រឹះស្ថានឧត្តមសិក្សា និងការតភ្ជាប់ជាមួយវិស័យឯកជន។",
+    authorAvatar: "/img_author_19.jpg",
+    authorSocial: { twitter: "@sopheak_academic", linkedin: "sopheak-chan" }
+  },
+  {
+    id: 89,
+    title: 'បន្លែដាំក្នុងផ្ទះកញ្ចក់ ទទួលបានការគាំទ្រកាន់តែខ្លាំងនៅក្នុងទីផ្សារក្រុងភ្នំពេញ',
+    excerpt: 'អ្នកលក់រាយនៅទីក្រុងនិយាយថា ភ្នាក់ងារអ្នកទិញមានឆន្ទៈចំណាយប្រាក់ច្រើនជាងមុន ដើម្បីទទួលបានគុណភាពថេរ និងកសិផលដែលគ្មានជាតិគីមី។',
+    content: `
+      <h2>ការកើនឡើងនៃតម្រូវការអាហារសុខភាព</h2>
+      <p>និន្នាការបរិភោគបន្លែសុវត្ថិភាពបានជម្រុញឱ្យកសិករជាច្រើនផ្លាស់ប្តូរការដាំដុះមកធ្វើនៅក្នុងផ្ទះសំណាញ់ ឬផ្ទះកញ្ចក់ឆ្លាតវៃ ដើម្បីគ្រប់គ្រងពន្លឺ និងសត្វល្អិតបានល្អ។</p>
+      <p>ទោះបីជាតម្លៃលក់រាយខ្ពស់ជាងបន្លែធម្មតាបន្តិចមែន ប៉ុន្តែពលរដ្ឋទីក្រុងដែលមានជីវភាពធូរធារបង្ហាញក្តីរីករាយក្នុងការចំណាយដើម្បីធានាសុខភាពក្រុមគ្រួសារ។</p>
+    `,
+    category: "Agriculture & Environment",
+    date: 'May 20, 2026',
+    views: 2400,
+    likes: 180,
+    readTime: 3,
+    isBreaking: false,
+    isFeatured: false,
+    image: 'https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=600&h=400&fit=crop',
+    imageCredit: "RFA Khmer",
+    author: "អ៊ុន ចាន់ដារ៉ា",
+    authorTitle: "Lifestyle & Wellness Writer",
+    authorBio: "ចាន់ដារ៉ា សរសេរឯកទេសខាងរបបអាហារ សុខភាពផ្លូវចិត្ត និងការថែទាំរាងកាយបែបធម្មជាតិ។",
+    authorAvatar: "/img_author_16.jpg",
+    authorSocial: { twitter: "@chandara_wellness", linkedin: "chandara-un" }
+  },
+  {
+    id: 90,
+    title: 'ម៉ាស៊ីនបូមទឹកដើរដោយថាមពលព្រះអាទិត្យ បង្កើនលទ្ធភាពទទួលបានទឹកសម្រាប់កសិករខ្នាតតូច',
+    excerpt: 'កម្មវិធីឧបត្ថម្ភធននេះ ជួយកាត់បន្ថយថ្លៃចំណាយលើប្រេងឥន្ធនៈ និងជួយកសិករក្នុងការស្រោចស្រពដំណាំបានកាន់តែច្បាស់លាស់ពេញមួយរដូវប្រាំង។',
+    content: `
+      <h2>ការកាត់បន្ថយថ្លៃដើមផលិតកម្មកសិកម្ម</h2>
+      <p>កម្មវិធីគាំទ្រថាមពលបៃតងបានដាក់ពង្រាយផ្ទាំងសូឡានិងម៉ាស៊ីនបូមទឹកជូនគ្រួសារកសិករខ្នាតតូច ដែលនេះជួយពួកគាត់លែងចំណាយលុយទិញប្រេងម៉ាស៊ូតមកបូមទឹកដូចមុន។</p>
+      <p>ការផ្លាស់ប្តូរមកប្រើប្រាស់ថាមពលកកើតឡើងវិញនេះ មិនត្រឹមតែជួយសន្សំសំចៃលុយកាក់កសិករបានច្រើនប៉ុណ្ណោះទេ ប៉ុន្តែថែមទាំងកាត់បន្ថយការបំភាយឧស្ម័នពុលទៅក្នុងបរិយាកាសផងដែរ។</p>
+    `,
+    category: "Agriculture & Environment",
+    date: 'May 19, 2026',
+    views: 2200,
+    likes: 164,
+    readTime: 4,
+    isBreaking: false,
+    isFeatured: false,
+    image: 'https://images.unsplash.com/photo-1473448912268-2022ce9509d8?w=600&h=400&fit=crop',
+    imageCredit: "Dap News",
+    author: "សៅ រតនា",
+    authorTitle: "Environmental Journalist",
+    authorBio: "រតនា តាមដានការប្រែប្រួលអាកាសធាតុ ធនធានទឹក និងការអភិរក្សព្រៃឈើនៅកម្ពុជា។",
+    authorAvatar: "/img_author_15.jpg",
+    authorSocial: { twitter: "@ratana_env", linkedin: "ratana-sau" }
+  }
 ]);
+
+// Override all article authors for `#sym:author` usage
+articlesDatabase.value = articlesDatabase.value.map((a) => ({
+  ...a,
+  author: "luna",
+  authorAvatar: "/img_5.png",
+}));
 
 
 // Enhanced comments system
@@ -264,9 +1964,9 @@ interface Comment {
 const comments = ref<Comment[]>([
   {
     id: 1,
-    name: "Sokha Chan",
+    name: "Lina",
     email: "sokha@example.com",
-    avatar: "https://randomuser.me/api/portraits/women/1.jpg",
+    avatar: "/img_6.jpg",
     text: "Excellent coverage! The education reform bill is truly transformative for our country's future.",
     date: "2 hours ago",
     timestamp: Date.now() - 7200000,
@@ -274,9 +1974,9 @@ const comments = ref<Comment[]>([
   },
   {
     id: 2,
-    name: "Vannak Rith",
+    name: "Lita",
     email: "vannak@example.com",
-    avatar: "https://randomuser.me/api/portraits/men/2.jpg",
+    avatar: "/img_7.jpg",
     text: "Thanks for the detailed analysis. Looking forward to seeing how these policies are implemented at the grassroots level.",
     date: "1 hour ago",
     timestamp: Date.now() - 3600000,
@@ -284,9 +1984,9 @@ const comments = ref<Comment[]>([
   },
   {
     id: 3,
-    name: "Malis Sovan",
+    name: "Lily",
     email: "malis@example.com",
-    avatar: "https://randomuser.me/api/portraits/women/3.jpg",
+    avatar: "/img_8.jpg",
     text: "Important news for all Cambodians. Hope the reforms will reach rural schools effectively.",
     date: "30 minutes ago",
     timestamp: Date.now() - 1800000,
@@ -519,104 +2219,105 @@ useHead(() => ({
 </script>
 
 <template>
-  <div class="min-h-screen bg-gradient-to-b from-gray-50 to-white dark:from-gray-900 dark:to-gray-800 font-sans antialiased transition-colors duration-300">
-    <!-- Reading Progress Bar -->
+  <div class="min-h-screen bg-gradient-to-b from-gray-50 to-white dark:from-gray-900 dark:to-gray-950 font-sans antialiased transition-colors duration-300">
     <div 
-      class="fixed top-0 left-0 right-0 h-1 bg-red-100 dark:bg-red-900/30 z-50"
+      class="fixed top-0 left-0 right-0 h-1 bg-red-100 dark:bg-red-950/40 z-50"
       :style="{ transform: `translateX(${readingProgress - 100}%)` }"
       style="transform-origin: 0% 50%; transition: transform 0.1s ease-out;"
     >
-      <div class="h-full bg-gradient-to-r from-red-500 to-red-600 rounded-full"></div>
+      <div class="h-full bg-gradient-to-r from-red-500 to-rose-600 rounded-full"></div>
     </div>
 
-    <!-- Loading State with Skeleton (Dark mode aware) -->
-    <div v-if="loading" class="mx-auto px-4 py-8">
-      <div class="animate-pulse">
-        <div class="h-8 bg-gray-200 dark:bg-gray-700 rounded w-3/4 mb-6"></div>
-        <div class="h-96 bg-gray-200 dark:bg-gray-700 rounded-2xl mb-8"></div>
-        <div class="h-4 bg-gray-200 dark:bg-gray-700 rounded w-full mb-2"></div>
-        <div class="h-4 bg-gray-200 dark:bg-gray-700 rounded w-5/6 mb-2"></div>
-        <div class="h-4 bg-gray-200 dark:bg-gray-700 rounded w-4/6"></div>
+    <div v-if="loading" class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <div class="animate-pulse space-y-6">
+        <div class="h-4 bg-gray-200 dark:bg-gray-800 rounded w-1/4"></div>
+        <div class="h-12 bg-gray-200 dark:bg-gray-800 rounded-xl w-3/4"></div>
+        <div class="h-96 bg-gray-200 dark:bg-gray-800 rounded-2xl w-full"></div>
+        <div class="space-y-3">
+          <div class="h-4 bg-gray-200 dark:bg-gray-800 rounded w-full"></div>
+          <div class="h-4 bg-gray-200 dark:bg-gray-800 rounded w-5/6"></div>
+          <div class="h-4 bg-gray-200 dark:bg-gray-800 rounded w-4/6"></div>
+        </div>
       </div>
     </div>
 
-    <!-- Article Not Found -->
-    <div v-else-if="!article" class="text-center py-20">
+    <div v-else-if="!article" class="text-center py-24 px-4">
       <div class="max-w-md mx-auto">
-        <div class="text-6xl mb-6">🔍</div>
-        <h2 class="text-3xl font-bold text-gray-900 dark:text-white mb-4">Article Not Found</h2>
-        <p class="text-gray-600 dark:text-gray-400 mb-8">The article you're looking for doesn't exist or has been moved.</p>
+        <div class="text-6xl mb-6 filter drop-shadow-sm">🔍</div>
+        <h2 class="text-3xl font-bold text-gray-900 dark:text-white mb-3 tracking-tight">Article Not Found</h2>
+        <p class="text-gray-600 dark:text-gray-400 mb-8 leading-relaxed">The article you're looking for doesn't exist or has been moved to a new destination.</p>
         <NuxtLink
           to="/"
-          class="inline-flex items-center gap-2 px-6 py-3 bg-red-600 text-white rounded-full hover:bg-red-700 transition-all transform hover:scale-105"
+          class="inline-flex items-center gap-2 px-6 py-3 bg-red-600 text-white font-medium rounded-full hover:bg-red-700 active:scale-98 transition-all shadow-md hover:shadow-lg shadow-red-500/10"
         >
           Back to Home
         </NuxtLink>
       </div>
     </div>
 
-    <!-- Article Display -->
-    <div v-else class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-6 lg:py-10">
-      <!-- Breadcrumb -->
-      <nav class="flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400 mb-6 overflow-x-auto whitespace-nowrap">
+    <div v-else class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8 lg:py-12">
+      <nav class="flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400 mb-8 overflow-x-auto whitespace-nowrap scrollbar-none">
         <NuxtLink to="/" class="hover:text-red-600 dark:hover:text-red-400 transition-colors">Home</NuxtLink>
-        <ChevronRight class="w-4 h-4 flex-shrink-0" />
+        <ChevronRight class="w-3.5 h-3.5 flex-shrink-0 text-gray-400" />
         <NuxtLink
           :to="`/category/${article.category.toLowerCase()}`"
           class="hover:text-red-600 dark:hover:text-red-400 transition-colors capitalize"
         >
           {{ article.category }}
         </NuxtLink>
-        <ChevronRight class="w-4 h-4 flex-shrink-0" />
-        <span class="text-gray-700 dark:text-gray-300 font-medium">{{ truncate(article.title, 60) }}</span>
+        <ChevronRight class="w-3.5 h-3.5 flex-shrink-0 text-gray-400" />
+        <span class="text-gray-800 dark:text-gray-200 font-medium truncate max-w-[240px] sm:max-w-xs">{{ article.title }}</span>
       </nav>
 
-      <!-- Article Header -->
-      <header class="mb-8">
-        <div class="flex items-center gap-2 mb-4 flex-wrap">
-          <span class="bg-gradient-to-r from-red-600 to-red-500 text-white px-3 py-1 text-xs font-semibold rounded-full shadow-sm">
+      <header class="mb-10">
+        <div class="flex items-center gap-3 mb-5 flex-wrap">
+          <span class="bg-red-50 dark:bg-red-950/50 text-red-600 dark:text-red-400 px-3 py-1 text-xs font-semibold rounded-md tracking-wide uppercase">
             {{ article.category }}
           </span>
-          <span class="text-gray-500 dark:text-gray-400 text-sm flex items-center gap-1">
-            <Calendar class="w-4 h-4" /> {{ formattedDate }}
+          <span class="text-gray-500 dark:text-gray-400 text-xs sm:text-sm flex items-center gap-1.5">
+            <Calendar class="w-4 h-4 opacity-80" /> {{ formattedDate }}
           </span>
-          <span class="text-gray-500 dark:text-gray-400 text-sm flex items-center gap-1">
-            <Clock class="w-4 h-4" /> {{ article.readTime }} min read
+          <span class="text-gray-500 dark:text-gray-400 text-xs sm:text-sm flex items-center gap-1.5">
+            <Clock class="w-4 h-4 opacity-80" /> {{ article.readTime }} min read
           </span>
         </div>
-        <h1 class="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 dark:text-white leading-tight mb-6">
+        
+        <h1 class="text-3xl sm:text-4xl lg:text-5xl font-black text-gray-900 dark:text-white mb-8 tracking-tight leading-[1.15]">
           {{ article.title }}
         </h1>
-        <div class="flex items-center justify-between flex-wrap gap-4">
-          <div class="flex items-center gap-4">
+        
+        <div class="flex items-center justify-between flex-wrap gap-4 pt-6 border-t border-gray-100 dark:border-gray-800/60">
+          <div class="flex items-center gap-3.5">
             <img
               :src="article.authorAvatar"
-              class="w-14 h-14 rounded-full object-cover border-2 border-red-100 dark:border-red-900"
+              class="w-12 h-12 rounded-full object-cover ring-2 ring-gray-100 dark:ring-gray-800"
               :alt="article.author"
             />
             <div>
-              <p class="font-semibold text-gray-900 dark:text-white">{{ article.author }}</p>
-              <p class="text-sm text-gray-500 dark:text-gray-400">{{ article.authorTitle }}</p>
+              <p class="font-semibold text-gray-950 dark:text-white leading-tight mb-0.5">{{ article.author }}</p>
+              <p class="text-xs sm:text-sm text-gray-500 dark:text-gray-400 leading-none">{{ article.authorTitle }}</p>
             </div>
           </div>
-          <div class="flex items-center gap-3">
+          <div class="flex items-center gap-2.5">
             <button
               @click="toggleLike"
-              class="flex items-center gap-2 px-4 py-2 rounded-full transition-all duration-300"
-              :class="isLiked ? 'bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400' : 'bg-gray-50 dark:bg-gray-800 text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700'"
+              class="flex items-center gap-2 px-4 py-2 rounded-full transition-all duration-200 border text-sm font-medium"
+              :class="isLiked 
+                ? 'bg-red-50 dark:bg-red-950/30 text-red-600 dark:text-red-400 border-red-100 dark:border-red-900/30' 
+                : 'bg-white dark:bg-gray-900 text-gray-700 dark:text-gray-300 border-gray-200 dark:border-gray-800 hover:bg-gray-50 dark:hover:bg-gray-800'"
             >
-              <Heart class="w-5 h-5" :fill="isLiked ? 'currentColor' : 'none'" />
-              <span class="font-medium">{{ likesCount }}</span>
+              <Heart class="w-4 h-4" :fill="isLiked ? 'currentColor' : 'none'" />
+              <span>{{ likesCount }}</span>
             </button>
             <div class="relative">
               <button
                 @click="shareArticle"
-                class="flex items-center gap-2 px-4 py-2 rounded-full bg-gray-50 dark:bg-gray-800 text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
+                class="flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors"
               >
-                <Share2 class="w-5 h-5" />
+                <Share2 class="w-4 h-4" />
                 <span class="hidden sm:inline">Share</span>
               </button>
-              <div v-if="copiedLink" class="absolute top-full left-1/2 -translate-x-1/2 mt-2 px-3 py-1 bg-gray-800 dark:bg-gray-700 text-white text-xs rounded-lg whitespace-nowrap">
+              <div v-if="copiedLink" class="absolute top-full left-1/2 -translate-x-1/2 mt-2 px-3 py-1.5 bg-gray-900 dark:bg-gray-800 text-white text-xs font-medium rounded-lg shadow-lg whitespace-nowrap z-10">
                 Link copied!
               </div>
             </div>
@@ -624,117 +2325,114 @@ useHead(() => ({
         </div>
       </header>
 
-      <!-- Hero Image -->
-      <div class="relative rounded-2xl overflow-hidden mb-10 shadow-xl">
+      <div class="relative rounded-2xl overflow-hidden mb-12 shadow-md border border-gray-100 dark:border-gray-800/50">
         <img
           :src="article.image"
           :alt="article.title"
-          class="w-full h-auto object-cover transform transition-transform duration-700 hover:scale-105"
+          class="w-full h-auto max-h-[480px] object-cover transform transition-transform duration-700 hover:scale-[1.02]"
           loading="eager"
         />
-        <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent p-4">
-          <p class="text-white text-sm italic">📷 {{ article.imageCredit }}</p>
+        <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent p-5 pt-12">
+          <p class="text-gray-200 text-xs sm:text-sm font-medium flex items-center gap-1 opacity-90">
+            <span>📷</span> {{ article.imageCredit }}
+          </p>
         </div>
       </div>
 
-      <!-- Article Content (Enhanced Typography with dark mode) -->
-      <div class="prose prose-lg prose-red max-w-none dark:prose-invert mb-10">
+      <div class="prose prose-base sm:prose-lg prose-red max-w-none dark:prose-invert mb-12 prose-headings:tracking-tight prose-p:leading-relaxed prose-p:text-gray-700 dark:prose-p:text-gray-300">
         <div v-html="processedContent" class="article-content"></div>
       </div>
 
-      <!-- Share & Engagement Bar (dark mode) -->
-      <div class="border-t border-b border-gray-200 dark:border-gray-700 py-6 mb-10">
+      <div class="border-y border-gray-200/80 dark:border-gray-800 py-5 mb-12">
         <div class="flex flex-wrap items-center justify-between gap-4">
           <div class="flex items-center gap-3">
-            <span class="text-sm font-medium text-gray-700 dark:text-gray-300">Share this article:</span>
+            <span class="text-sm font-semibold text-gray-700 dark:text-gray-300">Share:</span>
             <div class="flex gap-2">
               <button
                 @click="shareToFacebook"
-                class="p-2 bg-[#1877f2] rounded-full text-white hover:bg-[#0f5bb5] transition-all transform hover:scale-110"
+                class="p-2 bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 rounded-full hover:bg-[#1877f2] hover:text-white dark:hover:bg-[#1877f2] dark:hover:text-white transition-all transform hover:-translate-y-0.5"
                 aria-label="Share on Facebook"
               >
                 <Facebook class="w-4 h-4" />
               </button>
               <button
                 @click="shareToTwitter"
-                class="p-2 bg-[#1da1f2] rounded-full text-white hover:bg-[#0d8bd9] transition-all transform hover:scale-110"
+                class="p-2 bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 rounded-full hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black transition-all transform hover:-translate-y-0.5"
                 aria-label="Share on Twitter"
               >
                 <Twitter class="w-4 h-4" />
               </button>
               <button
                 @click="shareToLinkedIn"
-                class="p-2 bg-[#0077b5] rounded-full text-white hover:bg-[#005582] transition-all transform hover:scale-110"
+                class="p-2 bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 rounded-full hover:bg-[#0077b5] hover:text-white dark:hover:bg-[#0077b5] dark:hover:text-white transition-all transform hover:-translate-y-0.5"
                 aria-label="Share on LinkedIn"
               >
                 <Linkedin class="w-4 h-4" />
               </button>
               <button
                 @click="copyToClipboard(window.location.href)"
-                class="p-2 bg-gray-600 rounded-full text-white hover:bg-gray-700 transition-all transform hover:scale-110"
+                class="p-2 bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 rounded-full hover:bg-red-600 hover:text-white dark:hover:bg-red-500 dark:hover:text-white transition-all transform hover:-translate-y-0.5"
                 aria-label="Copy link"
               >
                 <Link2 class="w-4 h-4" />
               </button>
             </div>
           </div>
-          <div class="flex items-center gap-4">
-            <div class="flex items-center gap-1 text-gray-500 dark:text-gray-400">
-              <Eye class="w-4 h-4" />
-              <span class="text-sm">{{ formattedViews }}</span>
+          <div class="flex items-center gap-4 text-sm text-gray-500 dark:text-gray-400 font-medium">
+            <div class="flex items-center gap-1.5">
+              <Eye class="w-4 h-4 opacity-80" />
+              <span>{{ formattedViews }} views</span>
             </div>
-            <div class="flex items-center gap-1 text-gray-500 dark:text-gray-400">
-              <MessageCircle class="w-4 h-4" />
-              <span class="text-sm">{{ comments.length }} comments</span>
+            <div class="flex items-center gap-1.5">
+              <MessageCircle class="w-4 h-4 opacity-80" />
+              <span>{{ comments.length }} comments</span>
             </div>
           </div>
         </div>
       </div>
 
-      <!-- Enhanced Author Bio (dark mode) -->
-      <div class="bg-gradient-to-r from-gray-50 to-white dark:from-gray-800 dark:to-gray-800/50 rounded-2xl p-6 mb-12 border border-gray-100 dark:border-gray-700 shadow-sm">
+      <div class="bg-gray-50/60 dark:bg-gray-900/40 rounded-2xl p-6 mb-12 border border-gray-100 dark:border-gray-800/80 shadow-sm backdrop-blur-sm">
         <div class="flex flex-col sm:flex-row gap-5">
           <img
             :src="article.authorAvatar"
-            class="w-20 h-20 rounded-full object-cover border-2 border-red-200 dark:border-red-800"
+            class="w-16 h-16 sm:w-20 sm:h-20 rounded-full object-cover border border-gray-200 dark:border-gray-800"
             :alt="article.author"
           />
           <div class="flex-1">
             <div class="flex items-center justify-between flex-wrap gap-2 mb-2">
-              <h4 class="font-bold text-xl text-gray-900 dark:text-white">{{ article.author }}</h4>
-              <div class="flex gap-2">
-                <a v-if="article.authorSocial?.twitter" href="#" class="text-gray-500 dark:text-gray-400 hover:text-[#1da1f2] transition-colors">
+              <h4 class="font-bold text-xl text-gray-900 dark:text-white tracking-tight">{{ article.author }}</h4>
+              <div class="flex gap-2.5">
+                <a v-if="article.authorSocial?.twitter" href="#" class="text-gray-400 hover:text-black dark:hover:text-white transition-colors">
                   <Twitter class="w-4 h-4" />
                 </a>
-                <a v-if="article.authorSocial?.linkedin" href="#" class="text-gray-500 dark:text-gray-400 hover:text-[#0077b5] transition-colors">
+                <a v-if="article.authorSocial?.linkedin" href="#" class="text-gray-400 hover:text-[#0077b5] transition-colors">
                   <Linkedin class="w-4 h-4" />
                 </a>
               </div>
             </div>
-            <p class="text-gray-600 dark:text-gray-300 text-sm mb-3">{{ article.authorBio }}</p>
+            <p class="text-gray-600 dark:text-gray-300 text-sm leading-relaxed mb-4">{{ article.authorBio }}</p>
             <NuxtLink
               :to="`/author/${article.author.toLowerCase().replace(/\s+/g, '-')}`"
-              class="text-red-600 dark:text-red-400 text-sm hover:underline inline-flex items-center gap-1"
+              class="text-red-600 dark:text-red-400 text-sm font-semibold hover:text-red-700 dark:hover:text-red-300 inline-flex items-center gap-1 group"
             >
-              View all articles by {{ article.author.split(' ')[0] }}
-              <ChevronRight class="w-3 h-3" />
+              <span>View all articles by {{ article.author.split(' ')[0] }}</span>
+              <ChevronRight class="w-3.5 h-3.5 transform group-hover:translate-x-0.5 transition-transform" />
             </NuxtLink>
           </div>
         </div>
       </div>
 
-      <!-- Enhanced Comments Section (dark mode) -->
-      <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700 p-6">
-        <div class="flex items-center justify-between flex-wrap gap-4 mb-6">
-          <h3 class="text-xl font-bold text-gray-900 dark:text-white flex items-center gap-2">
+      <div class="bg-white dark:bg-gray-900 rounded-2xl border border-gray-100 dark:border-gray-800/80 p-6 shadow-sm">
+        <div class="flex items-center justify-between flex-wrap gap-4 mb-8">
+          <h3 class="text-xl font-bold text-gray-900 dark:text-white flex items-center gap-2 tracking-tight">
             <MessageCircle class="w-5 h-5 text-red-600 dark:text-red-400" />
             Comments ({{ comments.length }})
           </h3>
           <div class="flex items-center gap-2">
-            <span class="text-sm text-gray-500 dark:text-gray-400">Sort by:</span>
+            <span class="text-xs sm:text-sm text-gray-500 dark:text-gray-400 font-medium">Sort by:</span>
             <select 
               v-model="sortBy"
-              class="text-sm border border-gray-200 dark:border-gray-600 rounded-lg px-3 py-1.5 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-red-500"
+              class="text-sm font-medium border border-gray-200 dark:border-gray-800 rounded-xl px-3 py-1.5 bg-gray-50 dark:bg-gray-800 text-gray-800 dark:text-gray-200 focus:outline-none focus:ring-2 focus:ring-red-500/20 focus:border-red-500 transition-all"
             >
               <option value="newest">Newest first</option>
               <option value="oldest">Oldest first</option>
@@ -743,99 +2441,99 @@ useHead(() => ({
           </div>
         </div>
 
-        <!-- Comment Form (dark mode) -->
-        <div class="mb-8 p-5 bg-gray-50 dark:bg-gray-700/50 rounded-xl">
-          <h4 class="font-semibold text-gray-900 dark:text-white mb-4">Leave a comment</h4>
+        <div class="mb-10 p-5 bg-gray-50 dark:bg-gray-800/40 border border-gray-100 dark:border-gray-800/40 rounded-xl">
+          <h4 class="font-bold text-gray-900 dark:text-white mb-4 tracking-tight">Leave a comment</h4>
           <div class="space-y-4">
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
-                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Name *</label>
+                <label class="block text-xs font-semibold text-gray-600 dark:text-gray-400 uppercase tracking-wider mb-1.5">Name *</label>
                 <div class="relative">
-                  <User class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 dark:text-gray-500" />
+                  <User class="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 dark:text-gray-500" />
                   <input
                     v-model="newComment.name"
                     type="text"
-                    class="w-full pl-10 pr-4 py-2 border border-gray-200 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent"
+                    class="w-full pl-10 pr-4 py-2 text-sm border border-gray-200 dark:border-gray-800 rounded-xl bg-white dark:bg-gray-900 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-red-500/20 focus:border-red-500 transition-all"
                     placeholder="Your name"
                   />
                 </div>
               </div>
               <div>
-                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Email (optional)</label>
+                <label class="block text-xs font-semibold text-gray-600 dark:text-gray-400 uppercase tracking-wider mb-1.5">Email (optional)</label>
                 <div class="relative">
-                  <Mail class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 dark:text-gray-500" />
+                  <Mail class="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 dark:text-gray-500" />
                   <input
                     v-model="newComment.email"
                     type="email"
-                    class="w-full pl-10 pr-4 py-2 border border-gray-200 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent"
+                    class="w-full pl-10 pr-4 py-2 text-sm border border-gray-200 dark:border-gray-800 rounded-xl bg-white dark:bg-gray-900 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-red-500/20 focus:border-red-500 transition-all"
                     placeholder="your@email.com"
                   />
                 </div>
               </div>
             </div>
             <div>
-              <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Comment *</label>
+              <label class="block text-xs font-semibold text-gray-600 dark:text-gray-400 uppercase tracking-wider mb-1.5">Comment *</label>
               <textarea
                 v-model="newComment.text"
                 rows="4"
-                class="w-full px-4 py-2 border border-gray-200 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent resize-none"
-                placeholder="Share your thoughts..."
+                class="w-full px-4 py-2.5 text-sm border border-gray-200 dark:border-gray-800 rounded-xl bg-white dark:bg-gray-900 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-red-500/20 focus:border-red-500 transition-all resize-none"
+                placeholder="Share your thoughts transparently..."
                 maxlength="1000"
               ></textarea>
-              <div class="flex justify-between items-center mt-1">
-                <p v-if="commentError" class="text-red-500 dark:text-red-400 text-xs">{{ commentError }}</p>
-                <p class="text-gray-400 dark:text-gray-500 text-xs text-right">{{ newComment.text.length }}/1000</p>
+              <div class="flex justify-between items-center mt-1.5">
+                <p v-if="commentError" class="text-red-500 dark:text-red-400 text-xs font-medium">{{ commentError }}</p>
+                <div v-else></div>
+                <p class="text-gray-400 dark:text-gray-500 text-xs tabular-nums">{{ newComment.text.length }}/1000</p>
               </div>
             </div>
-            <button
-              @click="addComment"
-              :disabled="isSubmittingComment"
-              class="px-6 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-all transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
-            >
-              <span v-if="isSubmittingComment" class="animate-spin rounded-full h-4 w-4 border-2 border-white border-t-transparent"></span>
-              Post Comment
-            </button>
-            <div v-if="showCommentSuccess" class="text-green-600 dark:text-green-400 text-sm flex items-center gap-1">
-              <Check class="w-4 h-4" /> Comment posted successfully!
+            <div class="flex flex-wrap items-center gap-4">
+              <button
+                @click="addComment"
+                :disabled="isSubmittingComment"
+                class="px-5 py-2 bg-red-600 text-white text-sm font-semibold rounded-xl hover:bg-red-700 active:scale-98 transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2 shadow-sm"
+              >
+                <span v-if="isSubmittingComment" class="animate-spin rounded-full h-3.5 w-3.5 border-2 border-white border-t-transparent"></span>
+                Post Comment
+              </button>
+              <div v-if="showCommentSuccess" class="text-green-600 dark:text-green-400 text-sm font-medium flex items-center gap-1">
+                <Check class="w-4 h-4" /> Comment posted successfully!
+              </div>
             </div>
           </div>
         </div>
 
-        <!-- Comments List (dark mode) -->
-        <div class="space-y-5">
-          <div v-for="comment in sortedComments" :key="comment.id" class="flex gap-3 group">
-            <img :src="comment.avatar" class="w-10 h-10 rounded-full object-cover" :alt="comment.name" />
+        <div class="space-y-6">
+          <div v-for="comment in sortedComments" :key="comment.id" class="flex gap-3.5 group pb-6 border-b border-gray-100 dark:border-gray-800 last:border-0 last:pb-0">
+            <img :src="comment.avatar" class="w-9 h-9 rounded-full object-cover ring-1 ring-gray-100 dark:ring-gray-800" :alt="comment.name" />
             <div class="flex-1">
-              <div class="flex items-center gap-2 flex-wrap">
-                <p class="font-semibold text-gray-900 dark:text-white">{{ comment.name }}</p>
-                <p class="text-xs text-gray-400 dark:text-gray-500">{{ comment.date }}</p>
+              <div class="flex items-baseline gap-2 flex-wrap mb-1">
+                <p class="font-semibold text-sm text-gray-900 dark:text-white">{{ comment.name }}</p>
+                <p class="text-[11px] font-medium text-gray-400 dark:text-gray-500">{{ comment.date }}</p>
               </div>
-              <p class="text-gray-600 dark:text-gray-300 text-sm mt-1 leading-relaxed">{{ comment.text }}</p>
-              <div class="flex items-center gap-4 mt-2">
+              <p class="text-gray-600 dark:text-gray-300 text-sm leading-relaxed">{{ comment.text }}</p>
+              <div class="flex items-center gap-3.5 mt-2.5">
                 <button 
                   @click="likeComment(comment.id)"
-                  class="flex items-center gap-1 text-xs text-gray-400 dark:text-gray-500 hover:text-red-600 dark:hover:text-red-400 transition-colors"
+                  class="flex items-center gap-1 text-xs text-gray-400 hover:text-red-600 dark:hover:text-red-400 transition-colors font-medium"
                 >
-                  <ThumbsUp class="w-3 h-3" />
-                  <span>{{ comment.likes }}</span>
+                  <ThumbsUp class="w-3.5 h-3.5" />
+                  <span class="tabular-nums">{{ comment.likes }}</span>
                 </button>
-                <button class="text-xs text-gray-400 dark:text-gray-500 hover:text-red-600 dark:hover:text-red-400 transition-colors">Reply</button>
+                <button class="text-xs text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 transition-colors font-medium">Reply</button>
               </div>
             </div>
           </div>
-          <div v-if="comments.length === 0" class="text-center py-8 text-gray-500 dark:text-gray-400">
+          <div v-if="comments.length === 0" class="text-center py-10 text-gray-400 dark:text-gray-500 text-sm">
             No comments yet. Be the first to share your thoughts!
           </div>
         </div>
       </div>
     </div>
 
-    <!-- Back to Top Button (dark mode) -->
     <transition name="fade">
       <button
         v-show="showBackToTop"
         @click="scrollToTop"
-        class="fixed bottom-8 right-8 p-3 bg-red-600 text-white rounded-full shadow-lg hover:bg-red-700 transition-all transform hover:scale-110 z-40"
+        class="fixed bottom-6 right-6 p-3 bg-red-600 text-white rounded-full shadow-lg hover:bg-red-700 active:scale-95 transition-all z-40 shadow-red-600/20"
         aria-label="Back to top"
       >
         <ArrowUp class="w-5 h-5" />
@@ -845,29 +2543,9 @@ useHead(() => ({
 </template>
 
 <style scoped>
-@keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@keyframes slideIn {
-  from {
-    transform: translateX(100%);
-  }
-  to {
-    transform: translateX(0);
-  }
-}
-
 .fade-enter-active,
 .fade-leave-active {
-  transition: opacity 0.3s ease;
+  transition: opacity 0.25s ease;
 }
 
 .fade-enter-from,
@@ -875,112 +2553,95 @@ useHead(() => ({
   opacity: 0;
 }
 
-.animate-fade-in-up {
-  animation: fadeInUp 0.6s ease-out forwards;
+.scrollbar-none::-webkit-scrollbar {
+  display: none;
+}
+.scrollbar-none {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
 
-.line-clamp-2 {
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-}
-
-/* Enhanced prose styling for article content with dark mode support */
+/* Base custom injectors styled around modern layouts */
 .article-content :deep(h2) {
   font-size: 1.75rem;
-  font-weight: 700;
-  margin-top: 2rem;
+  font-weight: 800;
+  margin-top: 2.5rem;
   margin-bottom: 1rem;
-  color: #1f2937;
-  scroll-margin-top: 80px;
+  color: #111827;
+  letter-spacing: -0.025em;
+  scroll-margin-top: 96px;
 }
 
 .dark .article-content :deep(h2) {
-  color: #f3f4f6;
+  color: #f9fafb;
 }
 
 .article-content :deep(h3) {
   font-size: 1.375rem;
-  font-weight: 600;
-  margin-top: 1.5rem;
+  font-weight: 700;
+  margin-top: 2rem;
   margin-bottom: 0.75rem;
-  color: #374151;
-  scroll-margin-top: 80px;
+  color: #1f2937;
+  letter-spacing: -0.025em;
+  scroll-margin-top: 96px;
 }
 
 .dark .article-content :deep(h3) {
-  color: #e5e7eb;
+  color: #f3f4f6;
 }
 
 .article-content :deep(p) {
-  margin-bottom: 1.25rem;
-  line-height: 1.75;
-  color: #4b5563;
+  margin-bottom: 1.5rem;
+  line-height: 1.8;
+  color: #374151;
 }
 
 .dark .article-content :deep(p) {
-  color: #9ca3af;
+  color: #d1d5db;
 }
 
 .article-content :deep(ul) {
   list-style-type: disc;
-  margin-left: 1.5rem;
-  margin-bottom: 1.25rem;
+  margin-left: 1.25rem;
+  margin-bottom: 1.5rem;
+  padding-left: 0.25rem;
 }
 
 .article-content :deep(li) {
   margin-bottom: 0.5rem;
-  color: #4b5563;
+  line-height: 1.75;
+  color: #374151;
 }
 
 .dark .article-content :deep(li) {
-  color: #9ca3af;
+  color: #d1d5db;
 }
 
 .article-content :deep(blockquote) {
-  border-left: 4px solid #dc2626;
-  padding-left: 1rem;
-  margin: 1.5rem 0;
+  border-left: 3px solid #dc2626;
+  padding-left: 1.25rem;
+  margin: 2rem 0;
   font-style: italic;
-  color: #6b7280;
+  font-weight: 500;
+  color: #4b5563;
 }
 
 .dark .article-content :deep(blockquote) {
+  border-left-color: #f87171;
   color: #9ca3af;
 }
 
 .article-content :deep(img) {
-  border-radius: 0.75rem;
-  margin: 1.5rem 0;
+  border-radius: 1rem;
+  margin: 2.5rem 0;
+  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.05);
 }
 
-/* Smooth scroll behavior */
 html {
   scroll-behavior: smooth;
 }
 
-/* Progress bar animation */
-.progress-bar {
-  transition: transform 0.1s ease-out;
-}
-
-/* Group hover effects */
-.group:hover .group-hover\:scale-110 {
-  transform: scale(1.1);
-}
-
-/* Details marker removal */
-details > summary {
-  list-style: none;
-}
-
-details > summary::-webkit-details-marker {
-  display: none;
-}
-
-/* Responsive adjustments */
-@media (max-width: 768px) {
+@media (max-width: 640px) {
   .article-content :deep(h2) {
     font-size: 1.5rem;
   }

@@ -24,8 +24,6 @@ defineProps<{
       >
         <span v-for="n in 3" :key="n" class="inline-block pr-16">
           {{ articles[0].title }}
-          <span class="mx-3 opacity-40">|</span>
-          {{ articles[0].titleKm }}
         </span>
       </div>
     </div>

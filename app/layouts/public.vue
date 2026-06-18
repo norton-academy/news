@@ -21,7 +21,7 @@ function logout() {
 </script>
 
 <template>
-  <div class="min-h-screen bg-white">
+  <div class="min-h-screen bg-gray-200 text-gray-900 antialiased dark:bg-slate-950 dark:text-gray-50">
     <PublicHeader
       :note-count="noteCount"
       @search="openSearch"

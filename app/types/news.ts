@@ -22,7 +22,6 @@ export interface Article {
 export interface FilterTab {
   key: FeedFilter
   label: string
-  labelKm: string
   icon: unknown
   description: string
 }
@@ -30,7 +29,6 @@ export interface FilterTab {
 export interface PoliticsArticle {
   id: number
   title: string
-  titleKm: string
   excerpt: string
   image: string
   topic: string
@@ -45,7 +43,6 @@ export interface PoliticsArticle {
 export interface SubTopic {
   key: string
   label: string
-  labelKm: string
   icon: unknown
   count: number
 }

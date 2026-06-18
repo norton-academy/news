@@ -83,7 +83,7 @@ function isActiveLink(href: string) {
 
 <template>
   <header
-    class="px-5 sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-gray-200/80 shadow-sm transition-all duration-300 dark:bg-slate-950/80 dark:border-slate-800"
+    class="px-5 sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-gray-200/80 shadow-sm transition-all duration-300 dark:bg-slate-900 dark:border-slate-800"
   >
     <div class="flex h-16 items-center justify-between lg:h-20">
       <NuxtLink to="/" class="flex items-center space-x-3 group cursor-pointer select-none">

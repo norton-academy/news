@@ -19,11 +19,11 @@ const {
 
 const activeFilterDescription = computed(() => {
   const descriptions: Record<string, string> = {
-    latest: "Most recent stories",
-    popular: "Most read today",
-    trending: "Rising fast in last 6 hours",
-    breaking: "Breaking news only",
-    editors_pick: "Hand-picked by our editors",
+    latest: "រឿងថ្មីបំផុត",
+    popular: "ដែលបានអានច្រើនបំផុតថ្ងៃនេះ",
+    trending: "កំពុង​កើនឡើង​យ៉ាងលឿន​នៅ៦ម៉ោង​ចុងក្រោយ",
+    breaking: "ព័ត៌មាន​បន្ទាន់​ប៉ុណ្ណោះ",
+    editors_pick: "ជ្រើសរើស​ដោយ​ក្រុម​អ្នកកែសម្រួល",
   }
   return descriptions[activeFilter.value] ?? ""
 })

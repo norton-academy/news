@@ -4,36 +4,82 @@ definePageMeta({
 })
 
 useSeoMeta({
-  title: "Terms of Service",
-  description: "Review the terms that apply to using the COBO-NEWS website and services.",
+  title: "លក្ខខណ្ឌនៃការផ្តល់សេវាកម្ម",
+  description: "ពិនិត្យមើលលក្ខខណ្ឌដែលអនុវត្តចំពោះការប្រើប្រាស់គេហទំព័រ និងសេវាកម្មរបស់ COBO-NEWS។",
 })
+
+// Structured array to keep the code clean, scalable, and highly readable
+const termsSections = [
+  {
+    id: "01",
+    title: "ការប្រើប្រាស់ដែលអាចទទួលយកបាន",
+    content: "អ្នកយល់ព្រមប្រើប្រាស់ប្រព័ន្ធរបស់យើងដោយអនុលោមតាមច្បាប់ និងបទប្បញ្ញត្តិជាធរមាន។ អ្នកមិនត្រូវព្យាយាមរំខាន ធ្វើការសិក្សាច្រាស (Reverse-engineer) ទាញយកទិន្នន័យដោយស្វ័យប្រវត្តិ (Scrape) ឬប្រើប្រាស់ខុសគោលដៅលើហេដ្ឋារចនាសម្ព័ន្ធប្រព័ន្ធ ពិធីការសន្តិសុខ ឬប្រតិបត្តិការស្តង់ដាររបស់យើងឡើយ។"
+  },
+  {
+    id: "02",
+    title: "កម្មសិទ្ធិលើមាតិកា និងកម្មសិទ្ធិបញ្ញា",
+    content: "រាល់អត្ថបទផ្សព្វផ្សាយ ឯកសារសារព័ត៌មាន រូបភាពក្រាហ្វិកប្លែកៗ រូបថតកម្មសិទ្ធិ និងអត្តសញ្ញាណម៉ាកយីហោទាំងអស់ គឺជាកម្មសិទ្ធិផ្តាច់មុខរបស់ COBO-NEWS ឬត្រូវបានផ្តល់អាជ្ញាប័ណ្ណសម្រាប់ការប្រើប្រាស់ច្បាស់លាស់របស់យើង។ ការថតចម្លង ឬការចែកចាយក្នុងគោលបំណងពាណិជ្ជកម្មដោយគ្មានការអនុញ្ញាត ត្រូវបានហាមឃាត់យ៉ាងដាច់អហង្ការ។"
+  },
+  {
+    id: "03",
+    title: "ការកែប្រែសេវាកម្ម និងលក្ខខណ្ឌនានា",
+    content: "យើងរក្សាសិទ្ធិក្នុងការកែប្រែ ធ្វើបច្ចុប្បន្នភាព ឬរៀបចំរចនាសម្ព័ន្ធលក្ខខណ្ឌទាំងនេះឡើងវិញទាំងស្រុងតាមការឆន្ទៈរបស់យើង ដើម្បីឱ្យស្របទៅនឹងការផ្លាស់ប្តូរបទប្បញ្ញត្តិ ឬការផ្លាស់ប្តូររចនាសម្ព័ន្ធសេវាកម្មរបស់យើង។ ការបន្តប្រើប្រាស់ប្រព័ន្ធរបស់យើង បង្ហាញពីការយល់ព្រមរបស់អ្នកចំពោះដែនកំណត់ដែលបានធ្វើបច្ចុប្បន្នភាពទាំងនោះ។"
+  }
+]
 </script>
 
 <template>
-  <div class="min-h-screen bg-slate-50 text-slate-900 antialiased dark:bg-slate-950 dark:text-slate-50">
-    <main class="mx-auto max-w-5xl px-4 py-16 sm:px-6 lg:px-8 lg:py-24">
-      <div class="rounded-[2rem] border border-slate-200 bg-white p-8 shadow-sm dark:border-slate-800 dark:bg-slate-900 sm:p-10">
-        <p class="text-sm font-bold uppercase tracking-[0.24em] text-red-600 dark:text-red-400">Legal</p>
-        <h1 class="mt-4 text-4xl font-black tracking-tight sm:text-5xl">Terms of Service</h1>
-        <p class="mt-5 text-base leading-8 text-slate-600 dark:text-slate-300">
-          These terms govern your use of COBO-NEWS content, features, and related services.
-        </p>
-
-        <div class="mt-10 space-y-8 text-sm leading-7 text-slate-600 dark:text-slate-300">
-          <section>
-            <h2 class="text-lg font-bold text-slate-950 dark:text-white">Acceptable use</h2>
-            <p class="mt-2">Use the site lawfully and do not attempt to disrupt, scrape, or misuse the platform.</p>
-          </section>
-          <section>
-            <h2 class="text-lg font-bold text-slate-950 dark:text-white">Content ownership</h2>
-            <p class="mt-2">Articles, images, and brand materials are owned by COBO-NEWS or used with permission.</p>
-          </section>
-          <section>
-            <h2 class="text-lg font-bold text-slate-950 dark:text-white">Changes</h2>
-            <p class="mt-2">We may update these terms when our services or policies change.</p>
-          </section>
+  <div class="min-h-screen bg-neutral-50 text-neutral-900 antialiased dark:bg-slate-950 dark:text-neutral-100 selection:bg-neutral-900 selection:text-white dark:selection:bg-white dark:selection:text-black">
+    
+    <main class="m-10 px-10 py-10 dark:bg-slate-900/40 rounded-xl border border-neutral-200/80 dark:border-neutral-800/80">
+      <header class="border-b border-neutral-200 pb-12 dark:border-neutral-800">
+        <div class="flex flex-wrap items-center gap-x-4 gap-y-2 text-xs font-bold tracking-widest uppercase text-neutral-500 dark:text-neutral-400">
+          <span>ប្រតិបត្តិការគតិយុត្តិ</span>
+          <span class="text-neutral-300 dark:text-neutral-700">&bull;</span>
+          <span>ធ្វើបច្ចុប្បន្នភាព មិថុនា ២០២៦</span>
         </div>
+        
+        <h1 class="mt-4 text-4xl font-serif font-bold tracking-tight text-neutral-950 dark:text-white sm:text-5xl lg:text-6xl">
+          លក្ខខណ្ឌនៃការផ្តល់សេវាកម្ម
+        </h1>
+        
+        <p class="mt-6 text-lg leading-relaxed text-neutral-600 dark:text-neutral-400 font-normal max-w-2xl">
+          លក្ខខណ្ឌសាជីវកម្មទាំងនេះ គ្រប់គ្រងលើអន្តរកម្មដែលមានការអនុញ្ញាត ការប្រើប្រាស់ និងការចូលប្រើប្រាស់របស់អ្នកទៅកាន់មាតិកា COBO-NEWS បណ្តាញព័ត៌មានរួម (Syndicated feeds) មុខងារឌីជីថល និងសេវាកម្មជំនួយពាក់ព័ន្ធដទៃទៀត។
+        </p>
+      </header>
+
+      <div class="mt-12 divide-y divide-neutral-200/60 dark:divide-neutral-800/60">
+        <section 
+          v-for="section in termsSections" 
+          :key="section.id"
+          class="grid grid-cols-1 gap-4 py-10 md:grid-cols-4 md:gap-8 first:pt-4 last:pb-0"
+        >
+          <div class="md:col-span-1">
+            <span class="font-mono text-xs font-semibold tracking-wider text-neutral-400 dark:text-neutral-500 block mb-1">
+              ប្រការ {{ section.id }}
+            </span>
+          </div>
+
+          <div class="md:col-span-3 space-y-3">
+            <h2 class="text-xl font-semibold tracking-tight text-neutral-950 dark:text-white">
+              {{ section.title }}
+            </h2>
+            <p class="text-base leading-7 text-neutral-600 dark:text-neutral-400 font-normal">
+              {{ section.content }}
+            </p>
+          </div>
+        </section>
       </div>
+
+      <section class="mt-16 rounded-xl border border-neutral-200/80 bg-neutral-100/50 p-6 dark:border-neutral-800 dark:bg-slate-900/40">
+        <h3 class="text-sm font-bold tracking-wider uppercase text-neutral-800 dark:text-neutral-200">
+          ការសាកសួរផ្នែកសាជីវកម្ម និងបទប្បញ្ញត្តិ
+        </h3>
+        <p class="mt-2 text-sm leading-6 text-neutral-600 dark:text-neutral-400">
+          តាមរយៈការបន្តរុករកគេហទំព័រនេះ អ្នកបញ្ជាក់ពីការអនុលោមតាមស្តង់ដារទាំងនេះ។ សម្រាប់ការសាកសួរដែលមានលក្ខណៈកាតព្វកិច្ចទាក់ទងនឹងអាជ្ញាប័ណ្ណចែកចាយពាណិជ្ជកម្ម ឬឯកសារអនុលោមភាពបទប្បញ្ញត្តិដ៏តឹងរឹង សូមមេត្តាផ្ញើការសាកសួរទៅកាន់ <a href="#" class="font-medium text-neutral-950 underline underline-offset-4 hover:text-neutral-700 dark:text-white dark:hover:text-neutral-300">ការិយាល័យច្បាប់ និងអនុលោមភាព</a> របស់យើង។
+        </p>
+      </section>
+
     </main>
   </div>
 </template>

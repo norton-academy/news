@@ -18,85 +18,85 @@ definePageMeta({
 })
 
 useSeoMeta({
-  title: "Press Kit",
+  title: "កញ្ចប់ព័ត៌មានប្រព័ន្ធផ្សព្វផ្សាយ (Press Kit)",
   description:
-    "Download COBO-NEWS brand assets, read brand guidelines, browse press releases, and find media contact details.",
-  ogTitle: "Press Kit | COBO-NEWS",
+    "ទាញយកទ្រព្យសកម្មម៉ាកយីហោ (Brand Assets) របស់ COBO-NEWS អានការណែនាំអំពីការប្រើប្រាស់ម៉ាកយីហោ ពិនិត្យមើលសេចក្តីថ្លែងការណ៍ព័ត៌មាន និងស្វែងរកព័ត៌មានលម្អិតសម្រាប់ទាក់ទងផ្នែកប្រព័ន្ធផ្សព្វផ្សាយ។",
+  ogTitle: "កញ្ចប់ព័ត៌មានប្រព័ន្ធផ្សព្វផ្សាយ | COBO-NEWS",
   ogDescription:
-    "Access logos, images, brand guidelines, press releases, and media contact information for COBO-NEWS.",
+    "ចូលប្រើប្រាស់រូបសញ្ញា (Logos) រូបភាព ការណែនាំអំពីម៉ាកយីហោ សេចក្តីថ្លែងការណ៍ព័ត៌មាន និងព័ត៌មានទំនាក់ទំនងប្រព័ន្ធផ្សព្វផ្សាយសម្រាប់ COBO-NEWS។",
   ogType: "website",
 })
 
 const brandAssets = [
   {
-    title: "Primary logo",
+    title: "រូបសញ្ញាចម្បង (Primary logo)",
     format: "PNG",
-    size: "High-res",
+    size: "កម្រិតច្បាស់ខ្ពស់",
     href: "/logo.png",
   },
   {
-    title: "Vector logo",
+    title: "រូបសញ្ញាវ៉ិចទ័រ (Vector logo)",
     format: "SVG",
-    size: "Scalable",
+    size: "អាចពង្រីកបង្រួមបាន",
     href: "/logo.svg",
   },
   {
-    title: "Alternate mark",
+    title: "និមិត្តសញ្ញា (Alternate mark)",
     format: "PNG",
-    size: "Transparent",
+    size: "ផ្ទៃខាងក្រោយថ្លា",
     href: "/logo.png",
   },
   {
-    title: "Editorial image pack",
+    title: "កញ្ចប់រូបភាពសម្រាប់សារព័ត៌មាន",
     format: "PNG",
-    size: "Press-ready",
+    size: "រួចរាល់សម្រាប់ប្រព័ន្ធផ្សព្វផ្សាយ",
     href: "/images/kitchen-story.png",
   },
 ]
 
 const guidelines = [
-  "Use the logo with enough clear space around it.",
-  "Prefer the full-color version on light backgrounds.",
-  "Use the SVG when you need crisp scaling for print or web.",
-  "Do not distort, recolor, or place the logo on busy backgrounds.",
+  "ប្រើប្រាស់រូបសញ្ញាដោយរក្សាលំហទំនេរជុំវិញឱ្យបានគ្រប់គ្រាន់។",
+  "ផ្តល់អាទិភាពដល់រូបសញ្ញាដែលមានពណ៌ពេញលេញនៅលើផ្ទៃខាងក្រោយពណ៌ស្រាល។",
+  "ប្រើប្រាស់ទម្រង់ SVG នៅពេលអ្នកត្រូវការកម្រិតច្បាស់សម្រាប់ការបោះពុម្ព ឬលើបណ្តាញវ៉ិប។",
+  "មិនត្រូវធ្វើឱ្យខូចទ្រង់ទ្រាយ ផ្លាស់ប្តូរពណ៌ ឬដាក់រូបសញ្ញានៅលើផ្ទៃខាងក្រោយដែលមានភាពរញ៉េរញ៉ៃឡើយ។",
 ]
 
 const pressReleases = [
   {
-    title: "COBO-NEWS expands public-interest coverage",
-    date: "June 2026",
+    title: "COBO-NEWS ពង្រីកវិសាលភាពនៃការផ្សាយដើម្បីផលប្រយោជន៍សាធារណៈ",
+    date: "មិថុនា ២០២៦",
     summary:
-      "A newsroom update focused on deeper reporting across business, education, and community stories.",
+      "ការធ្វើបច្ចុប្បន្នភាពបន្ទប់ព័ត៌មានដែលផ្តោតលើការរាយការណ៍ស៊ីជម្រៅជុំវិញរឿងរ៉ាវអាជីវកម្ម អប់រំ និងសហគមន៍។",
   },
   {
-    title: "New mobile reading experience launched",
-    date: "April 2026",
+    title: "ការដាក់ឱ្យដំណើរការបទពិសោធន៍អានថ្មីលើទូរស័ព្ទដៃ",
+    date: "មេសា ២០២៦",
     summary:
-      "COBO-NEWS introduces a faster, more accessible design for readers on phones and tablets.",
+      "COBO-NEWS ណែនាំទម្រង់រចនាដែលលឿនជាងមុន និងងាយស្រួលចូលមើលជាងមុនសម្រាប់អ្នកអានតាមទូរស័ព្ទ និងថេប្លេត។",
   },
   {
-    title: "COBO-NEWS announces partnership program",
-    date: "January 2026",
+    title: "COBO-NEWS ប្រកាសបើកកម្មវិធីកិច្ចសហការដៃគូ",
+    date: "មករា ២០២៦",
     summary:
-      "An overview of new collaboration opportunities for brands and institutions.",
+      "ទិដ្ឋភាពទូទៅនៃឱកាសសហការថ្មីៗសម្រាប់បណ្តាម៉ាកយីហោ និងស្ថាប័នផ្សេងៗ។",
   },
 ]
 
 const mediaContacts = [
   {
-    label: "Email",
+    label: "អ៊ីមែល",
     value: "press@cobo-news.com",
     href: "mailto:press@cobo-news.com",
     icon: Mail,
   },
   {
-    label: "Phone",
+    label: "ទូរស័ព្ទ",
     value: "+855 12 345 678",
     href: "tel:+85512345678",
     icon: CircleUserRound,
   },
   {
-    label: "Website",
+    label: "គេហទំព័រ",
     value: "cobo-news.com",
     href: "/",
     icon: Globe2,
@@ -105,36 +105,36 @@ const mediaContacts = [
 
 const imageAssets = [
   {
-    title: "Newsroom image",
-    description: "A versatile high-resolution hero image for media coverage.",
-    href: "/images/kitchen-story.png",
+    title: "រូបភាពបន្ទប់ព័ត៌មាន",
+    description: "រូបភាពចម្បងកម្រិតច្បាស់ខ្ពស់ ដែលអាចប្រើប្រាស់បានច្រើនទម្រង់សម្រាប់ការចុះផ្សាយរបស់ប្រព័ន្ធផ្សព្វផ្សាយ។",
+    href: "/cobo_news.png",
   },
   {
-    title: "Team portrait",
-    description: "Use our team images for feature stories or partner profiles.",
-    href: "/images/team/manager-sarah.jpg",
+    title: "រូបថតក្រុមការងារ",
+    description: "ប្រើប្រាស់រូបភាពក្រុមការងាររបស់យើងសម្រាប់អត្ថបទពិសេស ឬព័ត៌មានសង្ខេបរបស់ដៃគូ។",
+    href: "/team.png",
   },
   {
-    title: "Editorial visual",
-    description: "Suitable for article headers and press coverage thumbnails.",
+    title: "រូបភាពសម្រាប់ផ្នែកនិពន្ធ",
+    description: "សាកសមសម្រាប់ដាក់ជាក្បាលអត្ថបទ និងរូបភាពតំណាង (Thumbnails) នៃការចុះផ្សាយព័ត៌មាន។",
     href: "/img_5.png",
   },
 ]
 
 const downloads = [
   {
-    title: "Logo PNG",
-    note: "Best for presentations and quick use",
+    title: "រូបសញ្ញា PNG",
+    note: "ល្អបំផុតសម្រាប់បទបង្ហាញ និងការប្រើប្រាស់រហ័ស",
     href: "/logo.png",
   },
   {
-    title: "Logo SVG",
-    note: "Best for print and scalable layouts",
+    title: "រូបសញ្ញា SVG",
+    note: "ល្អបំផុតសម្រាប់ការបោះពុម្ព និងទម្រង់ដែលអាចពង្រីកទំហំបាន",
     href: "/logo.svg",
   },
   {
-    title: "Media photo pack",
-    note: "High-resolution imagery for press use",
+    title: "កញ្ចប់រូបថតប្រព័ន្ធផ្សព្វផ្សាយ",
+    note: "កម្រិតរូបភាពច្បាស់ខ្ពស់សម្រាប់ប្រព័ន្ធផ្សព្វផ្សាយប្រើប្រាស់",
     href: "/images/kitchen-story.png",
   },
 ]
@@ -143,6 +143,7 @@ const downloads = [
 <template>
   <div class="min-h-screen bg-slate-50 text-slate-900 antialiased dark:bg-slate-950 dark:text-slate-50">
     <main>
+      <!-- Hero Section -->
       <section class="relative overflow-hidden border-b border-slate-200/70 bg-white dark:border-slate-800 dark:bg-slate-950">
         <div class="absolute inset-0">
           <div class="absolute -left-24 top-8 h-72 w-72 rounded-full bg-red-500/15 blur-3xl"></div>
@@ -154,15 +155,15 @@ const downloads = [
           <div class="max-w-3xl">
             <div class="inline-flex items-center gap-2 rounded-full border border-red-200/70 bg-red-50 px-4 py-2 text-xs font-semibold uppercase tracking-[0.22em] text-red-700 dark:border-red-900/50 dark:bg-red-950/40 dark:text-red-300">
               <BadgeInfo class="size-4" />
-              Press kit
+              កញ្ចប់ព័ត៌មានប្រព័ន្ធផ្សព្វផ្សាយ
             </div>
 
-            <h1 class="mt-5 text-4xl font-black tracking-tight sm:text-5xl lg:text-6xl">
-              Brand assets and media resources for COBO-NEWS coverage.
+            <h1 class="mt-5 text-4xl font-black leading-tight tracking-tight sm:text-5xl lg:text-6xl">
+              ទ្រព្យសកម្មម៉ាកយីហោ និងធនធានប្រព័ន្ធផ្សព្វផ្សាយសម្រាប់ការចុះផ្សាយពី COBO-NEWS។
             </h1>
 
             <p class="mt-6 max-w-2xl text-lg leading-8 text-slate-600 dark:text-slate-300">
-              Access our logos, images, brand guidance, and press materials in one professional, easy-to-navigate location.
+              ចូលប្រើប្រាស់រូបសញ្ញា រូបភាព ការណែនាំអំពីម៉ាកយីហោ និងឯកសារសារព័ត៌មានរបស់យើងនៅក្នុងទីតាំងតែមួយប្រកបដោយវិជ្ជាជីវៈ និងងាយស្រួលស្វែងរក។
             </p>
 
             <div class="mt-8 flex flex-col gap-3 sm:flex-row">
@@ -170,14 +171,14 @@ const downloads = [
                 to="#downloads"
                 class="inline-flex items-center justify-center gap-2 rounded-full bg-slate-950 px-6 py-3.5 text-sm font-semibold text-white transition-transform duration-200 hover:-translate-y-0.5 hover:bg-slate-800 dark:bg-white dark:text-slate-950 dark:hover:bg-slate-200"
               >
-                Download assets
+                ទាញយកទ្រព្យសកម្ម
                 <ArrowDownToLine class="size-4" />
               </NuxtLink>
               <NuxtLink
                 to="#contact"
                 class="inline-flex items-center justify-center gap-2 rounded-full border border-slate-300 bg-white px-6 py-3.5 text-sm font-semibold text-slate-700 transition-all duration-200 hover:border-red-300 hover:text-red-700 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-200 dark:hover:border-red-800 dark:hover:text-red-300"
               >
-                Media contact
+                ទំនាក់ទំនងប្រព័ន្ធផ្សព្វផ្សាយ
               </NuxtLink>
             </div>
           </div>
@@ -190,13 +191,13 @@ const downloads = [
                 </div>
                 <div>
                   <p class="text-sm font-semibold uppercase tracking-[0.18em] text-slate-500 dark:text-slate-400">
-                    Professional standard
+                    ស្តង់ដារវិជ្ជាជីវៈ
                   </p>
-                  <h2 class="mt-1 text-lg font-bold">Trustworthy brand use</h2>
+                  <h2 class="mt-1 text-lg font-bold">ការប្រើប្រាស់ម៉ាកយីហោដោយទំនុកចិត្ត</h2>
                 </div>
               </div>
               <p class="mt-4 text-sm leading-7 text-slate-600 dark:text-slate-300">
-                We keep our brand assets organized and easy to use for editorial teams, partners, and media outlets.
+                យើងរក្សាទុកទ្រព្យសកម្មម៉ាកយីហោរបស់យើងឱ្យមានសណ្តាប់ធ្នាប់ និងងាយស្រួលប្រើប្រាស់សម្រាប់ក្រុមការងារនិពន្ធ ដៃគូសហការ និងស្ថាប័នព័ត៌មានផ្សេងៗ។
               </p>
             </article>
 
@@ -207,30 +208,31 @@ const downloads = [
                 </div>
                 <div>
                   <p class="text-sm font-semibold uppercase tracking-[0.18em] text-slate-500 dark:text-slate-400">
-                    Press archive
+                    បណ្ណសារសារព័ត៌មាន
                   </p>
-                  <h2 class="mt-1 text-lg font-bold">Latest newsroom updates</h2>
+                  <h2 class="mt-1 text-lg font-bold">បច្ចុប្បន្នភាពបន្ទប់ព័ត៌មានចុងក្រោយ</h2>
                 </div>
               </div>
               <p class="mt-4 text-sm leading-7 text-slate-600 dark:text-slate-300">
-                Browse a summary of recent press announcements and newsroom milestones.
+                ពិនិត្យមើលសេចក្តីសង្ខេបនៃការប្រកាសព័ត៌មានថ្មីៗ និងសមិទ្ធផលសំខាន់ៗនៃបន្ទប់ព័ត៌មានរបស់យើង។
               </p>
             </article>
           </div>
         </div>
       </section>
 
+      <!-- Assets Download Section -->
       <section id="downloads" class="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8 lg:py-24">
         <div class="grid gap-10 lg:grid-cols-[0.9fr_1.1fr]">
           <div class="max-w-xl">
             <p class="text-sm font-bold uppercase tracking-[0.24em] text-red-600 dark:text-red-400">
-              Downloadable assets
+              ទ្រព្យសកម្មដែលអាចទាញយកបាន
             </p>
             <h2 class="mt-4 text-3xl font-black tracking-tight sm:text-4xl">
-              Logos, photos, and brand files ready for media use.
+              រូបសញ្ញា រូបថត និងឯកសារម៉ាកយីហោដែលរួចរាល់សម្រាប់ប្រព័ន្ធផ្សព្វផ្សាយ។
             </h2>
             <p class="mt-5 text-base leading-8 text-slate-600 dark:text-slate-300">
-              Use these files for articles, interviews, partner announcements, and press coverage. PNG is useful for quick usage, while SVG is best for crisp scaling.
+              ប្រើប្រាស់ឯកសារទាំងនេះសម្រាប់អត្ថបទ ការសម្ភាសន៍ ការប្រកាសពីដៃគូសហការ និងការចុះផ្សាយព័ត៌មាន។ ទម្រង់ PNG គឺមានសារប្រយោជន៍សម្រាប់ការប្រើប្រាស់រហ័ស ខណៈពេលដែល SVG គឺល្អបំផុតសម្រាប់ការរក្សាកម្រិតច្បាស់ពេលពង្រីកទំហំ។
             </p>
           </div>
 
@@ -251,7 +253,7 @@ const downloads = [
                 :download="asset.href"
                 class="inline-flex items-center justify-center gap-2 rounded-full bg-red-600 px-4 py-2.5 text-sm font-semibold text-white transition-transform duration-200 hover:-translate-y-0.5 hover:bg-red-500"
               >
-                Download
+                ទាញយក
                 <ArrowDownToLine class="size-4" />
               </a>
             </article>
@@ -259,18 +261,19 @@ const downloads = [
         </div>
       </section>
 
+      <!-- Guidelines Section -->
       <section class="border-y border-slate-200/80 bg-white py-16 dark:border-slate-800 dark:bg-slate-950 lg:py-24">
         <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div class="grid gap-10 lg:grid-cols-[1fr_1fr]">
             <div>
               <p class="text-sm font-bold uppercase tracking-[0.24em] text-red-600 dark:text-red-400">
-                Brand guidelines
+                ការណែនាំអំពីម៉ាកយីហោ
               </p>
               <h2 class="mt-4 text-3xl font-black tracking-tight sm:text-4xl">
-                Simple rules that keep our visual identity consistent.
+                វិធានសាមញ្ញៗដើម្បីរក្សាអត្តសញ្ញាណទស្សនីយភាពរបស់យើងឱ្យមានភាពស៊ីសង្វាក់គ្នា។
               </h2>
               <p class="mt-5 text-base leading-8 text-slate-600 dark:text-slate-300">
-                If you need the logo or imagery for media use, please follow the guidance below so the brand stays clear, legible, and trustworthy.
+                ប្រសិនបើអ្នកត្រូវការរូបសញ្ញា ឬរូបភាពសម្រាប់ប្រព័ន្ធផ្សព្វផ្សាយ សូមអនុវត្តតាមការណែនាំខាងក្រោម ដើម្បីឱ្យម៉ាកយីហោរក្សាបាននូវភាពច្បាស់លាស់ ងាយស្រួលមើល និងគួរឱ្យទុកចិត្ត។
               </p>
             </div>
 
@@ -292,14 +295,15 @@ const downloads = [
         </div>
       </section>
 
+      <!-- Press Releases Section -->
       <section class="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8 lg:py-24">
         <div class="grid gap-10 lg:grid-cols-[0.95fr_1.05fr]">
           <div class="max-w-xl">
             <p class="text-sm font-bold uppercase tracking-[0.24em] text-red-600 dark:text-red-400">
-              Press releases
+              សេចក្តីថ្លែងការណ៍ព័ត៌មាន
             </p>
             <h2 class="mt-4 text-3xl font-black tracking-tight sm:text-4xl">
-              Archive of recent newsroom announcements.
+              បណ្ណសារនៃការប្រកាសព័ត៌មានថ្មីៗរបស់បន្ទប់ព័ត៌មាន។
             </h2>
           </div>
 
@@ -322,6 +326,7 @@ const downloads = [
         </div>
       </section>
 
+      <!-- Image Grid & Contact Section -->
       <section class="border-y border-slate-200/80 bg-white py-16 dark:border-slate-800 dark:bg-slate-950 lg:py-24">
         <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div class="grid gap-10 lg:grid-cols-[1fr_0.9fr]">
@@ -343,13 +348,13 @@ const downloads = [
 
             <div>
               <p class="text-sm font-bold uppercase tracking-[0.24em] text-red-600 dark:text-red-400">
-                Media contact
+                ទំនាក់ទំនងប្រព័ន្ធផ្សព្វផ្សាយ
               </p>
               <h2 class="mt-4 text-3xl font-black tracking-tight sm:text-4xl">
-                Reach our communications team for press requests.
+                ទាក់ទងមកក្រុមការងារទំនាក់ទំនងរបស់យើងសម្រាប់ការស្នើសុំព័ត៌មាន។
               </h2>
               <p class="mt-5 text-base leading-8 text-slate-600 dark:text-slate-300">
-                We welcome interview requests, fact-checking questions, brand approvals, and partnership inquiries.
+                យើងរីករាយទទួលការស្នើសុំសម្ភាសន៍ សំណួរផ្ទៀងផ្ទាត់ការពិត ការអនុម័តប្រើប្រាស់ម៉ាកយីហោ និងការសាកសួរអំពីកិច្ចសហការដៃគូ។
               </p>
 
               <div id="contact" class="mt-8 space-y-4">
@@ -378,7 +383,7 @@ const downloads = [
                 href="mailto:press@cobo-news.com"
                 class="mt-8 inline-flex items-center justify-center gap-2 rounded-full bg-slate-950 px-6 py-3.5 text-sm font-semibold text-white transition-transform duration-200 hover:-translate-y-0.5 hover:bg-slate-800 dark:bg-white dark:text-slate-950 dark:hover:bg-slate-200"
               >
-                Email press team
+                ផ្ញើអ៊ីមែលទៅកាន់ក្រុមការងារព័ត៌មាន
                 <Mail class="size-4" />
               </a>
             </div>
@@ -386,6 +391,7 @@ const downloads = [
         </div>
       </section>
 
+      <!-- Bottom Quick Downloads Callout -->
       <section class="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8 lg:pb-28">
         <div class="grid gap-4 md:grid-cols-3">
           <article
@@ -409,7 +415,7 @@ const downloads = [
               :download="asset.href"
               class="mt-5 inline-flex items-center gap-2 text-sm font-semibold text-red-700 transition-all duration-200 hover:gap-3 dark:text-red-300"
             >
-              Download asset
+              ទាញយកទ្រព្យសកម្ម
               <ArrowDownToLine class="size-4" />
             </a>
           </article>

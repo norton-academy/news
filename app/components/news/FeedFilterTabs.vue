@@ -17,43 +17,37 @@ const props = defineProps<{
 const emit = defineEmits<{
   "update:modelValue": [value: FeedFilter]
 }>()
-
 const FEED_FILTERS: FilterTab[] = [
   {
     key: "latest",
-    label: "Latest",
-    labelKm: "ថ្មីបំផុត",
+    label: "ថ្មីៗបំផុត",
     icon: Newspaper,
-    description: "Most recent stories",
+    description: "ព័ត៌មានថ្មីៗបំផុត",
   },
   {
     key: "popular",
-    label: "Popular",
-    labelKm: "ពេញនិយម",
+    label: "ពេញនិយម",
     icon: Flame,
-    description: "Most read today",
+    description: "ព័ត៌មានដែលមានអ្នកអានច្រើនបំផុតថ្ងៃនេះ",
   },
   {
     key: "trending",
-    label: "Trending",
-    labelKm: "និន្នាការ",
+    label: "កំពុងល្បី",
     icon: TrendingUp,
-    description: "Rising fast in last 6 hours",
+    description: "ព័ត៌មានដែលកំពុងកើនឡើងការចាប់អារម្មណ៍យ៉ាងលឿនក្នុងរយៈពេល ៦ ម៉ោងចុងក្រោយ",
   },
   {
     key: "breaking",
-    label: "Breaking",
-    labelKm: "បន្ទាន់",
+    label: "ព័ត៌មានទាន់ហេតុការណ៍",
     icon: Zap,
-    description: "Breaking news only",
+    description: "បង្ហាញតែព័ត៌មានទាន់ហេតុការណ៍តែប៉ុណ្ណោះ",
   },
-  {
+ /*  {
     key: "editors_pick",
-    label: "Editor's Pick",
-    labelKm: "ជ្រើសរើស",
+    label: "និពន្ធនាយកជ្រើសរើស",
     icon: Star,
-    description: "Hand-picked by our editors",
-  },
+    description: "ព័ត៌មានដែលជ្រើសរើសផ្ទាល់ដោយក្រុមនិពន្ធនាយករបស់យើង",
+  }, */
 ]
 </script>
 
